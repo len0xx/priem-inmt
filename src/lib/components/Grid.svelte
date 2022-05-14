@@ -1,8 +1,8 @@
 <script lang="ts">
     type AlignItems = 'end' | 'center' | 'start' | 'stretch'
-    type JustifyItems = AlignItems
-    type AlignContent = 'left' | 'center' | 'right' | 'space-between' | 'space-around' | 'space-evenly'
-    type JustifyContent = AlignContent
+    type JustifyItems = 'left' | 'center' | 'right' | 'space-between' | 'space-around' | 'space-evenly'
+    type AlignContent = AlignItems
+    type JustifyContent = JustifyItems
     type GridSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
     type GapSize = 0 | 1 | 2 | 3 | 4 | 5 | 6
     type TwoColumnsRatio = '2:1' | '1:2' | '3:1' | '1:3' | '3:2' | '2:3' | '4:1' | '1:4' | '4:3' | '3:4' | '5:1' | '5:2' | '5:3' | '5:4' | null
@@ -16,8 +16,8 @@
     export let ratio: TwoColumnsRatio = null
     export let gap: GapSize = 1
     export let alignItems: AlignItems = 'stretch'
-    export let justifyItems: JustifyItems = 'stretch'
-    export let alignContent: AlignContent = 'space-between'
+    export let justifyItems: JustifyItems = 'space-between'
+    export let alignContent: AlignContent = 'stretch'
     export let justifyContent: JustifyContent = 'space-between'
 
     const defaultSize = 6

@@ -1,12 +1,15 @@
 <script lang="ts">
+    import Heading from './Heading.svelte'
+
     export let img = ''
-    export let title = ''
 </script>
 
 <div class="news-card">
     <div class="cover" style="background-image: url({img})"><div class="rainbow"></div></div>
     <div class="news-content">
-        <h3 class="blue-text no-top-margin">{ title }</h3>
+        <Heading size={3} className="blue-text" marginTop={0}>
+            <slot name="title" />
+        </Heading>
         <slot />
     </div>
 </div>

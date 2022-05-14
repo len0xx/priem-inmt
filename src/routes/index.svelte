@@ -17,8 +17,11 @@
     import Rainbow from '$lib/components/Rainbow.svelte'
     import Slider from '$lib/components/Slider.svelte'
     import Slide from '$lib/components/Slide.svelte'
+    import Partner from '$lib/components/Partner.svelte'
+    import Grid from '$lib/components/Grid.svelte'
     import images1 from '$lib/images1'
     import images2 from '$lib/images2'
+    import partners from '$lib/partners'
 
     // User authorization
     // import { session } from '$app/stores'
@@ -40,7 +43,7 @@
 
     const openMenu = () => menuHidden = false
 
-    onMount(async () => {
+    onMount(() => {
         pageLoaded = true
 
         setTimeout(() => showPreloader = false, 150)
@@ -135,27 +138,29 @@
 </Slider>
 
 <section class="info-1" id="about">
-    <div class="content grid grid-2 m-grid-1 gap-2">
-        <div class="about-left">
-            <Heading size={1} className="blue-text" marginTop={0}>Об институте</Heading>
-            <p id="NqY1">Институт новых материалов и технологий Уральского федерального университета – крупнейший центр высшего инженерного образования региона с 1920 года, сочетающий лучшие традиции, фундаментальную подготовку и практический междисциплинарный подход</p>
-        </div>
-        <div>
-            <div class="grid grid-2 m-grid-2">
-                <Benefit
-                    num="1 642"
-                    caption="Бюджетных мест в 2022 году"
-                />
-                <Benefit
-                    num="158"
-                    caption="Контрактных мест в 2022 году"
-                />
+    <div class="content">
+        <Grid m={2} s={1}>
+            <div class="about-left">
+                <Heading size={1} className="blue-text" marginTop={0}>Об институте</Heading>
+                <p id="NqY1">Институт новых материалов и технологий Уральского федерального университета – крупнейший центр высшего инженерного образования региона с 1920 года, сочетающий лучшие традиции, фундаментальную подготовку и практический междисциплинарный подход</p>
             </div>
-            <div class="pc-hide">
-                <br />
-                <Button variant="wide" on:click={openModal}>Поступить</Button>
+            <div>
+                <Grid m={2}>
+                    <Benefit
+                        num="1 642"
+                        caption="Бюджетных мест в 2022 году"
+                    />
+                    <Benefit
+                        num="158"
+                        caption="Контрактных мест в 2022 году"
+                    />
+                </Grid>
+                <div class="pc-hide">
+                    <br />
+                    <Button variant="wide" on:click={openModal}>Поступить</Button>
+                </div>
             </div>
-        </div>
+        </Grid>
     </div>
 </section>
 <section class="images-1">
@@ -167,61 +172,65 @@
 </section>
 <section id="levels">
     <div class="content">
-        <div class="grid grid-3 m-grid-1">
+        <Grid m={3} s={1}>
             <Heading size={1} className="blue-text" marginTop={0}>Уровни подготовки</Heading>
             <p class="medium no-top-margin">Институт дает студентам прочные знания об устройстве современных машин и механизмов, применении новых материалов и технологий в металлургии, машиностроении, строительстве, позволяет работать над реальными проектами. </p>
             <p class="no-top-margin">Выпускники способны создавать новые материалы с уникальными свойствами, проектировать конструкции, схемы, алгоритмы, технологии производства материалов, машин и оборудования, разрабатывать бизнес-планы создания технических новинок, управлять созданными машинами и обслуживать их, руководить промышленными предприятиями.</p>
-        </div>
+        </Grid>
         <br />
-        <div class="grid grid-3 m-grid-1">
+        <Grid m={3} s={1}>
             <a href="/bachelor">
-                <NewsCard img="/img/bachelor-inmt.jpg" title="Бакалавриат и специалитет">
+                <NewsCard img="/img/bachelor-inmt.jpg">
+                    <svelte:fragment slot="title">Бакалавриат и специалитет</svelte:fragment>
                     <p class="no-margin"><span class="red-text">19</span> <span class="semi-transparent">образовательных программ</span></p>
                 </NewsCard>
             </a>
             <a href="/master">
-                <NewsCard img="/img/master-inmt.jpg" title="Магистратура">
+                <NewsCard img="/img/master-inmt.jpg">
+                    <svelte:fragment slot="title">Магистратура</svelte:fragment>
                     <p class="no-margin"><span class="red-text">26</span> <span class="semi-transparent">образовательных программ</span></p>
                 </NewsCard>
             </a>
             <a href="/postgraduate">
-                <NewsCard img="/img/postgraduate-inmt.jpg" title="Аспирантура">
+                <NewsCard img="/img/postgraduate-inmt.jpg">
+                    <svelte:fragment slot="title">Аспирантура</svelte:fragment>
                     <p class="no-margin"><span class="red-text">21</span> <span class="semi-transparent">образовательная программа</span></p>
                 </NewsCard>
             </a>
-        </div>
+        </Grid>
     </div>
 </section>
 <section class="partners">
     <div class="content">
-        <div class="grid grid-2 m-grid-1">
+        <Grid m={2} s={1}>
             <Heading size={1} className="blue-text" marginTop={0}>Партнеры института</Heading>
-        </div>
-        <div class="grid grid-6 m-grid-2 my-4" id="partners-grid">
-            <img src="/img/partners/evraz.png" alt="Partner">
-            <img src="/img/partners/sap.png" alt="Partner">
-            <img src="/img/partners/fanuc.png" alt="Partner">
-            <img src="/img/partners/ugmk.png" alt="Partner">
-            <img src="/img/partners/atom.png" alt="Partner">
-            <img src="/img/partners/tmk.png" alt="Partner">
-        </div>
+        </Grid>
+        <Grid m={6} s={3}>
+            { #each partners as partner }
+                <Partner src={ partner } />
+            { /each }
+        </Grid>
     </div>
 </section>
 <section id="schoolarships">
-    <div class="content grid grid-3 m-grid-1 gap-2">
-        <Heading size={1} className="blue-text" marginTop={0}>Именные стипендии</Heading>
-        <p class="medium no-top-margin">Поддержка инициатив талантливых и активных студентов от фондов, корпораций и будущих работодателей</p>
-        <p>
-            Стипендии назначаются дополнительно к государственной академической стипендии, а также дополнительно к повышенной государственной академической стипендии за достижения в учебной, научно-исследовательской, общественной, культурно-творческой и спортивной деятельности.
-            <br /><br />
-            <Button>Актуальный перечень</Button>
-        </p>
+    <div class="content">
+        <Grid m={3} s={1} gap={2}>
+            <Heading size={1} className="blue-text" marginTop={0}>Именные стипендии</Heading>
+            <p class="medium no-top-margin">Поддержка инициатив талантливых и активных студентов от фондов, корпораций и будущих работодателей</p>
+            <p>
+                Стипендии назначаются дополнительно к государственной академической стипендии, а также дополнительно к повышенной государственной академической стипендии за достижения в учебной, научно-исследовательской, общественной, культурно-творческой и спортивной деятельности.
+                <br /><br />
+                <Button>Актуальный перечень</Button>
+            </p>
+        </Grid>
     </div>
 </section>
 <section id="student-life">
-    <div class="content grid grid-1-2 m-grid-1 gap-2">
-        <Heading size={1} className="blue-text" marginTop={0}>Студенческая жизнь</Heading>
-        <p class="medium no-top-margin">Каждый студент института сможет найти дело по душе! <br /> Студенческие отряды, театры, музыкальные и танцевальные коллективы, турклуб, спортивные и киберспортивные лиги, клуб иностранных языков – это лишь малая часть студенческих возможностей в УрФУ. </p>
+    <div class="content">
+        <Grid m={2} s={1} gap={2} ratio="2:3">
+            <Heading size={1} className="blue-text" marginTop={0}>Студенческая жизнь</Heading>
+            <p class="medium no-top-margin">Каждый студент института сможет найти дело по душе! <br /> Студенческие отряды, театры, музыкальные и танцевальные коллективы, турклуб, спортивные и киберспортивные лиги, клуб иностранных языков – это лишь малая часть студенческих возможностей в УрФУ. </p>
+        </Grid>
     </div>
     <Carousel margin={10}>
         { #each images2 as src }

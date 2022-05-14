@@ -1,0 +1,388 @@
+:root {
+	--blue: #1E4391;
+	--blue-darken: #0f3075;
+	--blue-darken-2: #041e57;
+	--red: #EF302B;
+	--red-darken: #C0231F;
+	--red-darken-2: #a00b08;
+	--green: #219653;
+	--dark: #222222;
+	--grey: rgba(0, 0, 0, 0.4);
+	--light-grey: rgba(0, 0, 0, 0.1);
+	--fourty-percent: rgba(255, 255, 255, 0.4);
+	--content-width: min(1520px, 90vw);
+	--content-mobile-width: min(1520px, 84vw);
+	--content-padding-x: max(calc(50vw - 760px), calc(5vw - 7px));
+	--content-padding: 0 var(--content-padding-x);
+	--rainbow-gradient: linear-gradient(270deg, #FF2D7F -0.71%, #FB3727 47.63%, #FEEA0F 100%);
+
+	--text-size: 16px;
+	--header-1: calc(var(--text-size) * 3.25);
+	--header-2: calc(var(--text-size) * 2.5);
+	--header-3: calc(var(--text-size) * 1.5);
+	--text-medium: calc(var(--text-size) * 1.5);
+	--header-4: calc(var(--text-size) * 1.25);
+	--subtitle: calc(var(--text-size) * 1.12);
+	--header-5: calc(var(--text-size) * 0.9);
+	--header-6: calc(var(--text-size) * 0.8);
+	--small-text: calc(var(--text-size) * 0.85);
+}
+
+@media screen and (max-width: 768px) {
+	:root {
+		--text-size: 14px;
+		--header-1: calc(var(--text-size) * 2.5);
+		--header-2: calc(var(--text-size) * 1.9);
+	}
+}
+
+body {
+	font-family: Mont;
+	line-height: 1.5;
+	color: var(--dark);
+	background-color: #FFFFFF;
+}
+
+@media screen and (max-width: 768px) {
+	html, body {
+		max-width: 100vw;
+		position: relative;
+	}
+}
+
+body input,
+body select,
+body button,
+body textarea {
+	font-family: Mont;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="number"] {
+	border-radius: 4px;
+	border: 1px solid rgb(100, 130, 200);
+	padding: 6px 10px;
+	min-width: 300px;
+	margin-bottom: 1em;
+}
+
+.semi-bold {
+	font-weight: 600;
+}
+
+h1, h2, h3, h4, h5, h6,
+.heading-1, .heading-2,
+.heading-3, .heading-4,
+.heading-5, .heading-6 {
+	margin: 1em 0;
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+p.medium {
+	font-size: var(--text-medium);
+}
+
+h1, .heading-1, .size-1 {
+	font-size: var(--header-1);
+}
+
+h2, .heading-2, .size-2 {
+	font-size: var(--header-2);
+}
+
+h3, .heading-3, .size-3 {
+	font-size: var(--header-3);
+}
+
+h4, .heading-4, .size-4 {
+	font-size: var(--header-4);
+}
+
+h5, .heading-5, .size-5 {
+	font-size: var(--header-5);
+}
+
+h6, .heading-6, .size-6 {
+	font-size: var(--header-6);
+}
+
+p.subtitle {
+	font-size: var(--subtitle);
+	font-weight: 600;
+}
+
+p.small {
+	font-size: var(--small-text);
+}
+
+.blue-text {
+	color: var(--blue);
+}
+
+.red-text {
+	color: var(--red);
+}
+
+.fourty-text {
+	color: var(--fourty-percent);
+}
+
+div.content {
+	width: var(--content-width);
+	margin: 0 auto;
+}
+
+@keyframes rotation {
+	from {
+		transform: rotate(0deg)
+	}
+	to {
+		transform: rotate(359deg)
+	}
+}
+
+.no-top-margin {
+	margin-top: 0 !important;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+code {
+	font-family: menlo, inconsolata, monospace;
+	font-size: calc(1em - 2px);
+	color: #555;
+	background-color: #f0f0f0;
+	padding: 0.2em 0.4em;
+	border-radius: 2px;
+}
+
+@media (min-width: 400px) {
+	body {
+		font-size: 16px;
+	}
+}
+
+p.success {
+	color: rgb(40, 180, 40)
+}
+
+p.error {
+	color: rgb(180, 40, 40)
+}
+
+.grey-text {
+	color: rgba(0, 0, 0, 0.2);
+}
+
+textarea {
+	border-radius: 4px;
+	border: 1px solid rgb(100, 130, 200);
+	padding: 6px 10px;
+	min-width: 300px;
+	margin-bottom: 1em;
+	min-width: 100%;
+}
+
+.white-block {
+	background-color: white;
+	border-radius: 4px;
+	padding: 2em 2.6em;
+	color: black;
+	box-shadow: 1px 2px 6px 0px rgb(0 0 0 / 8%);
+}
+
+.grid input:not([type="checkbox"]) {
+	margin: 0;
+	width: 100%;
+}
+
+a:hover {
+	color: inherit;
+}
+
+.my-6 {
+	margin-top: 3.6rem !important;
+	margin-bottom: 3.6rem !important;
+}
+
+.my-7 {
+	margin-top: 4.5rem !important;
+	margin-bottom: 4.5rem !important;
+}
+
+.my-8 {
+	margin-top: 5.4rem !important;
+	margin-bottom: 5.4rem !important;
+}
+
+.my-9 {
+	margin-top: 6.3rem !important;
+	margin-bottom: 6.3rem !important;
+}
+
+.w-60 {
+	max-width: 60% !important;
+}
+
+.rainbow {
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 20px;
+	background: var(--rainbow-gradient);
+}
+
+label.checkbox-wrapper {
+	display: grid;
+	gap: 1em;
+	grid-template-columns: 20px 1fr;
+}
+
+.semi-transparent {
+	opacity: 0.4;
+}
+
+input.simple {
+	background: transparent;
+	border-radius: 0;
+	box-shadow: unset;
+	border: none;
+	border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+	padding: 8px 16px;
+	color: var(--dark);
+}
+
+input.simple::placeholder {
+	color: rgba(0, 0, 0, 0.2);
+}
+input.simple.wide {
+	width: 100%;
+}
+input.simple:focus {
+	outline-width: 0;
+}
+
+a.link {
+	display: inline-block;
+	position: relative;
+	color: white;
+	padding-bottom: 4px;
+}
+a.link.blue-color {
+	color: var(--blue);
+}
+a.link::after {
+	display: inline-block;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 4px;
+	content: '';
+	transition: 0.1s ease-in-out;
+	background-color: white;
+}
+a.link.blue-color::after {
+	height: 2px;
+	background-color: var(--blue);
+}
+a.link:hover::after {
+	width: 50%;
+}
+
+.header-layout {
+	display: grid;
+	grid-template-columns: 2fr 5fr 2fr;
+	gap: 1em;
+	align-items: center;
+}
+
+section {
+	max-width: 100%;
+}
+
+section:not(.preloader) {
+	padding: 3em 0;
+}
+
+:global(section.consult input) {
+	color: white;
+	border-color: rgba(255, 255, 255, .4);
+}
+
+:global(section.consult input::placeholder) {
+	color: rgba(255, 255, 255, 0.6);
+}
+
+/* section.promo {
+	padding-top: 6em;
+}
+
+section.promo > div > div:first-child {
+	padding-left: var(--content-padding-x);
+	padding-right: 3em;
+} */
+
+/* #pay-toggler {
+	align-items: center;
+}
+
+@media screen and (min-width: 769px) {
+	#pay-toggler > div {
+		justify-self: end;
+	}
+}
+
+.numbered-section {
+	display: grid;
+	position: relative;
+	grid-template-columns: 40px 1fr;
+	gap: 1em;
+	align-items: start;
+}
+
+@media screen and (max-width: 768px)  {
+	.numbered-section {
+		min-width: 70vw;
+	}
+} */
+
+#partners-grid {
+	gap: 3em 2em;
+	place-items: center;
+}
+
+@media screen and (max-width: 768px) {
+	#partners-grid > img {
+		max-width: 110px;
+	}
+}
+@media screen and (min-width: 769px) {
+	#JSyW {
+		width: 60%;
+		margin: 0 auto;
+	}
+	#NqY1 {
+		width: 75%;
+	}
+}
+
+img {
+	max-width: 100%;
+}
+
+#scroll-up {
+	display: block;
+	position: fixed;
+	bottom: 2em;
+	left: 1.5em;
+	z-index: 2;
+}

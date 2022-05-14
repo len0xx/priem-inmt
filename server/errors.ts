@@ -1,0 +1,10 @@
+export default {
+    UNKNOWN_ERROR: 1,
+    EMPTY_FIELDS: 2,
+    UNAUTHORIZED: 3,
+    NO_PERMISSION: 4,
+    NOT_FOUND: 5,
+    INVALID_DATA: 6,
+    INVALID_CSRF: 7,
+    UNKNOWN_APP: 8
+}

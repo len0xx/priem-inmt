@@ -73,9 +73,7 @@
         <input name="email" type="email" placeholder="Email" class="simple wide" required /><br /><br />
         <input name="tel" use:imask={ phoneMask } type="tel" placeholder="Контактный телефон" class="simple wide" required /><br /><br />
         <label for="agreement4" class="checkbox-wrapper align-left">
-            <div style="padding: 0.15em">
-                <input type="checkbox" name="agreement" id="agreement4" required>
-            </div>
+            <input type="checkbox" name="agreement" id="agreement4" required>
             <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
         </label>
         <br />

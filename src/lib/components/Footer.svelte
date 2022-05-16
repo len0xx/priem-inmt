@@ -50,9 +50,7 @@
                     <div class="grid grid-2 m-grid-1">
                         <div>
                             <label for="agreement2" class="checkbox-wrapper align-left">
-                                <div style="padding: 0.15em">
-                                    <input type="checkbox" name="agreement" id="agreement2">
-                                </div>
+                                <input type="checkbox" name="agreement" id="agreement2" required>
                                 <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
                             </label>
                         </div>
@@ -124,12 +122,6 @@
         footer nav.social a::after {
             height: 2px;
         }
-    }
-
-    label.checkbox-wrapper {
-        display: grid;
-        gap: 1em;
-        grid-template-columns: 20px 1fr;
     }
 
     .fourty-text-black {

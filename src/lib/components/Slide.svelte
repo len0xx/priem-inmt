@@ -1,40 +1,42 @@
 <script lang="ts">
+    import Grid from './Grid.svelte'
+
     export let img = ''
 </script>
 
-<div class="grid grid-2 m-grid-1 slider-slide">
-    <div class="grid">
-        <div class="slide-content">
+<Grid m={2} className="kit-slide">
+    <Grid m={1}>
+        <div class="kit-slide-content">
             <slot />
         </div>
-        <div class="buttons-bottom">
+        <div class="kit-buttons">
             <slot name="buttons" />
         </div>
-    </div>
-    <div class="slide-img" style:background-image="url({ img })"></div>
-</div>
+    </Grid>
+    <div class="kit-slide-img" style:background-image="url({ img })"></div>
+</Grid>
 
 <style>
-    .slider-slide > *:first-child {
+    :global(.kit-slide > *:first-child) {
         padding-left: var(--content-padding-x);
     }
 
-    .slider-slide .slide-content {
+    :global(.kit-slide .kit-slide-content) {
         max-width: 85%;
     }
 
     @media screen and (min-width: 1600px) {
-        .slider-slide .slide-content {
+        :global(.kit-slide .kit-slide-content) {
             max-width: 74%;
         }
     }
 
-    .buttons-bottom {
+    .kit-buttons {
         align-self: end;
-        padding-bottom: 1em;
+        padding: 1em 0;
     }
 
-    .slider-slide .slide-img {
+    :global(.kit-slide .kit-slide-img) {
         display: block;
         position: relative;
         width: 100%;

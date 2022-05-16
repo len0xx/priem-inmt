@@ -1,11 +1,11 @@
 <script lang="ts">
     import Button from './Button.svelte'
+    import Input from './Input.svelte'
     import Nav from './Nav.svelte'
     import Link from './Link.svelte'
-    import { imask } from 'svelte-imask'
 
     let phoneMask = {
-        mask: '+{7}-(000)-000-0000'
+        mask: '+{7} (000) 000-00-00'
     }
 </script>
 
@@ -39,10 +39,10 @@
                 <h2 class="no-top-margin">Обратная связь</h2>
                 <form action="">
                     <div class="my-4">
-                        <input name="fio" type="text" placeholder="ФИО" class="simple wide" required />
+                        <Input name="fio" type="text" placeholder="ФИО" wide />
                         <div class="grid grid-2 m-grid-1 my-4">
-                            <input name="email" type="email" placeholder="Email" class="simple wide" required />
-                            <input name="tel" use:imask={ phoneMask } type="tel" placeholder="Контактный телефон" class="simple wide" required />
+                            <Input name="email" type="email" placeholder="Email" wide required={ true } />
+                            <Input name="tel" type="tel" placeholder="Контактный телефон" wide mask={ phoneMask } required={ true } />
                         </div>
                     </div>
                     <br>
@@ -50,7 +50,7 @@
                     <div class="grid grid-2 m-grid-1">
                         <div>
                             <label for="agreement2" class="checkbox-wrapper align-left">
-                                <input type="checkbox" name="agreement" id="agreement2" required>
+                                <Input type="checkbox" name="agreement" id="agreement2" required={ true } />
                                 <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
                             </label>
                         </div>

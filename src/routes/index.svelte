@@ -1,9 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { imask } from 'svelte-imask'
     import Benefit from '$lib/components/Benefit.svelte'
     import Carousel from '$lib/components/Carousel.svelte'
     import Button from '$lib/components/Button.svelte'
+    import Input from '$lib/components/Input.svelte'
     import Header from '$lib/components/Header.svelte'
     import Modal from '$lib/components/Modal.svelte'
     import MobileMenu from '$lib/components/MobileMenu.svelte'
@@ -34,7 +34,7 @@
     let pageLoaded = false
 
     let phoneMask = {
-        mask: '+{7}-(000)-000-0000'
+        mask: '+{7} (000) 000-00-00'
     }
 
     const openModal = () => {
@@ -69,11 +69,11 @@
 <Modal bind:hidden={modalHidden} align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Подать заявку</Heading>
     <form action="" method="POST" id="JSyW">
-        <input name="fio" type="text" placeholder="ФИО" class="simple wide" required /><br /><br />
-        <input name="email" type="email" placeholder="Email" class="simple wide" required /><br /><br />
-        <input name="tel" use:imask={ phoneMask } type="tel" placeholder="Контактный телефон" class="simple wide" required /><br /><br />
+        <Input name="fio" type="text" placeholder="ФИО" wide required={ true } /><br /><br />
+        <Input name="email" type="email" placeholder="Email" wide required={ true } /><br /><br />
+        <Input name="tel" mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
         <label for="agreement4" class="checkbox-wrapper align-left">
-            <input type="checkbox" name="agreement" id="agreement4" required>
+            <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
             <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
         </label>
         <br />

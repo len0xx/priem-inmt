@@ -65,6 +65,10 @@ div {
 	grid-template-columns: 3fr 1fr;
 }
 
+.grid-3-2 {
+	grid-template-columns: 3fr 2fr;
+}
+
 .grid-5-3 {
 	grid-template-columns: 5fr 3fr;
 }
@@ -144,6 +148,7 @@ ul {
 ul li {
 	list-style-type: '–';
 	padding-inline-start: 1ch;
+	margin-bottom: 1em;
 }
 
 .horizontal-scroll {
@@ -161,6 +166,16 @@ ul li {
 		white-space: nowrap;
 	}
 	.mobile-horizontal-scroll > * {
+		white-space: normal;
+	}
+}
+
+@media screen and (max-width: 1200px) {
+	.tablet-horizontal-scroll {
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+	.tablet-horizontal-scroll > * {
 		white-space: normal;
 	}
 }

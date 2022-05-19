@@ -1,29 +1,41 @@
 <script lang="ts">
-    export let extension = 'pdf'
-    export let filename = ''
-    export let src = ''
+    import Heading from './Heading.svelte'
+
+    export let extension: string
+    export let filename: string
+    export let link = ''
+    export let className = ''
 </script>
 
-<div class="document-item">
+<div class="kit-document {className}" on:click>
     <div class="extension { extension }">.{ extension }</div>
-    <h4 class="no-margin"><a href={ src }>{ filename }.{ extension }</a></h4>
+    <Heading size={4} marginY={0}>
+        { #if link }
+            <a target="_BLANK" href={ link }>
+                { filename }.{ extension }
+            </a>
+        { :else }
+            { filename }.{ extension }
+        { /if }
+    </Heading>
 </div>
 
 <style>
-    .document-item {
+    .kit-document {
         display: grid;
         grid-template-columns: 70px 1fr;
         gap: 2em;
         padding: 2.5em 0;
         position: relative;
         border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        align-items: center;
     }
 
-    .document-item:first-of-type {
+    .kit-document:first-of-type {
         border-top: 2px solid rgba(0, 0, 0, 0.1);
     }
 
-    .document-item .extension {
+    .kit-document .extension {
         display: inline-block;
         position: relative;
         padding: 0.5em;
@@ -32,21 +44,24 @@
         align-self: start;
         line-height: 1;
         text-align: center;
+        cursor: default;
     }
 
-    .document-item .extension.docx {
+    .kit-document .extension.doc,
+    .kit-document .extension.docx {
         background: var(--blue);
     }
 
-    .document-item .extension.xlsx {
+    .kit-document .extension.xls,
+    .kit-document .extension.xlsx {
         background: var(--green);
     }
 
-    .document-item a {
+    .kit-document a {
         color: black;
     }
 
-    .document-item a:link:hover {
+    .kit-document a:hover {
         color: var(--blue);
         text-decoration: underline;
     }

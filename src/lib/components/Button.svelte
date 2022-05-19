@@ -11,18 +11,35 @@
 
     let pressed = false
 
-    const handleMouseDown = () => pressed = true
+    const handleMouseDown = () => {
+        pressed = true
+        dispatch('mousedown')
+    }
 
-    const handleMouseUp = () => pressed = false
+    const handleMouseUp = () => {
+        pressed = false
+        dispatch('mouseup')
+    }
 
     const handleClick = () => {
-        dispatch('click')
         if (href) window.location.href = href
+        dispatch('click')
     }
     let sizeClass = size === 'S' ? 'small' : size === 'L' ? 'large' : 'medium'
 </script>
 
-<button {type} class="kit-button variant-{variant} {className} {sizeClass}" class:pressed on:click={ handleClick } on:mousedown={ handleMouseDown } on:mouseup={ handleMouseUp }>
+<button
+    {type}
+    class="kit-button variant-{variant} {className} {sizeClass}"
+    class:pressed
+    on:click={ handleClick }
+    on:mousedown={ handleMouseDown }
+    on:mouseup={ handleMouseUp }
+    on:focus
+    on:blur
+    on:mouseover
+    on:mouseleave
+>
     <slot></slot>
 </button>
 

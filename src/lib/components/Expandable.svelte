@@ -1,12 +1,16 @@
 <script lang="ts">
+    import Heading from './Heading.svelte'
+    import Text from './Text.svelte'
+
     export let active = false
+    export let className = ''
 </script>
 
-<div on:click class="expandable" class:active={active}>
+<div class="kit-expandable {className}" class:active={active} on:click>
     <div class="block-content">
         <div>
-            <slot name="header"></slot>
-            <slot name="text"></slot>
+            <Heading size={ 3 } className="blue-text"><slot name="header"></slot></Heading>
+            <Text marginY={ 0 }><slot name="text"></slot></Text>
         </div>
         <div class="icon">
             { #if active }
@@ -24,7 +28,7 @@
 </div>
 
 <style>
-    .expandable {
+    .kit-expandable {
         padding: 1.2em 0;
         border-width: 2px;
         border-style: solid;
@@ -35,41 +39,41 @@
         cursor: pointer;
     }
 
-    .expandable .block-content {
+    .kit-expandable .block-content {
         display: grid;
         position: relative;
         gap: 2em;
         grid-template-columns: 1fr 50px;
     }
 
-    .expandable .block-content .icon {
+    .kit-expandable .block-content .icon {
         justify-self: end;
         align-self: center;
     }
 
-    .expandable:first-of-type {
+    .kit-expandable:first-of-type {
         border-top-color: var(--light-grey);
     }
 
-    :global(.expandable > h4) {
+    :global(.kit-expandable > h4) {
         margin-top: 0.5em;
     }
 
-    :global(.expandable p) {
+    :global(.kit-expandable p) {
         margin: 0;
         transition: 0.1s ease-in-out;
     }
 
-    .expandable.active {
+    .kit-expandable.active {
         border-top-color: var(--blue);
         border-bottom-color: var(--blue);
     }
 
-    :global(.expandable:not(.active) p) {
+    :global(.kit-expandable:not(.active) p) {
         transform: rotateX(90deg);
         height: 0px;
     }
-    :global(.expandable.active p) {
+    :global(.kit-expandable.active p) {
         transform: rotateX(0);
         height: auto;
     }

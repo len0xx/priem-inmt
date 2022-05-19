@@ -41,7 +41,7 @@
         position: relative;
         place-content: center;
         place-items: center;
-        min-height: 100vh;
+        min-height: 50vh;
         width: 100%;
     }
 

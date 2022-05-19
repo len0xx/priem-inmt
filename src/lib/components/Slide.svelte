@@ -4,7 +4,7 @@
     export let img = ''
 </script>
 
-<Grid m={2} className="kit-slide">
+<Grid s={1} m={2} className="kit-slide" justifyItems="start">
     <Grid m={1}>
         <div class="kit-slide-content">
             <slot />
@@ -44,5 +44,17 @@
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
+    }
+
+    @media screen and (max-width: 768px) {
+        :global(.kit-slide > *:first-child) {
+            order: 2;
+        }
+
+        :global(.kit-slide > .kit-slide-img) {
+            height: 250px;
+            width: 100%;
+            order: 1;
+        }
     }
 </style>

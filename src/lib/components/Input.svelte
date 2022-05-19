@@ -105,6 +105,24 @@
     input::placeholder {
         color: rgba(0, 0, 0, 0.3);
     }
+
+    input.white:not([type="hidden"]):not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]) {
+        color: white;
+        border-bottom-color: rgba(255, 255, 255, 0.3);
+    }
+
+    input.white:not([type="hidden"]):not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]).filledIn {
+        color: white;
+        border-bottom-color: rgba(255, 255, 255, 1);
+    }
+
+    input.white:not([type="hidden"]):not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not(.filledIn):focus {
+        border-bottom-color: rgba(255, 255, 255, 0.5);
+    }
+
+    input.white::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+    }
     input.kit-input-wide {
         width: 100%;
     }

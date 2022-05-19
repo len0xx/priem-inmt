@@ -1,24 +1,24 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import Benefit from '$lib/components/Benefit.svelte'
-    import Carousel from '$lib/components/Carousel.svelte'
-    import Button from '$lib/components/Button.svelte'
-    import Input from '$lib/components/Input.svelte'
-    import Header from '$lib/components/Header.svelte'
-    import Modal from '$lib/components/Modal.svelte'
-    import MobileMenu from '$lib/components/MobileMenu.svelte'
-    import Preloader from '$lib/components/Preloader.svelte'
-    import Footer from '$lib/components/Footer.svelte'
-    import RoundButton from '$lib/components/RoundButton.svelte'
-    import NewsCard from '$lib/components/NewsCard.svelte'
-    import Link from '$lib/components/Link.svelte'
-    import Heading from '$lib/components/Heading.svelte'
     import Nav from '$lib/components/Nav.svelte'
-    import Rainbow from '$lib/components/Rainbow.svelte'
-    import Slider from '$lib/components/Slider.svelte'
-    import Slide from '$lib/components/Slide.svelte'
-    import Partner from '$lib/components/Partner.svelte'
     import Grid from '$lib/components/Grid.svelte'
+    import Link from '$lib/components/Link.svelte'
+    import Text from '$lib/components/Text.svelte'
+    import Modal from '$lib/components/Modal.svelte'
+    import Input from '$lib/components/Input.svelte'
+    import Slide from '$lib/components/Slide.svelte'
+    import Button from '$lib/components/Button.svelte'
+    import Header from '$lib/components/Header.svelte'
+    import Slider from '$lib/components/Slider.svelte'
+    import Benefit from '$lib/components/Benefit.svelte'
+    import Heading from '$lib/components/Heading.svelte'
+    import Rainbow from '$lib/components/Rainbow.svelte'
+    import Partner from '$lib/components/Partner.svelte'
+    import NewsCard from '$lib/components/NewsCard.svelte'
+    import Carousel from '$lib/components/Carousel.svelte'
+    import Preloader from '$lib/components/Preloader.svelte'
+    import MobileMenu from '$lib/components/MobileMenu.svelte'
+    import RoundButton from '$lib/components/RoundButton.svelte'
     import images1 from '$lib/images1'
     import images2 from '$lib/images2'
     import partners from '$lib/partners'
@@ -28,17 +28,18 @@
     // let user = $session.user
     // console.log(user)
 
-    let modalHidden = true
+    let modalVisible = false
     let menuHidden = true
     let showPreloader = true
     let pageLoaded = false
+    let additional = false
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
     }
 
     const openModal = () => {
-        modalHidden = false
+        modalVisible = true
     }
 
     const openMenu = () => menuHidden = false
@@ -52,6 +53,7 @@
 
 <svelte:head>
     <title>Институт новых материалов и технологий</title>
+    <meta property="og:image" content="/img/snippet-inmt.jpg" />
 </svelte:head>
 
 { #if showPreloader }
@@ -59,14 +61,14 @@
 { /if }
 
 <MobileMenu bind:menuHidden>
-    <a on:click={() => menuHidden = true} class="underlined" href="#about">Об институте</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="#enroll">Как поступить</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="#programs">Программы</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="#faq">FAQ</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="#footer">Контакты</a><br /><br />
+    <a on:click={() => menuHidden = true} class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
+    <a on:click={() => menuHidden = true} class="underlined" href="/master">Магистратура</a><br /><br />
+    <a on:click={() => menuHidden = true} class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
+    <a on:click={() => menuHidden = true} class="underlined" href="/accommodation">Поселение</a><br /><br />
+    <a on:click={() => menuHidden = true} class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
 
-<Modal bind:hidden={modalHidden} align="center" closable={true}>
+<Modal bind:visible={modalVisible} align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Подать заявку</Heading>
     <form action="" method="POST" id="JSyW">
         <Input name="fio" type="text" placeholder="ФИО" wide required={ true } /><br /><br />
@@ -91,6 +93,9 @@
                     <img src="/img/urfu-logo-colourful.svg" alt="Логотип Уральского федерального университета">
                 </a>
             </div>
+            <div class="mobile-hide">
+                <img src="/img/menu-icon-gray.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ () => additional = true }>
+            </div>
             <Nav className="mobile-hide">
                 <a class="underlined black" href="#about">Об институте</a>
                 <a class="underlined black" href="#levels">Уровни подготовки</a>
@@ -100,140 +105,169 @@
             <div class="mobile-hide align-right">
                 <Button on:click={ openModal }>Поступить</Button>
             </div>
-            <div class="pc-hide">
-                <svg on:click={ openMenu } width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="18" cy="18" r="18" fill="white"/>
-                    <rect x="12" y="12" width="4" height="4" rx="2" fill="#1E4391"/>
-                    <rect x="20" y="20" width="4" height="4" rx="2" fill="#1E4391"/>
-                    <rect x="20" y="12" width="4" height="4" rx="2" fill="#EF302B"/>
-                    <rect x="12" y="20" width="4" height="4" rx="2" fill="#1E4391"/>
-                </svg>            
+            <div class="pc-hide align-right">
+                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ openMenu }>
             </div>
         </div>
     </div>
 </Header>
-<Slider let:showPrevPage let:showNextPage >
-    <Slide img="/img/slide1-img.jpg">
-        <Heading size={2} className="blue-text">Стань инженером будущего в Институте новых материалов и технологий УрФУ</Heading>
-        <p class="heading-3">Актуальная информация о поступлении в университет в 2022 году:</p>
-        <Link href="/bachelor" borderWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
-        <Link href="/master" borderWidth={ 2 }>Магистратура</Link><br />
-        <svelte:fragment slot="buttons">
-            <RoundButton size="M" variant="left" on:click={ showPrevPage } />
-            <RoundButton size="M" variant="right" on:click={ showNextPage } />
-        </svelte:fragment>
-    </Slide>
-    <Slide img="/img/slide2-img.jpg">
-        <Heading size={2} className="blue-text">Стань инженером будущего в Институте новых материалов и технологий УрФУ</Heading>
-        <p class="heading-3">Выбрать направление подготовки и зарегистрироваться в личном кабинете абитуриента можно уже сейчас:</p>
-        <Link href="/bachelor" borderWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
-        <Link href="/master" borderWidth={ 2 }>Магистратура</Link><br />
-        <svelte:fragment slot="buttons">
-            <RoundButton size="M" variant="left" on:click={ showPrevPage } />
-            <RoundButton size="M" variant="right" on:click={ showNextPage } />
-        </svelte:fragment>
-    </Slide>
-</Slider>
-<br />
-<section class="info-1" id="about">
+<Header hideOnScrollDown={ false } showOnScrollUp={ false } className="additional-header { additional ? 'opened' : '' }">
     <div class="content">
-        <Grid m={2} s={1} alignItems="end">
-            <div class="about-left">
-                <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.5}>Об институте</Heading>
-                <p id="NqY1">Институт новых материалов и технологий Уральского федерального университета – крупнейший центр высшего инженерного образования региона с 1920 года, сочетающий лучшие традиции, фундаментальную подготовку и практический междисциплинарный подход</p>
-            </div>
+        <div class="header-layout">
             <div>
-                <Grid m={2}>
-                    <Benefit
-                        num="1 642"
-                        caption="Бюджетных мест в 2022 году"
-                    />
-                    <Benefit
-                        num="158"
-                        caption="Контрактных мест в 2022 году"
-                    />
-                </Grid>
-                <div class="pc-hide">
-                    <br />
-                    <Button variant="wide" on:click={openModal}>Поступить</Button>
-                </div>
+                <img src="/img/red-close.svg" class="menu-button" alt="Кнопка закрытия навигации" on:click={ () => additional = false }>
             </div>
-        </Grid>
+            <Nav className="mobile-hide">
+                <a class="underlined black" href="/bachelor">Бакалавриат и специалитет</a>
+                <a class="underlined black" href="/master">Магистратура</a>
+                <a target="_BLANK" class="underlined black" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a>
+                <a class="underlined black" href="/accommodation">Поселение</a>
+                <a class="underlined black" href="/contacts">Контакты</a>
+            </Nav>
+            <div class="mobile-hide align-right">
+                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ openModal }>Хочу поступить</Link>
+            </div>
+        </div>
     </div>
-</section>
-<section class="images-1">
-    <Carousel margin={10}>
-        { #each images1 as src }
-            <img {src} alt={ src }>
-        { /each }
-    </Carousel>
-</section>
-<section id="levels">
-    <div class="content">
-        <Grid m={3} s={1}>
-            <Heading size={1} className="blue-text" marginTop={0}>Уровни подготовки</Heading>
-            <p class="heading-3 no-top-margin">Институт дает студентам прочные знания об устройстве современных машин и механизмов, применении новых материалов и технологий в металлургии, машиностроении, строительстве, позволяет работать над реальными проектами. </p>
-            <p class="no-top-margin">Выпускники способны создавать новые материалы с уникальными свойствами, проектировать конструкции, схемы, алгоритмы, технологии производства материалов, машин и оборудования, разрабатывать бизнес-планы создания технических новинок, управлять созданными машинами и обслуживать их, руководить промышленными предприятиями.</p>
-        </Grid>
-        <br />
-        <Grid m={3} s={1}>
-            <a href="/bachelor">
-                <NewsCard img="/img/bachelor-inmt.jpg">
-                    <svelte:fragment slot="title">Бакалавриат и специалитет</svelte:fragment>
-                    <p class="no-margin"><span class="red-text">19</span> <span class="semi-transparent">образовательных программ</span></p>
-                </NewsCard>
-            </a>
-            <a href="/master">
-                <NewsCard img="/img/master-inmt.jpg">
-                    <svelte:fragment slot="title">Магистратура</svelte:fragment>
-                    <p class="no-margin"><span class="red-text">26</span> <span class="semi-transparent">образовательных программ</span></p>
-                </NewsCard>
-            </a>
-            <a href="/postgraduate">
-                <NewsCard img="/img/postgraduate-inmt.jpg">
-                    <svelte:fragment slot="title">Аспирантура</svelte:fragment>
-                    <p class="no-margin"><span class="red-text">21</span> <span class="semi-transparent">образовательная программа</span></p>
-                </NewsCard>
-            </a>
-        </Grid>
-    </div>
-</section>
-<section class="partners">
-    <div class="content">
-        <Grid m={2} s={1}>
-            <Heading size={1} className="blue-text" marginTop={0}>Партнеры института</Heading>
-        </Grid>
-        <Grid m={6} s={3}>
-            { #each partners as partner }
-                <Partner src={ partner } />
+</Header>
+<div class="escape-header">
+    <Slider let:showPrevPage let:showNextPage >
+        <Slide img="/img/slide1-img.jpg">
+            <Heading size={2} className="blue-text">Стань инженером будущего в Институте новых материалов и технологий УрФУ</Heading>
+            <Text className="heading-3">Актуальная информация о поступлении в университет в 2022 году:</Text>
+            <Link href="/bachelor" variant="interactive" lineWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
+            <Link href="/master" variant="interactive" lineWidth={ 2 }>Магистратура</Link><br />
+            <svelte:fragment slot="buttons">
+                <RoundButton size="M" variant="left" on:click={ showPrevPage } />
+                <RoundButton size="M" variant="right" on:click={ showNextPage } />
+            </svelte:fragment>
+        </Slide>
+        <Slide img="/img/slide2-img.jpg">
+            <Heading size={2} className="blue-text">Стань инженером будущего в Институте новых материалов и технологий УрФУ</Heading>
+            <Text className="heading-3">Выбрать направление подготовки и зарегистрироваться в личном кабинете абитуриента можно уже сейчас:</Text>
+            <Link href="/bachelor" variant="interactive" lineWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
+            <Link href="/master" variant="interactive" lineWidth={ 2 }>Магистратура</Link><br />
+            <svelte:fragment slot="buttons">
+                <RoundButton size="M" variant="left" on:click={ showPrevPage } />
+                <RoundButton size="M" variant="right" on:click={ showNextPage } />
+            </svelte:fragment>
+        </Slide>
+    </Slider>
+    <br />
+    <section class="info-1" id="about">
+        <div class="content">
+            <Grid m={2} s={1} alignItems="end">
+                <div class="about-left">
+                    <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.5}>Об институте</Heading>
+                    <Text id="NqY1">Институт новых материалов и технологий Уральского федерального университета – крупнейший центр высшего инженерного образования региона с 1920 года, сочетающий лучшие традиции, фундаментальную подготовку и практический междисциплинарный подход</Text>
+                </div>
+                <div>
+                    <Grid m={2}>
+                        <Benefit
+                            num="1 642"
+                            caption="Бюджетных мест в 2022 году"
+                        />
+                        <Benefit
+                            num="158"
+                            caption="Контрактных мест в 2022 году"
+                        />
+                    </Grid>
+                    <div class="pc-hide">
+                        <br />
+                        <Button variant="wide" on:click={openModal}>Поступить</Button>
+                    </div>
+                </div>
+            </Grid>
+        </div>
+    </section>
+    <section class="images-1">
+        <Carousel margin={10}>
+            { #each images1 as src }
+                <img {src} alt={ src }>
             { /each }
-        </Grid>
-    </div>
-</section>
-<section id="schoolarships">
-    <div class="content">
-        <Grid m={3} s={1} gap={2}>
-            <Heading size={1} className="blue-text" marginTop={0}>Именные стипендии</Heading>
-            <p class="heading-3 no-top-margin">Поддержка инициатив талантливых и активных студентов от фондов, корпораций и будущих работодателей</p>
-            <p>
-                Стипендии назначаются дополнительно к государственной академической стипендии, а также дополнительно к повышенной государственной академической стипендии за достижения в учебной, научно-исследовательской, общественной, культурно-творческой и спортивной деятельности.
-                <br /><br />
-                <Button>Актуальный перечень</Button>
-            </p>
-        </Grid>
-    </div>
-</section>
-<section id="student-life">
-    <div class="content">
-        <Grid m={2} s={1} gap={2} ratio="2:3">
-            <Heading size={1} className="blue-text" marginTop={0}>Студенческая жизнь</Heading>
-            <p class="heading-3 no-top-margin">Каждый студент института сможет найти дело по душе! <br /> Студенческие отряды, театры, музыкальные и танцевальные коллективы, турклуб, спортивные и киберспортивные лиги, клуб иностранных языков – это лишь малая часть студенческих возможностей в УрФУ. </p>
-        </Grid>
-    </div>
-    <Carousel margin={10}>
-        { #each images2 as src }
-            <img {src} alt={ src } />
-        { /each }
-    </Carousel>
-</section>
-<Footer />
+        </Carousel>
+    </section>
+    <section id="levels">
+        <div class="content">
+            <Grid m={3} s={1}>
+                <Heading size={1} className="blue-text" marginTop={0}>Уровни подготовки</Heading>
+                <Text className="heading-3" marginTop={0}>Институт дает студентам прочные знания об устройстве современных машин и механизмов, применении новых материалов и технологий в металлургии, машиностроении, строительстве, позволяет работать над реальными проектами. </Text>
+                <Text marginTop={0}>Выпускники способны создавать новые материалы с уникальными свойствами, проектировать конструкции, схемы, алгоритмы, технологии производства материалов, машин и оборудования, разрабатывать бизнес-планы создания технических новинок, управлять созданными машинами и обслуживать их, руководить промышленными предприятиями.</Text>
+            </Grid>
+            <br />
+            <Grid m={3} s={1}>
+                <a href="/bachelor">
+                    <NewsCard img="/img/bachelor-inmt.jpg">
+                        <svelte:fragment slot="title">Бакалавриат и специалитет</svelte:fragment>
+                        <Text marginY={0}><span class="red-text">19</span> <span class="semi-transparent">образовательных программ</span></Text>
+                    </NewsCard>
+                </a>
+                <a href="/master">
+                    <NewsCard img="/img/master-inmt.jpg">
+                        <svelte:fragment slot="title">Магистратура</svelte:fragment>
+                        <Text marginY={0}><span class="red-text">26</span> <span class="semi-transparent">образовательных программ</span></Text>
+                    </NewsCard>
+                </a>
+                <a href="https://aspirant.urfu.ru/ru/aspirantura/">
+                    <NewsCard img="/img/postgraduate-inmt.jpg">
+                        <svelte:fragment slot="title">Аспирантура</svelte:fragment>
+                        <Text marginY={0}><span class="red-text">21</span> <span class="semi-transparent">образовательная программа</span></Text>
+                    </NewsCard>
+                </a>
+            </Grid>
+        </div>
+    </section>
+    <section id="partners">
+        <div class="content">
+            <Grid m={2} s={1}>
+                <Heading size={1} className="blue-text">Партнеры института</Heading>
+            </Grid>
+        </div>
+        <Carousel margin={0} className="mobile-hide">
+            { #each [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12]] as range }
+                <div class="fill-width">
+                    <div class="content">
+                        <Grid s={2} m={6} className="my-4" alignItems="start">
+                            { #each range as i }
+                                <Partner src={partners[i]} />
+                            { /each }
+                        </Grid>
+                    </div>
+                </div>
+            { /each }
+        </Carousel>
+        <Carousel margin={15} className="pc-hide">
+            { #each partners as partner }
+                <div>
+                    <Partner src={partner} />
+                </div>
+            { /each }
+        </Carousel>
+    </section>
+    <section id="schoolarship">
+        <div class="content">
+            <Grid m={3} s={1} gap={2}>
+                <Heading size={1} className="blue-text" marginTop={0}>Именные стипендии</Heading>
+                <Text className="heading-3" marginTop={0}>Поддержка инициатив талантливых и активных студентов от фондов, корпораций и будущих работодателей</Text>
+                <Text marginTop={0}>
+                    Стипендии назначаются дополнительно к государственной академической стипендии, а также дополнительно к повышенной государственной академической стипендии за достижения в учебной, научно-исследовательской, общественной, культурно-творческой и спортивной деятельности.
+                    <br /><br />
+                    <Button href="https://urfu.ru/ru/students/study/scholarships/imennye-stipendii/">Актуальный перечень</Button>
+                </Text>
+            </Grid>
+        </div>
+    </section>
+    <section id="student-life">
+        <div class="content">
+            <Grid m={2} s={1} gap={2} ratio="2:3">
+                <Heading size={1} className="blue-text" marginTop={0}>Студенческая жизнь</Heading>
+                <Text className="heading-3" marginTop={0}>Каждый студент института сможет найти дело по душе! <br /> Студенческие отряды, театры, музыкальные и танцевальные коллективы, турклуб, спортивные и киберспортивные лиги, клуб иностранных языков – это лишь малая часть студенческих возможностей в УрФУ. </Text>
+            </Grid>
+        </div>
+        <Carousel margin={10}>
+            { #each images2 as src }
+                <img {src} alt={ src } />
+            { /each }
+        </Carousel>
+    </section>
+</div>

@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { createEventDispatcher, onMount } from 'svelte'
+
     export let className = ''
     export let hideOnScrollDown = false
     export let hideAfter = 10
@@ -8,11 +10,18 @@
     let scrolled = false
     let prevScroll = 0
 
-    if (transparent) className = [className, 'transparent-bg'].join(' ')
+    const dispatch = createEventDispatcher()
 
     const scrollHandler = () => {
         const currentScroll = window.scrollY
-        scrolled = currentScroll > 0
+        const scrolledVal = currentScroll > 0
+        if (scrolled == false && scrolledVal == true) {
+            dispatch('scroll-down')
+        }
+        else if (scrolled == true && scrolledVal == false) {
+            dispatch('scroll-up')
+        }
+        scrolled = scrolledVal
         if (hideOnScrollDown) {
             if (currentScroll > prevScroll && currentScroll > hideAfter) {
                 hide = true
@@ -24,11 +33,13 @@
         }
         prevScroll = currentScroll
     }
+
+    onMount(scrollHandler)
 </script>
 
 <svelte:window on:scroll={ scrollHandler }></svelte:window>
 
-<header class="kit-header {className}" class:kit-hidden={ hide } class:scrolled on:click>
+<header class="kit-header {className}" class:kit-hidden={ hide } class:transparent-bg={ transparent } class:scrolled on:click>
     <slot />
 </header>
 
@@ -44,7 +55,7 @@
         color: #000000;
         width: 100%;
         z-index: 20;
-        transition: 0.1s ease-in-out;
+        transition: 0.2s ease-in-out;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
 

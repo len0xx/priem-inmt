@@ -1,17 +1,20 @@
 <script lang="ts">
-    export let variant = 'plus'
-    export let size: 'S' | 'M' | 'L' = 'M'
-    export let className = ''
-    export let transparent = true
-
+    import { createEventDispatcher } from 'svelte'
     import plusIcon from '$lib/img/plus-icon.svg'
     import leftIcon from '$lib/img/left-arrow.svg'
     import rightIcon from '$lib/img/right-arrow.svg'
     import upIcon from '$lib/img/up-arrow.svg'
     import downIcon from '$lib/img/down-arrow.svg'
 
+    export let variant = 'plus'
+    export let size: 'S' | 'M' | 'L' = 'M'
+    export let className = ''
+    export let transparent = true
+    export let animate = true
+
     let pressed = false
     if (transparent) className += ' transparent-bg'
+    const dispatch = createEventDispatcher()
     
     let sizeClass = size === 'S' ? 'small' : size === 'L' ? 'large' : 'medium'
 
@@ -26,12 +29,28 @@
         icon = downIcon
     }
 
-    const handleMouseDown = () => pressed = true
+    const handleMouseDown = () => {
+        pressed = animate && true
+        dispatch('mousedown')
+    }
 
-    const handleMouseUp = () => pressed = false
+    const handleMouseUp = () => {
+        pressed = animate && false
+        dispatch('mouseup')
+    }
 </script>
 
-<button class="kit-round-button {sizeClass} {className}" class:pressed on:click on:mousedown={handleMouseDown} on:mouseup={handleMouseUp}>
+<button
+    class="kit-round-button {sizeClass} {className}"
+    class:pressed
+    on:click
+    on:mousedown={handleMouseDown}
+    on:mouseup={handleMouseUp}
+    on:focus
+    on:blur
+    on:mouseover
+    on:mouseleave
+>
     <img src={icon} alt="icon">           
 </button>
 

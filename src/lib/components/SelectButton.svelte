@@ -1,13 +1,23 @@
 <script lang="ts">
-    export let variant = 'default'
+    export let variant: 'default' | 'active' | 'blue' = 'default'
+    export let className = ''
 </script>
 
-<div class="pill {variant}" on:click>
+<div
+    class="kit-select-button variant-{variant} {className}"
+    on:click
+    on:focus
+    on:blur
+    on:mouseover
+    on:mouseleave
+    on:mouseup
+    on:mousedown
+>
     <slot></slot>
 </div>
 
 <style>
-    .pill {
+    .kit-select-button {
         display: inline-block;
         margin-right: 1em;
         margin-bottom: 1em;
@@ -21,24 +31,24 @@
         cursor: pointer;
     }
 
-    .pill:not(.blue):hover {
+    .kit-select-button:not(.variant-blue):hover {
         border-color: var(--red);
         color: var(--red);
     }
 
-    .pill.active {
+    .kit-select-button.variant-active {
         border-color: var(--red);
         color: var(--red);
         cursor: default;
     }
 
-    .pill.blue {
+    .kit-select-button.variant-blue {
         background-color: var(--blue);
         border-color: var(--blue);
         color: white;
     }
 
-    .pill.blue:hover {
+    .kit-select-button.variant-blue:hover {
         background-color: var(--blue-darken);
         border-color: var(--blue-darken);
     }

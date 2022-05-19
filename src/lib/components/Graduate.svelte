@@ -1,4 +1,10 @@
 <script lang="ts">
+import Heading from "./Heading.svelte";
+
+import Rainbow from "./Rainbow.svelte";
+import Text from "./Text.svelte";
+
+
     export let src = ''
     export let name = ''
     export let caption = ''
@@ -9,17 +15,19 @@
     <div class="image" style="background-image: url({src})"></div>
     <div class="card-content">
         <div class="text">
-            <h3 class="display-name blue-text">{ name }</h3>
-            <p class="caption">{ caption }</p>
+            <Heading size={3} className="blue-text" marginY={0.5}>{ name }</Heading>
+            <div style:width="80%">
+                <Text className="caption" marginY={0.5} opacity={0.8}>{ caption }</Text>
+                <Text className="description" marginBottom={0} opacity={0.6}>{ description }</Text>
+            </div>
         </div>
-        <p class="description">{ description }</p>
-        <div class="rainbow"></div>
     </div>
+    <Rainbow size="S" fixed="bottom" />
 </div>
 
 <style>
     .graduate {
-        background: white;
+        background: #F6F6F6;
         max-width: 100%;
     }
 
@@ -34,83 +42,11 @@
 
     .graduate .card-content {
         position: relative;
-        background-color: white;
-    }
-
-    @keyframes rollup {
-        0% {
-            height: 116px;
-        }
-        100% {
-            height: 100%;
-        }
-    }
-
-    @keyframes fade-in {
-        0% {
-            opacity: 0;
-            transform: scale(0);
-        }
-        100% {
-            opacity: 0.6;
-            transform: scale(1);
-        }
-    }
-
-    .graduate:hover .card-content {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background-color: white;
-        animation-name: rollup;
-        animation-duration: 0.2s;
-        animation-delay: 0.01s;
-        animation-timing-function: ease-in-out;
-        animation-direction: normal;
-        animation-fill-mode: forwards;
-    }
-
-    .graduate:hover .card-content .description {
-        display: block;
-        position: absolute;
-        bottom: 1em;
-        left: 0;
-        padding: 0 1em;
-        animation-name: fade-in;
-        animation-duration: 0.2s;
-        animation-delay: 0.01s;
-        animation-timing-function: ease-in-out;
-        animation-direction: normal;
-        animation-fill-mode: forwards;
+        background-color: #F6F6F6;
     }
 
     .graduate .card-content .text {
         padding: 1em;
         padding-bottom: 2em;
-    }
-
-    .graduate .card-content h3 {
-        margin: 0;
-    }
-
-    .graduate .card-content p.caption {
-        margin: 0.5em 0;
-    }
-
-    .graduate .description {
-        display: none;
-        opacity: 0;
-        transform: scale(0);
-    }
-
-    .graduate .rainbow {
-        display: block;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 8px;
-        background-image: var(--rainbow-gradient);
     }
 </style>

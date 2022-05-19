@@ -1,13 +1,12 @@
 <script lang="ts">
+    export let className = ''
+    export let left = ''
+    export let right = ''
+
     import { createEventDispatcher } from 'svelte'
 
     let state = false
     const dispatch = createEventDispatcher()
-
-    function changeState() {
-        state = !state
-        dispatch('change', { state })
-    }
 
     function setState(s: boolean) {
         if (state != s) {
@@ -15,13 +14,21 @@
             dispatch('change', { state })
         }
     }
+
+    const toggleState = () => setState(!state)
 </script>
 
-<span class="budget heading-3" class:blue-text={!state} class:grey-text={state} on:click={() => setState(false)}>Бюджет</span>
-<div class="toggler" class:toggled={state} on:click={changeState}>
-    <span class="switch"></span>
+<div class="kit-switch {className}" on:focus on:blur on:mouseover on:mouseleave on:mouseup on:mousedown>
+    { #if left }
+        <span class="heading-3" class:blue-text={!state} class:grey-text={state} on:click={() => setState(false)}>{ left }</span>
+    { /if }
+    <div class="toggler" class:toggled={state} on:click={toggleState}>
+        <span class="switch"></span>
+    </div>
+    { #if right }
+        <span class="heading-3" class:blue-text={state} class:grey-text={!state} on:click={() => setState(true)}>{ right }</span>
+    { /if }
 </div>
-<span class="contract heading-3" class:blue-text={state} class:grey-text={!state} on:click={() => setState(true)}>Контракт</span>
 
 <style>
     .toggler {

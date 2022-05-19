@@ -1,13 +1,15 @@
 <script lang="ts">
+    import Progress from '$lib/components/Progress.svelte'
     export let invisible: boolean
+    export let className = ''
 </script>
 
-<section class="preloader" class:x-invisible={invisible}>
-    <img src="/img/preloader.svg" alt="Preloader">
+<section class="kit-preloader {className}" class:x-invisible={invisible}>
+    <Progress />
 </section>
 
 <style>
-    .preloader {
+    .kit-preloader {
         display: grid;
         position: fixed;
         top: 0;
@@ -20,14 +22,7 @@
         place-content: center;
         transition: 0.1s ease-in-out;
     }
-    .preloader img {
-        animation-name: rotation;
-        animation-duration: 1s;
-        animation-timing-function: linear;
-        animation-direction: normal;
-        animation-iteration-count: infinite;
-    }
-    :global(.preloader.x-invisible) {
+    .kit-preloader.x-invisible {
         opacity: 0;
     }
 </style>

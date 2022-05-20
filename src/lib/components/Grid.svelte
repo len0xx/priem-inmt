@@ -1,10 +1,7 @@
 <script lang="ts">
-    type AlignItems = 'end' | 'center' | 'start' | 'stretch'
-    type JustifyItems = AlignItems
-    type AlignContent = 'left' | 'center' | 'right' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
-    type JustifyContent = AlignContent
+    type ItemsAlignment = 'end' | 'center' | 'start' | 'stretch' | 'initial' | 'inherit'
+    type ContentAlignment = 'left' | 'center' | 'right' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch' | 'initial' | 'inherit'
     type GridSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
-    type GapSize = 0 | 1 | 2 | 3 | 4 | 5 | 6
     type TwoColumnsRatio = '2:1' | '1:2' | '3:1' | '1:3' | '3:2' | '2:3' | '4:1' | '1:4' | '4:3' | '3:4' | '5:1' | '5:2' | '5:3' | '5:4' | null
 
     export let id = ''
@@ -15,14 +12,17 @@
     export let l: GridSize = null
     export let xl: GridSize = null
     export let ratio: TwoColumnsRatio = null
-    export let gap: GapSize = 1
-    export let alignItems: AlignItems = 'stretch'
-    export let justifyItems: JustifyItems = 'stretch'
-    export let alignContent: AlignContent = 'stretch'
-    export let justifyContent: JustifyContent = 'stretch'
+    export let gap = 1
+    export let alignItems: ItemsAlignment = 'initial'
+    export let justifyItems: ItemsAlignment = 'initial'
+    export let alignContent: ContentAlignment = 'initial'
+    export let justifyContent: ContentAlignment = 'initial'
+    export let placeItems: ItemsAlignment = 'initial'
+    export let placeContent: ContentAlignment = 'initial'
 
     const defaultSize = 6
     let smallestSize = null
+    let ratioClasses = ''
     if (xs !== null && smallestSize === null) smallestSize = xs
     if (s !== null && smallestSize === null) smallestSize = s
     if (m !== null && smallestSize === null) smallestSize = m
@@ -44,17 +44,20 @@
     if (xl === null) xl = getClosestSize([xs, s, m, l, xl], 4, smallestSize)
 
     if (ratio !== null) {
-        className = [className, 'grid-ratio-selected', 'grid-' + ratio.replace(':', '-')].join(' ')
+        ratioClasses = ['grid-ratio-selected', 'grid-' + ratio.replace(':', '-')].join(' ')
     }
 </script>
 
 <div
     { id }
+    style:gap={ gap + "em" }
+    style:place-items={ placeItems }
+    style:place-content={ placeContent }
     style:align-content={ alignContent }
     style:justify-content={ justifyContent }
     style:align-items={ alignItems }
     style:justify-items={ justifyItems }
-    class="grid-container grid-gap-{gap} xsmall-viewport-{xs} small-viewport-{s} medium-viewport-{m} large-viewport-{l} xlarge-viewport-{xl} {className}"
+    class="grid-container grid-gap-{gap} xsmall-viewport-{xs} small-viewport-{s} medium-viewport-{m} large-viewport-{l} xlarge-viewport-{xl} {className} {ratioClasses}"
     on:click
 >
     <slot />
@@ -64,101 +67,6 @@
     .grid-container {
         display: grid;
         position: relative;
-    }
-
-    .grid-gap-0 {
-        gap: 0em;
-    }
-    .grid-gap-1 {
-        gap: 1em;
-    }
-    .grid-gap-2 {
-        gap: 2em;
-    }
-    .grid-gap-3 {
-        gap: 3em;
-    }
-    .grid-gap-4 {
-        gap: 4em;
-    }
-    .grid-gap-5 {
-        gap: 5em;
-    }
-    .grid-gap-6 {
-        gap: 6em;
-    }
-
-    .grid-align-items-center {
-        align-items: center;
-    }
-    .grid-align-items-end {
-        align-items: end;
-    }
-    .grid-align-items-start {
-        align-items: start;
-    }
-    .grid-align-items-stretch {
-        align-items: stretch;
-    }
-    .grid-justify-items-left {
-        justify-items: left;
-    }
-    .grid-justify-items-center {
-        justify-items: center;
-    }
-    .grid-justify-items-right {
-        justify-items: right;
-    }
-    .grid-justify-items-end {
-        justify-items: end;
-    }
-    .grid-justify-items-start {
-        justify-items: start;
-    }
-    .grid-justify-items-space-evenly {
-        justify-items: space-evenly;
-    }
-    .grid-justify-items-space-between {
-        justify-items: space-between;
-    }
-    .grid-justify-items-space-around {
-        justify-items: space-around;
-    }
-    .grid-align-content-center {
-        align-content: center;
-    }
-    .grid-align-content-end {
-        align-content: end;
-    }
-    .grid-align-content-start {
-        align-content: start;
-    }
-    .grid-align-content-stretch {
-        align-content: stretch;
-    }
-    .grid-justify-content-left {
-        justify-content: left;
-    }
-    .grid-justify-content-center {
-        justify-content: center;
-    }
-    .grid-justify-content-right {
-        justify-content: right;
-    }
-    .grid-justify-content-end {
-        justify-content: end;
-    }
-    .grid-justify-content-start {
-        justify-content: start;
-    }
-    .grid-justify-content-space-evenly {
-        justify-content: space-evenly;
-    }
-    .grid-justify-content-space-between {
-        justify-content: space-between;
-    }
-    .grid-justify-content-space-around {
-        justify-content: space-around;
     }
 
     @media screen and (min-width: 1441px) {

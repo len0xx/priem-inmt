@@ -12,13 +12,14 @@
     let text: string
     let shortText: string
     let length = 0
+    const MAX_LENGTH = 220
 
     onMount(() => {
         text = shortText = shadowText.textContent
         length = text.length
 
-        if (length > 400) {
-            shortText = text.slice(0, 400);
+        if (length > MAX_LENGTH) {
+            shortText = text.slice(0, MAX_LENGTH);
         }
         shadowText.parentNode.removeChild(shadowText)
     })
@@ -35,7 +36,7 @@
         </Text>
     </div>
     <Text className="kit-profile-text" marginY={ 0 }>
-        { #if length > 400 }
+        { #if length > MAX_LENGTH }
             { #if !textExpanded }
                 { shortText }... <span class="semi-bold inline-btn-s" on:click={() => textExpanded = true}>Дальше</span>
             { :else }

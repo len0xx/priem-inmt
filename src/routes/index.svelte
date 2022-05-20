@@ -33,6 +33,10 @@
     let showPreloader = true
     let pageLoaded = false
     let additional = false
+    let pauseOnFocus = false
+
+    const handleMouseOverSlider = () => pauseOnFocus = true
+    const handleMouseLeaveSlider = () => pauseOnFocus = false
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
@@ -61,11 +65,11 @@
 { /if }
 
 <MobileMenu bind:menuHidden>
-    <a on:click={() => menuHidden = true} class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="/master">Магистратура</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="/accommodation">Поселение</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="/contacts">Контакты</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/master">Магистратура</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/accommodation">Поселение</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
@@ -118,11 +122,11 @@
                 <img src="/img/red-close.svg" class="menu-button" alt="Кнопка закрытия навигации" on:click={ () => additional = false }>
             </div>
             <Nav className="mobile-hide">
-                <a class="underlined black" href="/bachelor">Бакалавриат и специалитет</a>
-                <a class="underlined black" href="/master">Магистратура</a>
-                <a target="_BLANK" class="underlined black" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a>
-                <a class="underlined black" href="/accommodation">Поселение</a>
-                <a class="underlined black" href="/contacts">Контакты</a>
+                <a sveltekit:prefetch class="underlined" href="/bachelor">Бакалавриат и специалитет</a>
+                <a sveltekit:prefetch class="underlined" href="/master">Магистратура</a>
+                <a sveltekit:prefetch target="_BLANK" class="underlined" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a>
+                <a sveltekit:prefetch class="underlined" href="/accommodation">Поселение</a>
+                <a sveltekit:prefetch class="underlined" href="/contacts">Контакты</a>
             </Nav>
             <div class="mobile-hide align-right">
                 <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ openModal }>Хочу поступить</Link>
@@ -131,7 +135,7 @@
     </div>
 </Header>
 <div class="escape-header">
-    <Slider let:showPrevPage let:showNextPage >
+    <Slider let:showPrevPage let:showNextPage duration={ 15 } { pauseOnFocus } on:mouseover={ handleMouseOverSlider } on:mouseleave={ handleMouseLeaveSlider }>
         <Slide img="/img/slide1-img.jpg">
             <Heading size={2} className="blue-text">Стань инженером будущего в Институте новых материалов и технологий УрФУ</Heading>
             <Text className="heading-3">Актуальная информация о поступлении в университет в 2022 году:</Text>

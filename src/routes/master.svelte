@@ -109,11 +109,11 @@
 { /if }
 
 <MobileMenu bind:menuHidden>
-    <a on:click={() => menuHidden = true} class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="/master">Магистратура</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="/accommodation">Поселение</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="/contacts">Контакты</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/master">Магистратура</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/accommodation">Поселение</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
@@ -173,11 +173,11 @@
                 <img src="/img/red-close.svg" class="menu-button" alt="Кнопка закрытия навигации" on:click={ () => additional = false }>
             </div>
             <Nav className="mobile-hide">
-                <a class="underlined black" href="/bachelor">Бакалавриат и специалитет</a>
-                <a class="underlined black" href="/master">Магистратура</a>
-                <a target="_BLANK" class="underlined black" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a>
-                <a class="underlined black" href="/accommodation">Поселение</a>
-                <a class="underlined black" href="/contacts">Контакты</a>
+                <a sveltekit:prefetch class="underlined" href="/bachelor">Бакалавриат и специалитет</a>
+                <a sveltekit:prefetch class="underlined" href="/master">Магистратура</a>
+                <a sveltekit:prefetch target="_BLANK" class="underlined" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a>
+                <a sveltekit:prefetch class="underlined" href="/accommodation">Поселение</a>
+                <a sveltekit:prefetch class="underlined" href="/contacts">Контакты</a>
             </Nav>
             <div class="mobile-hide align-right">
                 <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ openModal }>Хочу поступить</Link>

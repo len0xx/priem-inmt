@@ -93,11 +93,11 @@
 { /if }
 
 <MobileMenu bind:menuHidden>
-    <a on:click={() => menuHidden = true} class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="/master">Магистратура</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="/accommodation">Поселение</a><br /><br />
-    <a on:click={() => menuHidden = true} class="underlined" href="/contacts">Контакты</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/master">Магистратура</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/accommodation">Поселение</a><br /><br />
+    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
@@ -157,11 +157,11 @@
                 <img src="/img/red-close.svg" class="menu-button" alt="Кнопка закрытия навигации" on:click={ () => additional = false }>
             </div>
             <Nav className="mobile-hide">
-                <a class="underlined black" href="/bachelor">Бакалавриат и специалитет</a>
-                <a class="underlined black" href="/master">Магистратура</a>
-                <a target="_BLANK" class="underlined black" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a>
-                <a class="underlined black" href="/accommodation">Поселение</a>
-                <a class="underlined black" href="/contacts">Контакты</a>
+                <a sveltekit:prefetch class="underlined" href="/bachelor">Бакалавриат и специалитет</a>
+                <a sveltekit:prefetch class="underlined" href="/master">Магистратура</a>
+                <a sveltekit:prefetch target="_BLANK" class="underlined" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a>
+                <a sveltekit:prefetch class="underlined" href="/accommodation">Поселение</a>
+                <a sveltekit:prefetch class="underlined" href="/contacts">Контакты</a>
             </Nav>
             <div class="mobile-hide align-right">
                 <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ openModal }>Хочу поступить</Link>
@@ -172,7 +172,7 @@
 <section class="promo bachelor" id="beginning">
     <div class="content">
         <Grid m={1} l={2} ratio="5:3" alignItems="end">
-            <Heading size={1} marginY={0}>Бакалавриат и специалитет<br /><span class="smaller-text">Институт новых материалов <br /> и технологий</span></Heading>
+            <Heading size={1} marginY={0}>Бакалавриат <br /> и специалитет<br /><span class="smaller-text">Институт новых материалов <br /> и технологий</span></Heading>
             <div>
                 <Text className="medium" id="mnz2">
                     Институт новых материалов и технологий Уральского федерального университета – один из крупнейших центров высшего инженерного образования региона с 1920 года, сочетающий фундаментальную подготовку и практический междисциплинарный подход<br /><br />
@@ -258,6 +258,36 @@
                 </div>
             </div>
         </Grid>
+    </div>
+</section>
+<section id="programs">
+    <div class="content">
+        <Heading size={1} className="blue-text" marginTop={0}>Образовательные программы</Heading>
+        <Grid l={3} m={2} s={1}>
+            { #each programs.filter(program => program.degree == 'Бакалавриат' || program.degree == 'Специалитет') as program, i }
+                { #if i < 6 || programsExpanded }
+                    <Card variant="grey" color="custom" on:click={() => openProgram(i)}>
+                        <svelte:fragment slot="title">{ program.title }</svelte:fragment>
+                        <svelte:fragment slot="text">Направления: { program.directions.join(', ') }</svelte:fragment>
+                        <span slot="left" class="semi-bold">
+                            <span class="red-text">{ program.vacantSpots[0][0] }</span> <span class="fourty-text-black">бюджет</span>
+                            <span class="blue-text" style:margin-left="1em">{ program.vacantSpots[0][1] }</span> <span class="fourty-text-black">контракт</span>
+                        </span>
+                        <svelte:fragment slot="right">от { program.price[0] }₽</svelte:fragment>
+                    </Card>
+                    { #if programActive[i] }
+                        <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); openModal()}} bind:hidden={programOpened[i]} {...program} />
+                    { /if }
+                { /if }
+            { /each }
+        </Grid>
+        { #if !programsExpanded }
+            <br />
+            <br />
+            <div class="align-center">
+                <RoundButton variant="plus" size="L" on:click={() => programsExpanded = true} />
+            </div>
+        { /if }
     </div>
 </section>
 <section id="benefits">
@@ -448,36 +478,6 @@
             <img {src} alt={ src } />
         { /each }
     </Carousel>
-</section>
-<section id="programs">
-    <div class="content">
-        <Heading size={1} className="blue-text" marginTop={0}>Образовательные программы</Heading>
-        <Grid l={3} m={2} s={1}>
-            { #each programs.filter(program => program.degree == 'Бакалавриат' || program.degree == 'Специалитет') as program, i }
-                { #if i < 6 || programsExpanded }
-                    <Card variant="grey" color="custom" on:click={() => openProgram(i)}>
-                        <svelte:fragment slot="title">{ program.title }</svelte:fragment>
-                        <svelte:fragment slot="text">Направления: { program.directions.join(', ') }</svelte:fragment>
-                        <span slot="left" class="semi-bold">
-                            <span class="red-text">{ program.vacantSpots[0][0] }</span> <span class="fourty-text-black">бюджет</span>
-                            <span class="blue-text" style:margin-left="1em">{ program.vacantSpots[0][1] }</span> <span class="fourty-text-black">контракт</span>
-                        </span>
-                        <svelte:fragment slot="right">от { program.price[0] }₽</svelte:fragment>
-                    </Card>
-                    { #if programActive[i] }
-                        <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); openModal()}} bind:hidden={programOpened[i]} {...program} />
-                    { /if }
-                { /if }
-            { /each }
-        </Grid>
-        { #if !programsExpanded }
-            <br />
-            <br />
-            <div class="align-center">
-                <RoundButton variant="plus" size="L" on:click={() => programsExpanded = true} />
-            </div>
-        { /if }
-    </div>
 </section>
 <section class="partners">
     <div class="content">

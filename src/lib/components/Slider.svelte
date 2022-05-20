@@ -8,6 +8,7 @@
     export let autoplay = true
     export let progressBar = true
     export let background = 'transparent'
+    export let pauseOnFocus = false
     export let className = ''
 
     const dispatch = createEventDispatcher()
@@ -40,13 +41,14 @@
     })
 </script>
 
-<div class="kit-slider-wrapper { className }" style:background={ background }>
+<div class="kit-slider-wrapper { className }" style:background={ background } on:mouseover on:mouseleave on:focus>
     <svelte:component 
         this={ Slider }
         arrows={ false }
         { dots }
         { swiping }
         { autoplay }
+        { pauseOnFocus }
         bind:this={ slider }
         autoplayDuration={ sliderDuration }
         on:pageChange={ sliderPageChanged }

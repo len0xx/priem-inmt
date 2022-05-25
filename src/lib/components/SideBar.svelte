@@ -107,7 +107,7 @@
                             </p>
                             <p>
                                 <a href="tel:+7 (912) 635-52-97" class="link blue-color">+7 (912) 635-52-97</a><br />
-                                <!-- <a href="mailto:{ teacher.email }" class="link blue-color">{ teacher.email }</a> -->
+                                <a href="mailto:{ teacher.email }" class="link blue-color">{ teacher.email }</a>
                             </p>
                         </div>
                         <Rainbow size="S" fixed="bottom" />
@@ -158,7 +158,7 @@
                 <br /><br />
                 <Button on:click={emitApplying}>Подать документы</Button>
                 <br /><br />
-                <h3 class="blue-text">Приёмная комиссия института</h3>
+                <h3 class="blue-text">Отборочная комиссия института</h3>
                 <div class="grid grid-2-1 m-grid-1">
                     <div>
                         <p class="grey-text">Контакты</p>

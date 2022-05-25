@@ -19,6 +19,7 @@
     import Preloader from '$lib/components/Preloader.svelte'
     import MobileMenu from '$lib/components/MobileMenu.svelte'
     import RoundButton from '$lib/components/RoundButton.svelte'
+    import { afterNavigate, beforeNavigate } from '$app/navigation'
     import images1 from '$lib/images1'
     import images2 from '$lib/images2'
     import partners from '$lib/partners'
@@ -53,6 +54,14 @@
 
         setTimeout(() => showPreloader = false, 150)
     })
+
+    beforeNavigate(() => {
+        document.documentElement.style.scrollBehavior = 'auto'
+    })
+    
+    afterNavigate(() => {
+        document.documentElement.style.scrollBehavior = ''
+    })
 </script>
 
 <svelte:head>
@@ -73,11 +82,13 @@
 </MobileMenu>
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
-    <Heading size={2} className="blue-text" marginTop={0}>Подать заявку</Heading>
+    <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
     <form action="" method="POST" id="JSyW">
+        <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
         <Input name="fio" type="text" placeholder="ФИО" wide required={ true } /><br /><br />
         <Input name="email" type="email" placeholder="Email" wide required={ true } /><br /><br />
         <Input name="tel" mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
+        <Input name="message" type="text" placeholder="Сообщение" wide /><br /><br />
         <label for="agreement4" class="checkbox-wrapper align-left">
             <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
             <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
@@ -147,7 +158,7 @@
             </svelte:fragment>
         </Slide>
         <Slide img="/img/slide2-img.jpg">
-            <Heading size={2} className="blue-text">Стань инженером будущего в Институте новых материалов и технологий УрФУ</Heading>
+            <Heading size={2} className="blue-text">Старт приема документов – 20 июня</Heading>
             <Text className="heading-3">Выбрать направление подготовки и зарегистрироваться в личном кабинете абитуриента можно уже сейчас:</Text>
             <Link href="/bachelor" variant="interactive" lineWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
             <Link href="/master" variant="interactive" lineWidth={ 2 }>Магистратура</Link><br />

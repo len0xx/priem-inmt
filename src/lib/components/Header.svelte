@@ -1,5 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher, onMount } from 'svelte'
+    import { afterNavigate } from '$app/navigation'
 
     export let className = ''
     export let hideOnScrollDown = false
@@ -35,6 +36,7 @@
     }
 
     onMount(scrollHandler)
+    afterNavigate(scrollHandler)
 </script>
 
 <svelte:window on:scroll={ scrollHandler }></svelte:window>

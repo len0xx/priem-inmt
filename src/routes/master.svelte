@@ -117,11 +117,13 @@
 </MobileMenu>
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
-    <Heading size={2} className="blue-text" marginTop={0}>Подать заявку</Heading>
+    <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
     <form action="" method="POST" id="JSyW">
+        <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
         <Input name="fio" type="text" placeholder="ФИО" wide required={ true } /><br /><br />
         <Input name="email" type="email" placeholder="Email" wide required={ true } /><br /><br />
         <Input name="tel" mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
+        <Input name="message" type="text" placeholder="Сообщение" wide /><br /><br />
         <label for="agreement4" class="checkbox-wrapper align-left">
             <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
             <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
@@ -510,8 +512,8 @@
 <section class="future mobile-hide">
     <div class="content">
         <Grid m={2}>
-            <h1 class="no-top-margin blue-text">Кем можно стать<br /> после выпуска?</h1>
-            <h3 class="no-top-margin">Выпускники нашей магистратуры смогут развиватьсяи работать в любом направлении, смежномразработкой и проектированием</h3>
+            <h1 class="no-top-margin blue-text">Кем работают <br /> выпускники?</h1>
+            <h3 class="no-top-margin">Выпускники нашей магистратуры смогут развиваться и работать в любом направлении, смежномразработкой и проектированием </h3>
         </Grid>
         <div class="pills">
             { #each professions as profession, i }
@@ -552,7 +554,7 @@
             </Grid>
             <Grid m={1} alignItems="start">
                 <Profile img="/img/avatars/master/Волгутов.png">
-                    <svelte:fragment slot="name">Волгутов Андрей</svelte:fragment>
+                    <svelte:fragment slot="name">Бурцев Денис</svelte:fragment>
                     <svelte:fragment slot="description">ООО «Проектно-инжиниринговая компания «Корунд», испонительный директор </svelte:fragment>
                     <svelte:fragment slot="text">Выбор магистратуры в УрФУ по направлению организация бизнеса в машиностроении мной был сделан не случайно. К 2015 году я уже возглавлял продажи по Уральскому региону, части Поволжья и Сибири одного из крупнейших зарубежных производителей теплообменного оборудования и получил дополнительное бизнес-образование. Встал вопрос об организации собственного бизнеса, который будет построен на принципе кооперации и четком разделении производственной и коммерческой баз. Программа «Организация машиностроительного бизнеса» по кафедре «Машиностроение» на базе УрФУ имела все те переменные, которых мне не хватало в то время, чтобы сложить пазл своих компетенций в данном вопросе. Грамотно сформированный лист дисциплин при активной позиции и профессиональной подаче материала со стороны преподавательского состава, разбор кейсов из практики действующего бизнеса и проецирование успешных решений на возможные ситуации очень помогли мне в усвоении курса.</svelte:fragment>
                 </Profile>

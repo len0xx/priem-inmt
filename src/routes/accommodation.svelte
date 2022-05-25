@@ -72,11 +72,13 @@
 </MobileMenu>
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
-    <Heading size={2} className="blue-text" marginTop={0}>Подать заявку</Heading>
+    <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
     <form action="" method="POST" id="JSyW">
+        <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
         <Input name="fio" type="text" placeholder="ФИО" wide required={ true } /><br /><br />
         <Input name="email" type="email" placeholder="Email" wide required={ true } /><br /><br />
         <Input name="tel" mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
+        <Input name="message" type="text" placeholder="Сообщение" wide /><br /><br />
         <label for="agreement4" class="checkbox-wrapper align-left">
             <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
             <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
@@ -195,6 +197,7 @@
                 <img src="/img/section-2-alt-1.svg" alt="2">
                 <div>
                     <Text className="subtitle blue-text" marginTop={0}>Получение документов</Text>
+                    <Text opacity={0.6} color="var(--red)">Внимание! С момента получения документов необходимо заселиться в течении 7 рабочих дней, потом документты аннулируются</Text>
                     <Text>После выхода приказов о зачислении вам выдадут:</Text>
                     <ul>
                         <li>выписку из протокола жилищной комиссии университета (ордер)</li>
@@ -221,6 +224,7 @@
                 <img src="/img/section-4-alt-1.svg" alt="4">
                 <div>
                     <Text className="subtitle blue-text" marginTop={0}>Оформление временной регистрации по месту пребывания</Text>
+                    <Text opacity={0.6} color="var(--red)">Внимание! Сниматься с регистрационного учета по месту жительства не нужно.</Text>
                     <Text>Чтобы оформить временную регистрацию студенту необходимо обратиться в паспортный отдел студгородка: </Text>
                     <ul>
                         <li>ул. Коминтерна, 11 — для проживающих в студенческих общежитиях № 3, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16</li>

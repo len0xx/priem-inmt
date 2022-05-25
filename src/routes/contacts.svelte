@@ -3,6 +3,7 @@
     import Nav from '$lib/components/Nav.svelte'
     import Grid from '$lib/components/Grid.svelte'
     import Link from '$lib/components/Link.svelte'
+    import Text from '$lib/components/Text.svelte'
     import Modal from '$lib/components/Modal.svelte'
     import Input from '$lib/components/Input.svelte'
     import Button from '$lib/components/Button.svelte'
@@ -68,11 +69,13 @@
 </MobileMenu>
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
-    <Heading size={2} className="blue-text" marginTop={0}>Подать заявку</Heading>
+    <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
     <form action="" method="POST" id="JSyW">
+        <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
         <Input name="fio" type="text" placeholder="ФИО" wide required={ true } /><br /><br />
         <Input name="email" type="email" placeholder="Email" wide required={ true } /><br /><br />
         <Input name="tel" mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
+        <Input name="message" type="text" placeholder="Сообщение" wide /><br /><br />
         <label for="agreement4" class="checkbox-wrapper align-left">
             <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
             <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>

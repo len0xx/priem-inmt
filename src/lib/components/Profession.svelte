@@ -1,5 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
+    import Text from './Text.svelte'
 
     export let title = ''
     export let description = ''
@@ -13,7 +14,9 @@
 <div class="profession grid grid-3">
     <h2 class="red-text no-top-margin">Кто такой и чем занимается { title.toLocaleLowerCase() }?</h2>
     <div>
-        <h3 class="no-top-margin">{ description }</h3>
+        <h3 class="no-top-margin">{ @html description }</h3>
+        <br />
+        <Text opacity={0.6}>по данным портала hh.ru</Text>
         <p><a href="#reg" class="link blue-color" on:click|preventDefault={ linkClicked }>Подать заявку</a></p>
     </div>
     <div>

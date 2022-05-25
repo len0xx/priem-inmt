@@ -63,6 +63,7 @@
                                 <Input name="email" type="email" placeholder="Email" wide required={ true } />
                                 <Input name="tel" type="tel" placeholder="Контактный телефон" wide mask={ phoneMask } required={ true } />
                             </div>
+                            <Input name="message" type="text" placeholder="Сообщение" wide />
                         </div>
                         <br>
                         <br>

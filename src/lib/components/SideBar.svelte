@@ -3,6 +3,7 @@
     import Button from './Button.svelte'
     import Grid from './Grid.svelte'
     import Heading from './Heading.svelte';
+    import Partner from './Partner.svelte';
     import Profile from './Profile.svelte'
     import Rainbow from './Rainbow.svelte'
     import Text from './Text.svelte'
@@ -16,6 +17,7 @@
     export let degree = ''
     export let hidden = true
     export let feedbacks = []
+    export let partners: string[] = []
     export let languages: string[] = []
     export let directions: string[] = []
     export let duration: string[] = []
@@ -98,7 +100,7 @@
                 { /if }
                 <div class="grid grid-2-3 m-grid-1">
                     <div class="teacher">
-                        <div class="teacher-img" style="background-image: url('/img/user.svg')"></div>
+                        <div class="teacher-img" style="background-image: url('{ teacher.photo }')"></div>
                         <div class="contents">
                             <h3 class="blue-text">{ teacher.name }</h3>
                             <p>Руководитель программы</p>
@@ -106,8 +108,9 @@
                                 { @html teacher.position }
                             </p>
                             <p>
-                                <a href="tel:+7 (912) 635-52-97" class="link blue-color">+7 (912) 635-52-97</a><br />
                                 <a href="mailto:{ teacher.email }" class="link blue-color">{ teacher.email }</a>
+                                <Text opacity={0.4} marginBottom={0} className="semi-bold">Отборочная комиссия:</Text>
+                                <a href="tel:+7 (912) 635-52-97" class="link blue-color">+7 (912) 635-52-97</a><br />
                             </p>
                         </div>
                         <Rainbow size="S" fixed="bottom" />
@@ -132,7 +135,7 @@
                             </p>
                             <p>
                                 <span class="semi-transparent">Язык освоения:</span><br />
-                                { languages[0] }
+                                { languages.filter((lang, pos) => languages.indexOf(lang) == pos).join(', ') }
                             </p>
                         </div>
                         <Rainbow size="S" fixed="bottom" />
@@ -154,9 +157,18 @@
                             </Profile>
                         { /each }
                     </div>
+                    <br /><br />
+                { /if }
+                { #if partners && partners.length }
+                    <h3 class="blue-text">Работодатели</h3>
+                    <Grid m={4} s={2}>
+                        { #each partners as partner }
+                            <Partner size="contain" className="white-bg ww" src={ partner } />
+                        { /each }
+                    </Grid>
                 { /if }
                 <br /><br />
-                <Button on:click={emitApplying}>Подать документы</Button>
+                <Button on:click={emitApplying} variant="blue">Поступить</Button>
                 <br /><br />
                 <h3 class="blue-text">Отборочная комиссия института</h3>
                 <div class="grid grid-2-1 m-grid-1">
@@ -208,6 +220,7 @@
 
     .teacher, .info, .exams {
         background-color: white;
+        position: relative;
     }
 
     .exams {
@@ -220,6 +233,7 @@
     .teacher > .contents,
     .info > .contents {
         padding: 0.5em 1em;
+        position: relative;
     }
 
     .teacher > .teacher-img {
@@ -294,6 +308,7 @@
 
     .sidebar-content {
         padding: 0 2em;
+        position: relative;
     }
 
     .sidebar-content > .grid.grid-2-1 {

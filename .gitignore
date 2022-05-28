@@ -6,3 +6,4 @@
 /server/build/
 /build-prod/
 /.env
+*.mp4

@@ -13,6 +13,7 @@
 <div class="kit-card variant-{variant} gradient-{color} {className}" on:click>
     <div class="radial-icon"></div>
     <div class="top">
+        <slot name="header" />
         <Heading size={3} marginTop={0}><slot name="title" /></Heading>
         <Text className="description semi-bold" opacity={0.4}>
             <slot name="text" />
@@ -30,6 +31,7 @@
 
 <style>
     .kit-card {
+        position: relative;
         display: grid;
         grid-template-columns: 1fr;
         padding: 1em;
@@ -96,6 +98,7 @@
     }
 
     .kit-card .top {
+        position: relative;
         align-self: start;
     }
 

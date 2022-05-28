@@ -5,9 +5,19 @@
     import rightIcon from '$lib/img/right-arrow.svg'
     import upIcon from '$lib/img/up-arrow.svg'
     import downIcon from '$lib/img/down-arrow.svg'
+    import plusBrightIcon from '$lib/img/bright-plus-icon.svg'
+    import leftBrightIcon from '$lib/img/bright-left-arrow.svg'
+    import rightBrightIcon from '$lib/img/bright-right-arrow.svg'
+    import upBrightIcon from '$lib/img/bright-up-arrow.svg'
+    import downBrightIcon from '$lib/img/bright-down-arrow.svg'
+
+    const sizes = ['S', 'M', 'L', 'XL'] as const
+    const sizeNames = ['small', 'medium', 'large', 'xlarge'] as const
+    type Size = typeof sizes[number]
 
     export let variant = 'plus'
-    export let size: 'S' | 'M' | 'L' = 'M'
+    export let theme: 'bright' | 'dark' = 'dark'
+    export let size: Size = 'M'
     export let className = ''
     export let transparent = true
     export let animate = true
@@ -16,18 +26,37 @@
     if (transparent) className += ' transparent-bg'
     const dispatch = createEventDispatcher()
     
-    let sizeClass = size === 'S' ? 'small' : size === 'L' ? 'large' : 'medium'
+    let sizeClass = sizeNames[sizes.indexOf(size)]
 
-    let icon = plusIcon
-    if (variant === 'left') {
-        icon = leftIcon
-    } else if (variant === 'right') {
-        icon = rightIcon
-    } else if (variant === 'up') {
-        icon = upIcon
-    } else if (variant === 'down') {
-        icon = downIcon
-    }
+    const icons = [
+        {
+            name: 'plus',
+            icon: plusIcon,
+            brightIcon: plusBrightIcon
+        },
+        {
+            name: 'left',
+            icon: leftIcon,
+            brightIcon: leftBrightIcon
+        },
+        {
+            name: 'right',
+            icon: rightIcon,
+            brightIcon: rightBrightIcon
+        },
+        {
+            name: 'up',
+            icon: upIcon,
+            brightIcon: upBrightIcon
+        },
+        {
+            name: 'down',
+            icon: downIcon,
+            brightIcon: downBrightIcon
+        }
+    ]
+
+    let icon = icons.find(icon => icon.name == variant)[theme == 'bright' ? 'brightIcon' : 'icon']
 
     const handleMouseDown = () => {
         pressed = animate && true
@@ -41,7 +70,7 @@
 </script>
 
 <button
-    class="kit-round-button {sizeClass} {className}"
+    class="kit-round-button {sizeClass} {className} theme-{theme}"
     class:pressed
     on:click
     on:mousedown={handleMouseDown}
@@ -73,6 +102,11 @@
         background-color: #1E43910A;
     }
 
+    button.kit-round-button.theme-bright.transparent-bg {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+
     button.kit-round-button.small {
         width: 42px;
         height: 42px;
@@ -88,6 +122,11 @@
         height: 80px;
     }
 
+    button.kit-round-button.xlarge {
+        width: 100px;
+        height: 100px;
+    }
+
     button.kit-round-button > img {
         max-width: 32px;
         max-height: 32px;
@@ -101,6 +140,10 @@
         background-color: #1E43911A;
     }
 
+    button.kit-round-button.theme-bright.transparent-bg:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+
     button.kit-round-button.pressed {
         background-color: rgb(224, 230, 238);
         transform: scale(1.1);
@@ -108,6 +151,10 @@
 
     button.kit-round-button.transparent-bg.pressed {
         background-color: #102c6828;
+    }
+
+    button.kit-round-button.theme-bright.transparent-bg.pressed {
+        background-color: rgba(255, 255, 255, 0.4);
     }
 
     button.kit-round-button:not(:last-of-type) {

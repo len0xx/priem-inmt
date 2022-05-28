@@ -7,7 +7,7 @@
     export let image = ''
 </script>
 <div class="kit-teacher">
-    <Grid m={2} gap={0}>
+    <Grid m={2} s={1} gap={0}>
         <div class="teacher-img" style:background-image="url({ image })"></div>
         <Grid m={1} className="teacher-info" alignContent="space-between">
             <div>
@@ -22,6 +22,7 @@
 
 <style>
     .kit-teacher {
+        position: relative;
         background-color: #F6F6F6;
     }
 
@@ -34,11 +35,19 @@
         background-repeat: no-repeat;
     }
 
+    @media screen and (max-width: 768px) {
+        .teacher-img {
+            min-height: 300px;
+        }
+    }
+
     :global(.teacher-info) {
+        position: relative;
         padding: 1em;
     }
 
     :global(.kit-teacher-footer) {
+        position: relative;
         justify-self: end;
     }
 </style>

@@ -58,19 +58,6 @@ body button,
 body textarea {
 	font-family: Mont;
 }
-/* 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="tel"],
-input[type="date"],
-input[type="number"] {
-	border-radius: 4px;
-	border: 1px solid rgb(100, 130, 200);
-	padding: 6px 10px;
-	min-width: 300px;
-	margin-bottom: 1em;
-} */
 
 .semi-bold {
 	font-weight: 600;
@@ -311,15 +298,6 @@ section:not(.preloader) {
 	padding: 3em 0;
 }
 
-:global(section.consult input) {
-	color: white;
-	border-color: rgba(255, 255, 255, .4);
-}
-
-:global(section.consult input::placeholder) {
-	color: rgba(255, 255, 255, 0.6);
-}
-
 .promo {
 	display: grid;
 	grid-template-columns: 1fr;
@@ -359,6 +337,12 @@ section:not(.preloader) {
 		height: 500px;
 		min-height: 500px;
 	}
+	.promo.bachelor {
+		background-image: url(/img/bachelor-promo-mobile.jpg);
+	}
+	/* .promo.master {
+		background-image: url(/img/master-promo-mobile.jpg);
+	} */
 }
 
 .promo .content {
@@ -416,10 +400,12 @@ img {
 	z-index: 2;
 }
 
+label > input[type="radio"],
 label > input[type="checkbox"] {
 	display: none;
 }
 
+label > input[type="radio"] + span,
 label > input[type="checkbox"] + span {
 	display: flex;
 	flex-flow: row;
@@ -427,6 +413,7 @@ label > input[type="checkbox"] + span {
 	align-items: start;
 }
 
+label > input[type="radio"] + span::before,
 label > input[type="checkbox"] + span::before {
 	display: inline-block;
 	content: '';
@@ -457,6 +444,14 @@ label.white-text > input[type="checkbox"] + span::before {
 
 label.white-text > input[type="checkbox"]:checked + span::before {
     background-image: url(img/white-checked.svg);
+}
+
+label > input[type="radio"] + span::before {
+    background-image: url(/img/radio-deselected.svg);
+}
+
+label > input[type="radio"]:checked + span::before {
+    background-image: url(img/radio-selected.svg);
 }
 
 div.escape-header {
@@ -522,7 +517,7 @@ footer .rainbow {
 }
 
 footer nav.social a {
-	font-size: 1.8em;
+	font-size: var(--header-3);
 }
 
 footer nav.social a::after {
@@ -547,7 +542,8 @@ footer nav.social a::after {
 		order: 1;
 	}
 	#uAqn {
-		justify-self: center;
+		justify-self: stretch;
+		margin-top: 1em;
 	}
 	footer nav.social a {
 		font-size: 1.1em;
@@ -555,6 +551,9 @@ footer nav.social a::after {
 
 	footer nav.social a::after {
 		height: 2px;
+	}
+	footer {
+		padding-top: 3em;
 	}
 }
 
@@ -589,9 +588,26 @@ footer nav.social a::after {
 	min-width: 1200px;
 }
 
+#Z1mn {
+	max-width: 50%;
+}
+
+@media screen and (min-width: 769px)  {
+	.s75wp {
+		max-width: 75%;
+	}
+
+	#zv61 {
+		max-width: 70%;
+	}
+}
+
 @media screen and (max-width: 768px)  {
 	.kit-table {
 		min-width: 1460px;
+	}
+	#Z1mn {
+		max-width: 100%;
 	}
 }
 
@@ -602,4 +618,49 @@ footer nav.social a::after {
 .kit-table hr {
 	height: 1px;
 	background-color: rgba(0, 0, 0, 0.5);
+}
+
+input.blue-placeholder:not(.s)::placeholder {
+	color: rgba(30, 67, 145, 0.4);
+}
+
+.filters {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	gap: 1em;
+	align-items: center;
+}
+
+.filters > .left {
+	justify-self: start;
+}
+
+.filters > .right {
+	justify-self: end;
+}
+
+@media screen and (max-width: 1400px)  {
+	.filters {
+		grid-template-columns: 1fr;
+	}
+
+	.filters > .right {
+		justify-self: start;
+	}
+}
+
+.white-bg:not(.s) {
+	background-color: white;
+}
+
+@media screen and (max-width: 768px) {
+	.kit-modal input:not(.s) {
+		margin: 0.2em 0 !important;
+	}
+}
+
+@media screen and (min-width: 769px) {
+	#jz91 {
+		max-width: 70%;
+	}
 }

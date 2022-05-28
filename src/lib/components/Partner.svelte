@@ -1,11 +1,12 @@
 <script lang="ts">
     export let src: string
+    export let size = '80%'
     export let caption = ''
     export let className = ''
 </script>
 
 <div class="kit-partner {className}" on:click>
-    <div class="image" style={ `background-image: url(${ src })` }></div>
+    <div class="image" style={ `background-image: url(${ src })` } style:background-size={ size }></div>
     { #if caption }
         <div class="caption align-center">{ caption }</div>
     { /if }
@@ -16,6 +17,9 @@
         display: grid;
         gap: 1em;
         grid-template-columns: 1fr;
+        place-items: center;
+        min-height: 120px;
+        padding: 0.3em;
     }
 
     :global(.kit-partner) {
@@ -28,7 +32,7 @@
 
     .image {
         position: relative;
-        min-height: 120px;
+        min-height: 100px;
         width: 100%;
         background-position: center;
         background-repeat: no-repeat;

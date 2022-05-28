@@ -1,7 +1,7 @@
 <script lang="ts">
     type LinkVariant = 'regular' | 'underlined' | 'interactive'
 
-    export let href = ''
+    export let href = '#'
     export let title = ''
     export let target = '_SELF'
     export let color = 'var(--blue)'

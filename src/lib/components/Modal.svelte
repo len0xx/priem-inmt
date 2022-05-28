@@ -49,6 +49,13 @@
         z-index: 32;
     }
 
+    @media screen and (max-width: 768px) {
+        .kit-modal-wrapper {
+            overflow: auto;
+            padding: 1em 0;
+        }
+    }
+
     .kit-modal-wrapper:not(.visible) {
         display: none;
     }

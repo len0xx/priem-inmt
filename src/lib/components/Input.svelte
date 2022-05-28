@@ -4,6 +4,8 @@
 
     type InputType = 'text' | 'email' | 'tel' | 'number' | 'password' | 'search' | 'url' | 'date' | 'time' | 'datetime-local' | 'month' | 'week' | 'color' | 'file' | 'checkbox' | 'radio' | 'submit' | 'hidden' | 'range' | 'button'
 
+    export let marginX = 0
+    export let marginY = 1
     export let id: string = null
     export let min: number = null
     export let max: number = null
@@ -22,6 +24,11 @@
     export let required = false
     export let autofocus: boolean = null
     export let placeholder: string = null
+    export let marginTop: number = null
+    export let marginBottom: number = null
+    export let marginLeft: number = null
+    export let marginRight: number = null
+    export let lineWidth: number = 2
     export let type: InputType = 'text'
 
     const dispatch = createEventDispatcher()
@@ -36,12 +43,12 @@
 
     const inputHandler = () => {
         valueChanged()
-        dispatch('input')
+        dispatch('input', input.value)
     }
 
     const changeHandler = () => {
         valueChanged()
-        dispatch('change')
+        dispatch('change', input.value)
     }
 
     onMount(valueChanged)
@@ -79,6 +86,11 @@
     bind:this={ input }
     use:imask={ mask || undefined }
     placeholder={ placeholder || undefined }
+    style:margin-top={ (marginTop !== null ? marginTop : marginY) + 'em' }
+    style:margin-bottom={ (marginBottom !== null ? marginBottom : marginY) + 'em' }
+    style:margin-left={ (marginLeft !== null ? marginLeft : marginX) + 'em' }
+    style:margin-right={ (marginRight !== null ? marginRight : marginX) + 'em' }
+    style:border-width={ (lineWidth) + 'px' }
 />
 
 <style>

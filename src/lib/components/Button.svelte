@@ -2,6 +2,7 @@
     export let type = 'submit'
     export let variant = 'primary'
     export let href = ''
+    export let target: '_SELF' | '_BLANK' | '_PARENT' | '_TOP' = '_SELF'
     export let className = ''
     export let size: 'S' | 'M' | 'L' = 'M'
 
@@ -22,7 +23,7 @@
     }
 
     const handleClick = () => {
-        if (href) window.location.href = href
+        if (href) window.open(href, target)
         dispatch('click')
     }
     let sizeClass = size === 'S' ? 'small' : size === 'L' ? 'large' : 'medium'

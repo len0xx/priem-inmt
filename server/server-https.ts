@@ -38,8 +38,8 @@ app.use('/api/user-info', userInfoRouter)
 app.use(handler)
 
 const options = {
-    key: fs.readFileSync('/etc/letsencrypt/archive/len0xx.ru/privkey1.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/archive/len0xx.ru/fullchain1.pem')
+    key: fs.readFileSync('/etc/letsencrypt/live/inmt-priem.urfu.ru/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/inmt-priem.urfu.ru/fullchain.pem')
 }
 
 // Use the SSL certificate

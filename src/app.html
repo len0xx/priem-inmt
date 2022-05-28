@@ -26,23 +26,43 @@
           <script id="smooth-scroll" src="/js/smoothScroll.js"></script>
           <script id="smooth-scroll-polyfill" defer src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"></script>
 
-          <!-- <script>
-               setTimeout(() => {
-                   (function(w,d,u){
-                           var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
-                           var h=d.getElementsByTagName('script')[0];d.body.insertBefore(s,d.querySelector('main'));
-                   })(window,document,'https://cdn-ru.bitrix24.ru/b20744776/crm/site_button/loader_10_eu25or.js');
-       
-                   setTimeout(() => {
-                       document.querySelector('.b24-window').style.height = '100%';
-                       document.querySelector('.b24-window-panel.b24-window-panel-pos-right > div').style.height = '100%';
-                   }, 1000);
-               }, 2000);
-          </script> -->
+          <!-- Lazy load for videos -->
+          <script id="lazy-load" src="/js/lazyLoad.js"></script>
 
-          %svelte.head%
+          <!-- Bitrix24 widget -->
+          <script>
+               setTimeout(() => {
+                    (function(w,d,u){
+                        var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
+                        var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+                    })(window,document,'https://cdn-ru.bitrix24.ru/b20744776/crm/site_button/loader_30_y1qdqc.js');
+       
+               //     setTimeout(() => {
+               //         document.querySelector('.b24-window').style.height = '100%';
+               //         document.querySelector('.b24-window-panel.b24-window-panel-pos-right > div').style.height = '100%';
+               //     }, 1000);
+               }, 2000);
+          </script>
+
+          <!-- Yandex.Metrika counter -->
+          <script type="text/javascript" >
+               (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+               m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+               (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+          
+               ym(88912475, "init", {
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+               });
+          </script>
+          <noscript><div><img src="https://mc.yandex.ru/watch/88912475" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+          <!-- /Yandex.Metrika counter -->
+
+          %sveltekit.head%
      </head>
      <body>
-          %svelte.body%
+          %sveltekit.body%
      </body>
 </html>

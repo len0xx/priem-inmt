@@ -1,14 +1,20 @@
 <script lang="ts">
-    import RoundButton from '$lib/components/RoundButton.svelte'
-    import Footer from '$lib/components/Footer.svelte'
-    import Link from '$lib/components/Link.svelte'
     import Nav from '$lib/components/Nav.svelte'
+    import Link from '$lib/components/Link.svelte'
     import Input from '$lib/components/Input.svelte'
     import Button from '$lib/components/Button.svelte'
+    import Footer from '$lib/components/Footer.svelte'
+    import AjaxForm from '$lib/components/AjaxForm.svelte'
+    import RoundButton from '$lib/components/RoundButton.svelte'
+    
+    let formSubmitted = false
+    let formSuccess = false
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
     }
+
+    const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
     
     let showScrollTop = false
     const scrollTop = () => window.scrollTo({top: 0, behavior: 'smooth'})
@@ -16,6 +22,25 @@
     function handleScrolling() {
         const currentScroll = window.scrollY
         showScrollTop = currentScroll > 500
+    }
+    
+    const resetFormResults = (): void => {
+        setTimeout(() => {
+            formSubmitted = false
+            formSuccess = false
+        }, 10 * 1000)
+    }
+
+    const handleSuccess = (): void => {
+        formSubmitted = true
+        formSuccess = true
+        resetFormResults()
+    }
+
+    const handleError = (): void => {
+        formSubmitted = true
+        formSuccess = false
+        resetFormResults()
     }
 </script>
 
@@ -51,22 +76,23 @@
                     </div>
                     <Nav className="social">
                         <Link href="https://vk.com/abiturient_inmt" className="size-3" variant="interactive" lineWidth={ 3 }>ВКонтакте</Link>
+                        <Link href="https://vk.com/inmt_urfu" className="size-3" variant="interactive" lineWidth={ 3 }>Союз студентов ИНМТ</Link>
                         <Link href="https://t.me/abitinmt" className="size-3" variant="interactive" lineWidth={ 3 }>Telegram</Link>
                     </Nav>
                 </div>
                 <div>
                     <h2 class="no-top-margin">Обратная связь</h2>
-                    <form action="">
+                    <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false }>
                         <div class="my-4">
                             <Input name="fio" type="text" placeholder="ФИО" wide />
                             <div class="grid grid-2 m-grid-1 my-4">
                                 <Input name="email" type="email" placeholder="Email" wide required={ true } />
-                                <Input name="tel" type="tel" placeholder="Контактный телефон" wide mask={ phoneMask } required={ true } />
+                                <Input name="phone" type="tel" placeholder="Контактный телефон" wide mask={ phoneMask } required={ true } />
                             </div>
                             <Input name="message" type="text" placeholder="Сообщение" wide />
                         </div>
-                        <br>
-                        <br>
+                        <br />
+                        <br class="mobile-hide" />
                         <div class="grid grid-2 m-grid-1">
                             <div>
                                 <label for="agreement2" class="checkbox-wrapper align-left">
@@ -75,10 +101,21 @@
                                 </label>
                             </div>
                             <div id="uAqn">
-                                <Button variant="blue">Отправить заявку</Button>
+                                <Button variant="blue" className="pc-hide wide">Отправить заявку</Button>
+                                <Button variant="blue" className="mobile-hide">Отправить заявку</Button>
                             </div>
                         </div>
-                    </form>
+                    </AjaxForm>
+                    { #if formSubmitted }
+                        <br />
+                        <div class="align-center">
+                            { #if formSuccess }
+                                Спасибо! Ваша заявка отправлена
+                            { :else }
+                                Кажется, произошла ошибка при отправке формы. Свяжитесь, пожалуйста, с нами по почте: <a href="mailto:ok.inmt@urfu.ru">ok.inmt@urfu.ru</a>
+                            { /if }
+                        </div>
+                    { /if }
                 </div>
             </div>
             <div class="copyright grey-text">

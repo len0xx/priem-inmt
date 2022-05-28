@@ -3,11 +3,11 @@
     import Nav from '$lib/components/Nav.svelte'
     import Grid from '$lib/components/Grid.svelte'
     import Link from '$lib/components/Link.svelte'
-    import Card from '$lib/components/Card.svelte'
     import Text from '$lib/components/Text.svelte'
     import Modal from '$lib/components/Modal.svelte'
     import Input from '$lib/components/Input.svelte'
     import Button from '$lib/components/Button.svelte'
+    import Filter from '$lib/components/Filter.svelte'
     import Header from '$lib/components/Header.svelte'
     import Switch from '$lib/components/Switch.svelte'
     import SideBar from '$lib/components/SideBar.svelte'
@@ -16,11 +16,13 @@
     import Rainbow from '$lib/components/Rainbow.svelte'
     import Partner from '$lib/components/Partner.svelte'
     import Profile from '$lib/components/Profile.svelte'
+    import AjaxForm from '$lib/components/AjaxForm.svelte'
     import Carousel from '$lib/components/Carousel.svelte'
     import Preloader from '$lib/components/Preloader.svelte'
     import Profession from '$lib/components/Profession.svelte'
     import Expandable from '$lib/components/Expandable.svelte'
     import MobileMenu from '$lib/components/MobileMenu.svelte'
+    import ProgramCard from '$lib/components/ProgramCard.svelte'
     import RoundButton from '$lib/components/RoundButton.svelte'
     import SelectButton from '$lib/components/SelectButton.svelte'
     import images from '$lib/images3'
@@ -28,6 +30,8 @@
     import programs from '$lib/programs'
     import professions from '$lib/professions'
     import faqText from '$lib/faqs'
+    import { master as feedbacks } from '$lib/feedback'
+    import { afterNavigate, beforeNavigate } from '$app/navigation'
 
     // User authorization
     // import { session } from '$app/stores'
@@ -49,11 +53,29 @@
     let faqs: boolean[] = []
     let programActive: boolean[] = []
     let programOpened: boolean[] = []
+    let educationModes: string[] = []
+    let payModes: string[] = []
+    let languages: string[] = []
+    let selectedSort = 'name'
+    let search = ''
+    let formSubmitted = false
+    let formSuccess = false
+    let feedbacksExpanded = false
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
     }
 
+    beforeNavigate(() => {
+        document.documentElement.style.scrollBehavior = 'auto'
+    })
+    
+    afterNavigate(() => {
+        document.documentElement.style.scrollBehavior = 'smooth'
+    })
+    
+    const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
+    
     const openProgram = (num: number) => {
         if (!programActive[num]) {
             programActive[num] = true
@@ -85,12 +107,82 @@
     const openMenu = () => menuHidden = false
 
     const handleScrollUp = () => {
-        headerClass = ''
+        setTimeout(() => headerClass = '', 250)
     }
 
     const handleScrollDown = () => {
         setTimeout(() => headerClass = 'header-scrolled', 200)
     }
+
+    const resetFormResults = (): void => {
+        setTimeout(() => {
+            formSubmitted = false
+            formSuccess = false
+        }, 10 * 1000)
+    }
+
+    const handleSuccess = (): void => {
+        formSubmitted = true
+        formSuccess = true
+        resetFormResults()
+    }
+
+    const handleError = (): void => {
+        formSubmitted = true
+        formSuccess = false
+        resetFormResults()
+    }
+
+    const applyFilters = (program: any, selectedEducationModes: string[], selectedPayModes: string[], selectedLanguages: string[], searchString: string): boolean => {
+        const budgetPlaces = program.vacantSpots.reduce((acc: number, cur: string[]) => acc + +cur[0], 0)
+        const paidPlaces = program.vacantSpots.reduce((acc: number, cur: string[]) => acc + +cur[1], 0)
+
+        const degreeFilter = ['Магистратура'].includes(program.degree)
+        const modeFilter = selectedEducationModes.length ? selectedEducationModes.filter(value => program.educationModes.includes(value)).length > 0 : true
+        const languageFilter = selectedLanguages.length ? selectedLanguages.filter(value => program.languages.includes(value)).length > 0 : true
+        const searchFilter = searchString ? program.title.toLowerCase().includes(searchString.toLowerCase()) : true
+        const payFilter = selectedPayModes.length ? (selectedPayModes.includes('Бюджет') ? budgetPlaces > 0 : false) || (selectedPayModes.includes('Контракт') ? paidPlaces > 0 : false) : true
+
+        return modeFilter && languageFilter && payFilter && degreeFilter && searchFilter
+    }
+
+    const sortByName = (a: any, b: any) => {
+        if (a.title < b.title) return -1
+        if (a.title > b.title) return 1
+        return 0
+    }
+
+    const countPlaces = (places: string[][]): number => {
+        let total = 0
+        places.forEach(modePlaces => total += modePlaces.reduce((acc: number, cur: string) => acc + +cur, 0))
+        return total
+    }
+
+    const sortByPlaces = (a: any, b: any) => {
+        if (countPlaces(a.vacantSpots) > countPlaces(b.vacantSpots)) return -1
+        if (countPlaces(a.vacantSpots) < countPlaces(b.vacantSpots)) return 1
+        return 0
+    }
+
+    const getPriceNumber = (price: string) => {
+        let nums = ''
+        for (let i = 0; i < price.length; i++) {
+            if (price[i].match(/\d/)) nums += price[i]
+        }
+        return +nums
+    }
+
+    const sortByPrice = (a: any, b: any) => {
+        if (getPriceNumber(a.price[0]) < getPriceNumber(b.price[0])) return -1
+        if (getPriceNumber(a.price[0]) > getPriceNumber(b.price[0])) return 1
+        return 0
+    }
+
+    $: programsFiltered = programs.filter(program => applyFilters(program, educationModes, payModes, languages, search)).sort((a, b) => {
+        if (selectedSort == 'name') return sortByName(a, b)
+        else if (selectedSort == 'places') return sortByPlaces(a, b)
+        return sortByPrice(a, b)
+    })
 
     onMount(() => {
         pageLoaded = true
@@ -118,12 +210,12 @@
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
-    <form action="" method="POST" id="JSyW">
+    <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
         <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
-        <Input name="fio" type="text" placeholder="ФИО" wide required={ true } /><br /><br />
-        <Input name="email" type="email" placeholder="Email" wide required={ true } /><br /><br />
-        <Input name="tel" mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
-        <Input name="message" type="text" placeholder="Сообщение" wide /><br /><br />
+        <Input name="fio" marginY={0.5} type="text" placeholder="ФИО" wide required={ true } /><br /><br />
+        <Input name="email" marginY={0.5} type="email" placeholder="Email" wide required={ true } /><br /><br />
+        <Input name="phone" marginY={0.5} mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
+        <Input name="message" marginY={0.5} type="text" placeholder="Сообщение" wide /><br /><br />
         <label for="agreement4" class="checkbox-wrapper align-left">
             <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
             <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
@@ -131,7 +223,17 @@
         <br />
         <br />
         <Button variant="blue">Отправить</Button>
-    </form>
+    </AjaxForm>
+    { #if formSubmitted }
+        <br />
+        <div class="align-center">
+            { #if formSuccess }
+                Спасибо! Ваша заявка отправлена
+            { :else }
+                Кажется, произошла ошибка при отправке формы. Свяжитесь, пожалуйста, с нами по почте: <a href="mailto:ok.inmt@urfu.ru">ok.inmt@urfu.ru</a>
+            { /if }
+        </div>
+    { /if }
     <Rainbow slot="footer" size="L" />
 </Modal>
 
@@ -230,7 +332,7 @@
                 <img src="/img/section-1.svg" alt="1">
                 <div>
                     <Text className="subtitle blue-text" marginTop={0}>Узнайте о поступлении</Text>
-                    <Text><a href="/docs/doc2.pdf" target="_BLANK">Правила приема</a></Text>
+                    <Text><a href="/doc/master/doc4.pdf" target="_BLANK">Правила приема</a></Text>
                     <Text>Сроки подачи документов</Text>
                     <Text className="small">
                         Очная форма обучения:<br />
@@ -243,7 +345,7 @@
                     <Text className="small">
                         Очно-заочная и заочная формы обучения:<br />
                         { #if budgetMode }
-                            <span class="blue-text">20.06 - 08.08</span>
+                            <span class="blue-text">20.06 - 09.09</span>
                         { :else }
                             <span class="blue-text">20.06 - 28.10</span>
                         { /if }
@@ -320,7 +422,7 @@
                             { #if calendarMode }
                                 20.06 — 08.08
                             { :else }
-                                20.05 — 23.09
+                                20.06 — 23.09
                             { /if }
                         </Text>
                     </div> 
@@ -411,36 +513,46 @@
             </div>
         </div>
         <br />
-        <Button on:click={ openModal }>Подать документы</Button>
+        <Button className="mobile-hide" on:click={ openModal }>Подать документы</Button>
+        <Button className="pc-hide wide" on:click={ openModal }>Подать документы</Button>
     </div>
 </section>
 <section id="programs">
     <div class="content">
-        <Heading size={1} className="blue-text" marginTop={0}>Образовательные программы</Heading>
-        <Grid l={3} m={2} s={1}>
-            { #each programs.filter(program => program.degree == 'Магистратура') as program, i }
-                { #if i < 6 || programsExpanded }
-                    <Card variant="grey" color="custom" on:click={ () => openProgram(i) }>
-                        <svelte:fragment slot="title">{ program.title }</svelte:fragment>
-                        <svelte:fragment slot="text">Направления: { program.directions.join(', ') }</svelte:fragment>
-                        <span slot="left" class="semi-bold">
-                            <span class="red-text">{ program.vacantSpots[0][0] }</span> <span class="fourty-text-black">бюджет</span>
-                            <span class="blue-text" style:margin-left="1em">{ program.vacantSpots[0][1] }</span> <span class="fourty-text-black">контракт</span>
-                        </span>
-                        <svelte:fragment slot="right">от { program.price[0] }₽</svelte:fragment>
-                    </Card>
-                    { #if programActive[i] }
-                        <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); openModal()}} bind:hidden={programOpened[i]} {...program} />
-                    { /if }
-                { /if }
-            { /each }
-        </Grid>
-        { #if !programsExpanded }
-            <br />
-            <br />
-            <div class="align-center">
-                <RoundButton variant="plus" size="L" on:click={() => programsExpanded = true} />
+        <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Образовательные программы</Heading>
+        <div class="filters">
+            <div class="left">
+                <Filter label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
+                <Filter label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
+                <Filter label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
             </div>
+            <div class="right">
+                <Filter width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
+                <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } />
+            </div>
+        </div>
+        <br />
+        <br />
+        { #if programsFiltered.length }
+            <Grid l={3} m={2} s={1}>
+                { #each programsFiltered as program, i }
+                    { #if i < 6 || programsExpanded }
+                        <ProgramCard on:click={ () => openProgram(i) } { program } />
+                        { #if programActive[i] }
+                            <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); openModal()}} bind:hidden={programOpened[i]} {...program} />
+                        { /if }
+                    { /if }
+                { /each }
+            </Grid>
+            { #if !programsExpanded && programsFiltered.length > 6 }
+                <br />
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="XL" on:click={() => programsExpanded = true} />
+                </div>
+            { /if }
+        { :else }
+            <Text>Не удалось найти образовательные программы по Вашему запросу. Попробуйте изменить запрос</Text>
         { /if }
     </div>
 </section>
@@ -449,7 +561,7 @@
         <Grid m={3} s={1}>
             <div>
                 <Heading size={1} marginTop={0} className="blue-text">Станьте ценным специалистом современной компании</Heading>
-                <Button on:click={ openModal }>Поступить</Button>
+                <Button className="mobile-hide" on:click={ openModal }>Поступить</Button>
             </div>
             <Text className="heading-3" marginTop={0}>Выпускники Института новых материалов и технологий способны создавать новые материалы с уникальными свойствами, проектировать конструкции, схемы, алгоритмы, технологии производства материалов, машин и оборудования, разрабатывать бизнес-планы создания технических новинок, управлять созданными машинами и обслуживать их, руководить промышленными предприятиями.</Text>
             <div style:opacity={0.8}>
@@ -463,6 +575,9 @@
                     <li>Нетворкинг</li>
                 </ul>
             </div>
+            <br class="pc-hide" />
+            <br class="pc-hide" />
+            <Button className="pc-hide wide" on:click={ openModal }>Поступить</Button>
         </Grid>
         <br />
         <br />
@@ -522,9 +637,9 @@
                 { /if }
             { /each }
             { #if professionsExpanded }
-                <SelectButton variant="blue" on:click={ () => professionsExpanded = !professionsExpanded }>Меньше</SelectButton>
+                <SelectButton variant="fill" color="blue" on:click={ () => professionsExpanded = !professionsExpanded }>Меньше</SelectButton>
             { :else }
-                <SelectButton variant="blue" on:click={ () => professionsExpanded = !professionsExpanded }>Больше</SelectButton>
+                <SelectButton variant="fill" color="blue" on:click={ () => professionsExpanded = !professionsExpanded }>Больше</SelectButton>
             { /if }
         </div>
         <br />
@@ -539,44 +654,54 @@
 <section id="feedbacks">
     <div class="content">
         <Heading size={1} className="blue-text" marginTop={0}>Отзывы выпускников</Heading>
-        <Grid m={3} s={1} alignItems="start">
+        <Grid m={3} s={1} alignItems="start" className="mobile-hide">
             <Grid m={1} alignItems="start">
-                <Profile img="/img/avatars/master/Амосов.png">
-                    <svelte:fragment slot="name">Амосов Никита</svelte:fragment>
-                    <svelte:fragment slot="description">ИНМТ, каф. Организации машиностроительного производства, ассистент</svelte:fragment>
-                    <svelte:fragment slot="text">В 2019 году я окончил обучение на кафедре Организации машиностроительного производства по программе «Инновационное развитие наукоемких производств». Читаемые дисциплины актуальны и востребованы для специалистов в области машиностроения. Преподаватели кафедры используют современные методы обучения. Полученные знания ежедневно применяются в моей рабочей деятельности. Хочу выразить искреннюю благодарность всем сотрудникам кафедры! Я с большим удовольствием вспоминаю годы обучения!</svelte:fragment>
-                </Profile>
-                <Profile img="/img/avatars/master/Русин.png">
-                    <svelte:fragment slot="name">Русин Александр</svelte:fragment>
-                    <svelte:fragment slot="description">ЗАО "Автоматизированные системы и комплексы", ведущий инженер </svelte:fragment>
-                    <svelte:fragment slot="text">Учеба на кафедре "Теплофизика и информатика в металлургии" дала мне разносторонние знания и навыки как в динамично развивающейся сфере информационных систем, так и в одной из важнейших для России стратегических отраслей - металлургии. <br /> Выпускник специальности "Информационные системы и технологии" получает значительно больше путей для начала своей трудовой деятельности, нежели узконаправленные специалисты. После окончания университета у меня были знания по циклам производства в черной и цветной металлургии, автоматизации технологических процессов, управлению проектами, сетевым технологиям, программированию прикладного ПО и баз данных. Объема полученных знаний с легкостью хватит для начала работы и дальнейшего становления как специалиста в любом из этих направлений. Я же успешно продолжил работать в области автоматизации технологических процессов, побывал на многих предприятиях нашей страны, запустил в работу крупные промышленные объекты - краны выгрузки топлива из реактора АЭС, фрезерные агрегаты, печи производства извести, прокатный стан и др. Так что полученные знания даром не пропали!</svelte:fragment>
-                </Profile>
+                { #each feedbacks.filter((fb, i) => i % 3 == 0) as feedback }
+                    <Profile img={ feedback.img }>
+                        <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                        <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                        <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                    </Profile>
+                { /each }
             </Grid>
             <Grid m={1} alignItems="start">
-                <Profile img="/img/avatars/master/Волгутов.png">
-                    <svelte:fragment slot="name">Бурцев Денис</svelte:fragment>
-                    <svelte:fragment slot="description">ООО «Проектно-инжиниринговая компания «Корунд», испонительный директор </svelte:fragment>
-                    <svelte:fragment slot="text">Выбор магистратуры в УрФУ по направлению организация бизнеса в машиностроении мной был сделан не случайно. К 2015 году я уже возглавлял продажи по Уральскому региону, части Поволжья и Сибири одного из крупнейших зарубежных производителей теплообменного оборудования и получил дополнительное бизнес-образование. Встал вопрос об организации собственного бизнеса, который будет построен на принципе кооперации и четком разделении производственной и коммерческой баз. Программа «Организация машиностроительного бизнеса» по кафедре «Машиностроение» на базе УрФУ имела все те переменные, которых мне не хватало в то время, чтобы сложить пазл своих компетенций в данном вопросе. Грамотно сформированный лист дисциплин при активной позиции и профессиональной подаче материала со стороны преподавательского состава, разбор кейсов из практики действующего бизнеса и проецирование успешных решений на возможные ситуации очень помогли мне в усвоении курса.</svelte:fragment>
-                </Profile>
-                <Profile img="/img/avatars/master/Корнев.png">
-                    <svelte:fragment slot="name">Корнев Игнат</svelte:fragment>
-                    <svelte:fragment slot="description">ООО "Группа "Магнезит" , инженер-технолог</svelte:fragment>
-                    <svelte:fragment slot="text">Химия и технологии мне нравились с детства. Понятие о строении веществ и их превращении, применении природного сырья в различных отраслях техники - все это стало поводом поступления на кафедру химической технологии керамики и огнеупоров. В 2015 году я начал обучение в магистратуре у профессора Кащеева и всего преподавательского состава. Эти люди оставили значимый отпечаток в моей жизни, передали свой опыт и знания, которые сейчас использую на предприятии ООО "Группа "Магнезит" в своем родном городе Сатка. Без них я бы не смог показать себя как хороший специалист и химик-технолог в области производства высокоогнеупорных материалов. Желаю кафедре дальнейшего процветания и новых научных открытий! <br /> От себя скажу, что обучение на кафедре - мое лучшее время в жизни!</svelte:fragment>
-                </Profile>
+                { #each feedbacks.filter((fb, i) => i % 3 == 1) as feedback }
+                    <Profile img={ feedback.img }>
+                        <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                        <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                        <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                    </Profile>
+                { /each }
             </Grid>
             <Grid m={1} alignItems="start">
-                <Profile img="/img/avatars/master/Деева.png">
-                    <svelte:fragment slot="name">Деева Юлия</svelte:fragment>
-                    <svelte:fragment slot="description">Младший научный сотрудник Института химии твердого тела УрО РАН</svelte:fragment>
-                    <svelte:fragment slot="text">Одной из самых важных ступеней в жизни каждого человека является определение своего призвания. Ещё Ницше в 19 веке считал, что «Призвание есть становой хребет жизни». Поистине счастлив тот человек, чьё призвание коррелирует с полученной профессией. Я обрела своё призвание поступив, а затем и успешно окончив кафедру ХТКиО по траектории «Технология материалов электронной техники и наноэлектроники». Опыт, приобретенный в ходе обучения на данной кафедре, чрезвычайно велик и помогает справиться с решением большого спектра поставленных задач, как научных, так и производственных. Знаний и умений, которые я приобрела благодаря огромному труду, вложенному сотрудниками кафедры, более чем достаточно для успешного начала работы в научно-исследовательском институте. Я благодарна кафедре, что направили меня на практику в Институт химии твердого тела, где я и работаю по настоящий день. Поступление на кафедру ХТКиО является одним из самых важных и удачных решений в моей жизни</svelte:fragment>
-                </Profile>
-                <Profile img="/img/avatars/master/Свалов.png">
-                    <svelte:fragment slot="name">Свалов Андрей</svelte:fragment>
-                    <svelte:fragment slot="description">МУП "Водоканал", главный инженер</svelte:fragment>
-                    <svelte:fragment slot="text">Во время обучения приобрёл знания по организации и эффективному управлению предприятием. Научился просчитывать финансовые риски, окупаемость и доходность инвестиций в модернизацию производственных процессов и оборудование предприятия. Приобрел навыки по организации эффективного использования имеющихся ресурсов</svelte:fragment>
-                </Profile>
+                { #each feedbacks.filter((fb, i) => i % 3 == 2) as feedback }
+                    <Profile img={ feedback.img }>
+                        <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                        <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                        <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                    </Profile>
+                { /each }
             </Grid>
         </Grid>
+        <div class="pc-hide">
+            <Grid m={3} s={1} alignItems="start">
+                { #each feedbacks as feedback, i }
+                    { #if i < 3 || feedbacksExpanded }
+                        <Profile img={ feedback.img }>
+                            <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                            <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                            <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                        </Profile>
+                    { /if }
+                { /each }
+            </Grid>
+            { #if !feedbacksExpanded }
+                <br />
+                <div class="align-center">
+                    <RoundButton size="L" on:click={ () => feedbacksExpanded = true } />
+                </div>
+            { /if }
+        </div>
     </div>
 </section>
 <section class="faq" id="faq">

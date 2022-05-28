@@ -11,8 +11,10 @@
     import Heading from '$lib/components/Heading.svelte'
     import Rainbow from '$lib/components/Rainbow.svelte'
     import Graduate from '$lib/components/Graduate.svelte'
+    import AjaxForm from '$lib/components/AjaxForm.svelte'
     import Preloader from '$lib/components/Preloader.svelte'
     import MobileMenu from '$lib/components/MobileMenu.svelte'
+    import { afterNavigate, beforeNavigate } from '$app/navigation'
 
     // User authorization
     // import { session } from '$app/stores'
@@ -25,10 +27,22 @@
     let pageLoaded = false
     let additional = false
     let headerClass = ''
+    let formSubmitted = false
+    let formSuccess = false
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
     }
+
+    beforeNavigate(() => {
+        document.documentElement.style.scrollBehavior = 'auto'
+    })
+    
+    afterNavigate(() => {
+        document.documentElement.style.scrollBehavior = 'smooth'
+    })
+    
+    const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
 
     const openModal = () => {
         modalVisible = true
@@ -37,11 +51,30 @@
     const openMenu = () => menuHidden = false
 
     const handleScrollUp = () => {
-        headerClass = ''
+        setTimeout(() => headerClass = '', 250)
     }
 
     const handleScrollDown = () => {
         setTimeout(() => headerClass = 'header-scrolled', 200)
+    }
+
+    const resetFormResults = (): void => {
+        setTimeout(() => {
+            formSubmitted = false
+            formSuccess = false
+        }, 10 * 1000)
+    }
+
+    const handleSuccess = (): void => {
+        formSubmitted = true
+        formSuccess = true
+        resetFormResults()
+    }
+
+    const handleError = (): void => {
+        formSubmitted = true
+        formSuccess = false
+        resetFormResults()
     }
 
     onMount(() => {
@@ -70,12 +103,12 @@
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
-    <form action="" method="POST" id="JSyW">
+    <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
         <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
-        <Input name="fio" type="text" placeholder="ФИО" wide required={ true } /><br /><br />
-        <Input name="email" type="email" placeholder="Email" wide required={ true } /><br /><br />
-        <Input name="tel" mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
-        <Input name="message" type="text" placeholder="Сообщение" wide /><br /><br />
+        <Input name="fio" marginY={0.5} type="text" placeholder="ФИО" wide required={ true } /><br /><br />
+        <Input name="email" marginY={0.5} type="email" placeholder="Email" wide required={ true } /><br /><br />
+        <Input name="phone" marginY={0.5} mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
+        <Input name="message" marginY={0.5} type="text" placeholder="Сообщение" wide /><br /><br />
         <label for="agreement4" class="checkbox-wrapper align-left">
             <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
             <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
@@ -83,7 +116,17 @@
         <br />
         <br />
         <Button variant="blue">Отправить</Button>
-    </form>
+    </AjaxForm>
+    { #if formSubmitted }
+        <br />
+        <div class="align-center">
+            { #if formSuccess }
+                Спасибо! Ваша заявка отправлена
+            { :else }
+                Кажется, произошла ошибка при отправке формы. Свяжитесь, пожалуйста, с нами по почте: <a href="mailto:ok.inmt@urfu.ru">ok.inmt@urfu.ru</a>
+            { /if }
+        </div>
+    { /if }
     <Rainbow slot="footer" size="L" />
 </Modal>
 
@@ -136,7 +179,7 @@
         <Grid m={1} l={2} ratio="5:3" alignItems="end">
             <Heading size={1} marginY={0}>Контакты<br /><span class="smaller-text">Институт новых материалов <br /> и технологий</span></Heading>
             <div class="align-right">
-                <Link href="#programs" variant="interactive" color="white" lineWidth={ 2 }>Обратная связь</Link>
+                <Link on:click={ openModal } variant="interactive" color="white" lineWidth={ 2 }>Обратная связь</Link>
             </div>
         </Grid>
     </div>

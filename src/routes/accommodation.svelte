@@ -11,10 +11,12 @@
     import Heading from '$lib/components/Heading.svelte'
     import Rainbow from '$lib/components/Rainbow.svelte'
     import Teacher from '$lib/components/Teacher.svelte'
+    import AjaxForm from '$lib/components/AjaxForm.svelte'
     import Graduate from '$lib/components/Graduate.svelte'
     import Document from '$lib/components/Document.svelte'
     import Preloader from '$lib/components/Preloader.svelte'
     import MobileMenu from '$lib/components/MobileMenu.svelte'
+    import { afterNavigate, beforeNavigate } from '$app/navigation'
     import documents from '$lib/documents2'
 
     // User authorization
@@ -28,23 +30,54 @@
     let pageLoaded = false
     let additional = false
     let headerClass = ''
+    let formSubmitted = false
+    let formSuccess = false
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
     }
 
+    const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
+
     const openModal = () => {
         modalVisible = true
     }
 
+    beforeNavigate(() => {
+        document.documentElement.style.scrollBehavior = 'auto'
+    })
+    
+    afterNavigate(() => {
+        document.documentElement.style.scrollBehavior = 'smooth'
+    })
+    
     const openMenu = () => menuHidden = false
 
     const handleScrollUp = () => {
-        headerClass = ''
+        setTimeout(() => headerClass = '', 250)
     }
 
     const handleScrollDown = () => {
         setTimeout(() => headerClass = 'header-scrolled', 200)
+    }
+
+    const resetFormResults = (): void => {
+        setTimeout(() => {
+            formSubmitted = false
+            formSuccess = false
+        }, 10 * 1000)
+    }
+
+    const handleSuccess = (): void => {
+        formSubmitted = true
+        formSuccess = true
+        resetFormResults()
+    }
+
+    const handleError = (): void => {
+        formSubmitted = true
+        formSuccess = false
+        resetFormResults()
     }
 
     onMount(() => {
@@ -73,12 +106,12 @@
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
-    <form action="" method="POST" id="JSyW">
+    <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
         <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
-        <Input name="fio" type="text" placeholder="ФИО" wide required={ true } /><br /><br />
-        <Input name="email" type="email" placeholder="Email" wide required={ true } /><br /><br />
-        <Input name="tel" mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
-        <Input name="message" type="text" placeholder="Сообщение" wide /><br /><br />
+        <Input name="fio" marginY={0.5} type="text" placeholder="ФИО" wide required={ true } /><br /><br />
+        <Input name="email" marginY={0.5} type="email" placeholder="Email" wide required={ true } /><br /><br />
+        <Input name="phone" marginY={0.5} mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
+        <Input name="message" marginY={0.5} type="text" placeholder="Сообщение" wide /><br /><br />
         <label for="agreement4" class="checkbox-wrapper align-left">
             <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
             <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
@@ -86,7 +119,17 @@
         <br />
         <br />
         <Button variant="blue">Отправить</Button>
-    </form>
+    </AjaxForm>
+    { #if formSubmitted }
+        <br />
+        <div class="align-center">
+            { #if formSuccess }
+                Спасибо! Ваша заявка отправлена
+            { :else }
+                Кажется, произошла ошибка при отправке формы. Свяжитесь, пожалуйста, с нами по почте: <a href="mailto:ok.inmt@urfu.ru">ok.inmt@urfu.ru</a>
+            { /if }
+        </div>
+    { /if }
     <Rainbow slot="footer" size="L" />
 </Modal>
 
@@ -146,7 +189,7 @@
         <Grid m={1} l={2} ratio="5:3" alignItems="end">
             <Heading size={1} marginY={0}>Поселение<br /><span class="smaller-text">Институт новых материалов <br /> и технологий</span></Heading>
             <div class="align-right">
-                <Link href="#programs" variant="interactive" color="white" lineWidth={ 2 }>Обратная связь</Link>
+                <Link on:click={ openModal } variant="interactive" color="white" lineWidth={ 2 }>Обратная связь</Link>
             </div>
         </Grid>
     </div>
@@ -172,8 +215,8 @@
                 <svelte:fragment slot="footer">
                     Адрес: ул., Мира, 28 <br />
                     Аудитория: МТ-221 <br />
-                    Телефон: +7 (912) 635-52-97 <br />
-                    Электронная почта: a.v.elantcev@urfu.ru
+                    Телефон: <a href="tel:+7 (912) 635-52-97">+7 (912) 635-52-97</a> <br />
+                    Электронная почта: <a href="mailto:a.v.elantcev@urfu.ru">a.v.elantcev@urfu.ru</a>
                 </svelte:fragment>
             </Teacher>
         </Grid>
@@ -190,21 +233,21 @@
                     <Text className="subtitle blue-text" marginTop={0}>Медицинское обследование</Text>
                     <Text>Абитуриенты могут проходить медицинский осмотр до выхода приказов о зачислении.</Text>
                     <Text color="var(--blue)" opacity={0.6}>с 01.07</Text>
-                    <Text><Link href="#programs" color="var(--blue)" lineWidth={2} variant="interactive">Необходимые документы</Link></Text>
+                    <!-- <Text><Link href="#programs" color="var(--blue)" lineWidth={2} variant="interactive">Необходимые документы</Link></Text> -->
                 </div>
             </div>
             <div class="numbered-section">
                 <img src="/img/section-2-alt-1.svg" alt="2">
                 <div>
                     <Text className="subtitle blue-text" marginTop={0}>Получение документов</Text>
-                    <Text opacity={0.6} color="var(--red)">Внимание! С момента получения документов необходимо заселиться в течении 7 рабочих дней, потом документты аннулируются</Text>
+                    <Text opacity={0.6} color="var(--red)">Внимание! С момента получения документов необходимо заселиться в течение 7 рабочих дней, потом документты аннулируются</Text>
                     <Text>После выхода приказов о зачислении вам выдадут:</Text>
                     <ul>
                         <li>выписку из протокола жилищной комиссии университета (ордер)</li>
                         <li>договор найма жилого помещения (3 экземпляра)</li>
                     </ul>
                     <Text>Информация о месте и времени выдачи появится в группе:</Text>
-                    <Text><Link href="https://vk.com/rent_flats" color="var(--blue)" lineWidth={2} variant="interactive">Вконтакте</Link></Text>
+                    <Text><Link href="https://vk.com/poselinmt" color="var(--blue)" lineWidth={2} variant="interactive">ВКонтакте</Link></Text>
                 </div>
             </div>
             <div class="numbered-section">
@@ -229,7 +272,7 @@
                     <ul>
                         <li>ул. Коминтерна, 11 — для проживающих в студенческих общежитиях № 3, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16</li>
                     </ul>
-                    <Text><Link href="https://priem.urfu.ru/#/" target="_BLANK" color="var(--blue)" lineWidth={2} variant="interactive">Необходимые документы</Link></Text>
+                    <Text><Link href="https://vk.com/@ossg.urfu-dokumenty2" target="_BLANK" color="var(--blue)" lineWidth={2} variant="interactive">Необходимые документы</Link></Text>
                 </div>
             </div>
         </Grid>
@@ -278,7 +321,7 @@
                 <div>
                     <Text className="subtitle" marginTop={0}>В случае, если хотя бы одному из перечисленных требований студент не удовлетворяет, то он будет заселяться в индивидуальном порядке на конкурсной основе.Помните, ВУЗ не может удовлетворить все заявки студентов на поселение.</Text>
                     <Text opacity={0.6} color="var(--red)">К сожалению, ВУЗ не может удовлетворить все заявки студентов на поселение, в связи с этим создан рейтинг поселения на конкурсной основе</Text>
-                    <Text><Link href="#calendar" color="var(--blue)" lineWidth={2} variant="interactive">Рейтинг поселения</Link></Text>
+                    <!-- <Text><Link href="#calendar" color="var(--blue)" lineWidth={2} variant="interactive">Рейтинг поселения</Link></Text> -->
                 </div>
             </div>
         </Grid>
@@ -296,7 +339,7 @@
                         <Text opacity={0.5}>Контакы:</Text>
                         <Heading size={3} marginTop={0}><a href="tel:+7 (343) 375-45-18">+7 (343) 375-45-18</a></Heading>
                         <Heading size={3} marginY={0}><a href="tel:+7 (982) 643-34-95">+7 (982) 643-34-95</a></Heading>
-                        <Link variant="interactive" className="heading-3 semi-bold" href="https://vk.com" color="var(--blue)">ВКонтакте</Link>
+                        <Link variant="interactive" className="heading-3 semi-bold" href="https://vk.com/rent_flats" color="var(--blue)">ВКонтакте</Link>
                     </div>
                 </Grid>
             </div>

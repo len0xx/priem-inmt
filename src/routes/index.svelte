@@ -14,7 +14,9 @@
     import Heading from '$lib/components/Heading.svelte'
     import Rainbow from '$lib/components/Rainbow.svelte'
     import Partner from '$lib/components/Partner.svelte'
+    import AjaxForm from '$lib/components/AjaxForm.svelte'
     import NewsCard from '$lib/components/NewsCard.svelte'
+    import Graduate from '$lib/components/Graduate.svelte'
     import Carousel from '$lib/components/Carousel.svelte'
     import Preloader from '$lib/components/Preloader.svelte'
     import MobileMenu from '$lib/components/MobileMenu.svelte'
@@ -23,6 +25,8 @@
     import images1 from '$lib/images1'
     import images2 from '$lib/images2'
     import partners from '$lib/partners'
+    import graduates from '$lib/graduates'
+import VideoCard from '$lib/components/VideoCard.svelte'
 
     // User authorization
     // import { session } from '$app/stores'
@@ -34,20 +38,39 @@
     let showPreloader = true
     let pageLoaded = false
     let additional = false
-    let pauseOnFocus = false
-
-    const handleMouseOverSlider = () => pauseOnFocus = true
-    const handleMouseLeaveSlider = () => pauseOnFocus = false
-
+    let formSubmitted = false
+    let formSuccess = false
+    
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
     }
+
+    const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
 
     const openModal = () => {
         modalVisible = true
     }
 
     const openMenu = () => menuHidden = false
+
+    const resetFormResults = (): void => {
+        setTimeout(() => {
+            formSubmitted = false
+            formSuccess = false
+        }, 10 * 1000)
+    }
+
+    const handleSuccess = (): void => {
+        formSubmitted = true
+        formSuccess = true
+        resetFormResults()
+    }
+
+    const handleError = (): void => {
+        formSubmitted = true
+        formSuccess = false
+        resetFormResults()
+    }
 
     onMount(() => {
         pageLoaded = true
@@ -60,8 +83,27 @@
     })
     
     afterNavigate(() => {
-        document.documentElement.style.scrollBehavior = ''
+        document.documentElement.style.scrollBehavior = 'smooth'
     })
+
+    const range = (start: number, end: number) => {
+        const result = []
+        for (let i = start; i <= end; i++) {
+            result.push(i)
+        }
+        return result
+    }
+
+    const getSequentialPartialIndexes = (arr: Array<unknown>, size: number): Array<Array<number>> => {
+        let result = []
+        let i = 0
+        while (i < arr.length) {
+            const end = (i + size - 1) < arr.length ? (i + size - 1) : arr.length - 1
+            result.push(range(i, end))
+            i += size
+        }
+        return result
+    }
 </script>
 
 <svelte:head>
@@ -83,12 +125,12 @@
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
-    <form action="" method="POST" id="JSyW">
+    <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
         <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
-        <Input name="fio" type="text" placeholder="ФИО" wide required={ true } /><br /><br />
-        <Input name="email" type="email" placeholder="Email" wide required={ true } /><br /><br />
-        <Input name="tel" mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
-        <Input name="message" type="text" placeholder="Сообщение" wide /><br /><br />
+        <Input name="fio" marginY={0.5} type="text" placeholder="ФИО" wide required={ true } /><br /><br />
+        <Input name="email" marginY={0.5} type="email" placeholder="Email" wide required={ true } /><br /><br />
+        <Input name="phone" marginY={0.5} mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
+        <Input name="message" marginY={0.5} type="text" placeholder="Сообщение" wide /><br /><br />
         <label for="agreement4" class="checkbox-wrapper align-left">
             <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
             <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
@@ -96,7 +138,17 @@
         <br />
         <br />
         <Button variant="blue">Отправить</Button>
-    </form>
+    </AjaxForm>
+    { #if formSubmitted }
+        <br />
+        <div class="align-center">
+            { #if formSuccess }
+                Спасибо! Ваша заявка отправлена
+            { :else }
+                Кажется, произошла ошибка при отправке формы. Свяжитесь, пожалуйста, с нами по почте: <a href="mailto:ok.inmt@urfu.ru">ok.inmt@urfu.ru</a>
+            { /if }
+        </div>
+    { /if }
     <Rainbow slot="footer" size="L" />
 </Modal>
 
@@ -146,25 +198,27 @@
     </div>
 </Header>
 <div class="escape-header">
-    <Slider let:showPrevPage let:showNextPage duration={ 15 } { pauseOnFocus } on:mouseover={ handleMouseOverSlider } on:mouseleave={ handleMouseLeaveSlider }>
+    <Slider let:showPrevPage let:showNextPage duration={ 15 }>
         <Slide img="/img/slide1-img.jpg">
-            <Heading size={2} className="blue-text">Стань инженером будущего в Институте новых материалов и технологий УрФУ</Heading>
+            <!-- <Heading size={2} className="white-text">Стань инженером будущего в Институте новых материалов и технологий УрФУ</Heading> -->
+            <Heading size={2} className="white-text">Институт новых материалов и технологий УрФУ</Heading>
             <Text className="heading-3">Актуальная информация о поступлении в университет в 2022 году:</Text>
-            <Link href="/bachelor" variant="interactive" lineWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
-            <Link href="/master" variant="interactive" lineWidth={ 2 }>Магистратура</Link><br />
+            <Link href="/bachelor" variant="interactive" color="white" lineWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
+            <Link href="/master" variant="interactive" color="white" lineWidth={ 2 }>Магистратура</Link><br />
             <svelte:fragment slot="buttons">
-                <RoundButton size="M" variant="left" on:click={ showPrevPage } />
-                <RoundButton size="M" variant="right" on:click={ showNextPage } />
+                <RoundButton theme="bright" size="M" variant="left" on:click={ showPrevPage } />
+                <RoundButton theme="bright" size="M" variant="right" on:click={ showNextPage } />
             </svelte:fragment>
         </Slide>
         <Slide img="/img/slide2-img.jpg">
-            <Heading size={2} className="blue-text">Старт приема документов – 20 июня</Heading>
+            <Heading size={2} className="white-text">Старт приема документов – 20 июня</Heading>
+            <!-- <Heading size={2} className="white-text">Институт новых материалов и технологий УрФУ</Heading> -->
             <Text className="heading-3">Выбрать направление подготовки и зарегистрироваться в личном кабинете абитуриента можно уже сейчас:</Text>
-            <Link href="/bachelor" variant="interactive" lineWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
-            <Link href="/master" variant="interactive" lineWidth={ 2 }>Магистратура</Link><br />
+            <Link href="/bachelor" variant="interactive" color="white" lineWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
+            <Link href="/master" variant="interactive" color="white" lineWidth={ 2 }>Магистратура</Link><br />
             <svelte:fragment slot="buttons">
-                <RoundButton size="M" variant="left" on:click={ showPrevPage } />
-                <RoundButton size="M" variant="right" on:click={ showNextPage } />
+                <RoundButton theme="bright" size="M" variant="left" on:click={ showPrevPage } />
+                <RoundButton theme="bright" size="M" variant="right" on:click={ showNextPage } />
             </svelte:fragment>
         </Slide>
     </Slider>
@@ -187,10 +241,6 @@
                             caption="Контрактных мест в 2022 году"
                         />
                     </Grid>
-                    <div class="pc-hide">
-                        <br />
-                        <Button variant="wide" on:click={openModal}>Поступить</Button>
-                    </div>
                 </div>
             </Grid>
         </div>
@@ -207,7 +257,7 @@
             <Grid m={3} s={1}>
                 <Heading size={1} className="blue-text" marginTop={0}>Уровни подготовки</Heading>
                 <Text className="heading-3" marginTop={0}>Институт дает студентам прочные знания об устройстве современных машин и механизмов, применении новых материалов и технологий в металлургии, машиностроении, строительстве, позволяет работать над реальными проектами. </Text>
-                <Text marginTop={0}>Выпускники способны создавать новые материалы с уникальными свойствами, проектировать конструкции, схемы, алгоритмы, технологии производства материалов, машин и оборудования, разрабатывать бизнес-планы создания технических новинок, управлять созданными машинами и обслуживать их, руководить промышленными предприятиями.</Text>
+                <Text marginTop={0} className="mobile-hide">Выпускники способны создавать новые материалы с уникальными свойствами, проектировать конструкции, схемы, алгоритмы, технологии производства материалов, машин и оборудования, разрабатывать бизнес-планы создания технических новинок, управлять созданными машинами и обслуживать их, руководить промышленными предприятиями.</Text>
             </Grid>
             <br />
             <Grid m={3} s={1}>
@@ -223,26 +273,27 @@
                         <Text marginY={0}><span class="red-text">26</span> <span class="semi-transparent">образовательных программ</span></Text>
                     </NewsCard>
                 </a>
-                <a href="https://aspirant.urfu.ru/ru/aspirantura/">
+                <a href="https://aspirant.urfu.ru/ru/aspirantura/" target="_BLANK">
                     <NewsCard img="/img/postgraduate-inmt.jpg">
                         <svelte:fragment slot="title">Аспирантура</svelte:fragment>
                         <Text marginY={0}><span class="red-text">21</span> <span class="semi-transparent">образовательная программа</span></Text>
                     </NewsCard>
                 </a>
             </Grid>
+            <Text marginBottom={0} marginTop={1.5} className="pc-hide">Выпускники способны создавать новые материалы с уникальными свойствами, проектировать конструкции, схемы, алгоритмы, технологии производства материалов, машин и оборудования, разрабатывать бизнес-планы создания технических новинок, управлять созданными машинами и обслуживать их, руководить промышленными предприятиями.</Text>
         </div>
     </section>
     <section id="partners">
         <div class="content">
             <Grid m={2} s={1}>
-                <Heading size={1} className="blue-text">Партнеры института</Heading>
+                <Heading size={1} className="blue-text" marginTop={0}>Партнеры института</Heading>
             </Grid>
         </div>
         <Carousel margin={0} className="mobile-hide">
-            { #each [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12]] as range }
+            { #each getSequentialPartialIndexes(partners, 6) as range }
                 <div class="fill-width">
                     <div class="content">
-                        <Grid s={2} m={6} className="my-4" alignItems="start">
+                        <Grid s={3} m={6} className="my-4" alignItems="start">
                             { #each range as i }
                                 <Partner src={partners[i]} />
                             { /each }
@@ -259,6 +310,52 @@
             { /each }
         </Carousel>
     </section>
+    <section id="graduates">
+        <div class="content">
+            <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.5}>Известные выпускники</Heading>
+        </div>
+        <Carousel margin={0} className="mobile-hide">
+            { #each getSequentialPartialIndexes(graduates, 6) as range }
+                <div class="fill-width">
+                    <div class="content">
+                        <Grid s={3} m={6} className="my-4" alignItems="stretch">
+                            { #each range as i }
+                            { @const graduate = graduates[i] }
+                                <Graduate headingSize={4} size="S" {...graduate} />
+                            { /each }
+                        </Grid>
+                    </div>
+                </div>
+            { /each }
+        </Carousel>
+        <div class="content pc-hide">
+            <div class="mobile-horizontal-scroll">
+                { #each graduates as graduate }
+                    <Graduate headingSize={4} inline size="M" {...graduate} />
+                { /each }
+            </div>
+        </div>
+    </section>
+    <section id="students">
+        <div class="content">
+            <Grid m={2} s={1} ratio="1:2">
+                <div>
+                    <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Институт глазами студентов</Heading>
+                    <Text id="jz91" marginTop={0}>Наши студенты рассказывают об учебе, лабораторных и курсовых работах, студенческой жизни и, как проходит их обучение в Институте новых материалов и технологий</Text>
+                    <Button className="mobile-hide" on:click={ openModal }>Поступить</Button>
+                </div>
+                <Grid m={4} className="mobile-horizontal-scroll">
+                    <VideoCard src="/video/first.mp4" />
+                    <VideoCard src="/video/second.mp4" />
+                    <VideoCard src="/video/third.mp4" />
+                    <VideoCard src="/video/fourth.mp4" />
+                </Grid>
+            </Grid>
+            <br class="pc-hide" />
+            <br class="pc-hide" />
+            <Button className="pc-hide wide" on:click={ openModal }>Поступить</Button>
+        </div>
+    </section>
     <section id="schoolarship">
         <div class="content">
             <Grid m={3} s={1} gap={2}>
@@ -267,7 +364,8 @@
                 <Text marginTop={0}>
                     Стипендии назначаются дополнительно к государственной академической стипендии, а также дополнительно к повышенной государственной академической стипендии за достижения в учебной, научно-исследовательской, общественной, культурно-творческой и спортивной деятельности.
                     <br /><br />
-                    <Button href="https://urfu.ru/ru/students/study/scholarships/imennye-stipendii/">Актуальный перечень</Button>
+                    <Button className="mobile-hide" href="https://urfu.ru/ru/students/study/scholarships/imennye-stipendii/" target="_BLANK">Актуальный перечень</Button>
+                    <Button className="wide pc-hide" href="https://urfu.ru/ru/students/study/scholarships/imennye-stipendii/" target="_BLANK">Актуальный перечень</Button>
                 </Text>
             </Grid>
         </div>

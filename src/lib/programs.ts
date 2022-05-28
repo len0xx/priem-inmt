@@ -19,7 +19,7 @@ export default [
             'position': 'Кандидат технических наук Заведующий кафедрой, Директор',
             'tel': '+7-(343)-375-4707',
             'email': 'd.v.kurennov@urfu.ru',
-            'photo': '/teacher/Куреннов.jpg'
+            'photo': '/img/teacher/Куреннов Дмитрий Валерьевич.png'
         },
         'vacantSpots': [
             [
@@ -39,6 +39,12 @@ export default [
         'languages': [
             'Русский',
             'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/1/1.jpg',
+            '/img/program-partners/1/2.png',
+            '/img/program-partners/1/3.jpg',
+            '/img/program-partners/1/4.png'
         ]
     },
     {
@@ -59,7 +65,7 @@ export default [
             'position': 'Кандидат технических наук Заведующий кафедрой',
             'tel': '+7-(343)-374-5961',
             'email': 'i.n.tihonov@urfu.ru',
-            'photo': '/teacher/Тихонов.jpg'
+            'photo': '/img/teacher/Тихонов Игорь Николаевич.png'
         },
         'vacantSpots': [
             [
@@ -93,7 +99,7 @@ export default [
             'position': 'доктор экономических наук, профессор',
             'tel': '+7-(343)-375-4752',
             'email': 'e.y.kuznetsova@urfu.ru',
-            'photo': '/teacher/Кузнецова.jpg'
+            'photo': '/img/teacher/Кузнецова Елена Юрьевна.png'
         },
         'vacantSpots': [
             [
@@ -119,7 +125,16 @@ export default [
             }
         ],
         'languages': [
-            'Русский '
+            'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/2/1.png',
+            '/img/program-partners/2/2.png',
+            '/img/program-partners/2/3.png',
+            '/img/program-partners/2/4.png',
+            '/img/program-partners/2/5.jpg',
+            '/img/program-partners/2/6.png',
+            '/img/program-partners/2/7.png'
         ]
     },
     {
@@ -140,7 +155,7 @@ export default [
             'position': 'кандидат технических наук, доцент, заместитель директора',
             'tel': '+7-(343)-375-4476',
             'email': 'sn.zlygostev@urfu.ru',
-            'photo': '/teacher/Злыгостев.jpg'
+            'photo': '/img/teacher/Злыгостев Сергей Николаевич.png'
         },
         'vacantSpots': [
             [
@@ -153,7 +168,7 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский '
+            'Русский'
         ]
     },
     {
@@ -174,7 +189,7 @@ export default [
             'position': 'Доктор технических наук, заведующий кафедрой',
             'tel': '+7-(343)-375-4476',
             'email': 'n.a.spirin@urfu.ru',
-            'photo': '/teacher/Спирин.jpg'
+            'photo': '/img/teacher/Спирин Николай Александрович.jpg'
         },
         'vacantSpots': [
             [
@@ -187,7 +202,17 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский '
+            'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/3/1.png',
+            '/img/program-partners/3/2.jpg',
+            '/img/program-partners/3/3.jpg',
+            '/img/program-partners/3/4.jpg',
+            '/img/program-partners/3/5.jpg',
+            '/img/program-partners/3/6.jpg',
+            '/img/program-partners/3/7.jpg',
+            '/img/program-partners/3/8.jpg'
         ]
     },
     {
@@ -208,7 +233,7 @@ export default [
             'position': 'Доктор технических наук, заведующий кафедрой',
             'tel': '+7-(343)-375-4473',
             'email': 'v.i.dziuzer@urfu.ru',
-            'photo': '/teacher/Дзюзер.jpg'
+            'photo': '/img/teacher/Дзюзер Владимир Яковлевич.jpg'
         },
         'vacantSpots': [
             [
@@ -222,6 +247,12 @@ export default [
         'feedbacks': [],
         'languages': [
             'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/18/1.png',
+            '/img/program-partners/18/2.png',
+            '/img/program-partners/18/3.png',
+            '/img/program-partners/18/4.png'
         ]
     },
     {
@@ -242,7 +273,7 @@ export default [
             'position': 'Доктор технических наук, профессор',
             'tel': '+7-(343)-374-5961',
             'email': 'olga.ogorodnikova@urfu.ru',
-            'photo': '/teacher/Огородникова.jpg'
+            'photo': '/img/teacher/Огородникова Ольга Михайловна.jpg'
         },
         'vacantSpots': [
             [
@@ -255,7 +286,7 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский '
+            'Русский'
         ]
     },
     {
@@ -276,7 +307,7 @@ export default [
             'position': 'Доктор технических наук, заведующий кафедрой, главный научный сотрудник',
             'tel': '+7-(343)-374-5964',
             'email': 'a.a.popov@urfu.ru',
-            'photo': '/teacher/Попов.jpg'
+            'photo': '/img/teacher/Попов Артемий Александрович.jpg'
         },
         'vacantSpots': [
             [
@@ -289,7 +320,7 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский '
+            'Русский'
         ]
     },
     {
@@ -310,7 +341,7 @@ export default [
             'position': 'Доктор технических наук, заведующий кафедрой, главный научный сотрудни',
             'tel': '+7-(343)-374-5964',
             'email': 'a.a.popov@urfu.ru',
-            'photo': '/teacher/Попов.jpg'
+            'photo': '/img/teacher/Попов Артемий Александрович.jpg'
         },
         'vacantSpots': [
             [
@@ -323,7 +354,7 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский '
+            'Русский'
         ]
     },
     {
@@ -345,7 +376,7 @@ export default [
             'position': 'Доктор технических наук, заведующий кафедрой, главный научный сотрудник',
             'tel': '+7-(343)-374-5964',
             'email': 'a.a.popov@urfu.ru',
-            'photo': '/teacher/Попов.jpg'
+            'photo': '/img/teacher/Попов Артемий Александрович.jpg'
         },
         'vacantSpots': [
             [
@@ -379,7 +410,7 @@ export default [
             'position': 'Кандидат технических наук, доцент, доцент - лектор',
             'tel': '+7-(343)-374-0885',
             'email': 'n.k.kazantceva@urfu.ru',
-            'photo': '/teacher/Казанцева.jpg'
+            'photo': '/img/teacher/Казанцева Надежда Константиновна.png'
         },
         'vacantSpots': [
             [
@@ -393,6 +424,18 @@ export default [
         'feedbacks': [],
         'languages': [
             'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/17/1.png',
+            '/img/program-partners/17/2.jpg',
+            '/img/program-partners/17/3.jpg',
+            '/img/program-partners/17/4.jpg',
+            '/img/program-partners/17/5.jpg',
+            '/img/program-partners/17/6.jpg',
+            '/img/program-partners/17/7.jpg',
+            '/img/program-partners/17/8.jpg',
+            '/img/program-partners/17/9.jpg',
+            '/img/program-partners/17/10.jpg'
         ]
     },
     {
@@ -414,7 +457,7 @@ export default [
             'position': 'Кандидат технических наук, доцент',
             'tel': '+7-(343)-375-4595',
             'email': 's.s.kugaevskiy@urfu.ru',
-            'photo': '/teacher/Кугаевский.jpg'
+            'photo': '/img/teacher/Кугаевский Сергей Семенович.png'
         },
         'vacantSpots': [
             [
@@ -427,7 +470,12 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский '
+            'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/4/1.png',
+            '/img/program-partners/4/2.png',
+            '/img/program-partners/4/3.png'
         ]
     },
     {
@@ -448,7 +496,7 @@ export default [
             'position': 'Доктор технических наук, профессор',
             'tel': '+7-(343)-375-4129',
             'email': 'a.m.antimonov@urfu.ru',
-            'photo': '/teacher/Антимонов.jpg'
+            'photo': '/img/teacher/Антимонов Алексей Михайлович.png'
         },
         'vacantSpots': [
             [
@@ -462,6 +510,16 @@ export default [
         'feedbacks': [],
         'languages': [
             'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/16/1.png',
+            '/img/program-partners/16/2.png',
+            '/img/program-partners/16/3.jpg',
+            '/img/program-partners/16/4.png',
+            '/img/program-partners/16/5.jpeg',
+            '/img/program-partners/16/6.jpg',
+            '/img/program-partners/16/7.jpg',
+            '/img/program-partners/16/8.jpeg'
         ]
     },
     {
@@ -484,7 +542,7 @@ export default [
             'position': 'Руководитель образовательной программы, доктор технических наук, заведующий кафедрой',
             'tel': '+7-(902)-266-9622',
             'email': 's.a.zagaynov@urfu.ru',
-            'photo': '/teacher/Загайнов.jpg'
+            'photo': '/img/teacher/Загайнов Сергей Александрович.png'
         },
         'vacantSpots': [
             [
@@ -502,8 +560,8 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский ',
-            'Русский '
+            'Русский',
+            'Русский'
         ]
     },
     {
@@ -524,7 +582,7 @@ export default [
             'position': 'Доктор технических наук, заведующий кафедрой',
             'tel': '+7-(343)-375-4432',
             'email': 'i.d.kashcheev@urfu.ru',
-            'photo': '/teacher/Кащеев.jpg'
+            'photo': '/img/teacher/Кащеев Иван Дмитриевич.png'
         },
         'vacantSpots': [
             [
@@ -551,6 +609,20 @@ export default [
         ],
         'languages': [
             'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/15/1.jpg',
+            '/img/program-partners/15/2.png',
+            '/img/program-partners/15/3.png',
+            '/img/program-partners/15/4.jpg',
+            '/img/program-partners/15/5.jpg',
+            '/img/program-partners/15/6.jpg',
+            '/img/program-partners/15/7.jpg',
+            '/img/program-partners/15/8.png',
+            '/img/program-partners/15/9.png',
+            '/img/program-partners/15/10.jpg',
+            '/img/program-partners/15/11.png',
+            '/img/program-partners/15/12.jpg'
         ]
     },
     {
@@ -571,7 +643,7 @@ export default [
             'position': 'Доктор технических наук, заведующий кафедрой',
             'tel': '+7-(343)-375-4437',
             'email': 'd.l.shvartc@urfu.ru',
-            'photo': '/teacher/Шварц.jpg'
+            'photo': '/img/teacher/Шварц Данил Леонидович.jpg'
         },
         'vacantSpots': [
             [
@@ -584,7 +656,7 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский '
+            'Русский'
         ]
     },
     {
@@ -605,7 +677,7 @@ export default [
             'position': 'Доктор технических наук, заведующий кафедрой, профессор',
             'tel': '+7-(343)-375-4160',
             'email': 'e.j.raskatov@urfu.ru',
-            'photo': '/teacher/Раскатов.jpg'
+            'photo': '/img/teacher/Раскатов Евгений Юрьевич.png'
         },
         'vacantSpots': [
             [
@@ -618,7 +690,12 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский, английский'
+            'Русский', 'Английский'
+        ],
+        'partners': [
+            '/img/program-partners/14/1.jpg',
+            '/img/program-partners/14/2.png',
+            '/img/program-partners/14/3.jpg'
         ]
     },
     {
@@ -639,7 +716,7 @@ export default [
             'position': 'Доктор технических наук, заведующий кафедрой',
             'tel': '+7-(343)-375-4437',
             'email': 'N.T.Shardakov@urfu.ru',
-            'photo': '/teacher/Шардаков.jpg'
+            'photo': '/img/teacher/Шардаков Николай Тимофеевич.jpg'
         },
         'vacantSpots': [
             [
@@ -652,7 +729,17 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский '
+            'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/5/1.jpg',
+            '/img/program-partners/5/2.jpg',
+            '/img/program-partners/5/3.jpg',
+            '/img/program-partners/5/4.png',
+            '/img/program-partners/5/5.png',
+            '/img/program-partners/5/6.png',
+            '/img/program-partners/5/7.png',
+            '/img/program-partners/5/8.jpg'
         ]
     },
     {
@@ -673,7 +760,7 @@ export default [
             'position': 'Старший преподаватель',
             'tel': '',
             'email': 'ankulemin@urfu.ru',
-            'photo': '/teacher/Кулемин.jpg'
+            'photo': '/img/teacher/Кулемин Александр Николаевич.png'
         },
         'vacantSpots': [
             [
@@ -686,7 +773,13 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский '
+            'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/13/1.svg',
+            '/img/program-partners/13/2.jpg',
+            '/img/program-partners/13/3.png',
+            '/img/program-partners/13/4.png'
         ]
     },
     {
@@ -709,7 +802,7 @@ export default [
             'position': 'Кандидат технических наук, доцент',
             'tel': '+7-(343)-375-4575',
             'email': 'AM.Fiveysky@urfu.ru',
-            'photo': '/teacher/Фивейский.jpg'
+            'photo': '/img/teacher/Фивейский Андрей Михайлович.jpg'
         },
         'vacantSpots': [
             [
@@ -729,6 +822,14 @@ export default [
         'languages': [
             'Русский',
             'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/12/1.png',
+            '/img/program-partners/12/2.jpg',
+            '/img/program-partners/12/3.jpg',
+            '/img/program-partners/12/4.png',
+            '/img/program-partners/12/5.png',
+            '/img/program-partners/12/6.png',
         ]
     },
     {
@@ -749,7 +850,7 @@ export default [
             'position': 'Доктор технических наук, заведующий кафедрой',
             'tel': '+7-(343)-375-4575',
             'email': 'el.furman@urfu.ru',
-            'photo': '/teacher/Фурман.jpg'
+            'photo': '/img/teacher/Фурман Евгений Львович.png'
         },
         'vacantSpots': [
             [
@@ -763,6 +864,15 @@ export default [
         'feedbacks': [],
         'languages': [
             'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/11/1.jpg',
+            '/img/program-partners/11/2.jpg',
+            '/img/program-partners/11/3.png',
+            '/img/program-partners/11/4.jpg',
+            '/img/program-partners/11/5.jpg',
+            '/img/program-partners/11/6.png',
+            '/img/program-partners/11/7.png'
         ]
     },
     {
@@ -783,7 +893,7 @@ export default [
             'position': 'Доктор технических наук, заведующий кафедрой, заместитель директора по инновационной деятельности',
             'tel': '+7-(343)-374-4853',
             'email': 'f.l.kapustin@urfu.ru',
-            'photo': '/teacher/Капустин.jpg'
+            'photo': '/img/teacher/Капустин Федор Леонидович.jpg'
         },
         'vacantSpots': [
             [
@@ -797,13 +907,18 @@ export default [
         'feedbacks': [],
         'languages': [
             'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/10/1.jpg',
+            '/img/program-partners/10/2.png',
+            '/img/program-partners/10/3.jpg'
         ]
     },
     {
         'title': 'Организация бизнеса (машиностроение)',
         'degree': 'Магистратура',
         'directions': [
-            '15.04.01 Машиностроение '
+            '15.04.01 Машиностроение'
         ],
         'text': '<p><em><strong>Программа подготовки профессионалов в области экономики и управления машиностроительным бизнесом – специалистов, осуществляющих контроль, анализ и планирование деятельности современной организации.</strong></em></p><p>Соответствие программы требованиям профессиональных стандартов «Инженер-экономист машиностроительной организации» и «Специалист по контроллингу машиностроительной организации» гарантирует востребованность выпускников как на предприятиях машиностроения, так и в организациях, обслуживающих промышленный сектор.</p><p><em><strong>Программа формирует компетенции:</strong></em></p><ul><li><p>Экономического анализа внешней и внутренней среды машиностроительного предприятия</p></li><li><p>Управления ресурсами и процессами промышленного бизнеса на основе системной инженерии</p></li><li><p>Организации планирования и учета деятельности предприятия</p></li><li><p>Технико-экономической оценки и внедрения проектов развития</p></li></ul><p><em><strong>Чему мы учим?</strong></em></p><p>Программа направлена на формирование инженерно-экономических компетенций: технико-экономический анализ и планирование развития бизнеса, разработка и внедрение инструментов организации труда и производства, внедрение в производство идей технологического предпринимательства и стартапов, оценка эффективности инвестиций и проведение экспертизы проектов и многое другое.</p><p>Если вы, имея базовое техническое образование, планируете карьеру руководителя в машиностроительной организации, программа позволит вам освоить необходимые организационно-экономические и управленческие компетенции в сочетании с инженерным базисом.</p><p>Если вы намерены развивать собственное дело, связанное с производством машиностроительных изделий или их компонентов, вы также научитесь коммерциализации идей, стратегическому и тактическому планированию бизнеса, продвижению продукта на различных рынках, организации логистических процессов.</p><p>Неотъемлемой составляющей обучения является освоение прикладных инструментов цифровизации деятельности предприятия: систем ERP и PLM класса, средств моделирования процессов производства.</p><p><em><strong>Фундамент программы – универсальные дисциплины стандарта:</strong></em></p><ul><li><p>Организация инженерных исследований и проектирования</p></li><li><p>Математическое моделирование</p></li><li><p>Практики системной инженерии</p></li><li><p>Защита интеллектуальной собственности</p></li><li><p>Коммерциализация инженерных проектов</p></li><li><p>Деловые коммуникации</p></li></ul><p><em><strong>Формирование базовых профессиональных компетенций представлено модулями:</strong></em></p><ul><li><p>Основы экономического анализа</p></li><li><p>Управление человеческими ресурсами</p></li><li><p>Анализ эффективности деятельности</p></li></ul><p><em><strong>Дисциплины специализации развивают углубленные компетенции в следующих направлениях:</strong></em></p><ul><li><p>Стратегическое управление</p></li><li><p>Планирование и прогнозирование</p></li><li><p>Управленческий учет и бюджетирование</p></li><li><p>Организация, нормирование и оплата труда</p></li><li><p>Ценообразование промышленной продукции и результатов научно-технической деятельности</p></li><li><p>Функционально-стоимостной анализ</p></li><li><p>PLM&nbsp; и ERP системы в управлении предприятием&nbsp;</p></li><li><p>Моделирование производственных процессов</p></li><li><p>Информационные системы и управление данными</p></li></ul><p><em>Студенты также выбирают майноры и онлайн-курсы в соответствии со своими профессиональными или личными интересами, отдавая предпочтение углублению или расширению компетенций</em></p><p><em>Выполняя выпускную квалификационную работу, вы реализуете собственные проекты:</em></p><ul><li><p>о<em>рганизации бизнеса</em></p></li><li><p><em>оптимизации процессов предприятия</em></p></li><li><p><em>разработки бизнес-плана развития организации</em></p></li></ul><p><em><strong>Преимущества программы:</strong></em></p><p><em>в использовании</em></p><p>технологий проектной деятельности. Студенты выполняют три междисциплинарных проекта, которые обеспечивают формирование комплексных технолого-организационно-экономических компетенций инженера-экономиста, организатора производственной деятельности и драйвера изменений на производственном предприятии.</p><p><em>в развитии</em></p><p>организаторских способностей, коммуникационных и лидерских навыков, умения работать с управленческой информацией, системного аналитического мышления; умения создавать команду, работать в команде и управлять командной деятельностью.</p><p><em>во включении</em></p><p>&nbsp;в процесс обучения круглых столов, деловых встреч и дискуссионных трибун с участием представителей профессиональной среды – руководителей предприятий и профильных специалистов.</p><p><em>в формировании</em></p><p>Практического результата: выпускная квалификационная работа (магистерская диссертация) выполняется, как правило, по заявкам работодателей</p><p><em><strong>Практики и научно-исследовательская деятельность</strong></em></p><p><em>В соответствии со стандартом предусмотрено:</em></p><ul><li><p><em>проведение учебной и двух производственных практик, </em>которые проводятся на основе договоров с предприятиями</p></li><li><p><em>выполнение научно-исследовательской практики, сопровождающей весь процесс обучения, </em>состоящей в работе с базами данных; подготовке и обсуждении публикаций по тематикам итоговых работ магистрантов</p></li></ul><p><em><strong>Функциональные задачи, которые способен решать выпускник программы:</strong></em></p><ul><li><p>постановка целей и задач подразделений в соответствии со стратегией и с учетом ресурсных ограничений</p></li><li><p>планирование и экономическая оценка текущей производственной деятельности</p></li><li><p>оптимизация производственных затрат при регулярном повышении качества</p></li><li><p>внедрение бережливого производства</p></li><li><p>умение применять системы организации и оплаты труда,&nbsp; владение навыками нормирования труда</p></li><li><p>организация внутрипроизводственной логистики</p></li><li><p>оценка эффективности инвестиционных проектов</p></li><li><p>организация процессов и руководство работой коллектива, выработка командной стратегии для достижения поставленной цели.</p></li></ul><p><em><strong>Перспективы трудоустройства выпускника</strong></em></p><p><em><strong>На промышленных предприятиях – в качестве ведущих специалистов и руководителей:</strong></em></p><ul><li><p>планово-экономических отделов и цехов,</p></li><li><p>служб материально-технического снабжения,</p></li><li><p>отделов бережливого производства,</p></li><li><p>отделов маркетинга и продаж</p></li></ul><p><em><strong>В малом и среднем бизнесе - руководителями высшего и среднего звена.</strong></em></p><p><em><strong>Специалистами и руководителями в организациях, обслуживающих и координирующих деятельность промышленного сектора:</strong></em></p><ul><li><p>IT-компании</p></li><li><p>Инжиниринговые и сервисные фирмы</p></li><li><p>Организации кредитно-финансового сектора</p></li><li><p>Консалтинговые компании</p></li><li><p>Органы исполнительной власти и пр.</p></li></ul><p><em><strong>Если есть желание поднять на новый уровень свой практический опыт и новые освоенные знания, возможно продолжение обучения в аспирантуре по направлению «Управление в организационных системах»</strong></em></p><p><em><strong>Кого мы ждем на программу?</strong></em></p><ul><li><p>Выпускников бакалавриата технических и экономических направлений, желающих продолжить обучение в магистратуре инженерно-экономического направления</p></li><li><p>Сотрудников организаций (ранее окончивших бакалавриат или специалитет), сформулировавших задачу в области развития для своего подразделения / собственного производственного бизнеса/ своей деятельности как специалиста</p></li></ul><p><em><strong>Значение программы для экономики страны и региона</strong></em></p><p>Инженерно-экономические компетенции необходимы для разработки и реализации проектов диверсификации, повышения производительности труда, освоения выпуска высокотехнологичной продукции мирового уровня. Специалисты, владеющие комплексными компетенциями в области экономики и организации производства, способны решать задачи организации сквозного учета и планирования производства (в том числе в цифровой среде), технико-экономического анализа резервов роста эффективности, ценообразования и управления затратами жизненного цикла сложных изделий с учетом применяемых конструкторско-технологических решений.</p><p>Как показывает практика, масштабные реформы и преобразования национальной экономики всегда сопровождались усилением подготовки инженерно-экономических кадров, способных претворять планы в жизнь и осуществлять сбалансированную оценку проектов развития на уровне предприятий, корпораций, отраслей.</p><p>В целях выполнения задач развития национальной экономики, по инициативе ведущих предприятий ОПК Свердловской области, при поддержке Коллегии ВПК МО РФ и Союза машиностроителей России утвержден профессиональный стандарт «Инженер-экономист машиностроительной организации», определяющий квалификационные требования к специалисту.</p><p>Программа магистратуры «Организация бизнеса (машиностроение)» разработана в соответствии с указанным стандартом и полностью соответствует актуальным запросам работодателей.</p><p><em><strong>Программа 15.04.01 Организация бизнеса (машиностроение) реализуется на кафедре </strong></em><a target="_blank" rel="noopener noreferrer nofollow" href="https://inmt.urfu.ru/ru/struktura-instituta/departament-mashinostroenija/kafedra-organizacii-mashinostroitelnogo-proizvodstva/"><em><strong>Организации машиностроительного производства.</strong></em></a></p><p><em><strong>Ждём Вас на нашей программе!</strong></em></p>',
         'price': [
@@ -819,7 +934,7 @@ export default [
             'position': 'Доктор экономических наук, профессор',
             'tel': '+7-(343)-375-4752',
             'email': 'i.v.ershova@urfu.ru',
-            'photo': '/teacher/Ершова.jpg'
+            'photo': '/img/teacher/Ершова Ирина Вадимовна.png'
         },
         'vacantSpots': [
             [
@@ -850,8 +965,17 @@ export default [
             }
         ],
         'languages': [
-            'Русский ',
-            'Русский '
+            'Русский',
+            'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/6/1.png',
+            '/img/program-partners/6/2.png',
+            '/img/program-partners/6/3.png',
+            '/img/program-partners/6/4.png',
+            '/img/program-partners/6/5.jpg',
+            '/img/program-partners/6/6.png',
+            '/img/program-partners/6/7.png'
         ]
     },
     {
@@ -872,7 +996,7 @@ export default [
             'position': 'Доктор технических наук, заведующий кафедрой',
             'tel': '+7-(343)-375-4438',
             'email': 'v.p.shveykin@urfu.ru',
-            'photo': '/teacher/Швейкин.jpg'
+            'photo': '/img/teacher/Швейкин Владимир Павлович.png'
         },
         'vacantSpots': [
             [
@@ -885,7 +1009,18 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский '
+            'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/7/1.jpg',
+            '/img/program-partners/7/2.png',
+            '/img/program-partners/7/3.jpg',
+            '/img/program-partners/7/4.png',
+            '/img/program-partners/7/5.png',
+            '/img/program-partners/7/6.png',
+            '/img/program-partners/7/7.png',
+            '/img/program-partners/7/8.png',
+            '/img/program-partners/7/9.jpg'
         ]
     },
     {
@@ -906,7 +1041,7 @@ export default [
             'position': 'Кандидат технических наук, заведующий кафедрой',
             'tel': '+7-(343)-375-4176',
             'email': 'i.a.gruzdeva@urfu.ru',
-            'photo': '/teacher/Груздева.jpg'
+            'photo': '/img/teacher/Груздева Ирина Александровна.png'
         },
         'vacantSpots': [
             [
@@ -920,6 +1055,10 @@ export default [
         'feedbacks': [],
         'languages': [
             'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/9/1.png',
+            '/img/program-partners/9/2.png'
         ]
     },
     {
@@ -940,7 +1079,7 @@ export default [
             'position': 'Доктор технических наук, профессор',
             'tel': '+7-(343)-375-4438',
             'email': 'j.n.loginov@urfu.ru',
-            'photo': '/teacher/Логинов.jpg'
+            'photo': '/img/teacher/Логинов Юрий Николаевич.png'
         },
         'vacantSpots': [
             [
@@ -953,7 +1092,18 @@ export default [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский '
+            'Русский'
+        ],
+        'partners': [
+            '/img/program-partners/8/1.png',
+            '/img/program-partners/8/2.png',
+            '/img/program-partners/8/3.jpg',
+            '/img/program-partners/8/4.png',
+            '/img/program-partners/8/5.jpg',
+            '/img/program-partners/8/6.jpg',
+            '/img/program-partners/8/7.png',
+            '/img/program-partners/8/8.png',
+            '/img/program-partners/8/9.png'
         ]
     },
     {
@@ -976,7 +1126,7 @@ export default [
             'position': 'Кандидат технических наук Заведующий кафедрой',
             'tel': '+7-(343)-374-5961',
             'email': 'i.n.tihonov@urfu.ru',
-            'photo': '/teacher/Тихонов.jpg'
+            'photo': '/img/teacher/Тихонов Игорь Николаевич.png'
         },
         'vacantSpots': [
             [
@@ -1040,7 +1190,7 @@ export default [
             'position': 'Кандидат педагогических наук, Доцент',
             'tel': '+7-(343)-375-4541',
             'email': 'n.g.ryzhkova@urfu.ru',
-            'photo': '/teacher/Рыжкова.jpg'
+            'photo': '/img/teacher/Рыжкова Наталия Геннадьевна.png'
         },
         'vacantSpots': [
             [
@@ -1100,7 +1250,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент, Учебный мастер 1 категории',
             'tel': '+7-(343)-375-4894',
             'email': 'm.g.galkin@urfu.ru',
-            'photo': '/teacher/Галкин.jpg'
+            'photo': '/img/teacher/Галкин Михаил Геннадьевич.png'
         },
         'vacantSpots': [
             [
@@ -1162,7 +1312,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент, Заместитель директора',
             'tel': '+7-(343)-375-4476',
             'email': 'sn.zlygostev@urfu.ru',
-            'photo': '/teacher/Злыгостев.jpg'
+            'photo': '/img/teacher/Злыгостев Сергей Николаевич.jpg'
         },
         'vacantSpots': [
             [
@@ -1218,7 +1368,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент',
             'tel': '+7-(343)-375-4803',
             'email': 'o.a.oleneva@urfu.ru',
-            'photo': '/teacher/Коэмец.jpg'
+            'photo': '/img/teacher/Коэмец Ольга Аркадьевна.png'
         },
         'vacantSpots': [
             [
@@ -1278,7 +1428,7 @@ export default [
             'position': 'Кандидат экономических наук Доцент',
             'tel': '+7-(343)-375-4752',
             'email': 't.a.mineeva@urfu.ru',
-            'photo': '/teacher/Минеева.jpg'
+            'photo': '/img/teacher/Минеева Татьяна Анатольевна.jpg'
         },
         'vacantSpots': [
             [
@@ -1350,7 +1500,7 @@ export default [
             'position': 'кандидат технических наук, Доцент',
             'tel': '+7-(343)-375-4437',
             'email': 's.o.nepriakhin@urfu.ru',
-            'photo': '/teacher/Непряхин.jpg'
+            'photo': '/img/teacher/Непряхин Сергей Олегович.jpg'
         },
         'vacantSpots': [
             [
@@ -1420,7 +1570,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент',
             'tel': '+7-(343)-374-5961',
             'email': 'vngulin@urfu.ru',
-            'photo': '/teacher/Гулин.jpg'
+            'photo': '/img/teacher/Гулин Валерий Николаевич.jpg'
         },
         'vacantSpots': [
             [
@@ -1482,7 +1632,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент',
             'tel': '+7-(343)-375-4790',
             'email': 'ep.farafontova@urfu.ru',
-            'photo': '/teacher/Фарафонтова.jpg'
+            'photo': '/img/teacher/Фарафонтова Елена Павловна.png'
         },
         'vacantSpots': [
             [
@@ -1540,7 +1690,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент',
             'tel': '+7-(343)-375-4554',
             'email': 'aa.markina@urfu.ru',
-            'photo': '/teacher/Маркина.jpg'
+            'photo': '/img/teacher/Маркина Анастасия Александровна.png'
         },
         'vacantSpots': [
             [
@@ -1602,7 +1752,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент',
             'tel': '',
             'email': 'v.b.ponomarev@urfu.ru',
-            'photo': '/teacher/Пономарев.jpg'
+            'photo': '/img/teacher/Пономарев Владимир Борисович.jpg'
         },
         'vacantSpots': [
             [
@@ -1654,7 +1804,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент',
             'tel': '',
             'email': 's.a.fedoreev@urfu.ru',
-            'photo': '/teacher/Федореев.jpg'
+            'photo': '/img/teacher/Федореев Сергей Александрович.jpg'
         },
         'vacantSpots': [
             [
@@ -1708,7 +1858,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент',
             'tel': '+7-(343)-374-0885',
             'email': 'v.v.gribov@urfu.ru',
-            'photo': '/teacher/Грибов.jpg'
+            'photo': '/img/teacher/Грибов Виктор Васильевич.png'
         },
         'vacantSpots': [
             [
@@ -1768,7 +1918,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент',
             'tel': '+7-(343)-375-9347',
             'email': 'iu.n.stroganov@urfu.ru',
-            'photo': '/teacher/Строганов.jpg'
+            'photo': '/img/teacher/Строганов Юрий Николаевич.png'
         },
         'vacantSpots': [
             [
@@ -1830,7 +1980,7 @@ export default [
             'position': 'Доктор технических наук, Профессор',
             'tel': '+7-(343)-375-4160',
             'email': 'e.j.raskatov@urfu.ru',
-            'photo': '/teacher/Раскатов.jpg'
+            'photo': '/img/teacher/Раскатов Евгений Юрьевич.png'
         },
         'vacantSpots': [
             [
@@ -1890,7 +2040,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент',
             'tel': '+7-(343)-375-4432',
             'email': 'k.g.zemlyanoy@urfu.ru',
-            'photo': '/teacher/Земляной.jpg'
+            'photo': '/img/teacher/Земляной Кирилл Геннадьевич.jpg'
         },
         'vacantSpots': [
             [
@@ -1956,7 +2106,7 @@ export default [
             'position': 'Кандидат технических наук',
             'tel': '+7-(343)-375-4176',
             'email': 'i.a.gruzdeva@urfu.ru',
-            'photo': '/teacher/Груздева.jpg'
+            'photo': '/img/teacher/Груздева Ирина Александровна.png'
         },
         'vacantSpots': [
             [
@@ -1983,7 +2133,7 @@ export default [
                 'result': '40'
             },
             {
-                'title': 'Творческое испытания',
+                'title': 'Творческое испытание',
                 'result': '30'
             }
         ],
@@ -2010,7 +2160,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент',
             'tel': '+7-(343)-375-4575',
             'email': 'AM.Fiveysky@urfu.ru',
-            'photo': '/teacher/Фивейский.jpg'
+            'photo': '/img/teacher/Фивейский Андрей Михайлович.jpg'
         },
         'vacantSpots': [
             [
@@ -2066,7 +2216,7 @@ export default [
             'position': 'Кандидат технических наук, Доцент',
             'tel': '+7-(343)-375-9736',
             'email': 'o.a.lukashuk@urfu.ru',
-            'photo': '/teacher/Лукашук.jpg'
+            'photo': '/img/teacher/Лукашук Ольга Анатольевна.jpg'
         },
         'vacantSpots': [
             [

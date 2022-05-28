@@ -54,7 +54,7 @@
             "error"
         ],
         "max-params": [
-            "error", 4
+            "error", 6
         ],
         "no-alert": "error",
         "new-cap": [

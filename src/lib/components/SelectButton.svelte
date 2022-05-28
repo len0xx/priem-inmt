@@ -1,11 +1,18 @@
 <script lang="ts">
-    export let variant: 'default' | 'active' | 'blue' = 'default'
+    export let variant: 'default' | 'active' | 'fill' = 'default'
     export let className = ''
+    export let size: Size = 'M'
+    export let color: 'red' | 'blue' = 'red'
+
+    const sizes = ['S', 'M', 'L'] as const
+    const sizeNames = ['small', 'medium', 'large'] as const
+    type Size = typeof sizes[number]
+    let sizeClass = 'size-' + sizeNames[sizes.indexOf(size)]
 </script>
 
 <div
-    class="kit-select-button variant-{variant} {className}"
-    on:click
+    class="kit-select-button variant-{variant} {className} {sizeClass} btn-color-{color}"
+    on:click|stopPropagation
     on:focus
     on:blur
     on:mouseover
@@ -21,7 +28,7 @@
         display: inline-block;
         margin-right: 1em;
         margin-bottom: 1em;
-        padding: 0.7em 0.85em;
+        padding: 0.7em 0.9em;
         line-height: 1.1;
         border: 2px solid;
         border-color: var(--grey);
@@ -31,25 +38,55 @@
         cursor: pointer;
     }
 
-    .kit-select-button:not(.variant-blue):hover {
+    .kit-select-button.size-small {
+        padding: 0.45em 0.7em;
+    }
+
+    .kit-select-button.size-medium {
+        padding: 0.7em 0.9em;
+    }
+
+    .kit-select-button.size-large {
+        padding: 1em 1.5em;
+        border-width: 3px;
+    }
+
+    .kit-select-button.variant-fill.btn-color-blue {
+        background-color: var(--blue);
+        color: var(--white);
+    }
+
+    .kit-select-button.variant-fill.btn-color-blue:hover {
+        background-color: var(--blue-darken);
+    }
+
+    .kit-select-button.variant-fill.btn-color-red {
+        background-color: var(--red);
+        color: var(--white);
+    }
+
+    .kit-select-button.variant-fill.btn-color-red:hover {
+        background-color: var(--red-darken);
+    }
+
+    .kit-select-button.variant-default {
+        border-color: var(--grey);
+        color: var(--grey);
+    }
+
+    .kit-select-button.variant-active.btn-color-red,
+    .kit-select-button.variant-default.btn-color-red:hover {
         border-color: var(--red);
         color: var(--red);
+    }
+
+    .kit-select-button.variant-active.btn-color-blue,
+    .kit-select-button.variant-default.btn-color-blue:hover {
+        border-color: var(--blue);
+        color: var(--blue);
     }
 
     .kit-select-button.variant-active {
-        border-color: var(--red);
-        color: var(--red);
         cursor: default;
-    }
-
-    .kit-select-button.variant-blue {
-        background-color: var(--blue);
-        border-color: var(--blue);
-        color: white;
-    }
-
-    .kit-select-button.variant-blue:hover {
-        background-color: var(--blue-darken);
-        border-color: var(--blue-darken);
     }
 </style>

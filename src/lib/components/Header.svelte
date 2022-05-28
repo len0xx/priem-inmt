@@ -15,11 +15,11 @@
 
     const scrollHandler = () => {
         const currentScroll = window.scrollY
-        const scrolledVal = currentScroll > 0
-        if (scrolled == false && scrolledVal == true) {
+        const scrolledVal = currentScroll > 10
+        if (scrolledVal) {
             dispatch('scroll-down')
         }
-        else if (scrolled == true && scrolledVal == false) {
+        else if (!scrolledVal) {
             dispatch('scroll-up')
         }
         scrolled = scrolledVal

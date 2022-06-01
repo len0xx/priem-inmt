@@ -108,7 +108,8 @@ import VideoCard from '$lib/components/VideoCard.svelte'
 
 <svelte:head>
     <title>Институт новых материалов и технологий</title>
-    <meta property="og:image" content="/img/snippet-inmt.jpg" />
+    <meta property="og:image" content="https://inmt-priem.urfu.ru/img/snippet-inmt.jpg" />
+    <meta property="vk:image" content="https://inmt-priem.urfu.ru/img/snippet-inmt.jpg" />
 </svelte:head>
 
 { #if showPreloader }
@@ -156,7 +157,7 @@ import VideoCard from '$lib/components/VideoCard.svelte'
     <div class="content">
         <div class="header-layout">
             <div>
-                <a href="/">
+                <a sveltekit:prefetch href="/">
                     <img src="/img/urfu-logo-colourful.svg" alt="Логотип Уральского федерального университета">
                 </a>
             </div>

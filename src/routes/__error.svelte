@@ -29,7 +29,7 @@
         <div class="white-block">
             <h1>Ошибка { status }</h1>
             <p><b>{ message }</b></p>
-            <p><a href="/">Перейти на главную</a></p>
+            <p><a sveltekit:prefetch href="/">Перейти на главную</a></p>
         </div>
         <div class="rainbow"></div>
     </div>

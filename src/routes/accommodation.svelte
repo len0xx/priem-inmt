@@ -89,7 +89,8 @@
 
 <svelte:head>
     <title>Поселение – Институт новых материалов и технологий</title>
-    <meta property="og:image" content="/img/snippet-accommodation.jpg" />
+    <meta property="og:image" content="https://inmt-priem.urfu.ru/img/snippet-accommodation.jpg" />
+    <meta property="vk:image" content="https://inmt-priem.urfu.ru/img/snippet-accommodation.jpg" />
 </svelte:head>
 
 { #if showPreloader }
@@ -137,7 +138,7 @@
     <div class="content">
         <div class="header-layout accommodation { headerClass == 'header-scrolled' ? 'black' : 'white' }">
             <div>
-                <a href="/">
+                <a sveltekit:prefetch href="/">
                     { #if headerClass == 'header-scrolled' }
                         <img src="/img/urfu-logo-colourful.svg" alt="Логотип Уральского федерального университета">
                     { :else }

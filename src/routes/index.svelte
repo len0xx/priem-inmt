@@ -316,12 +316,13 @@ import VideoCard from '$lib/components/VideoCard.svelte'
             <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.5}>Известные выпускники</Heading>
         </div>
         <Carousel margin={0} className="mobile-hide">
-            { #each getSequentialPartialIndexes(graduates, 6) as range }
+            { @const grad = graduates.filter(graduate => graduate.src.length) }
+            { #each getSequentialPartialIndexes(grad, 6) as range }
                 <div class="fill-width">
                     <div class="content">
                         <Grid s={3} m={6} className="my-4" alignItems="stretch">
                             { #each range as i }
-                            { @const graduate = graduates[i] }
+                            { @const graduate = grad[i] }
                                 <Graduate headingSize={4} size="S" {...graduate} />
                             { /each }
                         </Grid>
@@ -331,7 +332,7 @@ import VideoCard from '$lib/components/VideoCard.svelte'
         </Carousel>
         <div class="content pc-hide">
             <div class="mobile-horizontal-scroll">
-                { #each graduates as graduate }
+                { #each graduates.filter(graduate => graduate.src.length) as graduate }
                     <Graduate headingSize={4} inline size="M" {...graduate} />
                 { /each }
             </div>

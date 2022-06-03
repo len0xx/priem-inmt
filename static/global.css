@@ -340,9 +340,9 @@ section:not(.preloader) {
 	.promo.bachelor {
 		background-image: url(/img/bachelor-promo-mobile.jpg);
 	}
-	/* .promo.master {
+	.promo.master {
 		background-image: url(/img/master-promo-mobile.jpg);
-	} */
+	}
 }
 
 .promo .content {

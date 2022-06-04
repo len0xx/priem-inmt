@@ -210,7 +210,7 @@
     <div class="content">
         <div class="header-layout { headerClass == 'header-scrolled' ? 'black' : 'white' }">
             <div>
-                <a sveltekit:prefetch href="/">
+                <a sveltekit:reload href="/">
                     { #if headerClass == 'header-scrolled' }
                         <img src="/img/urfu-logo-colourful.svg" alt="Логотип Уральского федерального университета">
                     { :else }

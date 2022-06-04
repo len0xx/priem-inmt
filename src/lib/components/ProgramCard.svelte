@@ -2,8 +2,9 @@
     import { beforeUpdate } from 'svelte'
     import Card from './Card.svelte'
     import SelectButton from './SelectButton.svelte'
+    import type { Program } from '$lib/programs'
 
-    export let program: any
+    export let program: Program
 
     let activeMode = 0
 

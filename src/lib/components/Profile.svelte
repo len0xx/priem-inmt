@@ -1,13 +1,13 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import Heading from './Heading.svelte'
     import Text from './Text.svelte'
+    import Heading from './Heading.svelte'
 
     export let img = ''
     export let variant: 'white' | 'grey' = 'grey'
     export let className = ''
 
-    let shadowText: any
+    let shadowText: HTMLParagraphElement
     let textExpanded = false
     let text: string
     let shortText: string

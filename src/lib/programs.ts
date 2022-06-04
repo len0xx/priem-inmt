@@ -1,4 +1,40 @@
-export default [
+export type EducationMode = 'Очно' | 'Заочно' | 'Очно-заочно'
+export type Degree = 'Бакалавриат' | 'Магистратура' | 'Специалитет'
+export type Exam = {
+    title: string
+    result: string
+}
+export type Teacher = {
+    name: string
+    position: string
+    tel: string
+    email: string
+    photo: string
+}
+export type Feedback = {
+    name: string
+    position: string
+    text: string
+    photo: string
+}
+
+export interface Program {
+    title: string
+    degree: Degree
+    directions: string[]
+    text: string
+    price: string[]
+    duration: string[]
+    educationModes: EducationMode[]
+    teacher: Teacher
+    feedbacks: Feedback[]
+    vacantSpots: [string, string][]
+    exams?: Exam[]
+    languages: string[]
+    partners?: string[]
+}
+
+const programs: Program[] = [
     {
         'title': 'Автоматизация конструкторского и технологического проектирования на базе универсальных промышленных САПР',
         'degree': 'Магистратура',
@@ -2255,3 +2291,5 @@ export default [
         ]
     }
 ]
+
+export default programs

@@ -18,6 +18,7 @@
     import NewsCard from '$lib/components/NewsCard.svelte'
     import Graduate from '$lib/components/Graduate.svelte'
     import Carousel from '$lib/components/Carousel.svelte'
+    import VideoCard from '$lib/components/VideoCard.svelte'
     import Preloader from '$lib/components/Preloader.svelte'
     import MobileMenu from '$lib/components/MobileMenu.svelte'
     import RoundButton from '$lib/components/RoundButton.svelte'
@@ -26,7 +27,6 @@
     import images2 from '$lib/images2'
     import partners from '$lib/partners'
     import graduates from '$lib/graduates'
-import VideoCard from '$lib/components/VideoCard.svelte'
 
     // User authorization
     // import { session } from '$app/stores'
@@ -165,10 +165,10 @@ import VideoCard from '$lib/components/VideoCard.svelte'
                 <img src="/img/menu-icon-gray.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ () => additional = true }>
             </div>
             <Nav className="mobile-hide">
-                <a class="underlined black" href="#about">Об институте</a>
-                <a class="underlined black" href="#levels">Уровни подготовки</a>
-                <a class="underlined black" href="#partners">Партнёры</a>
-                <a class="underlined black" href="#schoolarship">Стипендии</a>
+                <Link color="black" lineWidth={ 3 } href="#about" variant="hover">Об институте</Link>
+                <Link color="black" lineWidth={ 3 } href="#levels" variant="hover">Уровни подготовки</Link>
+                <Link color="black" lineWidth={ 3 } href="#partners" variant="hover">Партнёры</Link>
+                <Link color="black" lineWidth={ 3 } href="#schoolarship" variant="hover">Стипендии</Link>
             </Nav>
             <div class="mobile-hide align-right">
                 <Button on:click={ openModal }>Поступить</Button>
@@ -186,11 +186,11 @@ import VideoCard from '$lib/components/VideoCard.svelte'
                 <img src="/img/red-close.svg" class="menu-button" alt="Кнопка закрытия навигации" on:click={ () => additional = false }>
             </div>
             <Nav className="mobile-hide">
-                <a sveltekit:prefetch class="underlined" href="/bachelor">Бакалавриат и специалитет</a>
-                <a sveltekit:prefetch class="underlined" href="/master">Магистратура</a>
-                <a sveltekit:prefetch target="_BLANK" class="underlined" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a>
-                <a sveltekit:prefetch class="underlined" href="/accommodation">Поселение</a>
-                <a sveltekit:prefetch class="underlined" href="/contacts">Контакты</a>
+                <Link color="black" lineWidth={ 3 } href="/bachelor" prefetch variant="hover">Бакалавриат и специалитет</Link>
+                <Link color="black" lineWidth={ 3 } href="/master" prefetch variant="hover">Магистратура</Link>
+                <Link color="black" lineWidth={ 3 } href="https://aspirant.urfu.ru/ru/aspirantura/" target="_BLANK" prefetch variant="hover">Аспирантура</Link>
+                <Link color="black" lineWidth={ 3 } href="/accommodation" prefetch variant="hover">Поселение</Link>
+                <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
             </Nav>
             <div class="mobile-hide align-right">
                 <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ openModal }>Хочу поступить</Link>

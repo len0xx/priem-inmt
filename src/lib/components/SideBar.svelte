@@ -1,35 +1,30 @@
 <script lang="ts">
-    import { createEventDispatcher, onMount } from 'svelte'
-    import Button from './Button.svelte'
     import Grid from './Grid.svelte'
-    import Heading from './Heading.svelte';
-    import Partner from './Partner.svelte';
+    import Text from './Text.svelte'
+    import Button from './Button.svelte'
+    import Heading from './Heading.svelte'
+    import Partner from './Partner.svelte'
     import Profile from './Profile.svelte'
     import Rainbow from './Rainbow.svelte'
-    import Text from './Text.svelte'
+    import { createEventDispatcher, onMount } from 'svelte'
+    import type { EducationMode, Degree, Exam, Teacher, Feedback } from '$lib/programs'
 
     const dispatch = createEventDispatcher()
 
-    export let title = ''
-    export let vacantSpots = [["0", "0"]]
-    export let price: string[] = []
-    export let text = ''
-    export let degree = ''
+    export let title: string
+    export let vacantSpots: [string, string][]
+    export let price: string[]
+    export let text: string
     export let hidden = true
-    export let feedbacks = []
     export let partners: string[] = []
-    export let languages: string[] = []
+    export let languages: string[]
     export let directions: string[] = []
-    export let duration: string[] = []
-    export let educationModes: string[] = []
-    export let exams: { title: string, result: number }[] = []
-    export let teacher = {
-        name: '',
-        photo: '',
-        position: '',
-        email: '',
-        tel: ''
-    }
+    export let duration: string[]
+    export let degree: Degree
+    export let feedbacks: Feedback[] = []
+    export let educationModes: EducationMode[]
+    export let exams: Exam[] = []
+    export let teacher: Teacher
 
     let activeMode = 0
 

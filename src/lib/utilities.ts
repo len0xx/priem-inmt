@@ -1,8 +1,7 @@
 import { ajax } from 'jquery'
 import axios from 'axios'
-// import type { NeedleHttpVerbs, NeedleResponse } from 'needle'
 import type { RESTMethod, DefaultAJAXResponse } from './types'
-
+import type { Program } from './programs'
 
 // Create slug from the title
 export function formatSlug(input: string): string {
@@ -127,4 +126,36 @@ export function encodeQuery(data: Record<string, string>): string {
             ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]))
     }
     return ret.join('&')
+}
+
+export function sortByName(a: Program, b: Program): number {
+    if (a.title < b.title) return -1
+    if (a.title > b.title) return 1
+    return 0
+}
+
+export function countPlaces(places: string[][]): number {
+    let total = 0
+    places.forEach(modePlaces => total += modePlaces.reduce((acc: number, cur: string) => acc + +cur, 0))
+    return total
+}
+
+export function sortByPlaces(a: Program, b: Program): number {
+    if (countPlaces(a.vacantSpots) > countPlaces(b.vacantSpots)) return -1
+    if (countPlaces(a.vacantSpots) < countPlaces(b.vacantSpots)) return 1
+    return 0
+}
+
+export function getPriceNumber(price: string): number {
+    let nums = ''
+    for (let i = 0; i < price.length; i++) {
+        if (price[i].match(/\d/)) nums += price[i]
+    }
+    return +nums
+}
+
+export function sortByPrice(a: Program, b: Program): number {
+    if (getPriceNumber(a.price[0]) < getPriceNumber(b.price[0])) return -1
+    if (getPriceNumber(a.price[0]) > getPriceNumber(b.price[0])) return 1
+    return 0
 }

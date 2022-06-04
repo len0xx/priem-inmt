@@ -29,6 +29,7 @@
     let headerClass = ''
     let formSubmitted = false
     let formSuccess = false
+    let linkColor: 'white' | 'black' = 'white'
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
@@ -51,13 +52,19 @@
     const openMenu = () => menuHidden = false
 
     const handleScrollUp = () => {
-        setTimeout(() => headerClass = '', 250)
+        setTimeout(() => {
+            headerClass = ''
+            linkColor = 'white'
+        }, 250)
     }
 
     const handleScrollDown = () => {
-        setTimeout(() => headerClass = 'header-scrolled', 200)
+        setTimeout(() => {
+            headerClass = 'header-scrolled'
+            linkColor = 'black'
+        }, 200)
     }
-
+    
     const resetFormResults = (): void => {
         setTimeout(() => {
             formSubmitted = false
@@ -163,11 +170,11 @@
                 <img src="/img/red-close.svg" class="menu-button" alt="Кнопка закрытия навигации" on:click={ () => additional = false }>
             </div>
             <Nav className="mobile-hide">
-                <a sveltekit:prefetch class="underlined" href="/bachelor">Бакалавриат и специалитет</a>
-                <a sveltekit:prefetch class="underlined" href="/master">Магистратура</a>
-                <a sveltekit:prefetch target="_BLANK" class="underlined" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a>
-                <a sveltekit:prefetch class="underlined" href="/accommodation">Поселение</a>
-                <a sveltekit:prefetch class="underlined" href="/contacts">Контакты</a>
+                <Link color="black" lineWidth={ 3 } href="/bachelor" prefetch variant="hover">Бакалавриат и специалитет</Link>
+                <Link color="black" lineWidth={ 3 } href="/master" prefetch variant="hover">Магистратура</Link>
+                <Link color="black" lineWidth={ 3 } href="https://aspirant.urfu.ru/ru/aspirantura/" target="_BLANK" prefetch variant="hover">Аспирантура</Link>
+                <Link color="black" lineWidth={ 3 } href="/accommodation" prefetch variant="hover">Поселение</Link>
+                <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
             </Nav>
             <div class="mobile-hide align-right">
                 <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ openModal }>Хочу поступить</Link>

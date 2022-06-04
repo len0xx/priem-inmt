@@ -25,9 +25,10 @@
     import ProgramCard from '$lib/components/ProgramCard.svelte'
     import RoundButton from '$lib/components/RoundButton.svelte'
     import SelectButton from '$lib/components/SelectButton.svelte'
+    import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
+    import programs, { type EducationMode, type Program } from '$lib/programs'
     import images from '$lib/images3'
     import partners from '$lib/partners'
-    import programs from '$lib/programs'
     import professions from '$lib/professions'
     import faqText from '$lib/faqs'
     import { master as feedbacks } from '$lib/feedback'
@@ -40,7 +41,7 @@
 
     let modalVisible = false
     let programsExpanded = false
-    let professionsExpanded
+    let professionsExpanded = false
     let menuHidden = true
     let showPreloader = true
     let pageLoaded = false
@@ -53,7 +54,7 @@
     let faqs: boolean[] = []
     let programActive: boolean[] = []
     let programOpened: boolean[] = []
-    let educationModes: string[] = []
+    let educationModes: EducationMode[] = []
     let payModes: string[] = []
     let languages: string[] = []
     let selectedSort = 'name'
@@ -61,6 +62,7 @@
     let formSubmitted = false
     let formSuccess = false
     let feedbacksExpanded = false
+    let linkColor: 'white' | 'black' = 'white'
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
@@ -107,13 +109,19 @@
     const openMenu = () => menuHidden = false
 
     const handleScrollUp = () => {
-        setTimeout(() => headerClass = '', 250)
+        setTimeout(() => {
+            headerClass = ''
+            linkColor = 'white'
+        }, 250)
     }
 
     const handleScrollDown = () => {
-        setTimeout(() => headerClass = 'header-scrolled', 200)
+        setTimeout(() => {
+            headerClass = 'header-scrolled'
+            linkColor = 'black'
+        }, 200)
     }
-
+    
     const resetFormResults = (): void => {
         setTimeout(() => {
             formSubmitted = false
@@ -133,7 +141,7 @@
         resetFormResults()
     }
 
-    const applyFilters = (program: any, selectedEducationModes: string[], selectedPayModes: string[], selectedLanguages: string[], searchString: string): boolean => {
+    const applyFilters = (program: Program, selectedEducationModes: EducationMode[], selectedPayModes: string[], selectedLanguages: string[], searchString: string): boolean => {
         const budgetPlaces = program.vacantSpots.reduce((acc: number, cur: string[]) => acc + +cur[0], 0)
         const paidPlaces = program.vacantSpots.reduce((acc: number, cur: string[]) => acc + +cur[1], 0)
 
@@ -144,38 +152,6 @@
         const payFilter = selectedPayModes.length ? (selectedPayModes.includes('Бюджет') ? budgetPlaces > 0 : false) || (selectedPayModes.includes('Контракт') ? paidPlaces > 0 : false) : true
 
         return modeFilter && languageFilter && payFilter && degreeFilter && searchFilter
-    }
-
-    const sortByName = (a: any, b: any) => {
-        if (a.title < b.title) return -1
-        if (a.title > b.title) return 1
-        return 0
-    }
-
-    const countPlaces = (places: string[][]): number => {
-        let total = 0
-        places.forEach(modePlaces => total += modePlaces.reduce((acc: number, cur: string) => acc + +cur, 0))
-        return total
-    }
-
-    const sortByPlaces = (a: any, b: any) => {
-        if (countPlaces(a.vacantSpots) > countPlaces(b.vacantSpots)) return -1
-        if (countPlaces(a.vacantSpots) < countPlaces(b.vacantSpots)) return 1
-        return 0
-    }
-
-    const getPriceNumber = (price: string) => {
-        let nums = ''
-        for (let i = 0; i < price.length; i++) {
-            if (price[i].match(/\d/)) nums += price[i]
-        }
-        return +nums
-    }
-
-    const sortByPrice = (a: any, b: any) => {
-        if (getPriceNumber(a.price[0]) < getPriceNumber(b.price[0])) return -1
-        if (getPriceNumber(a.price[0]) > getPriceNumber(b.price[0])) return 1
-        return 0
     }
 
     $: programsFiltered = programs.filter(program => applyFilters(program, educationModes, payModes, languages, search)).sort((a, b) => {
@@ -258,9 +234,9 @@
                 { /if }
             </div>
             <Nav className="mobile-hide">
-                <a class="underlined" href="#enroll">Как поступить</a>
-                <a class="underlined" href="#dates">Календарь приема</a>
-                <a class="underlined" href="#programs">Программы</a>
+                <Link color={ linkColor } lineWidth={ 3 } href="#enroll" variant="hover">Как поступить</Link>
+                <Link color={ linkColor } lineWidth={ 3 } href="#dates" variant="hover">Календарь приема</Link>
+                <Link color={ linkColor } lineWidth={ 3 } href="#programs" variant="hover">Программы</Link>
             </Nav>
             <div class="mobile-hide align-right">
                 <Button variant={ headerClass == 'header-scrolled' ? 'primary' : 'blue' } on:click={ openModal }>Поступить</Button>
@@ -278,11 +254,11 @@
                 <img src="/img/red-close.svg" class="menu-button" alt="Кнопка закрытия навигации" on:click={ () => additional = false }>
             </div>
             <Nav className="mobile-hide">
-                <a sveltekit:prefetch class="underlined" href="/bachelor">Бакалавриат и специалитет</a>
-                <a sveltekit:prefetch class="underlined" href="/master">Магистратура</a>
-                <a sveltekit:prefetch target="_BLANK" class="underlined" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a>
-                <a sveltekit:prefetch class="underlined" href="/accommodation">Поселение</a>
-                <a sveltekit:prefetch class="underlined" href="/contacts">Контакты</a>
+                <Link color="black" lineWidth={ 3 } href="/bachelor" prefetch variant="hover">Бакалавриат и специалитет</Link>
+                <Link color="black" lineWidth={ 3 } href="/master" prefetch variant="hover">Магистратура</Link>
+                <Link color="black" lineWidth={ 3 } href="https://aspirant.urfu.ru/ru/aspirantura/" target="_BLANK" prefetch variant="hover">Аспирантура</Link>
+                <Link color="black" lineWidth={ 3 } href="/accommodation" prefetch variant="hover">Поселение</Link>
+                <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
             </Nav>
             <div class="mobile-hide align-right">
                 <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ openModal }>Хочу поступить</Link>

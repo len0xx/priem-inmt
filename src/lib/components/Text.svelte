@@ -1,7 +1,7 @@
 <script lang="ts">
     export let className = ''
     export let color = ''
-    export let id = null
+    export let id = undefined
     export let marginX = 0
     export let marginY = 1
     export let opacity = 1

@@ -3,7 +3,7 @@
     import { sendWindowAJAX } from '../utilities'
     import type { RESTMethod } from '../types'
 
-    export let id: string = null
+    export let id: string = undefined
     export let action = ''
     export let className = ''
     export let csrfToken = ''

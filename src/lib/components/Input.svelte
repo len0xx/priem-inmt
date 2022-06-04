@@ -6,7 +6,7 @@
 
     export let marginX = 0
     export let marginY = 1
-    export let id: string = null
+    export let id: string = undefined
     export let min: number = null
     export let max: number = null
     export let mask: any = null

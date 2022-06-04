@@ -1,18 +1,28 @@
 <script lang="ts">
-    type LinkVariant = 'regular' | 'underlined' | 'interactive'
+    import { createEventDispatcher } from 'svelte'
+    import { prefetch as execPrefetch } from '$app/navigation'
+
+    const dispatch = createEventDispatcher()
+
+    type LinkVariant = 'regular' | 'underlined' | 'interactive' | 'hover'
 
     export let href = '#'
     export let title = ''
     export let target = '_SELF'
     export let color = 'var(--blue)'
     export let lineWidth = 4
+    export let prefetch: boolean = false
     export let variant: LinkVariant = 'regular'
     export let className = ''
+    let variantClass = variant + '-variant'
 
-    className = className.length ? [className, variant + '-variant'].join(' ') : variant + '-variant'
+    const mouseOverHandler = () => {
+        if (prefetch && href && !href.startsWith('#')) execPrefetch(href)
+        dispatch('mouseover')
+    }
 </script>
 
-<a {href} {title} {target} class="kit-link {className}" style:color on:click on:mouseover on:focus on:mouseleave>
+<a {href} {title} {target} class="kit-link {className} {variantClass}" style:color on:click on:mouseover={ mouseOverHandler } on:focus on:mouseleave>
     <slot />
     <span class="kit-link-underline" style:background-color={ color } style:height={ lineWidth + 'px' }></span>
 </a>
@@ -25,9 +35,16 @@
         padding-bottom: 0;
     }
 
-    a.kit-link.underlined-variant,
-    a.kit-link.interactive-variant {
+    a.kit-link:not(.regular-variant) {
         padding-bottom: 4px;
+    }
+
+    a.kit-link.hover-variant .kit-link-underline {
+        display: none;
+    }
+
+    a.kit-link.hover-variant:hover .kit-link-underline {
+        display: inline-block;
     }
 
     .kit-link-underline {

@@ -1,30 +1,32 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import Nav from '$lib/components/Nav.svelte'
-    import Grid from '$lib/components/Grid.svelte'
-    import Link from '$lib/components/Link.svelte'
-    import Text from '$lib/components/Text.svelte'
-    import Modal from '$lib/components/Modal.svelte'
-    import Input from '$lib/components/Input.svelte'
-    import Button from '$lib/components/Button.svelte'
-    import Filter from '$lib/components/Filter.svelte'
-    import Header from '$lib/components/Header.svelte'
-    import Switch from '$lib/components/Switch.svelte'
-    import SideBar from '$lib/components/SideBar.svelte'
-    import Benefit from '$lib/components/Benefit.svelte'
-    import Heading from '$lib/components/Heading.svelte'
-    import Rainbow from '$lib/components/Rainbow.svelte'
-    import Partner from '$lib/components/Partner.svelte'
-    import Profile from '$lib/components/Profile.svelte'
-    import AjaxForm from '$lib/components/AjaxForm.svelte'
-    import Carousel from '$lib/components/Carousel.svelte'
-    import Preloader from '$lib/components/Preloader.svelte'
-    import Profession from '$lib/components/Profession.svelte'
-    import Expandable from '$lib/components/Expandable.svelte'
-    import MobileMenu from '$lib/components/MobileMenu.svelte'
-    import ProgramCard from '$lib/components/ProgramCard.svelte'
-    import RoundButton from '$lib/components/RoundButton.svelte'
-    import SelectButton from '$lib/components/SelectButton.svelte'
+    import {
+        Nav,
+        Grid,
+        Link,
+        Text,
+        Modal,
+        Input,
+        Button,
+        Filter,
+        Switch,
+        Header,
+        SideBar,
+        Heading,
+        Rainbow,
+        Partner,
+        Profile,
+        Benefit,
+        AjaxForm,
+        Carousel,
+        Preloader,
+        Profession,
+        Expandable,
+        MobileMenu,
+        RoundButton,
+        ProgramCard,
+        SelectButton
+    } from '$lib/components'
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
     import programs, { type EducationMode, type Program } from '$lib/programs'
     import images from '$lib/images3'

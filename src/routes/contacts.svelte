@@ -1,19 +1,21 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import Nav from '$lib/components/Nav.svelte'
-    import Grid from '$lib/components/Grid.svelte'
-    import Link from '$lib/components/Link.svelte'
-    import Text from '$lib/components/Text.svelte'
-    import Modal from '$lib/components/Modal.svelte'
-    import Input from '$lib/components/Input.svelte'
-    import Button from '$lib/components/Button.svelte'
-    import Header from '$lib/components/Header.svelte'
-    import Heading from '$lib/components/Heading.svelte'
-    import Rainbow from '$lib/components/Rainbow.svelte'
-    import Graduate from '$lib/components/Graduate.svelte'
-    import AjaxForm from '$lib/components/AjaxForm.svelte'
-    import Preloader from '$lib/components/Preloader.svelte'
-    import MobileMenu from '$lib/components/MobileMenu.svelte'
+    import {
+        Nav,
+        Grid,
+        Link,
+        Text,
+        Modal,
+        Input,
+        Button,
+        Header,
+        Heading,
+        Rainbow,
+        Graduate,
+        AjaxForm,
+        Preloader,
+        MobileMenu
+    } from '$lib/components'
     import { afterNavigate, beforeNavigate } from '$app/navigation'
 
     // User authorization

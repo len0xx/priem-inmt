@@ -1,31 +1,33 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import Nav from '$lib/components/Nav.svelte'
-    import Grid from '$lib/components/Grid.svelte'
-    import Link from '$lib/components/Link.svelte'
-    import Text from '$lib/components/Text.svelte'
-    import Modal from '$lib/components/Modal.svelte'
-    import Input from '$lib/components/Input.svelte'
-    import Button from '$lib/components/Button.svelte'
-    import Filter from '$lib/components/Filter.svelte'
-    import Header from '$lib/components/Header.svelte'
-    import SideBar from '$lib/components/SideBar.svelte'
-    import Benefit from '$lib/components/Benefit.svelte'
-    import Heading from '$lib/components/Heading.svelte'
-    import Rainbow from '$lib/components/Rainbow.svelte'
-    import Partner from '$lib/components/Partner.svelte'
-    import Profile from '$lib/components/Profile.svelte'
-    import Divider from '$lib/components/Divider.svelte'
-    import AjaxForm from '$lib/components/AjaxForm.svelte'
-    import Carousel from '$lib/components/Carousel.svelte'
-    import Announce from '$lib/components/Announce.svelte'
-    import Document from '$lib/components/Document.svelte'
-    import Preloader from '$lib/components/Preloader.svelte'
-    import MobileMenu from '$lib/components/MobileMenu.svelte'
-    import RoundButton from '$lib/components/RoundButton.svelte'
-    import ProgramCard from '$lib/components/ProgramCard.svelte'
-    import SelectButton from '$lib/components/SelectButton.svelte'
-    import ScrollingPhoto from '$lib/components/ScrollingPhoto.svelte'
+    import {
+        Nav,
+        Grid,
+        Link,
+        Text,
+        Modal,
+        Input,
+        Button,
+        Filter,
+        Header,
+        SideBar,
+        Benefit,
+        Heading,
+        Rainbow,
+        Partner,
+        Profile,
+        Divider,
+        AjaxForm,
+        Carousel,
+        Announce,
+        Document,
+        Preloader,
+        MobileMenu,
+        RoundButton,
+        ProgramCard,
+        SelectButton,
+        ScrollingPhoto,
+    } from '$lib/components'
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
     import programs, { type EducationMode, type Program } from '$lib/programs'
     import { afterNavigate, beforeNavigate } from '$app/navigation'
@@ -541,7 +543,7 @@
         <Text>Выпускники колледжей и техникумов имеют возможность поступить на очную или заочную формы обучения по программам бакалавриата и специалитета на бюджетной или контрактной основе</Text>
         <Divider className="mobile-hide" height={2} color="white" marginY={1.5} />
         <Text opacity={0.4}>Ознакомиться с перечнем вступительных испытаний для абитуриентов на базе среднего профессионального образования для поступления в УрФУ в 2022 году можно в документе</Text>
-        <Link color="white" lineWidth={ 2 } variant="interactive" href="https://urfu.ru/ru/applicant/docs-abiturient/demo-exams/">Демо-варианты</Link> <br /><br /><br />
+        <Link color="white" lineWidth={ 2 } variant="interactive" target="_BLANK" href="https://urfu.ru/ru/applicant/docs-abiturient/demo-exams/">Демо-варианты</Link> <br /><br /><br />
         <Button className="mobile-hide" on:click={ openModal }>Поступить</Button>
         <Button className="pc-hide wide" on:click={ openModal }>Поступить</Button>
     </svelte:fragment>

@@ -1,27 +1,29 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import Nav from '$lib/components/Nav.svelte'
-    import Grid from '$lib/components/Grid.svelte'
-    import Link from '$lib/components/Link.svelte'
-    import Text from '$lib/components/Text.svelte'
-    import Modal from '$lib/components/Modal.svelte'
-    import Input from '$lib/components/Input.svelte'
-    import Slide from '$lib/components/Slide.svelte'
-    import Button from '$lib/components/Button.svelte'
-    import Header from '$lib/components/Header.svelte'
-    import Slider from '$lib/components/Slider.svelte'
-    import Benefit from '$lib/components/Benefit.svelte'
-    import Heading from '$lib/components/Heading.svelte'
-    import Rainbow from '$lib/components/Rainbow.svelte'
-    import Partner from '$lib/components/Partner.svelte'
-    import AjaxForm from '$lib/components/AjaxForm.svelte'
-    import NewsCard from '$lib/components/NewsCard.svelte'
-    import Graduate from '$lib/components/Graduate.svelte'
-    import Carousel from '$lib/components/Carousel.svelte'
-    import VideoCard from '$lib/components/VideoCard.svelte'
-    import Preloader from '$lib/components/Preloader.svelte'
-    import MobileMenu from '$lib/components/MobileMenu.svelte'
-    import RoundButton from '$lib/components/RoundButton.svelte'
+    import {
+        Nav,
+        Grid,
+        Link,
+        Text,
+        Modal,
+        Input,
+        Slide,
+        Button,
+        Header,
+        Slider,
+        Heading,
+        Rainbow,
+        Partner,
+        Benefit,
+        Graduate,
+        AjaxForm,
+        Carousel,
+        NewsCard,
+        Preloader,
+        VideoCard,
+        MobileMenu,
+        RoundButton
+    } from '$lib/components'
     import { afterNavigate, beforeNavigate } from '$app/navigation'
     import images1 from '$lib/images1'
     import images2 from '$lib/images2'

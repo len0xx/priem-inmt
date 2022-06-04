@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
-    import Text from './Text.svelte'
+    import { Text } from '.'
 
     export let title = ''
     export let description = ''

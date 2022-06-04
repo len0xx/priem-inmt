@@ -1,11 +1,5 @@
 <script lang="ts">
-    import Grid from './Grid.svelte'
-    import Text from './Text.svelte'
-    import Button from './Button.svelte'
-    import Heading from './Heading.svelte'
-    import Partner from './Partner.svelte'
-    import Profile from './Profile.svelte'
-    import Rainbow from './Rainbow.svelte'
+    import { Text, Heading, Grid, Button, Partner, Profile, Rainbow } from '.'
     import { createEventDispatcher, onMount } from 'svelte'
     import type { EducationMode, Degree, Exam, Teacher, Feedback } from '$lib/programs'
 

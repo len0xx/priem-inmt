@@ -1,7 +1,6 @@
 <script lang="ts">
     import { beforeUpdate } from 'svelte'
-    import Card from './Card.svelte'
-    import SelectButton from './SelectButton.svelte'
+    import { Card, SelectButton } from '.'
     import type { Program } from '$lib/programs'
 
     export let program: Program

@@ -19,7 +19,7 @@ do
     xbase=${file##*/}
     xfext=${xbase##*.}
     xpref=${xbase%.*}
-    echo "    $xpref, "  >> $index
+    echo "    $xpref,"  >> $index
 done
 echo "}" >> $index
 

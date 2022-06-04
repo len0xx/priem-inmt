@@ -2,8 +2,7 @@
     type ColorVariant = 'white' | 'grey'
     type Gradient = 'blue-1' | 'blue-2' | 'red-1' | 'red-2' | 'custom'
 
-    import Heading from './Heading.svelte'
-    import Text from './Text.svelte'
+    import { Text, Heading } from '.'
     
     export let color: Gradient = 'red-1'
     export let variant: ColorVariant = 'grey'

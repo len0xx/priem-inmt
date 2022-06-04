@@ -4,7 +4,6 @@ import Benefit from './Benefit.svelte'
 import Button from './Button.svelte'
 import Card from './Card.svelte'
 import Carousel from './Carousel.svelte'
-import CommonFooter from './CommonFooter.svelte'
 import Divider from './Divider.svelte'
 import Document from './Document.svelte'
 import Expandable from './Expandable.svelte'
@@ -34,7 +33,6 @@ import SideBar from './SideBar.svelte'
 import Slide from './Slide.svelte'
 import Slider from './Slider.svelte'
 import Switch from './Switch.svelte'
-import Table from './Table.svelte'
 import Teacher from './Teacher.svelte'
 import Text from './Text.svelte'
 import VideoCard from './VideoCard.svelte'
@@ -45,8 +43,7 @@ export {
     Benefit, 
     Button, 
     Card, 
-    Carousel, 
-    CommonFooter, 
+    Carousel,
     Divider, 
     Document, 
     Expandable, 
@@ -76,7 +73,6 @@ export {
     Slide, 
     Slider, 
     Switch, 
-    Table, 
     Teacher, 
     Text, 
     VideoCard, 

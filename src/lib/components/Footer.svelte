@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Rainbow from '$lib/components/Rainbow.svelte'
+    import { Rainbow } from '.'
 </script>
 
 <footer id="footer">

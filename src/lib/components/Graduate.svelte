@@ -1,7 +1,5 @@
 <script lang="ts">
-    import Heading from "./Heading.svelte"
-    import Rainbow from "./Rainbow.svelte"
-    import Text from "./Text.svelte"
+    import { Text, Heading, Rainbow } from '.'
 
     type Size = 'S' | 'M' | 'L'
 

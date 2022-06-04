@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import RoundButton from './RoundButton.svelte'
+    import { RoundButton } from '.'
 
     export let margin = 10          // Margin between the children
     export let className = ''

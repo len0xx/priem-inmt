@@ -1,8 +1,5 @@
 <script lang="ts">
-    import Grid from "./Grid.svelte"
-    import Heading from "./Heading.svelte"
-    import Rainbow from "./Rainbow.svelte"
-    import Text from "./Text.svelte"
+    import { Text, Grid, Heading, Rainbow } from '.'
 
     export let image = ''
 </script>

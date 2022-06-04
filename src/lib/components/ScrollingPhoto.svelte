@@ -1,7 +1,6 @@
 <script lang="ts">
-import { onMount } from 'svelte';
-
-    import RoundButton from './RoundButton.svelte'
+    import { onMount } from 'svelte'
+    import { RoundButton } from '.'
 
     export let src: string
 

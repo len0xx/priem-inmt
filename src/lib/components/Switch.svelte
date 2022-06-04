@@ -1,9 +1,9 @@
 <script lang="ts">
+    import { createEventDispatcher } from 'svelte'
+    
     export let className = ''
     export let left = ''
     export let right = ''
-
-    import { createEventDispatcher } from 'svelte'
 
     let state = false
     const dispatch = createEventDispatcher()

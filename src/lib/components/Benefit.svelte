@@ -1,6 +1,5 @@
 <script lang="ts">
-    import Divider from './Divider.svelte'
-    import Heading from './Heading.svelte'
+    import { Divider, Heading } from '.'
 
     export let num = '0'
     export let caption = ''

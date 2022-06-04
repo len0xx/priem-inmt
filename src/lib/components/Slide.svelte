@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Grid from './Grid.svelte'
+    import { Grid } from '.'
 
     export let img = ''
 </script>

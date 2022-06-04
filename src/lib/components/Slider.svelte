@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount, createEventDispatcher } from 'svelte'
-    import Rainbow from '$lib/components/Rainbow.svelte'
+    import { Rainbow } from '.'
 
     export let duration = 7
     export let swiping = false

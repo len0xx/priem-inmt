@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "type": "module",
     "scripts": {
-        "dev": "npm run reexport && svelte-kit dev -p 3000",
+        "dev": "npm run reexport && svelte-kit build && svelte-kit preview",
         "preview": "svelte-kit preview",
         "reexport": "./export-components.sh",
         "build:frontend": "npm run reexport && svelte-kit build",

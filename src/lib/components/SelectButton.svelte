@@ -53,6 +53,7 @@
 
     .kit-select-button.variant-fill.btn-color-blue {
         background-color: var(--blue);
+        border-color: transparent;
         color: var(--white);
     }
 
@@ -62,6 +63,7 @@
 
     .kit-select-button.variant-fill.btn-color-red {
         background-color: var(--red);
+        border-color: transparent;
         color: var(--white);
     }
 

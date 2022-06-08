@@ -276,6 +276,55 @@
 </section>
 <br />
 <br />
+<section id="benefits">
+    <div class="content">
+        <Grid l={4} m={2}>
+            <Benefit num="1 128" caption="Бюджетных мест по программам бакалавриата и специалитета" />
+            <Benefit num="123" caption="Контрактных мест по программам бакалавриата и специалитета" />
+            <Benefit num="20 июня" caption="Начало приема документов в приемной комиссии УрФУ" />
+        </Grid>
+    </div>
+</section>
+<section id="programs">
+    <div class="content">
+        <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Образовательные программы</Heading>
+        <div class="filters">
+            <div class="left">
+                <Filter label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
+                <Filter label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
+                <Filter label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
+                <Filter label="Экзамены" name="exams" bind:group={ exams } type="checkbox" options={[ 'Русский язык', 'Математика', 'Физика', 'Информатика и ИКТ', 'Химия', 'Творческое испытание' ]} />
+            </div>
+            <div class="right">
+                <Filter width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
+                <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } />
+            </div>
+        </div>
+        <br />
+        <br />
+        { #if programsFiltered.length }
+            <Grid l={3} m={2} s={1}>
+                { #each programsFiltered as program, i }
+                    { #if i < 6 || programsExpanded }
+                        <ProgramCard on:click={ () => openProgram(i) } { program } />
+                        { #if programActive[i] }
+                            <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); openModal()}} bind:hidden={programOpened[i]} {...program} />
+                        { /if }
+                    { /if }
+                { /each }
+            </Grid>
+            { #if !programsExpanded && programsFiltered.length > 6 }
+                <br />
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="XL" on:click={() => programsExpanded = true} />
+                </div>
+            { /if }
+        { :else }
+            <Text>Не удалось найти образовательные программы по Вашему запросу. Попробуйте изменить запрос</Text>
+        { /if }
+    </div>
+</section>
 <section id="algorithm">
     <div class="content">
         <Grid m={3} s={1} gap={3}>
@@ -346,55 +395,6 @@
                     <Text>Для абитуриентов, поступающих на контрактную форму, необходимо заключить договор и оплатить первый семестр</Text>
                 </div>
             </div>
-        </Grid>
-    </div>
-</section>
-<section id="programs">
-    <div class="content">
-        <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Образовательные программы</Heading>
-        <div class="filters">
-            <div class="left">
-                <Filter label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
-                <Filter label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
-                <Filter label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
-                <Filter label="Экзамены" name="exams" bind:group={ exams } type="checkbox" options={[ 'Русский язык', 'Математика', 'Физика', 'Информатика и ИКТ', 'Химия', 'Творческое испытание' ]} />
-            </div>
-            <div class="right">
-                <Filter width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
-                <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } />
-            </div>
-        </div>
-        <br />
-        <br />
-        { #if programsFiltered.length }
-            <Grid l={3} m={2} s={1}>
-                { #each programsFiltered as program, i }
-                    { #if i < 6 || programsExpanded }
-                        <ProgramCard on:click={ () => openProgram(i) } { program } />
-                        { #if programActive[i] }
-                            <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); openModal()}} bind:hidden={programOpened[i]} {...program} />
-                        { /if }
-                    { /if }
-                { /each }
-            </Grid>
-            { #if !programsExpanded && programsFiltered.length > 6 }
-                <br />
-                <br />
-                <div class="align-center">
-                    <RoundButton variant="plus" size="XL" on:click={() => programsExpanded = true} />
-                </div>
-            { /if }
-        { :else }
-            <Text>Не удалось найти образовательные программы по Вашему запросу. Попробуйте изменить запрос</Text>
-        { /if }
-    </div>
-</section>
-<section id="benefits">
-    <div class="content">
-        <Grid l={4} m={2}>
-            <Benefit num="1 228" caption="Бюджетных мест по программам бакалавриата и специалитета" />
-            <Benefit num="123" caption="Контрактных мест по программам бакалавриата и специалитета" />
-            <Benefit num="20 июня" caption="Начало приема документов в приемной комиссии УрФУ" />
         </Grid>
     </div>
 </section>

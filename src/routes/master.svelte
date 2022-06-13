@@ -514,7 +514,7 @@
         <br />
         { #if programsFiltered.length }
             <Grid l={3} m={2} s={1}>
-                { #each programsFiltered as program, i }
+                { #each programsFiltered as program, i (program.id) }
                     { #if i < 6 || programsExpanded }
                         <ProgramCard on:click={ () => openProgram(i) } { program } />
                         { #if programActive[i] }

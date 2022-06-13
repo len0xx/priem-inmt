@@ -19,6 +19,7 @@ export type Feedback = {
 }
 
 export interface Program {
+    id: number,
     title: string
     degree: Degree
     directions: string[]
@@ -36,6 +37,7 @@ export interface Program {
 
 const programs: Program[] = [
     {
+        'id': 1,
         'title': 'Автоматизация конструкторского и технологического проектирования на базе универсальных промышленных САПР',
         'degree': 'Магистратура',
         'directions': [
@@ -84,6 +86,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 2,
         'title': 'Гибкие производственные системы',
         'degree': 'Магистратура',
         'directions': [
@@ -118,6 +121,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 3,
         'title': 'Инновационное развитие наукоемких производств',
         'degree': 'Магистратура',
         'directions': [
@@ -174,6 +178,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 4,
         'title': 'Интеллектуальные системы лазерных и аддитивных производств',
         'degree': 'Магистратура',
         'directions': [
@@ -208,6 +213,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 5,
         'title': 'Информационные системы и технологии в металлургии',
         'degree': 'Магистратура',
         'directions': [
@@ -252,6 +258,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 6,
         'title': 'Энерго- и ресурсосберегающие процессы и оборудование в производстве строительных материалов и изделий',
         'degree': 'Магистратура',
         'directions': [
@@ -292,6 +299,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 7,
         'title': 'Кибер-производство',
         'degree': 'Магистратура',
         'directions': [
@@ -326,6 +334,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 8,
         'title': 'Материаловедение и технология конструкционных материалов',
         'degree': 'Магистратура',
         'directions': [
@@ -360,6 +369,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 9,
         'title': 'Материаловедение и технология обработки сплавов для аэрокосмических и медицинских изделий',
         'degree': 'Магистратура',
         'directions': [
@@ -394,6 +404,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 10,
         'title': 'Физическое материаловедение специальных сплавов',
         'degree': 'Магистратура',
         'directions': [
@@ -429,6 +440,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 11,
         'title': 'Управление качеством в условиях цифровой экономики',
         'degree': 'Магистратура',
         'directions': [
@@ -475,6 +487,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 12,
         'title': 'Металлообрабатывающее оборудование и инструмент',
         'degree': 'Магистратура',
         'directions': [
@@ -515,6 +528,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 13,
         'title': 'Технология машиностроения',
         'degree': 'Магистратура',
         'directions': [
@@ -559,6 +573,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 14,
         'title': 'Металлургия черных, цветных и редких металлов',
         'degree': 'Магистратура',
         'directions': [
@@ -601,6 +616,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 15,
         'title': 'Технология высокотемпературных неметаллических конструкционных и функциональных изделий и наноматериалов',
         'degree': 'Магистратура',
         'directions': [
@@ -662,6 +678,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 16,
         'title': 'Обработка металлов давлением на предприятиях металлургической и машиностроительной отраслей промышленности',
         'degree': 'Магистратура',
         'directions': [
@@ -696,6 +713,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 17,
         'title': 'Технологические машины и оборудование',
         'degree': 'Магистратура',
         'directions': [
@@ -726,7 +744,8 @@ const programs: Program[] = [
         ],
         'feedbacks': [],
         'languages': [
-            'Русский', 'Английский'
+            'Русский',
+            'Английский'
         ],
         'partners': [
             '/img/program-partners/14/1.jpg',
@@ -735,6 +754,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 18,
         'title': 'Оптические системы и технологии',
         'degree': 'Магистратура',
         'directions': [
@@ -779,6 +799,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 19,
         'title': 'Системная инженерия',
         'degree': 'Магистратура',
         'directions': [
@@ -819,6 +840,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 20,
         'title': 'Разработка материалов для сварки, наплавки и напыления',
         'degree': 'Магистратура',
         'directions': [
@@ -865,10 +887,11 @@ const programs: Program[] = [
             '/img/program-partners/12/3.jpg',
             '/img/program-partners/12/4.png',
             '/img/program-partners/12/5.png',
-            '/img/program-partners/12/6.png',
+            '/img/program-partners/12/6.png'
         ]
     },
     {
+        'id': 21,
         'title': 'Процессы малой металлургии',
         'degree': 'Магистратура',
         'directions': [
@@ -912,6 +935,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 22,
         'title': 'Производство строительных материалов и изделий',
         'degree': 'Магистратура',
         'directions': [
@@ -951,6 +975,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 23,
         'title': 'Организация бизнеса (машиностроение)',
         'degree': 'Магистратура',
         'directions': [
@@ -1015,6 +1040,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 24,
         'title': 'Перспективные конструкционные материалы и высокоэффективные технологии',
         'degree': 'Магистратура',
         'directions': [
@@ -1060,6 +1086,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 25,
         'title': 'Проектирование и технологии изготовления ювелирных изделий',
         'degree': 'Магистратура',
         'directions': [
@@ -1098,6 +1125,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 26,
         'title': 'Прогрессивные методы обработки металлов и сплавов давлением',
         'degree': 'Магистратура',
         'directions': [
@@ -1143,6 +1171,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 27,
         'title': 'Автоматизация технологических процессов и производств',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1207,6 +1236,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 28,
         'title': 'Информационные системы и технологии',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1267,6 +1297,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 29,
         'title': 'Конструкторско-технологическое обеспечение машиностроительных производств',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1331,6 +1362,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 30,
         'title': 'Лазерные, аддитивные и упрочняющие технологии в машиностроении',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1387,6 +1419,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 31,
         'title': 'Материаловедение и технологии металлических материалов',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1443,6 +1476,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 32,
         'title': 'Машиностроение',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1515,6 +1549,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 33,
         'title': 'Металлургия',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1587,6 +1622,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 34,
         'title': 'Мехатроника и робототехника',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1651,6 +1687,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 35,
         'title': 'Оптические технологии и материалы',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1707,6 +1744,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 36,
         'title': 'Проектирование автомобилей и подъемно-транспортных машин',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1771,6 +1809,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 37,
         'title': 'Производство и применение строительных материалов, изделий и конструкций',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1823,6 +1862,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 38,
         'title': 'Системный анализ и управление',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1875,6 +1915,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 39,
         'title': 'Стандартизация и метрология',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1935,6 +1976,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 40,
         'title': 'Техническая эксплуатация автомобилей и подъемно-транспортных машин',
         'degree': 'Бакалавриат',
         'directions': [
@@ -1999,6 +2041,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 41,
         'title': 'Технологические машины и оборудование',
         'degree': 'Бакалавриат',
         'directions': [
@@ -2055,6 +2098,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 42,
         'title': 'Технология высокотемпературных неметаллических конструкционных и функциональных изделий и наноматериалов',
         'degree': 'Бакалавриат',
         'directions': [
@@ -2123,6 +2167,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 43,
         'title': 'Технология изготовления ювелирных изделий',
         'degree': 'Бакалавриат',
         'directions': [
@@ -2179,6 +2224,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 44,
         'title': 'Проектирование технологических машин и комплексов',
         'degree': 'Специалитет',
         'directions': [
@@ -2235,6 +2281,7 @@ const programs: Program[] = [
         ]
     },
     {
+        'id': 45,
         'title': 'Транспортные средства специального назначения',
         'degree': 'Специалитет',
         'directions': [

@@ -528,8 +528,8 @@
             </div>
         </div>
         <br />
-        <Button className="mobile-hide" on:click={ openModal }>Подать документы</Button>
-        <Button className="pc-hide wide" on:click={ openModal }>Подать документы</Button>
+        <Button className="mobile-hide" href="https://priem.urfu.ru" target="_BLANK">Подать документы</Button>
+        <Button className="pc-hide wide" href="https://priem.urfu.ru" target="_BLANK">Подать документы</Button>
     </div>
 </section>
 <br />

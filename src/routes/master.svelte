@@ -241,7 +241,7 @@
                 <Link color={ linkColor } lineWidth={ 3 } href="#programs" variant="hover">Программы</Link>
             </Nav>
             <div class="mobile-hide align-right">
-                <Button variant={ headerClass == 'header-scrolled' ? 'primary' : 'blue' } on:click={ openModal }>Поступить</Button>
+                <Button variant={ headerClass == 'header-scrolled' ? 'primary' : 'blue' } href="https://priem.urfu.ru" target="_BLANK">Подать документы</Button>
             </div>
             <div class="pc-hide align-right">
                 <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ openMenu }>     
@@ -540,7 +540,7 @@
         <Grid m={3} s={1}>
             <div>
                 <Heading size={1} marginTop={0} className="blue-text">Станьте ценным специалистом современной компании</Heading>
-                <Button className="mobile-hide" on:click={ openModal }>Поступить</Button>
+                <Button className="mobile-hide" on:click={ openModal }>Получить консультацию</Button>
             </div>
             <Text className="heading-3" marginTop={0}>Выпускники Института новых материалов и технологий способны создавать новые материалы с уникальными свойствами, проектировать конструкции, схемы, алгоритмы, технологии производства материалов, машин и оборудования, разрабатывать бизнес-планы создания технических новинок, управлять созданными машинами и обслуживать их, руководить промышленными предприятиями.</Text>
             <div style:opacity={0.8}>
@@ -556,7 +556,7 @@
             </div>
             <br class="pc-hide" />
             <br class="pc-hide" />
-            <Button className="pc-hide wide" on:click={ openModal }>Поступить</Button>
+            <Button className="pc-hide wide" on:click={ openModal }>Получить консультацию</Button>
         </Grid>
         <br />
         <br />

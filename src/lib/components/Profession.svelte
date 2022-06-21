@@ -16,7 +16,7 @@
     <div>
         <h3 class="no-top-margin">{ @html description }</h3>
         <Text opacity={0.6}>по данным портала hh.ru</Text>
-        <p><a href="#reg" class="link blue-color" on:click|preventDefault={ linkClicked }>Подать заявку</a></p>
+        <p><a href="#reg" class="link blue-color" on:click|preventDefault={ linkClicked }>Получить консультацию</a></p>
     </div>
     <div>
         <h3 class="no-top-margin">Функции:</h3>

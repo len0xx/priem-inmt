@@ -189,7 +189,7 @@
         <Grid m={1} l={2} ratio="5:3" alignItems="end">
             <Heading size={1} marginY={0}>Контакты<br /><span class="smaller-text">Институт новых материалов <br /> и технологий</span></Heading>
             <div class="align-right">
-                <Link on:click={ openModal } variant="interactive" color="white" lineWidth={ 2 }>Обратная связь</Link>
+                <Link on:click={ openModal } variant="interactive" color="white" lineWidth={ 2 }>Получить консультацию</Link>
             </div>
         </Grid>
     </div>

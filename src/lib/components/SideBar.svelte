@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="close-icon" on:click={emitCloseEvent}></div>
-                <div class="button-wrapper"><Button size="S" variant="blue" on:click={emitApplying}>Подать документы</Button></div>
+                <div class="button-wrapper"><Button size="S" variant="blue" on:click={emitApplying}>Получить консультацию</Button></div>
             </div>
         </div>
         <div class="sidebar-content">
@@ -157,7 +157,7 @@
                     </Grid>
                 { /if }
                 <br /><br />
-                <Button on:click={emitApplying} variant="blue">Поступить</Button>
+                <Button href="https://priem.urfu.ru" target="_BLANK" variant="blue">Подать документы</Button>
                 <br /><br />
                 <h3 class="blue-text">Отборочная комиссия института</h3>
                 <div class="grid grid-2-1 m-grid-1">

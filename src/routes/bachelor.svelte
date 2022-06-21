@@ -231,7 +231,7 @@
                 <Link color={ linkColor } lineWidth={ 3 } href="#programs" variant="hover">Программы</Link>
             </Nav>
             <div class="mobile-hide align-right">
-                <Button variant={ headerClass == 'header-scrolled' ? 'primary' : 'blue' } on:click={ openModal }>Поступить</Button>
+                <Button variant={ headerClass == 'header-scrolled' ? 'primary' : 'blue' } href="https://priem.urfu.ru" target="_BLANK">Подать документы</Button>
             </div>
             <div class="pc-hide align-right">
                 <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ openMenu }>          
@@ -544,8 +544,8 @@
         <Divider className="mobile-hide" height={2} color="white" marginY={1.5} />
         <Text opacity={0.4}>Ознакомиться с перечнем вступительных испытаний для абитуриентов на базе среднего профессионального образования для поступления в УрФУ в 2022 году можно в документе</Text>
         <Link color="white" lineWidth={ 2 } variant="interactive" target="_BLANK" href="https://urfu.ru/ru/applicant/docs-abiturient/demo-exams/">Демо-варианты</Link> <br /><br /><br />
-        <Button className="mobile-hide" on:click={ openModal }>Поступить</Button>
-        <Button className="pc-hide wide" on:click={ openModal }>Поступить</Button>
+        <Button className="mobile-hide" on:click={ openModal }>Получить консультацию</Button>
+        <Button className="pc-hide wide" on:click={ openModal }>Получить консультацию</Button>
     </svelte:fragment>
 </Announce>
 <br />
@@ -672,13 +672,13 @@
                 <div id="zv61">
                     <label for="agreement5" class="checkbox-wrapper align-left white-text">
                         <Input type="checkbox" name="agreement" id="agreement5" required={ true } />
-                        <span class="fourty-text">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
+                        <span class="fourty-text">Нажимая кнопку «Получить консультацию», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
                     </label>
                 </div>
                 <br class="pc-hide" />
                 <div class="align-right">
-                    <Button className="mobile-hide">Отправить</Button>
-                    <Button className="pc-hide wide">Отправить</Button>
+                    <Button className="mobile-hide">Получить консультацию</Button>
+                    <Button className="pc-hide wide">Получить консультацию</Button>
                 </div>
             </Grid>
         </AjaxForm>

@@ -173,7 +173,7 @@
                 <Link color="black" lineWidth={ 3 } href="#schoolarship" variant="hover">Стипендии</Link>
             </Nav>
             <div class="mobile-hide align-right">
-                <Button on:click={ openModal }>Поступить</Button>
+                <Button href="https://priem.urfu.ru" target="_BLANK">Подать документы</Button>
             </div>
             <div class="pc-hide align-right">
                 <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ openMenu }>
@@ -346,7 +346,7 @@
                 <div>
                     <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Институт глазами студентов</Heading>
                     <Text id="jz91" marginTop={0}>Наши студенты рассказывают об учебе, лабораторных и курсовых работах, студенческой жизни и, как проходит их обучение в Институте новых материалов и технологий</Text>
-                    <Button className="mobile-hide" on:click={ openModal }>Поступить</Button>
+                    <Button className="mobile-hide" on:click={ openModal }>Получить консультацию</Button>
                 </div>
                 <Grid m={4} className="mobile-horizontal-scroll">
                     <VideoCard src="/video/first.mp4" />

@@ -97,12 +97,12 @@
                             <div>
                                 <label for="agreement2" class="checkbox-wrapper align-left">
                                     <Input type="checkbox" name="agreement" id="agreement2" required={ true } />
-                                    <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
+                                    <span class="fourty-text-black">Нажимая кнопку «Получить консультацию», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
                                 </label>
                             </div>
                             <div id="uAqn">
-                                <Button variant="blue" className="pc-hide wide">Отправить заявку</Button>
-                                <Button variant="blue" className="mobile-hide">Отправить заявку</Button>
+                                <Button variant="blue" className="pc-hide wide">Получить консультацию</Button>
+                                <Button variant="blue" className="mobile-hide">Получить консультацию</Button>
                             </div>
                         </div>
                     </AjaxForm>

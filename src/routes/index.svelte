@@ -203,11 +203,10 @@
 <div class="escape-header">
     <Slider let:showPrevPage let:showNextPage duration={ 15 }>
         <Slide img="/img/slide1-img.jpg">
-            <!-- <Heading size={2} className="white-text">Стань инженером будущего в Институте новых материалов и технологий УрФУ</Heading> -->
             <Heading size={2} className="white-text">Институт новых материалов и технологий УрФУ</Heading>
             <Text className="heading-3">Актуальная информация о поступлении в университет в 2022 году:</Text>
-            <Link href="/bachelor" variant="interactive" color="white" lineWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
-            <Link href="/master" variant="interactive" color="white" lineWidth={ 2 }>Магистратура</Link><br />
+            <Link href="/bachelor" on:click={ () => console.log('clicked') } variant="interactive" color="white" lineWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
+            <Link href="/master" on:click={ () => console.log('clicked') } variant="interactive" color="white" lineWidth={ 2 }>Магистратура</Link><br />
             <svelte:fragment slot="buttons">
                 <RoundButton theme="bright" size="M" variant="left" on:click={ showPrevPage } />
                 <RoundButton theme="bright" size="M" variant="right" on:click={ showNextPage } />
@@ -215,7 +214,6 @@
         </Slide>
         <Slide img="/img/slide2-img.jpg">
             <Heading size={2} className="white-text">Старт приема документов – 20 июня</Heading>
-            <!-- <Heading size={2} className="white-text">Институт новых материалов и технологий УрФУ</Heading> -->
             <Text className="heading-3">Выбрать направление подготовки и зарегистрироваться в личном кабинете абитуриента можно уже сейчас:</Text>
             <Link href="/bachelor" variant="interactive" color="white" lineWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
             <Link href="/master" variant="interactive" color="white" lineWidth={ 2 }>Магистратура</Link><br />

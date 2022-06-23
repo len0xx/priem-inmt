@@ -14,8 +14,8 @@
 
     const dispatch = createEventDispatcher()
 
-    const handleSubmit = (e) => {
-        let formData = new FormData(e.target)
+    const handleSubmit = (e: SubmitEvent) => {
+        let formData = new FormData(e.target as HTMLFormElement)
         if (bitrix) {
             const formOrigin = formData
             formData = new FormData()
@@ -64,7 +64,7 @@
                 else {
                     dispatch('success', res)
                 }
-                if (!noReset) (e.target).reset()
+                if (!noReset) (e.target as HTMLFormElement).reset()
             },
             (res) => { dispatch('error', res) }
         )

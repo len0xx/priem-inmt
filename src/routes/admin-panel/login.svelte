@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-    export async function load({ params, fetch, session, stuff }) {
+    export async function load({ session }) {
         const loggedIn = !!(session.loggedIn)
 
         if (loggedIn) {

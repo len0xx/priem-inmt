@@ -1,35 +1,11 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import { RoundButton } from '.'
+    import { DetectOS, type OS } from '$lib/utilities'
 
     export let src: string
 
-    type OS = 'Mac OS' | 'Windows' | 'Linux' | 'Android' | 'iOS' | 'Other'
-
-    function DetectOS(): OS {
-        let userAgent = window.navigator.userAgent,
-            platform = window.navigator.platform,
-            macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
-            windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
-            iosPlatforms = ['iPhone', 'iPad', 'iPod'],
-            os: OS = 'Other'
-
-        if (macosPlatforms.indexOf(platform) !== -1) {
-            os = 'Mac OS'
-        } else if (iosPlatforms.indexOf(platform) !== -1) {
-            os = 'iOS'
-        } else if (windowsPlatforms.indexOf(platform) !== -1) {
-            os = 'Windows'
-        } else if (/Android/.test(userAgent)) {
-            os = 'Android'
-        } else if (!os && /Linux/.test(platform)) {
-            os = 'Linux'
-        }
-
-        return os
-    }
-
-    let os = 'iOS'
+    let os: OS = 'iOS'
 
     let image: HTMLImageElement
     const startingScroll = 500
@@ -48,9 +24,7 @@
         }
     }
 
-    onMount(() => {
-        os = DetectOS()
-    })
+    onMount(() => os = DetectOS())
 
     const swipeLeft = () => {
         if (left + dx < -50) {
@@ -58,7 +32,6 @@
         }
     }
     const swipeRight = () => {
-        console.log(image.offsetWidth)
         if (left - dx > -1 * image.offsetWidth + window.innerWidth - 50) {
             left -= dx
         }

@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-    export async function load({ params, fetch, session, stuff }) {
+    export async function load({ session }) {
         const loggedIn = !!(session.loggedIn)
 
         if (loggedIn) {
@@ -32,7 +32,7 @@
         redirect('/profile')
     }
 
-    const handleError = (event) => {
+    const handleError = (event: CustomEvent<{ error: string }>) => {
         errorText = event.detail.error
     }
 </script>
@@ -58,7 +58,7 @@
         <label for="password">Пароль:</label><br>
         <input type="password" name="password" required><br>
         
-        <Button actionType="submit" variant="primary">Создать</Button>
+        <Button variant="primary">Создать</Button>
     </AjaxForm>
 </section>
 

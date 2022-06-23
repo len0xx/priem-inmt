@@ -23,6 +23,33 @@ export function formatSlug(input: string): string {
     return tokens.join('-')
 }
 
+export type OS = 'Mac OS' | 'Windows' | 'Linux' | 'Android' | 'iOS' | 'Other'
+
+// Detect user OS
+export function DetectOS(): OS {
+    const userAgent = window.navigator.userAgent,
+        platform = window.navigator.platform,
+        macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+        windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+        iosPlatforms = ['iPhone', 'iPad', 'iPod']
+
+    let os: OS = 'Other'
+
+    if (macosPlatforms.indexOf(platform) !== -1) {
+        os = 'Mac OS'
+    } else if (iosPlatforms.indexOf(platform) !== -1) {
+        os = 'iOS'
+    } else if (windowsPlatforms.indexOf(platform) !== -1) {
+        os = 'Windows'
+    } else if (/Android/.test(userAgent)) {
+        os = 'Android'
+    } else if (!os && /Linux/.test(platform)) {
+        os = 'Linux'
+    }
+
+    return os
+}
+
 // Cut the long text into short version
 export function cutPostText(text: string): string {
     const maxTextLength = 100

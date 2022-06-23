@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
     // import { sendNodeAJAX } from '../../../shared/utilities'
     
-    export async function load({ params, fetch, session, stuff, url }) {
+    export async function load({ session }) {
         const loggedIn = !!(session.loggedIn)
 
         if (!loggedIn) {

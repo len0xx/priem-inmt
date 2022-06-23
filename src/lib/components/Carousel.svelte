@@ -113,7 +113,6 @@
     .kit-carousel {
         white-space: nowrap;
         -ms-overflow-style: none;
-        scrollbar-height: none;
         overflow-x: unset;
         position: relative;
     }

@@ -31,7 +31,6 @@
     let headerClass = ''
     let formSubmitted = false
     let formSuccess = false
-    let linkColor: 'white' | 'black' = 'white'
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
@@ -56,14 +55,12 @@
     const handleScrollUp = () => {
         setTimeout(() => {
             headerClass = ''
-            linkColor = 'white'
         }, 250)
     }
 
     const handleScrollDown = () => {
         setTimeout(() => {
             headerClass = 'header-scrolled'
-            linkColor = 'black'
         }, 200)
     }
     

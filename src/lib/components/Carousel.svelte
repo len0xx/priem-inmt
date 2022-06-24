@@ -2,11 +2,11 @@
     import { onMount } from 'svelte'
     import { RoundButton } from '.'
 
-    export let margin = 10          // Margin between the children
+    export let margin = 10 // Margin between the children
     export let className = ''
 
-    let childSize = 750             // Size of the children
-    let dx = childSize + margin     // Distance between the children
+    let childSize = 750 // Size of the children
+    let dx = childSize + margin // Distance between the children
 
     let carousel: HTMLElement
     let translate = 765

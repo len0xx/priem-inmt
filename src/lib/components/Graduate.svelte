@@ -6,7 +6,7 @@
     export let src = ''
     export let name: string
     export let caption = ''
-    export let inline: boolean = false
+    export let inline = false
     export let description = ''
     export let size: Size = 'L'
     export let headingSize: 1 | 2 | 3 | 4 | 5 | 6 = 3

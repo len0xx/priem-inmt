@@ -14,7 +14,7 @@
         // const basicInfo = await sendNodeAJAX(
         //     `http://${url.hostname}/api/info`,
         //     'GET',
-        //     { csrf: session.csrfToken }, 
+        //     { csrf: session.csrfToken },
         //     { cookie: `csrf=${session.csrfToken}` }
         // )
 

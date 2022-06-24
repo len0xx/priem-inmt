@@ -11,7 +11,7 @@
     export let target = '_SELF'
     export let color = 'var(--blue)'
     export let lineWidth = 4
-    export let prefetch: boolean = false
+    export let prefetch = false
     export let variant: LinkVariant = 'regular'
     export let className = ''
     let variantClass = variant + '-variant'

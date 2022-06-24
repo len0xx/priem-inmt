@@ -7,10 +7,10 @@
 
     let activeMode = 0
 
-	beforeUpdate(() => {
+beforeUpdate(() => {
         const modesLength = program.educationModes.length
         if (activeMode >= modesLength) activeMode = 0
-	})
+})
 </script>
 
 <Card variant="grey" color="custom" on:click>

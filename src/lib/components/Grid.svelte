@@ -50,7 +50,7 @@
 
 <div
     { id }
-    style:gap={ gap + "em" }
+    style:gap={ gap + 'em' }
     style:place-items={ placeItems }
     style:place-content={ placeContent }
     style:align-content={ alignContent }

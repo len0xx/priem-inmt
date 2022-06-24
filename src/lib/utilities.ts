@@ -26,7 +26,7 @@ export function formatSlug(input: string): string {
 export type OS = 'Mac OS' | 'Windows' | 'Linux' | 'Android' | 'iOS' | 'Other'
 
 // Detect user OS
-export function DetectOS(): OS {
+export function detectOS(): OS {
     const userAgent = window.navigator.userAgent,
         platform = window.navigator.platform,
         macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],

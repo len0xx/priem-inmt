@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import { RoundButton } from '.'
-    import { DetectOS, type OS } from '$lib/utilities'
+    import { detectOS, type OS } from '$lib/utilities'
 
     export let src: string
 
@@ -24,7 +24,7 @@
         }
     }
 
-    onMount(() => os = DetectOS())
+    onMount(() => os = detectOS())
 
     const swipeLeft = () => {
         if (left + dx < -50) {

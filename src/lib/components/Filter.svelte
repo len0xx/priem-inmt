@@ -2,9 +2,9 @@
     export let label: string
     export let name: string
     export let type: 'checkbox' | 'radio'
-    export let group: any = undefined
+    export let group: string | string[]
     export let width = 150
-    export let options: any[]
+    export let options: string[] | { value: string, title: string }[]
 
     import plusIcon from '$lib/img/filter-plus-icon.svg'
     import minusIcon from '$lib/img/filter-minus-icon.svg'

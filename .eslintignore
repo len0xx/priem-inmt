@@ -1,0 +1,7 @@
+src/codes/*
+.svelte-kit/*
+build/*
+build-prod/*
+src/lib/img/*
+static/*
+svelte.config.js

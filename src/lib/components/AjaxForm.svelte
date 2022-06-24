@@ -14,7 +14,7 @@
 
     const dispatch = createEventDispatcher()
 
-    const handleSubmit = (e: SubmitEvent) => {
+    const handleSubmit = (e: Event) => {
         let formData = new FormData(e.target as HTMLFormElement)
         if (bitrix) {
             const formOrigin = formData
@@ -32,16 +32,16 @@
                 DEAL_COMMENTS: [formOrigin.get('message')]
             }
             formData.append('values', JSON.stringify(vals))
-            formData.append('properties', "{}")
+            formData.append('properties', '{}')
             formData.append('consents', '{"AGREEMENT_8":"Y"}')
-            formData.append('recaptcha', "undefined")
-            formData.append('timeZoneOffset', "-300")
-            formData.append('id', "28")
-            formData.append('sec', "wbu85c")
-            formData.append('lang', "ru")
+            formData.append('recaptcha', 'undefined')
+            formData.append('timeZoneOffset', '-300')
+            formData.append('id', '28')
+            formData.append('sec', 'wbu85c')
+            formData.append('lang', 'ru')
             formData.append('trace', '{"url":"https://inmt-priem.urfu.ru/","device":{"isMobile":false},"tags":{"ts":1649833527,"list":{},"gclid":null},"client":{},"pages":{"list":[["https://inmt-priem.urfu.ru/",1650616161,"Институт новых материалов и технологий"]]},"gid":null,"previous":{"list":[]},"channels":[{"code":"button","value":10}]}')
-            formData.append('entities', "[]")
-            formData.append('security_sign', "undefined")
+            formData.append('entities', '[]')
+            formData.append('security_sign', 'undefined')
         }
         const requestOptions = {
             method,

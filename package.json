@@ -14,13 +14,12 @@
         "reexport": "./export-components.sh",
         "build:frontend": "npm run reexport && svelte-kit build",
         "build:backend": "echo '🔨 TypeScript build in progress' && tsc --project server && echo '📦 TypeScript build complete'",
-        "build:prod": "bash prepare-prod.sh",
-        "build": "npm run check && npm run build:frontend && npm run build:backend && npm run lint",
-        "bundle": "npm run lint:fix && npm run build:prod",
+        "build": "npm run check && npm run lint:fix && npm run build:frontend && npm run build:backend",
+        "bundle": "bash prepare-prod.sh",
         "start": "echo '🖥  Starting the server' && node build-prod/server/server.js",
         "check": "svelte-check",
-        "lint": "eslint src/**/*.{ts,svelte}; eslint server/**/*.ts",
-        "lint:fix": "eslint src/**/*.{ts,svelte} --fix && eslint server/**/*.ts --fix"
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
     },
     "dependencies": {
         "@lukeed/uuid": "^2.0.0",

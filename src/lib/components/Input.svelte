@@ -9,7 +9,7 @@
     export let id: string = undefined
     export let min: number = null
     export let max: number = null
-    export let mask: any = null
+    export let mask: unknown = null
     export let wide: boolean = null
     export let name: string = null
     export let step: number = null
@@ -28,7 +28,7 @@
     export let marginBottom: number = null
     export let marginLeft: number = null
     export let marginRight: number = null
-    export let lineWidth: number = 2
+    export let lineWidth = 2
     export let type: InputType = 'text'
 
     const dispatch = createEventDispatcher()

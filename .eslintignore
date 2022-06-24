@@ -5,3 +5,4 @@ build-prod/*
 src/lib/img/*
 static/*
 svelte.config.js
+node_modules/*

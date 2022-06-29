@@ -701,7 +701,7 @@
         <Heading size={1} className="blue-text">Отзывы выпускников</Heading>
         <Grid m={3} s={1} alignItems="start" className="mobile-hide">
             <Grid m={1} alignItems="start">
-                { #each feedbacks.filter((fb, i) => i % 3 == 0) as feedback }
+                { #each feedbacks.filter((_, i) => i % 3 == 0) as feedback }
                     <Profile img={ feedback.img }>
                         <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                         <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
@@ -710,7 +710,7 @@
                 { /each }
             </Grid>
             <Grid m={1} alignItems="start">
-                { #each feedbacks.filter((fb, i) => i % 3 == 1) as feedback }
+                { #each feedbacks.filter((_, i) => i % 3 == 1) as feedback }
                     <Profile img={ feedback.img }>
                         <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                         <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
@@ -719,7 +719,7 @@
                 { /each }
             </Grid>
             <Grid m={1} alignItems="start">
-                { #each feedbacks.filter((fb, i) => i % 3 == 2) as feedback }
+                { #each feedbacks.filter((_, i) => i % 3 == 2) as feedback }
                     <Profile img={ feedback.img }>
                         <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                         <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>

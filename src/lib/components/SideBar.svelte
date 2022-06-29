@@ -78,7 +78,7 @@
                             </div>
                             <div>
                                 <Text opacity={0.6}>По выбору:</Text>
-                                { #each exams.filter((exam, i) => i > 1) as exam }
+                                { #each exams.filter((_, i) => i > 1) as exam }
                                     { exam.title } <span class="blue-text exam-result">{ exam.result }</span><br />
                                 { /each }
                             </div>

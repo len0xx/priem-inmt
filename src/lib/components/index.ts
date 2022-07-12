@@ -27,6 +27,7 @@ import ProgramCard from './ProgramCard.svelte'
 import Progress from './Progress.svelte'
 import Rainbow from './Rainbow.svelte'
 import RoundButton from './RoundButton.svelte'
+import ScrollToTop from './ScrollToTop.svelte'
 import ScrollingPhoto from './ScrollingPhoto.svelte'
 import SelectButton from './SelectButton.svelte'
 import SideBar from './SideBar.svelte'
@@ -67,6 +68,7 @@ export {
     Progress,
     Rainbow,
     RoundButton,
+    ScrollToTop,
     ScrollingPhoto,
     SelectButton,
     SideBar,

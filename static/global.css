@@ -392,14 +392,6 @@ img {
 	max-width: 100%;
 }
 
-#scroll-up {
-	display: block;
-	position: fixed;
-	bottom: 2em;
-	left: 1.5em;
-	z-index: 2;
-}
-
 label > input[type="radio"],
 label > input[type="checkbox"] {
 	display: none;

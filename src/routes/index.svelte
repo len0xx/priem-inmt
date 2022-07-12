@@ -30,11 +30,6 @@
     import partners from '$lib/partners'
     import graduates from '$lib/graduates'
 
-    // User authorization
-    // import { session } from '$app/stores'
-    // let user = $session.user
-    // console.log(user)
-
     let modalVisible = false
     let menuHidden = true
     let showPreloader = true

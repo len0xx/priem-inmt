@@ -1,12 +1,6 @@
 <script lang="ts">
-    import Nav from '$lib/components/Nav.svelte'
-    import Link from '$lib/components/Link.svelte'
-    import Input from '$lib/components/Input.svelte'
-    import Button from '$lib/components/Button.svelte'
-    import Footer from '$lib/components/Footer.svelte'
-    import AjaxForm from '$lib/components/AjaxForm.svelte'
-    import RoundButton from '$lib/components/RoundButton.svelte'
-    
+    import { Nav, Link, Input, Button, Footer, AjaxForm, ScrollToTop } from '$lib/components'
+
     let formSubmitted = false
     let formSuccess = false
 
@@ -15,14 +9,6 @@
     }
 
     const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
-    
-    let showScrollTop = false
-    const scrollTop = () => window.scrollTo({top: 0, behavior: 'smooth'})
-
-    function handleScrolling() {
-        const currentScroll = window.scrollY
-        showScrollTop = currentScroll > 500
-    }
     
     const resetFormResults = (): void => {
         setTimeout(() => {
@@ -44,12 +30,8 @@
     }
 </script>
 
-<svelte:window on:scroll={ handleScrolling }></svelte:window>
-
 <main>
-    <div id="scroll-up" style:display={ showScrollTop ? 'block' : 'none' }>
-        <RoundButton variant="up" size="M" on:click={ scrollTop } transparent={ false } />
-    </div>
+    <ScrollToTop />
 
     <slot />
 

@@ -10,7 +10,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite dev --port 3000",
-        "dev:host": "vite dev --host --port 3000",
+        "dev:host": "npm run dev -- --host",
         "preview": "vite preview",
         "reexport": "./export-components.sh",
         "build:frontend": "npm run reexport && vite build",
@@ -39,7 +39,7 @@
         "svelte-imask": "^1.2.0"
     },
     "devDependencies": {
-        "@sveltejs/adapter-node": "1.0.0-next.73",
+        "@sveltejs/adapter-node": "1.0.0-next.78",
         "@sveltejs/kit": "^1.0.0-next.377",
         "@tsconfig/svelte": "^1.0.10",
         "@types/bcrypt": "^5.0.0",

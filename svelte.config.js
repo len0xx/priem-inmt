@@ -8,14 +8,7 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter(),
-
-		vite: { optimizeDeps: { include: ['lodash.get', 'lodash.isequal', 'lodash.clonedeep'] } },
-
-		// Override http methods
-		methodOverride: {
-			allowed: ['PATCH', 'DELETE']
-		}
+		adapter: adapter()
 	}
 };
 

@@ -2,6 +2,7 @@ src/codes/*
 .svelte-kit/*
 build/*
 build-prod/*
+server/build/*
 src/lib/img/*
 static/*
 svelte.config.js

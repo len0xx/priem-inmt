@@ -35,6 +35,7 @@
     import partners from '$lib/partners'
     import documents from '$lib/documents'
     import { bachelor as feedbacks } from '$lib/feedback'
+    import { blur } from 'svelte/transition'
 
     // User authorization
     // import { session } from '$app/stores'
@@ -306,7 +307,9 @@
             <Grid l={3} m={2} s={1}>
                 { #each programsFiltered as program, i (program.id) }
                     { #if i < 6 || programsExpanded }
-                        <ProgramCard on:click={ () => openProgram(i) } { program } />
+                        <div transition:blur="{{ duration: 200 }}">
+                            <ProgramCard on:click={ () => openProgram(i) } { program } />
+                        </div>
                         { #if programActive[i] }
                             <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); openModal()}} bind:hidden={programOpened[i]} {...program} />
                         { /if }
@@ -656,9 +659,11 @@
     <div class="content">
         <Grid m={2} s={1} alignItems="start">
             <Heading size={1} marginTop={0}>Получите консультацию <br /> по поступлению</Heading>
-            <Text className="heading-3" opacity={0.4} marginTop={0}>Вы узнаете особенности направлений подготовки
+            <Text className="heading-3" opacity={0.4} marginTop={0}>
+                Вы узнаете особенности направлений подготовки
                 и образовательных программ, проходные баллы
-                и познакомитесь с перечнем изучаемых дисциплин</Text>
+                и познакомитесь с перечнем изучаемых дисциплин
+            </Text>
         </Grid>
         <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false }>
             <Grid m={4} s={2} xs={1}>

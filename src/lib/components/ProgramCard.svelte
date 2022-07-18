@@ -7,13 +7,13 @@
 
     let activeMode = 0
 
-beforeUpdate(() => {
+    beforeUpdate(() => {
         const modesLength = program.educationModes.length
         if (activeMode >= modesLength) activeMode = 0
-})
+    })
 </script>
 
-<Card variant="grey" color="custom" on:click>
+<Card variant="grey" color="custom" on:click className="full-height">
     <svelte:fragment slot="header">
         { #each program.educationModes as mode, i }
             <SelectButton size="S" variant={ activeMode == i ? 'active' : 'default' } on:click={ () => activeMode = i } color="blue">{ mode }</SelectButton>

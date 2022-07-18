@@ -2,7 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 import ERRORS from '../../../errors.js'
-import { UserModel, getPublicUserModel } from '../../models/user.js'
+// import { UserModel, getPublicUserModel } from '../../models/user.js'
 import type { Request, Response } from 'express'
 
 dotenv.config()
@@ -35,12 +35,12 @@ router.post('/', async (req: Request, res: Response) => {
             return
         }
 
-        const userObject = await UserModel.findOne({ _id: decode.id })
-        const user = getPublicUserModel(userObject)
+        // const userObject = await UserModel.findOne({ _id: decode.id })
+        // const user = getPublicUserModel(userObject)
 
         res.json({
             ok: true,
-            user
+            user: {}
         })
     }
     catch(err) {

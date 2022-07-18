@@ -9,10 +9,11 @@
     "esModuleInterop": true,
     "type": "module",
     "scripts": {
-        "dev": "npm run reexport && svelte-kit build && svelte-kit preview",
-        "preview": "svelte-kit preview",
+        "dev": "vite dev --port 3000",
+        "dev:host": "vite dev --host --port 3000",
+        "preview": "vite preview",
         "reexport": "./export-components.sh",
-        "build:frontend": "npm run reexport && svelte-kit build",
+        "build:frontend": "npm run reexport && vite build",
         "build:backend": "echo '🔨 TypeScript build in progress' && tsc --project server && echo '📦 TypeScript build complete'",
         "build": "npm run check && npm run lint:fix && npm run build:frontend && npm run build:backend",
         "bundle": "bash prepare-prod.sh",
@@ -33,13 +34,13 @@
         "jquery-modal": "^0.9.2",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^6.2.2",
-		"multer": "^1.4.5-lts.1",
+        "multer": "^1.4.5-lts.1",
         "svelte-carousel": "^1.0.19",
         "svelte-imask": "^1.2.0"
     },
     "devDependencies": {
         "@sveltejs/adapter-node": "1.0.0-next.73",
-        "@sveltejs/kit": "^1.0.0-next.352",
+        "@sveltejs/kit": "^1.0.0-next.377",
         "@tsconfig/svelte": "^1.0.10",
         "@types/bcrypt": "^5.0.0",
         "@types/cookie-parser": "^1.4.2",
@@ -55,6 +56,7 @@
         "svelte-check": "^2.7.2",
         "svelte-preprocess": "^4.10.3",
         "tslib": "^2.0.1",
-        "typescript": "^4.0.3"
+        "typescript": "^4.7.4",
+        "vite": "^3.0.0"
     }
 }

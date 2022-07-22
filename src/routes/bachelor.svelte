@@ -3,6 +3,7 @@
     import {
         Nav,
         Grid,
+        Step,
         Link,
         Text,
         Modal,
@@ -364,40 +365,34 @@
 <section class="blue-block" id="enroll">
     <div class="content">
         <Grid m={4} className="mobile-horizontal-scroll">
-            <div class="numbered-section">
-                <img src="/img/section-1-alt.svg" alt="1">
-                <div>
-                    <Text className="subtitle" color="white" marginTop={0}>Выбор направлений подготовки</Text>
-                    <Text>Каталог образовательных программ</Text>
+            <Step num={1} textColor="white" title="Выбор направлений подготовки" color="white" fillPoints={true}>
+                <svelte:fragment slot="first">
+                    <Text marginTop={0}>Каталог образовательных программ</Text>
                     <Text><Link href="#programs" color="white" lineWidth={2} variant="interactive">Смотреть программы</Link></Text>
-                </div>
-            </div>
-            <div class="numbered-section">
-                <img src="/img/section-2-alt.svg" alt="2">
-                <div>
-                    <Text className="subtitle" color="white" marginTop={0}>Подача документов</Text>
-                    <Text>Подайте документы любым удобным способом и предоставьте согласие о зачислении</Text>
+                </svelte:fragment>
+            </Step>
+            <Step num={2} textColor="white" title="Подача документов" color="red" fillPoints={true}>
+                <svelte:fragment slot="first">
+                    <Text marginTop={0}>Подайте документы любым удобным способом и предоставьте согласие о зачислении</Text>
                     <Text><Link href="https://priem.urfu.ru/#/" target="_BLANK" color="white" lineWidth={2} variant="interactive">Регистрация</Link></Text>
-                </div>
-            </div>
-            <div class="numbered-section">
-                <img src="/img/section-3-alt.svg" alt="3">
-                <div>
-                    <Text className="subtitle" color="white" marginTop={0}>Вступительные испытания</Text>
-                    <Text opacity={0.6} className="small">По результатам ЕГЭ:</Text>
-                    <Text>Результаты ЕГЭ автоматически загружаются в конкурсные списки после подачи документов. </Text>
-                    <Text opacity={0.6} className="small">По вступительным испытаниям:</Text>
+                </svelte:fragment>
+            </Step>
+            <Step num={3} textColor="white" title="Вступительные испытания" color="white" fillPoints={true}>
+                <svelte:fragment slot="first">
+                    <Text opacity={0.6} className="small" marginTop={0}>По результатам ЕГЭ:</Text>
+                    <Text marginBottom={0}>Результаты ЕГЭ автоматически загружаются в конкурсные списки после подачи документов. </Text>
+                </svelte:fragment>
+                <svelte:fragment slot="second">
+                    <Text opacity={0.6} className="small" marginTop={0}>По вступительным испытаниям:</Text>
                     <Text>Прохождение вступительных испытаний предусмотрено Правилами приема для отдельных категорий поступающих*</Text>
-                    <Text><Link href="#calendar" color="white" lineWidth={2} variant="interactive">Расписание экзаменов</Link></Text>
-                </div>
-            </div>
-            <div class="numbered-section">
-                <img src="/img/section-4-alt.svg" alt="4">
-                <div>
-                    <Text className="subtitle" color="white" marginTop={0}>Зачисление</Text>
-                    <Text>Для абитуриентов, поступающих на контрактную форму, необходимо заключить договор и оплатить первый семестр</Text>
-                </div>
-            </div>
+                    <Text marginBottom={0}><Link href="#calendar" color="white" lineWidth={2} variant="interactive">Расписание экзаменов</Link></Text>
+                </svelte:fragment>
+            </Step>
+            <Step num={4} textColor="white" title="Зачисление" color="white" fillPoints={true}>
+                <svelte:fragment slot="first">
+                    <Text marginTop={0}>Для абитуриентов, поступающих на контрактную форму, необходимо заключить договор и оплатить первый семестр</Text>
+                </svelte:fragment>
+            </Step>
         </Grid>
     </div>
 </section>

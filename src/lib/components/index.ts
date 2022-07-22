@@ -33,6 +33,7 @@ import SelectButton from './SelectButton.svelte'
 import SideBar from './SideBar.svelte'
 import Slide from './Slide.svelte'
 import Slider from './Slider.svelte'
+import Step from './Step.svelte'
 import Switch from './Switch.svelte'
 import Teacher from './Teacher.svelte'
 import Text from './Text.svelte'
@@ -74,6 +75,7 @@ export {
     SideBar,
     Slide,
     Slider,
+    Step,
     Switch,
     Teacher,
     Text,

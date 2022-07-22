@@ -3,6 +3,7 @@
     import {
         Nav,
         Grid,
+        Step,
         Link,
         Text,
         Modal,
@@ -307,69 +308,60 @@
         </Grid>
         <br /><br />
         <Grid m={4} className="mobile-horizontal-scroll">
-            <div class="numbered-section">
-                <img src="/img/section-1.svg" alt="1">
-                <div>
-                    <Text className="subtitle blue-text" marginTop={0}>Узнайте о поступлении</Text>
-                    <Text><a href="/doc/master/doc4.pdf" target="_BLANK">Правила приема</a></Text>
-                    <Text>Сроки подачи документов</Text>
-                    <Text className="small">
+            <Step num={1} title="Узнайте о поступлении" color="blue">
+                <p slot="first" class="no-margin"><a href="/docs/doc3.pdf" target="_BLANK">Правила приема</a></p>
+                <svelte:fragment slot="second">
+                    <p>Сроки подачи документов</p>
+                    <p class="small">
                         Очная форма обучения:<br />
                         { #if budgetMode }
                             <span class="blue-text">20.06 - 08.08</span>
                         { :else }
                             <span class="blue-text">20.06 - 23.09</span>
                         { /if }
-                    </Text>
-                    <Text className="small">
+                    </p>
+                    <p class="small">
                         Очно-заочная и заочная формы обучения:<br />
                         { #if budgetMode }
-                            <span class="blue-text">20.06 - 09.09</span>
+                            <span class="blue-text">20.06 - 08.08</span>
                         { :else }
                             <span class="blue-text">20.06 - 28.10</span>
                         { /if }
-                    </Text>
-                </div>
-            </div>
-            <div class="numbered-section">
-                <img src="/img/section-2.svg" alt="2">
-                <div>
-                    <Text className="subtitle blue-text" marginTop={0}>Выберите образовательную программу</Text>
-                    <Text>Каталог образовательных программ</Text>
-                    <Text><a href="#programs" class="link blue-color">Смотреть программы</a></Text>
-                </div>
-            </div>
-            <div class="numbered-section">
-                <img src="/img/section-3.svg" alt="3">
-                <div>
-                    <Text className="subtitle blue-text" marginTop={0}>Подайте документы</Text>
-                    <Text>Подать документы онлайн через личный кабинет абитуриента</Text>
-                    <Text><a href="https://priem.urfu.ru/#/" target="_BLANK" class="link blue-color">Регистрация</a></Text>
-                </div>
-            </div>
-            <div class="numbered-section">
-                <img src="/img/section-4.svg" alt="4">
-                <div>
-                    <Text className="subtitle blue-text" marginTop={0}>Пройдите вступительные испытания</Text>
-                    <Text>Период сдачи вступительных испытаний</Text>
-                    <Text className="small">
+                    </p>
+                </svelte:fragment>
+            </Step>
+            <Step num={2} title="Выберите образовательную программу" color="blue">
+                <svelte:fragment slot="first">
+                    <p>Каталог образовательных программ</p>
+                    <p><a href="#programs" class="link blue-color">Смотреть программы</a></p>
+                </svelte:fragment>
+            </Step>
+            <Step num={3} title="Подайте документы" color="red">
+                <svelte:fragment slot="first">
+                    <p>Подать документы онлайн через личный кабинет абитуриента</p>
+                </svelte:fragment>
+            </Step>
+            <Step num={4} title="Пройдите вступительные испытания" color="blue">
+                <p slot="first" class="no-margin">Период сдачи вступительных испытаний</p>
+                <svelte:fragment slot="second">
+                    <p class="small">
                         Очная форма обучения:<br />
                         { #if budgetMode }
                             <span class="blue-text">04.07 - 13.08</span>
                         { :else }
                             <span class="blue-text">04.07 - 13.08 и 22.08 - 24.09</span>
                         { /if }
-                    </Text>
-                    <Text className="small">
+                    </p>
+                    <p class="small">
                         Очно-заочная и заочная формы обучения:<br />
                         { #if budgetMode }
                             <span class="blue-text">04.07 - 13.09 и 22.08 - 12.09</span>
                         { :else }
                             <span class="blue-text">04.07 - 13.08 и 22.08 - 29.10</span>
                         { /if }
-                    </Text>
-                </div>
-            </div>
+                    </p>
+                </svelte:fragment>
+            </Step>
         </Grid>
     </div>
 </section>

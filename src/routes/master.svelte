@@ -339,6 +339,7 @@
             <Step num={3} title="Подайте документы" color="red">
                 <svelte:fragment slot="first">
                     <p>Подать документы онлайн через личный кабинет абитуриента</p>
+                    <p><a href="https://priem.urfu.ru/#/" target="_BLANK" class="link blue-color">Регистрация</a></p>
                 </svelte:fragment>
             </Step>
             <Step num={4} title="Пройдите вступительные испытания" color="blue">

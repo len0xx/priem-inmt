@@ -1,9 +1,9 @@
 <script lang="ts">
-    type СolorType = 'blue' | 'red' | 'white'
+    type Сolor = 'blue' | 'red' | 'white'
 
     export let num: number
     export let title: string
-    export let color: СolorType
+    export let color: Сolor
     export let fillPoints = false
     export let textColor = 'var(--blue)'
 

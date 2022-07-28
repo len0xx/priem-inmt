@@ -18,7 +18,6 @@
     } else if (color == 'white') {
         colorValue = '#FFF'
     }
-
 </script>
 
 <div

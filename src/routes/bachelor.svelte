@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { fade } from 'svelte/transition';
     import {
         Nav,
         Grid,
@@ -37,17 +36,12 @@
     import partners from '$lib/partners'
     import documents from '$lib/documents'
     import { bachelor as feedbacks } from '$lib/feedback'
-    import { blur } from 'svelte/transition'
-
-    // User authorization
-    // import { session } from '$app/stores'
-    // let user = $session.user
-    // console.log(user)
+    import { blur, fly, fade } from 'svelte/transition'
 
     let modalVisible = false
     let linkColor: 'white' | 'black' = 'white'
     let programsExpanded = false
-    let menuHidden = true
+    let menuVisible = false
     let showPreloader = true
     let calendarMode = true
     let pageLoaded = false
@@ -94,11 +88,11 @@
         }
     }
 
-    const openModal = () => {
-        modalVisible = true
-    }
+    const openModal = () => modalVisible = true
 
-    const openMenu = () => menuHidden = false
+    const openMenu = () => menuVisible = true
+
+    const closeMenu = () => menuVisible = false
 
     const handleScrollUp = () => {
         setTimeout(() => {
@@ -173,12 +167,12 @@
     <Preloader bind:invisible={pageLoaded} />
 { /if }
 
-<MobileMenu bind:menuHidden>
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/master">Магистратура</a><br /><br />
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/accommodation">Поселение</a><br /><br />
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/contacts">Контакты</a><br /><br />
+<MobileMenu bind:visible={ menuVisible }>
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/master">Магистратура</a><br /><br />
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/accommodation">Поселение</a><br /><br />
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
@@ -306,13 +300,11 @@
         </div>
         <div class="filters filters-mobile pc-hide">
             <div class="filters-mobile__actions">
-                <Link href="" preventDefault={true} on:click={() => mobileFiltersHidden = false}>
-                    <span class="filters-mobile__title">Фильтры</span>
-                </Link>
+                <Link href="" className="filters-mobile__title" preventDefault={true} on:click={() => mobileFiltersHidden = false}>Фильтры</Link>
                 <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск" lineWidth={ 0 } marginY={ 0 } />
             </div>
             {#if !mobileFiltersHidden}
-                <div class="filters-mobile__content" transition:fade="{{ duration: 300 }}">
+                <div class="filters-mobile__content" in:fly={{ x: 300, duration: 200 }} out:fade="{{ duration: 200 }}">
                     <div class="filters-mobile__head">
                         <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>Фильтры</Heading>
                         <div class="close-btn">
@@ -340,7 +332,7 @@
             <Grid l={3} m={2} s={1}>
                 { #each programsFiltered as program, i (program.id) }
                     { #if i < 6 || programsExpanded }
-                        <div transition:blur="{{ duration: 200 }}">
+                        <div transition:blur={{ duration: 200 }}>
                             <ProgramCard on:click={ () => openProgram(i) } { program } />
                         </div>
                         { #if programActive[i] }

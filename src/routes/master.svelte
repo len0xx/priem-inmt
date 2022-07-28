@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
+    import { blur } from 'svelte/transition'
     import {
         Nav,
         Grid,
@@ -37,15 +38,10 @@
     import { master as feedbacks } from '$lib/feedback'
     import { afterNavigate, beforeNavigate } from '$app/navigation'
 
-    // User authorization
-    // import { session } from '$app/stores'
-    // let user = $session.user
-    // console.log(user)
-
     let modalVisible = false
     let programsExpanded = false
     let professionsExpanded = false
-    let menuHidden = true
+    let menuVisible = false
     let showPreloader = true
     let pageLoaded = false
     let additional = false
@@ -105,11 +101,11 @@
         budgetMode = !state
     }
 
-    const openModal = () => {
-        modalVisible = true
-    }
+    const openModal = () => modalVisible = true
 
-    const openMenu = () => menuHidden = false
+    const openMenu = () => menuVisible = true
+
+    const closeMenu = () => menuVisible = false
 
     const handleScrollUp = () => {
         setTimeout(() => {
@@ -180,12 +176,12 @@
     <Preloader bind:invisible={pageLoaded} />
 { /if }
 
-<MobileMenu bind:menuHidden>
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/master">Магистратура</a><br /><br />
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/accommodation">Поселение</a><br /><br />
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/contacts">Контакты</a><br /><br />
+<MobileMenu bind:visible={ menuVisible }>
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/master">Магистратура</a><br /><br />
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/accommodation">Поселение</a><br /><br />
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>
@@ -509,7 +505,9 @@
             <Grid l={3} m={2} s={1}>
                 { #each programsFiltered as program, i (program.id) }
                     { #if i < 6 || programsExpanded }
-                        <ProgramCard on:click={ () => openProgram(i) } { program } />
+                        <div transition:blur={{ duration: 200 }}>
+                            <ProgramCard on:click={ () => openProgram(i) } { program } />
+                        </div>
                         { #if programActive[i] }
                             <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); openModal()}} bind:hidden={programOpened[i]} {...program} />
                         { /if }

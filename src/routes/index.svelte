@@ -31,7 +31,7 @@
     import graduates from '$lib/graduates'
 
     let modalVisible = false
-    let menuHidden = true
+    let menuVisible = true
     let showPreloader = true
     let pageLoaded = false
     let additional = false
@@ -44,11 +44,11 @@
 
     const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
 
-    const openModal = () => {
-        modalVisible = true
-    }
+    const openModal = () => modalVisible = true
 
-    const openMenu = () => menuHidden = false
+    const openMenu = () => menuVisible = true
+
+    const closeMenu = () => menuVisible = false
 
     const resetFormResults = (): void => {
         setTimeout(() => {
@@ -113,12 +113,12 @@
     <Preloader bind:invisible={pageLoaded} />
 { /if }
 
-<MobileMenu bind:menuHidden>
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/master">Магистратура</a><br /><br />
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/accommodation">Поселение</a><br /><br />
-    <a sveltekit:prefetch on:click={() => menuHidden = true} class="underlined" href="/contacts">Контакты</a><br /><br />
+<MobileMenu bind:visible={ menuVisible }>
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/master">Магистратура</a><br /><br />
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/accommodation">Поселение</a><br /><br />
+    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
 
 <Modal bind:visible={modalVisible} align="center" closable={true}>

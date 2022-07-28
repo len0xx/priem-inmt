@@ -1,33 +1,44 @@
 <script lang="ts">
+    import { fade } from 'svelte/transition'
+    import plusIcon from '$lib/img/filter-plus-icon.svg'
+    import minusIcon from '$lib/img/filter-minus-icon.svg'
+    import plusActiveIcon from '$lib/img/filter-blue-plus-icon.svg'
+    import minusActiveIcon from '$lib/img/filter-blue-minus-icon.svg'
+    import { clickOutside } from '$lib/actions'
+
     export let label: string
     export let name: string
     export let type: 'checkbox' | 'radio'
     export let group: string | string[]
     export let width = 150
+    export let hideOnBlur = true
     export let options: string[] | { value: string, title: string }[]
 
-    import plusIcon from '$lib/img/filter-plus-icon.svg'
-    import minusIcon from '$lib/img/filter-minus-icon.svg'
-    import plusActiveIcon from '$lib/img/filter-blue-plus-icon.svg'
-    import minusActiveIcon from '$lib/img/filter-blue-minus-icon.svg'
-
+    let ready = false
     let display = false
-    let labelButton: HTMLSpanElement
-    let filterContent: HTMLDivElement
-
     $: selected = group.length > 0
 
-    const handleWindowClick = (event: Event) => {
-        if (
-            !labelButton.contains(event.target as Node) &&
-            !labelButton.isSameNode(filterContent) &&
-            !filterContent.contains(event.target as Node)
-        ) display = false
+    const handleClickOutside = () => {
+        if (ready && hideOnBlur) {
+            display = false
+            ready = false
+        }
+    }
+
+    const handleLabelClick = () => {
+        // Если не использовать переменную ready, то контент вообще не откроется
+        if (display) {
+            ready = false
+        }
+        else {
+            setTimeout(() => ready = true, 100)
+        }
+        display = !display
     }
 </script>
 
-<span class="kit-filter-button">
-    <span class="kit-filter-label semi-bold subtitle" class:selected bind:this={ labelButton } on:click={ () => display = !display }>
+<span class="kit-filter-button" use:clickOutside={ handleClickOutside }>
+    <span class="kit-filter-label semi-bold subtitle" class:selected on:click={ handleLabelClick }>
         { label }
         { #if !display }
             <img class="kit-filter-icon" src={ selected ? plusActiveIcon : plusIcon } alt="plus-icon">
@@ -35,22 +46,22 @@
             <img class="kit-filter-icon" src={ selected ? minusActiveIcon : minusIcon } alt="minus-icon">
         { /if }
     </span>
-    <div class="kit-filter-content" style:display={ display ? 'block' : 'none' } style:min-width={ width + 'px' } bind:this={ filterContent }>
-        { #each options as option }
-            <!-- svelte-ignore a11y-label-has-associated-control -->
-            <label>
-                { #if type == 'checkbox' }
-                    <input type="checkbox" bind:group { name } value={ typeof option == 'string' ? option : option.value }/>
-                { :else }
-                    <input type="radio" bind:group { name } value={ typeof option == 'string' ? option : option.value }/>
-                { /if }
-                <span>{ typeof option == 'string' ? option : option.title }</span>
-            </label><br />
-        { /each }
-    </div>
+    { #if display }
+        <div class="kit-filter-content" style:min-width={ width + 'px' } transition:fade={{ duration: 100 }}>
+            { #each options as option }
+                <!-- svelte-ignore a11y-label-has-associated-control -->
+                <label>
+                    { #if type == 'checkbox' }
+                        <input type="checkbox" bind:group { name } value={ typeof option == 'string' ? option : option.value }/>
+                    { :else }
+                        <input type="radio" bind:group { name } value={ typeof option == 'string' ? option : option.value }/>
+                    { /if }
+                    <span>{ typeof option == 'string' ? option : option.title }</span>
+                </label><br />
+            { /each }
+        </div>
+    { /if }
 </span>
-
-<svelte:window on:click={ handleWindowClick }></svelte:window>
 
 <style>
     .kit-filter-button {

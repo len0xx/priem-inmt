@@ -290,7 +290,7 @@
 <section id="programs">
     <div class="content">
         <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Образовательные программы</Heading>
-        <!-- <div class="filters">
+        <div class="filters mobile-hide">
             <div class="left">
                 <Filter label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
                 <Filter label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
@@ -301,8 +301,8 @@
                 <Filter width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
                 <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } />
             </div>
-        </div> -->
-        <div class="filters filters-mobile">
+        </div>
+        <div class="filters filters-mobile pc-hide">
             <div class="filters-mobile__head">
                 <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>Фильтры</Heading>
                 <div class="close-btn">

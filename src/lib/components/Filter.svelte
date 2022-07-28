@@ -92,4 +92,28 @@
             max-width: 30vw;
         }
     }
+
+    @media screen and (max-width: 768px) {
+        .kit-filter-button {
+            width: 100%;
+            margin-bottom: 2em;
+            margin-right: 0;
+        }
+        .kit-filter-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .kit-filter-icon {
+            margin: 0;
+        }
+        .kit-filter-button > .kit-filter-content {
+            position: static;
+            box-shadow: none;
+            padding: 0;
+            padding-top: 1em;
+            width: 100%;
+        }
+    }
 </style>

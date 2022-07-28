@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
+    import { fade } from 'svelte/transition';
     import {
         Nav,
         Grid,
@@ -63,6 +64,7 @@
     let formSubmitted = false
     let formSuccess = false
     let feedbacksExpanded = false
+    let mobileFiltersHidden = true
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
@@ -303,24 +305,34 @@
             </div>
         </div>
         <div class="filters filters-mobile pc-hide">
-            <div class="filters-mobile__head">
-                <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>Фильтры</Heading>
-                <div class="close-btn">
-                    <svg on:click={() => menuHidden = true} width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="18" cy="18" r="18" fill="#1E4391"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L18 16.5858L21.2929 13.2929C21.6834 12.9024 22.3166 12.9024 22.7071 13.2929C23.0976 13.6834 23.0976 14.3166 22.7071 14.7071L19.4142 18L22.7071 21.2929C23.0976 21.6834 23.0976 22.3166 22.7071 22.7071C22.3166 23.0976 21.6834 23.0976 21.2929 22.7071L18 19.4142L14.7071 22.7071C14.3166 23.0976 13.6834 23.0976 13.2929 22.7071C12.9024 22.3166 12.9024 21.6834 13.2929 21.2929L16.5858 18L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z" fill="white"/>
-                    </svg>        
+            <div class="filters-mobile__actions">
+                <Link preventDefault={true} on:click={() => mobileFiltersHidden = false}>
+                    <span class="filters-mobile__title">Фильтры</span>
+                </Link>
+                <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск" lineWidth={ 0 } marginY={ 0 } />
+            </div>
+            {#if !mobileFiltersHidden}
+                <div class="filters-mobile__content" transition:fade="{{ duration: 300 }}">
+                    <div class="filters-mobile__head">
+                        <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>Фильтры</Heading>
+                        <div class="close-btn">
+                            <svg on:click={() => mobileFiltersHidden = true} width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="18" cy="18" r="18" fill="#1E4391"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L18 16.5858L21.2929 13.2929C21.6834 12.9024 22.3166 12.9024 22.7071 13.2929C23.0976 13.6834 23.0976 14.3166 22.7071 14.7071L19.4142 18L22.7071 21.2929C23.0976 21.6834 23.0976 22.3166 22.7071 22.7071C22.3166 23.0976 21.6834 23.0976 21.2929 22.7071L18 19.4142L14.7071 22.7071C14.3166 23.0976 13.6834 23.0976 13.2929 22.7071C12.9024 22.3166 12.9024 21.6834 13.2929 21.2929L16.5858 18L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z" fill="white"/>
+                            </svg>        
+                        </div>
+                    </div>
+                    <Filter hideOnBlur={false} width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
+                    <Filter hideOnBlur={false} label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
+                    <Filter hideOnBlur={false} label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
+                    <Filter hideOnBlur={false} label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
+                    <Filter hideOnBlur={false} label="Экзамены" name="exams" bind:group={ exams } type="checkbox" options={[ 'Русский язык', 'Математика', 'Физика', 'Информатика и ИКТ', 'Химия', 'Творческое испытание' ]} />
+                    <div class="filters-mobile__buttons">
+                        <Button size="S">Сбросить</Button>
+                        <Button size="S" variant="blue" on:click={() => mobileFiltersHidden = true}>Показать</Button>
+                    </div>
                 </div>
-            </div>
-            <Filter width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
-            <Filter label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
-            <Filter label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
-            <Filter label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
-            <Filter label="Экзамены" name="exams" bind:group={ exams } type="checkbox" options={[ 'Русский язык', 'Математика', 'Физика', 'Информатика и ИКТ', 'Химия', 'Творческое испытание' ]} />
-            <div class="filters-mobile__buttons">
-                <Button>Сбросить</Button>
-                <Button variant="blue">Показать</Button>
-            </div>
+            {/if}
         </div>
         <br />
         <br />

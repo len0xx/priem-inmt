@@ -694,33 +694,34 @@ input.blue-placeholder:not(.s)::placeholder {
     }
 }
 
-.filters-mobile {
-    display: none;
+.filters-mobile__title {
+    font-weight: 600;
 }
 
-@media screen and (max-width: 768px) {
-    .filters-mobile {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        z-index: 100;
-        padding: 2em 1em;
-        background-color: white;
-        visibility: visible;
-        overflow-y: auto;
-    }
-    .filters-mobile__head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2.5em;
-    }
-    .filters-mobile__buttons {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        /* grid-column-gap: 12px; */
-    }
+.filters-mobile__actions {
+    display: flex;
+    align-items: center;
+}
+.filters-mobile__content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 100;
+    padding: 2em 1em;
+    background-color: white;
+    visibility: visible;
+    overflow-y: auto;
+}
+.filters-mobile__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5em;
+}
+.filters-mobile__buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 12px;
 }

@@ -14,15 +14,22 @@
     export let prefetch = false
     export let variant: LinkVariant = 'regular'
     export let className = ''
+    export let preventDefault = false
     let variantClass = variant + '-variant'
 
     const mouseOverHandler = () => {
         if (prefetch && href && !href.startsWith('#')) execPrefetch(href)
         dispatch('mouseover')
     }
+
+    function handleClick(event) {
+        if (preventDefault) {
+            event.preventDefault();
+        }
+    }
 </script>
 
-<a {href} {title} {target} class="kit-link {className} {variantClass}" style:color on:click on:mouseover={ mouseOverHandler } on:focus on:mouseleave>
+<a {href} {title} {target} class="kit-link {className} {variantClass}" style:color on:click={ (event) => handleClick(event) } on:mouseover={ mouseOverHandler } on:focus on:mouseleave>
     <slot />
     <span class="kit-link-underline" style:background-color={ color } style:height={ lineWidth + 'px' }></span>
 </a>

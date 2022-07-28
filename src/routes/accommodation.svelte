@@ -21,7 +21,10 @@
     import { afterNavigate, beforeNavigate } from '$app/navigation'
     import documents from '$lib/documents2'
 
-    let modalVisible = false
+    let modal: {
+        open: () => void,
+        close: () => void
+    } = undefined
     let menuVisible = true
     let showPreloader = true
     let pageLoaded = false
@@ -45,8 +48,6 @@
         document.documentElement.style.scrollBehavior = 'smooth'
     })
     
-    const openModal = () => modalVisible = true
-
     const openMenu = () => menuVisible = false
 
     const closeMenu = () => menuVisible = false
@@ -109,7 +110,7 @@
     <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
 
-<Modal bind:visible={modalVisible} align="center" closable={true}>
+<Modal bind:this={ modal } align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
     <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
         <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
@@ -184,7 +185,7 @@
                 <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
             </Nav>
             <div class="mobile-hide align-right">
-                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ openModal }>Хочу поступить</Link>
+                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ modal.open }>Хочу поступить</Link>
             </div>
         </div>
     </div>
@@ -194,7 +195,7 @@
         <Grid m={1} l={2} ratio="5:3" alignItems="end">
             <Heading size={1} marginY={0}>Поселение<br /><span class="smaller-text">Институт новых материалов <br /> и технологий</span></Heading>
             <div class="align-right">
-                <Link on:click={ openModal } variant="interactive" color="white" lineWidth={ 2 }>Получить консультацию</Link>
+                <Link on:click={ modal.open } variant="interactive" color="white" lineWidth={ 2 }>Получить консультацию</Link>
             </div>
         </Grid>
     </div>

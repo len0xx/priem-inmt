@@ -38,7 +38,10 @@
     import { master as feedbacks } from '$lib/feedback'
     import { afterNavigate, beforeNavigate } from '$app/navigation'
 
-    let modalVisible = false
+    let modal: {
+        open: () => void,
+        close: () => void
+    } = undefined
     let programsExpanded = false
     let professionsExpanded = false
     let menuVisible = false
@@ -100,8 +103,6 @@
         const { state } = event.detail
         budgetMode = !state
     }
-
-    const openModal = () => modalVisible = true
 
     const openMenu = () => menuVisible = true
 
@@ -184,7 +185,7 @@
     <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
 
-<Modal bind:visible={modalVisible} align="center" closable={true}>
+<Modal bind:this={ modal } align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
     <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
         <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
@@ -260,7 +261,7 @@
                 <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
             </Nav>
             <div class="mobile-hide align-right">
-                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ openModal }>Хочу поступить</Link>
+                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ modal.open }>Хочу поступить</Link>
             </div>
         </div>
     </div>
@@ -276,7 +277,7 @@
                 </Text>
             </div>
             <div class="pc-hide">
-                <Button variant="blue" className="wide" on:click={ openModal }>Хочу поступить</Button>
+                <Button variant="blue" className="wide" on:click={ modal.open }>Хочу поступить</Button>
             </div>
         </Grid>
     </div>
@@ -509,7 +510,7 @@
                             <ProgramCard on:click={ () => openProgram(i) } { program } />
                         </div>
                         { #if programActive[i] }
-                            <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); openModal()}} bind:hidden={programOpened[i]} {...program} />
+                            <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); modal.open()}} bind:hidden={programOpened[i]} {...program} />
                         { /if }
                     { /if }
                 { /each }
@@ -531,7 +532,7 @@
         <Grid m={3} s={1}>
             <div>
                 <Heading size={1} marginTop={0} className="blue-text">Станьте ценным специалистом современной компании</Heading>
-                <Button className="mobile-hide" on:click={ openModal }>Получить консультацию</Button>
+                <Button className="mobile-hide" on:click={ modal.open }>Получить консультацию</Button>
             </div>
             <Text className="heading-3" marginTop={0}>Выпускники Института новых материалов и технологий способны создавать новые материалы с уникальными свойствами, проектировать конструкции, схемы, алгоритмы, технологии производства материалов, машин и оборудования, разрабатывать бизнес-планы создания технических новинок, управлять созданными машинами и обслуживать их, руководить промышленными предприятиями.</Text>
             <div style:opacity={0.8}>
@@ -547,7 +548,7 @@
             </div>
             <br class="pc-hide" />
             <br class="pc-hide" />
-            <Button className="pc-hide wide" on:click={ openModal }>Получить консультацию</Button>
+            <Button className="pc-hide wide" on:click={ modal.open }>Получить консультацию</Button>
         </Grid>
         <br />
         <br />
@@ -616,7 +617,7 @@
         <br />
         { #each professions as profession, i }
             { #if activeSpeciality == i }
-                <Profession on:linkClicked={ openModal } {...profession} />
+                <Profession on:linkClicked={ modal.open } {...profession} />
             { /if }
         { /each }
     </div>

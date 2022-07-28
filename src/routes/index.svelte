@@ -30,7 +30,10 @@
     import partners from '$lib/partners'
     import graduates from '$lib/graduates'
 
-    let modalVisible = false
+    let modal: {
+        open: () => void,
+        close: () => void
+    } = undefined
     let menuVisible = true
     let showPreloader = true
     let pageLoaded = false
@@ -43,8 +46,6 @@
     }
 
     const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
-
-    const openModal = () => modalVisible = true
 
     const openMenu = () => menuVisible = true
 
@@ -121,7 +122,7 @@
     <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
 
-<Modal bind:visible={modalVisible} align="center" closable={true}>
+<Modal bind:this={ modal } align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
     <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
         <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
@@ -190,7 +191,7 @@
                 <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
             </Nav>
             <div class="mobile-hide align-right">
-                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ openModal }>Хочу поступить</Link>
+                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ modal.open }>Хочу поступить</Link>
             </div>
         </div>
     </div>
@@ -339,7 +340,7 @@
                 <div>
                     <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Институт глазами студентов</Heading>
                     <Text id="jz91" marginTop={0}>Наши студенты рассказывают об учебе, лабораторных и курсовых работах, студенческой жизни и, как проходит их обучение в Институте новых материалов и технологий</Text>
-                    <Button className="mobile-hide" on:click={ openModal }>Получить консультацию</Button>
+                    <Button className="mobile-hide" on:click={ modal.open }>Получить консультацию</Button>
                 </div>
                 <Grid m={4} className="mobile-horizontal-scroll">
                     <VideoCard src="/video/first.mp4" />
@@ -350,7 +351,7 @@
             </Grid>
             <br class="pc-hide" />
             <br class="pc-hide" />
-            <Button className="pc-hide wide" on:click={ openModal }>Поступить</Button>
+            <Button className="pc-hide wide" on:click={ modal.open }>Поступить</Button>
         </div>
     </section>
     <section id="schoolarship">

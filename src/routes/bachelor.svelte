@@ -38,7 +38,10 @@
     import { bachelor as feedbacks } from '$lib/feedback'
     import { blur, fly, fade } from 'svelte/transition'
 
-    let modalVisible = false
+    let modal: {
+        open: () => void,
+        close: () => void
+    } = undefined
     let linkColor: 'white' | 'black' = 'white'
     let programsExpanded = false
     let menuVisible = false
@@ -87,8 +90,6 @@
             setTimeout(() => programActive[num] = false, 300)
         }
     }
-
-    const openModal = () => modalVisible = true
 
     const openMenu = () => menuVisible = true
 
@@ -175,7 +176,7 @@
     <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
 
-<Modal bind:visible={modalVisible} align="center" closable={true}>
+<Modal bind:this={ modal } align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
     <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
         <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
@@ -251,7 +252,7 @@
                 <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
             </Nav>
             <div class="mobile-hide align-right">
-                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ openModal }>Хочу поступить</Link>
+                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ modal.open }>Хочу поступить</Link>
             </div>
         </div>
     </div>
@@ -267,7 +268,7 @@
                 </Text>
             </div>
             <div class="pc-hide">
-                <Button variant="blue" className="wide" on:click={ openModal }>Хочу поступить</Button>
+                <Button variant="blue" className="wide" on:click={ modal.open }>Хочу поступить</Button>
             </div>
         </Grid>
     </div>
@@ -336,7 +337,7 @@
                             <ProgramCard on:click={ () => openProgram(i) } { program } />
                         </div>
                         { #if programActive[i] }
-                            <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); openModal()}} bind:hidden={programOpened[i]} {...program} />
+                            <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); modal.open()}} bind:hidden={programOpened[i]} {...program} />
                         { /if }
                     { /if }
                 { /each }
@@ -566,8 +567,8 @@
         <Divider className="mobile-hide" height={2} color="white" marginY={1.5} />
         <Text opacity={0.4}>Ознакомиться с перечнем вступительных испытаний для абитуриентов на базе среднего профессионального образования для поступления в УрФУ в 2022 году можно в документе</Text>
         <Link color="white" lineWidth={ 2 } variant="interactive" target="_BLANK" href="https://urfu.ru/ru/applicant/docs-abiturient/demo-exams/">Демо-варианты</Link> <br /><br /><br />
-        <Button className="mobile-hide" on:click={ openModal }>Получить консультацию</Button>
-        <Button className="pc-hide wide" on:click={ openModal }>Получить консультацию</Button>
+        <Button className="mobile-hide" on:click={ modal.open }>Получить консультацию</Button>
+        <Button className="pc-hide wide" on:click={ modal.open }>Получить консультацию</Button>
     </svelte:fragment>
 </Announce>
 <br />

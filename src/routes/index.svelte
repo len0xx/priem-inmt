@@ -34,7 +34,7 @@
         open: () => void,
         close: () => void
     } = undefined
-    let menuVisible = true
+    let menuVisible = false
     let showPreloader = true
     let pageLoaded = false
     let additional = false

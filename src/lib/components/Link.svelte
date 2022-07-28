@@ -25,6 +25,7 @@
     function handleClick(event) {
         if (preventDefault) {
             event.preventDefault();
+            dispatch('click')
         }
     }
 </script>

@@ -306,7 +306,7 @@
         </div>
         <div class="filters filters-mobile pc-hide">
             <div class="filters-mobile__actions">
-                <Link preventDefault={true} on:click={() => mobileFiltersHidden = false}>
+                <Link href="" preventDefault={true} on:click={() => mobileFiltersHidden = false}>
                     <span class="filters-mobile__title">Фильтры</span>
                 </Link>
                 <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск" lineWidth={ 0 } marginY={ 0 } />

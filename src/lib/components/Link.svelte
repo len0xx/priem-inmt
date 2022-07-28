@@ -22,7 +22,7 @@
         dispatch('mouseover')
     }
 
-    function handleClick(event) {
+    function handleClick(event: Event) {
         if (preventDefault) {
             event.preventDefault();
             dispatch('click')

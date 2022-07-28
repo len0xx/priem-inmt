@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { fade } from 'svelte/transition'
+    import { fade, slide } from 'svelte/transition'
     import plusIcon from '$lib/img/filter-plus-icon.svg'
     import minusIcon from '$lib/img/filter-minus-icon.svg'
     import plusActiveIcon from '$lib/img/filter-blue-plus-icon.svg'
@@ -16,7 +16,10 @@
 
     let ready = false
     let display = false
+    let clientWidth: number = undefined
     $: selected = group.length > 0
+    $: mobileScreen = clientWidth < 768
+    $: transitionFunction = mobileScreen ? slide : fade
 
     const handleClickOutside = () => {
         if (ready && hideOnBlur) {
@@ -27,15 +30,14 @@
 
     const handleLabelClick = () => {
         // Если не использовать переменную ready, то контент вообще не откроется
-        if (display) {
-            ready = false
-        }
-        else {
-            setTimeout(() => ready = true, 100)
-        }
+        if (display) ready = false
+        else setTimeout(() => ready = true, 100)
+
         display = !display
     }
 </script>
+
+<svelte:window bind:innerWidth={ clientWidth } />
 
 <span class="kit-filter-button" use:clickOutside={ handleClickOutside }>
     <span class="kit-filter-label semi-bold subtitle" class:selected on:click={ handleLabelClick }>
@@ -47,7 +49,7 @@
         { /if }
     </span>
     { #if display }
-        <div class="kit-filter-content" style:min-width={ width + 'px' } transition:fade={{ duration: 100 }}>
+        <div class="kit-filter-content" style:min-width={ width + 'px' } transition:transitionFunction={{ duration: 100 }}>
             { #each options as option }
                 <!-- svelte-ignore a11y-label-has-associated-control -->
                 <label>

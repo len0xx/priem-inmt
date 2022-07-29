@@ -133,6 +133,14 @@
         return sortByPrice(a, b)
     })
 
+    const clearFilters = (): void => {
+        selectedSort = 'name';
+        educationModes = [];
+        payModes = [];
+        languages = [];
+        exams = [];
+    }
+
     onMount(() => {
         pageLoaded = true
         setTimeout(() => {
@@ -257,7 +265,8 @@
         <div class="filters filters-mobile pc-hide">
             <div class="filters-mobile__actions">
                 <Link href="" className="filters-mobile__title" preventDefault={true} on:click={() => mobileFiltersHidden = false}>
-                    <Icon name="filter-blue-plus-icon" />
+                    Фильтры
+                    <Icon name="filter-blue-plus-icon" slot="after" width={14} height={14}/>
                 </Link>
                 <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск" lineWidth={ 0 } marginY={ 0 } />
             </div>
@@ -278,7 +287,7 @@
                     <Filter hideOnBlur={false} label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
                     <Filter hideOnBlur={false} label="Экзамены" name="exams" bind:group={ exams } type="checkbox" options={[ 'Русский язык', 'Математика', 'Физика', 'Информатика и ИКТ', 'Химия', 'Творческое испытание' ]} />
                     <div class="filters-mobile__buttons">
-                        <Button size="S">Сбросить</Button>
+                        <Button size="S" on:click={ clearFilters }>Сбросить</Button>
                         <Button size="S" variant="blue" on:click={() => mobileFiltersHidden = true}>Показать</Button>
                     </div>
                 </div>

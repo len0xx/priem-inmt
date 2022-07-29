@@ -84,4 +84,8 @@
     a.kit-link.interactive-variant:hover .kit-link-underline {
         width: 50%;
     }
+
+    .after-content {
+        margin-left: 0.5em;
+    }
 </style>

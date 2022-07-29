@@ -1,6 +1,17 @@
 <script lang="ts">
     import { fade, fly } from 'svelte/transition'
-    export let visible = false
+
+    let visible = false
+
+    export const open = () => {
+        if (visible) return
+        visible = true
+    }
+
+    export const close = () => {
+        if (!visible) return
+        visible = false
+    }
 </script>
 
 {#if visible}

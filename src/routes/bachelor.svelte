@@ -257,7 +257,8 @@
         <div class="filters filters-mobile pc-hide">
             <div class="filters-mobile__actions">
                 <Link href="" className="filters-mobile__title" preventDefault={true} on:click={() => mobileFiltersHidden = false}>
-                    <Icon name="filter-blue-plus-icon" />
+                    Фильтры
+                    <Icon name="filter-blue-plus-icon" slot="after" />
                 </Link>
                 <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск" lineWidth={ 0 } marginY={ 0 } />
             </div>

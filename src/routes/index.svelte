@@ -71,7 +71,6 @@
 
     onMount(() => {
         pageLoaded = true
-
         setTimeout(() => showPreloader = false, 150)
     })
 </script>

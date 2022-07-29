@@ -140,7 +140,6 @@
 
     onMount(() => {
         pageLoaded = true
-
         setTimeout(() => {
             showPreloader = false
             headerClass = ''

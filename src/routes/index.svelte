@@ -28,6 +28,7 @@
     import images2 from '$lib/images2'
     import partners from '$lib/partners'
     import graduates from '$lib/graduates'
+    import { getSequentialPartialIndexes } from '$lib/utilities'
     import { formEndpoint } from '$lib/stores'
 
     let modal: {
@@ -73,25 +74,6 @@
 
         setTimeout(() => showPreloader = false, 150)
     })
-
-    const range = (start: number, end: number) => {
-        const result = []
-        for (let i = start; i <= end; i++) {
-            result.push(i)
-        }
-        return result
-    }
-
-    const getSequentialPartialIndexes = (arr: Array<unknown>, size: number): Array<Array<number>> => {
-        let result = []
-        let i = 0
-        while (i < arr.length) {
-            const end = (i + size - 1) < arr.length ? (i + size - 1) : arr.length - 1
-            result.push(range(i, end))
-            i += size
-        }
-        return result
-    }
 </script>
 
 <svelte:head>

@@ -16,7 +16,6 @@
         Preloader,
         MobileMenu
     } from '$lib/components'
-    import { afterNavigate, beforeNavigate } from '$app/navigation'
 
     let modal: {
         open: () => void,
@@ -34,14 +33,6 @@
         mask: '+{7} (000) 000-00-00'
     }
 
-    beforeNavigate(() => {
-        document.documentElement.style.scrollBehavior = 'auto'
-    })
-    
-    afterNavigate(() => {
-        document.documentElement.style.scrollBehavior = 'smooth'
-    })
-    
     const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
 
     const openMenu = () => menuVisible = true

@@ -24,7 +24,6 @@
         MobileMenu,
         RoundButton
     } from '$lib/components'
-    import { afterNavigate, beforeNavigate } from '$app/navigation'
     import images1 from '$lib/images1'
     import images2 from '$lib/images2'
     import partners from '$lib/partners'
@@ -74,14 +73,6 @@
         pageLoaded = true
 
         setTimeout(() => showPreloader = false, 150)
-    })
-
-    beforeNavigate(() => {
-        document.documentElement.style.scrollBehavior = 'auto'
-    })
-    
-    afterNavigate(() => {
-        document.documentElement.style.scrollBehavior = 'smooth'
     })
 
     const range = (start: number, end: number) => {

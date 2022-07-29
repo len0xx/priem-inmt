@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { afterNavigate, beforeNavigate } from '$app/navigation'
     import { Nav, Link, Input, Button, Footer, AjaxForm, ScrollToTop } from '$lib/components'
 
     let formSubmitted = false
@@ -9,6 +10,14 @@
     }
 
     const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
+    
+    beforeNavigate(() => {
+        document.documentElement.style.scrollBehavior = 'auto'
+    })
+    
+    afterNavigate(() => {
+        document.documentElement.style.scrollBehavior = 'smooth'
+    })
     
     const resetFormResults = (): void => {
         setTimeout(() => {

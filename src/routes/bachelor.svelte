@@ -31,7 +31,6 @@
     } from '$lib/components'
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
     import programs, { type EducationMode, type Program } from '$lib/programs'
-    import { afterNavigate, beforeNavigate } from '$app/navigation'
     import images from '$lib/images3'
     import partners from '$lib/partners'
     import documents from '$lib/documents'
@@ -76,14 +75,6 @@
         }
     }
 
-    beforeNavigate(() => {
-        document.documentElement.style.scrollBehavior = 'auto'
-    })
-    
-    afterNavigate(() => {
-        document.documentElement.style.scrollBehavior = 'smooth'
-    })
-    
     const closeProgram = (num: number) => {
         if (programActive[num]) {
             programOpened[num] = true

@@ -31,7 +31,17 @@
 </script>
 
 <a {href} {title} {target} class="kit-link {className} {variantClass}" style:color on:click={ (event) => handleClick(event) } on:mouseover={ mouseOverHandler } on:focus on:mouseleave>
+    { #if $$slots.before }
+        <span class="before-content">
+            <slot name="before" />
+        </span>
+    { /if }
     <slot />
+    { #if $$slots.after }
+        <span class="after-content">
+            <slot name="after" />
+        </span>
+    { /if }
     <span class="kit-link-underline" style:background-color={ color } style:height={ lineWidth + 'px' }></span>
 </a>
 

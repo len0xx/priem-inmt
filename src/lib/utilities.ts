@@ -186,3 +186,22 @@ export function sortByPrice(a: Program, b: Program): number {
     if (getPriceNumber(a.price[0]) > getPriceNumber(b.price[0])) return 1
     return 0
 }
+
+export const range = (start: number, end: number) => {
+    const result = []
+    for (let i = start; i <= end; i++) {
+        result.push(i)
+    }
+    return result
+}
+
+export const getSequentialPartialIndexes = (arr: Array<unknown>, size: number): Array<Array<number>> => {
+    const result = []
+    let i = 0
+    while (i < arr.length) {
+        const end = (i + size - 1) < arr.length ? (i + size - 1) : arr.length - 1
+        result.push(range(i, end))
+        i += size
+    }
+    return result
+}

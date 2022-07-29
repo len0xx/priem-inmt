@@ -40,7 +40,7 @@ import Teacher from './Teacher.svelte'
 import Text from './Text.svelte'
 import VideoCard from './VideoCard.svelte'
 
-export { 
+export {
     AjaxForm,
     Announce,
     Benefit,

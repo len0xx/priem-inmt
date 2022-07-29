@@ -6,7 +6,6 @@
         Step,
         Link,
         Text,
-        Modal,
         Input,
         Icon,
         Button,
@@ -15,7 +14,6 @@
         SideBar,
         Benefit,
         Heading,
-        Rainbow,
         Partner,
         Profile,
         Divider,
@@ -32,17 +30,13 @@
     } from '$lib/components'
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
     import programs, { type EducationMode, type Program } from '$lib/programs'
-    import { afterNavigate, beforeNavigate } from '$app/navigation'
     import images from '$lib/images3'
     import partners from '$lib/partners'
     import documents from '$lib/documents'
+    import { formEndpoint, modal } from '$lib/stores'
     import { bachelor as feedbacks } from '$lib/feedback'
     import { blur, fly, fade } from 'svelte/transition'
 
-    let modal: {
-        open: () => void,
-        close: () => void
-    } = undefined
     let linkColor: 'white' | 'black' = 'white'
     let programsExpanded = false
     let menuVisible = false
@@ -68,8 +62,6 @@
         mask: '+{7} (000) 000-00-00'
     }
 
-    const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
-
     const openProgram = (num: number) => {
         if (!programActive[num]) {
             programActive[num] = true
@@ -77,14 +69,6 @@
         }
     }
 
-    beforeNavigate(() => {
-        document.documentElement.style.scrollBehavior = 'auto'
-    })
-    
-    afterNavigate(() => {
-        document.documentElement.style.scrollBehavior = 'smooth'
-    })
-    
     const closeProgram = (num: number) => {
         if (programActive[num]) {
             programOpened[num] = true
@@ -151,7 +135,6 @@
 
     onMount(() => {
         pageLoaded = true
-
         setTimeout(() => {
             showPreloader = false
             headerClass = ''
@@ -176,35 +159,6 @@
     <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/accommodation">Поселение</a><br /><br />
     <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
-
-<Modal bind:this={ modal } align="center" closable={true}>
-    <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
-    <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
-        <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
-        <Input name="fio" marginY={0.5} type="text" placeholder="ФИО" wide required={ true } /><br /><br />
-        <Input name="email" marginY={0.5} type="email" placeholder="Email" wide required={ true } /><br /><br />
-        <Input name="phone" marginY={0.5} mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
-        <Input name="message" marginY={0.5} type="text" placeholder="Сообщение" wide /><br /><br />
-        <label for="agreement4" class="checkbox-wrapper align-left">
-            <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
-            <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
-        </label>
-        <br />
-        <br />
-        <Button variant="blue">Отправить</Button>
-    </AjaxForm>
-    { #if formSubmitted }
-        <br />
-        <div class="align-center">
-            { #if formSuccess }
-                Спасибо! Ваша заявка отправлена
-            { :else }
-                Кажется, произошла ошибка при отправке формы. Свяжитесь, пожалуйста, с нами по почте: <a href="mailto:ok.inmt@urfu.ru">ok.inmt@urfu.ru</a>
-            { /if }
-        </div>
-    { /if }
-    <Rainbow slot="footer" size="L" />
-</Modal>
 
 <Header hideOnScrollDown={ true } showOnScrollUp={ true } hideAfter={ 90 } transparent={ true } className={ headerClass } on:scroll-up={ handleScrollUp } on:scroll-down={ handleScrollDown }>
     <div class="content">
@@ -253,7 +207,7 @@
                 <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
             </Nav>
             <div class="mobile-hide align-right">
-                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ modal.open }>Хочу поступить</Link>
+                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ $modal.open }>Хочу поступить</Link>
             </div>
         </div>
     </div>
@@ -269,7 +223,7 @@
                 </Text>
             </div>
             <div class="pc-hide">
-                <Button variant="blue" className="wide" on:click={ modal.open }>Хочу поступить</Button>
+                <Button variant="blue" className="wide" on:click={ $modal.open }>Хочу поступить</Button>
             </div>
         </Grid>
     </div>
@@ -340,7 +294,7 @@
                             <ProgramCard on:click={ () => openProgram(i) } { program } />
                         </div>
                         { #if programActive[i] }
-                            <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); modal.open()}} bind:hidden={programOpened[i]} {...program} />
+                            <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); $modal.open()}} bind:hidden={programOpened[i]} {...program} />
                         { /if }
                     { /if }
                 { /each }
@@ -570,8 +524,8 @@
         <Divider className="mobile-hide" height={2} color="white" marginY={1.5} />
         <Text opacity={0.4}>Ознакомиться с перечнем вступительных испытаний для абитуриентов на базе среднего профессионального образования для поступления в УрФУ в 2022 году можно в документе</Text>
         <Link color="white" lineWidth={ 2 } variant="interactive" target="_BLANK" href="https://urfu.ru/ru/applicant/docs-abiturient/demo-exams/">Демо-варианты</Link> <br /><br /><br />
-        <Button className="mobile-hide" on:click={ modal.open }>Получить консультацию</Button>
-        <Button className="pc-hide wide" on:click={ modal.open }>Получить консультацию</Button>
+        <Button className="mobile-hide" on:click={ $modal.open }>Получить консультацию</Button>
+        <Button className="pc-hide wide" on:click={ $modal.open }>Получить консультацию</Button>
     </svelte:fragment>
 </Announce>
 <br />
@@ -688,11 +642,11 @@
                 и познакомитесь с перечнем изучаемых дисциплин
             </Text>
         </Grid>
-        <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false }>
+        <AjaxForm action={ $formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false }>
             <Grid m={4} s={2} xs={1}>
                 <Input className="white" type="text" name="fio" placeholder="ФИО" wide />
                 <Input className="white" type="email" name="email" placeholder="Email" wide />
-                <Input className="white" type="tel" name="phone" placeholder="Телефон" wide />
+                <Input className="white" type="tel" name="phone" mask={ phoneMask } placeholder="Телефон" wide />
                 <Input className="white" type="text" name="message" placeholder="Сообщение" wide />
             </Grid>
             <br />

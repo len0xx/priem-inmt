@@ -5,49 +5,24 @@
         Grid,
         Link,
         Text,
-        Modal,
-        Input,
-        Button,
         Header,
         Teacher,
         Heading,
-        Rainbow,
         Graduate,
-        AjaxForm,
         Document,
         Preloader,
         MobileMenu,
     } from '$lib/components'
-    import { afterNavigate, beforeNavigate } from '$app/navigation'
+    import { modal } from '$lib/stores'
     import documents from '$lib/documents2'
 
-    let modal: {
-        open: () => void,
-        close: () => void
-    } = undefined
-    let menuVisible = true
+    let menuVisible = false
     let showPreloader = true
     let pageLoaded = false
     let additional = false
     let headerClass = ''
-    let formSubmitted = false
-    let formSuccess = false
     let linkColor: 'white' | 'black' = 'white'
 
-    let phoneMask = {
-        mask: '+{7} (000) 000-00-00'
-    }
-
-    const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
-
-    beforeNavigate(() => {
-        document.documentElement.style.scrollBehavior = 'auto'
-    })
-    
-    afterNavigate(() => {
-        document.documentElement.style.scrollBehavior = 'smooth'
-    })
-    
     const openMenu = () => menuVisible = false
 
     const closeMenu = () => menuVisible = false
@@ -66,28 +41,8 @@
         }, 200)
     }
     
-    const resetFormResults = (): void => {
-        setTimeout(() => {
-            formSubmitted = false
-            formSuccess = false
-        }, 10 * 1000)
-    }
-
-    const handleSuccess = (): void => {
-        formSubmitted = true
-        formSuccess = true
-        resetFormResults()
-    }
-
-    const handleError = (): void => {
-        formSubmitted = true
-        formSuccess = false
-        resetFormResults()
-    }
-
     onMount(() => {
         pageLoaded = true
-
         setTimeout(() => showPreloader = false, 150)
     })
 </script>
@@ -109,35 +64,6 @@
     <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/accommodation">Поселение</a><br /><br />
     <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
-
-<Modal bind:this={ modal } align="center" closable={true}>
-    <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
-    <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
-        <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
-        <Input name="fio" marginY={0.5} type="text" placeholder="ФИО" wide required={ true } /><br /><br />
-        <Input name="email" marginY={0.5} type="email" placeholder="Email" wide required={ true } /><br /><br />
-        <Input name="phone" marginY={0.5} mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
-        <Input name="message" marginY={0.5} type="text" placeholder="Сообщение" wide /><br /><br />
-        <label for="agreement4" class="checkbox-wrapper align-left">
-            <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
-            <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
-        </label>
-        <br />
-        <br />
-        <Button variant="blue">Отправить</Button>
-    </AjaxForm>
-    { #if formSubmitted }
-        <br />
-        <div class="align-center">
-            { #if formSuccess }
-                Спасибо! Ваша заявка отправлена
-            { :else }
-                Кажется, произошла ошибка при отправке формы. Свяжитесь, пожалуйста, с нами по почте: <a href="mailto:ok.inmt@urfu.ru">ok.inmt@urfu.ru</a>
-            { /if }
-        </div>
-    { /if }
-    <Rainbow slot="footer" size="L" />
-</Modal>
 
 <Header hideOnScrollDown={ true } showOnScrollUp={ true } hideAfter={ 90 } transparent={ true } className={ headerClass } on:scroll-up={ handleScrollUp } on:scroll-down={ handleScrollDown }>
     <div class="content">
@@ -185,7 +111,7 @@
                 <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
             </Nav>
             <div class="mobile-hide align-right">
-                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ modal.open }>Хочу поступить</Link>
+                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ $modal.open }>Хочу поступить</Link>
             </div>
         </div>
     </div>
@@ -195,7 +121,7 @@
         <Grid m={1} l={2} ratio="5:3" alignItems="end">
             <Heading size={1} marginY={0}>Поселение<br /><span class="smaller-text">Институт новых материалов <br /> и технологий</span></Heading>
             <div class="align-right">
-                <Link on:click={ modal.open } variant="interactive" color="white" lineWidth={ 2 }>Получить консультацию</Link>
+                <Link on:click={ $modal.open } href="" preventDefault={true} variant="interactive" color="white" lineWidth={ 2 }>Получить консультацию</Link>
             </div>
         </Grid>
     </div>

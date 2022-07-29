@@ -27,13 +27,14 @@
     import { getSequentialPartialIndexes } from '$lib/utilities'
     import { modal } from '$lib/stores'
 
-    let menuVisible = false
     let showPreloader = true
     let pageLoaded = false
     let additional = false
-    const openMenu = () => menuVisible = true
 
-    const closeMenu = () => menuVisible = false
+    let mobileMenu: {
+        open: () => void,
+        close: () => void
+    } = undefined
 
     onMount(() => {
         pageLoaded = true
@@ -51,12 +52,12 @@
     <Preloader bind:invisible={pageLoaded} />
 { /if }
 
-<MobileMenu bind:visible={ menuVisible }>
-    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
-    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/master">Магистратура</a><br /><br />
-    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
-    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/accommodation">Поселение</a><br /><br />
-    <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/contacts">Контакты</a><br /><br />
+<MobileMenu bind:this={ mobileMenu }>
+    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
+    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/master">Магистратура</a><br /><br />
+    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
+    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/accommodation">Поселение</a><br /><br />
+    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
 
 <Header hideOnScrollDown={ true } showOnScrollUp={ true } hideAfter={ 90 }>
@@ -80,7 +81,7 @@
                 <Button href="https://priem.urfu.ru" target="_BLANK">Подать документы</Button>
             </div>
             <div class="pc-hide align-right">
-                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ openMenu }>
+                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ mobileMenu.open }>
             </div>
         </div>
     </div>

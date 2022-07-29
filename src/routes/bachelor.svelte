@@ -142,17 +142,12 @@
         payModes = [];
         languages = [];
         exams = [];
+        search = '';
     }
 
     const getSearchResults = (): void => {
         search = mobileSearchValue;
-        mobileSearchResultVisible = true;
-    }
-
-    const closeSearch = (): void => {
-        search = '';
-        mobileSearchVisible = false;
-        clearFilters();
+        mobileFiltersVisible = false;
     }
 
     onMount(() => {
@@ -263,7 +258,11 @@
 </section>
 <section id="programs">
     <div class="content">
-        <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Образовательные программы</Heading>
+        {#if search == ''}
+            <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Образовательные программы</Heading>
+        {:else}
+            <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Поиск по запросу {search}</Heading>
+        {/if}
         <div class="filters mobile-hide">
             <div class="left">
                 <Filter label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
@@ -282,7 +281,7 @@
                     Фильтры
                     <Icon name="filter-blue-plus-icon" slot="after" width={14} height={14}/>
                 </Link>
-                <Link href="" className="filters-mobile__search" preventDefault={true} on:click={() => mobileSearchVisible = true}>
+                <Link href="" className="filters-mobile__search" preventDefault={true} on:click={() => mobileFiltersVisible = true}>
                     Поиск
                 </Link>
             </div>
@@ -297,6 +296,12 @@
                             </svg>        
                         </div>
                     </div>
+                    <div class="filters-mobile__form">
+                        <Input className="content-search__input" bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide={true} />
+                        <Link href="" className="filters-mobile__title" preventDefault={true} on:click={ getSearchResults }>
+                            Поиск
+                        </Link>
+                    </div>
                     <Filter hideOnBlur={false} width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
                     <Filter hideOnBlur={false} label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
                     <Filter hideOnBlur={false} label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
@@ -307,67 +312,6 @@
                         <Button size="S" variant="blue" on:click={() => mobileFiltersVisible = false}>Показать</Button>
                     </div>
                 </div>
-            {/if}
-            {#if mobileSearchVisible}
-                <div class="filters-mobile__content content-search" in:fly={{ x: 300, duration: 200 }} out:fade="{{ duration: 200 }}">
-                    <div class="filters-mobile__head">
-                        <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>Поиск</Heading>
-                        <div class="close-btn">
-                            <svg on:click={ closeSearch } width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="18" cy="18" r="18" fill="#1E4391"/>
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L18 16.5858L21.2929 13.2929C21.6834 12.9024 22.3166 12.9024 22.7071 13.2929C23.0976 13.6834 23.0976 14.3166 22.7071 14.7071L19.4142 18L22.7071 21.2929C23.0976 21.6834 23.0976 22.3166 22.7071 22.7071C22.3166 23.0976 21.6834 23.0976 21.2929 22.7071L18 19.4142L14.7071 22.7071C14.3166 23.0976 13.6834 23.0976 13.2929 22.7071C12.9024 22.3166 12.9024 21.6834 13.2929 21.2929L16.5858 18L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z" fill="white"/>
-                            </svg>        
-                        </div>
-                    </div>
-                    <div class="content-search__form">
-                        <Input className="content-search__input" bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } autofocus={true} wide={true} />
-                        <Link href="" className="filters-mobile__title" preventDefault={true} on:click={ getSearchResults }>
-                            Поиск
-                        </Link>
-                    </div>
-                </div>
-                {#if mobileSearchResultVisible}
-                    <div class="filters-mobile__content content-search" in:fly={{ x: 300, duration: 200 }} out:fade="{{ duration: 200 }}">
-                        <div class="filters-mobile__head">
-                            <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>По запросу { search }</Heading>
-                            <div class="close-btn">
-                                <svg on:click={() => mobileSearchResultVisible = false} width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="18" cy="18" r="18" fill="#1E4391"/>
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L18 16.5858L21.2929 13.2929C21.6834 12.9024 22.3166 12.9024 22.7071 13.2929C23.0976 13.6834 23.0976 14.3166 22.7071 14.7071L19.4142 18L22.7071 21.2929C23.0976 21.6834 23.0976 22.3166 22.7071 22.7071C22.3166 23.0976 21.6834 23.0976 21.2929 22.7071L18 19.4142L14.7071 22.7071C14.3166 23.0976 13.6834 23.0976 13.2929 22.7071C12.9024 22.3166 12.9024 21.6834 13.2929 21.2929L16.5858 18L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z" fill="white"/>
-                                </svg>        
-                            </div>
-                        </div>
-                        <Link href="" className="filters-mobile__title" preventDefault={true} on:click={() => mobileFiltersVisible = true}>
-                            Фильтры
-                            <Icon name="filter-blue-plus-icon" slot="after" width={14} height={14}/>
-                        </Link>
-                        <div class="content-search__results">
-                            { #if programsFiltered.length }
-                                <Grid l={3} m={2} s={1}>
-                                    { #each programsFiltered as program, i (program.id) }
-                                        { #if i < 6 || programsExpanded }
-                                            <div transition:blur={{ duration: 200 }}>
-                                                <ProgramCard on:click={ () => openProgram(i) } { program } />
-                                            </div>
-                                            { #if programActive[i] }
-                                                <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); $modal.open()}} bind:hidden={programOpened[i]} {...program} />
-                                            { /if }
-                                        { /if }
-                                    { /each }
-                                </Grid>
-                                { #if !programsExpanded && programsFiltered.length > 6 }
-                                    <br />
-                                    <br />
-                                    <div class="align-center">
-                                        <RoundButton variant="plus" size="XL" on:click={() => programsExpanded = true} />
-                                    </div>
-                                { /if }
-                            { :else }
-                                <Text>Не удалось найти образовательные программы по Вашему запросу. Попробуйте изменить запрос</Text>
-                            { /if }
-                        </div>
-                    </div>
-                {/if}
             {/if}
         </div>
         <br />

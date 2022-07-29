@@ -36,6 +36,7 @@
     import professions from '$lib/professions'
     import faqText from '$lib/faqs'
     import { master as feedbacks } from '$lib/feedback'
+    import { formEndpoint } from '$lib/stores'
 
     let modal: {
         open: () => void,
@@ -69,8 +70,6 @@
         mask: '+{7} (000) 000-00-00'
     }
 
-    const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
-    
     const openProgram = (num: number) => {
         if (!programActive[num]) {
             programActive[num] = true
@@ -178,7 +177,7 @@
 
 <Modal bind:this={ modal } align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
-    <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
+    <AjaxForm action={ $formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
         <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
         <Input name="fio" marginY={0.5} type="text" placeholder="ФИО" wide required={ true } /><br /><br />
         <Input name="email" marginY={0.5} type="email" placeholder="Email" wide required={ true } /><br /><br />

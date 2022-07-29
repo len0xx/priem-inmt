@@ -34,6 +34,7 @@
     import images from '$lib/images3'
     import partners from '$lib/partners'
     import documents from '$lib/documents'
+    import { formEndpoint } from '$lib/stores'
     import { bachelor as feedbacks } from '$lib/feedback'
     import { blur, fly, fade } from 'svelte/transition'
 
@@ -65,8 +66,6 @@
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
     }
-
-    const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
 
     const openProgram = (num: number) => {
         if (!programActive[num]) {
@@ -169,7 +168,7 @@
 
 <Modal bind:this={ modal } align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
-    <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
+    <AjaxForm action={ $formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
         <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
         <Input name="fio" marginY={0.5} type="text" placeholder="ФИО" wide required={ true } /><br /><br />
         <Input name="email" marginY={0.5} type="email" placeholder="Email" wide required={ true } /><br /><br />
@@ -676,7 +675,7 @@
                 и познакомитесь с перечнем изучаемых дисциплин
             </Text>
         </Grid>
-        <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false }>
+        <AjaxForm action={ $formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false }>
             <Grid m={4} s={2} xs={1}>
                 <Input className="white" type="text" name="fio" placeholder="ФИО" wide />
                 <Input className="white" type="email" name="email" placeholder="Email" wide />

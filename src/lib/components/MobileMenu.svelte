@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { fade, fly } from 'svelte/transition';
+    import { fade, fly } from 'svelte/transition'
     export let visible = false
 </script>
 

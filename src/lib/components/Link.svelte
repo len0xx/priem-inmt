@@ -24,7 +24,7 @@
 
     function handleClick(event: Event) {
         if (preventDefault) {
-            event.preventDefault();
+            event.preventDefault()
             dispatch('click')
         }
     }

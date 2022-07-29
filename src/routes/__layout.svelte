@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { formEndpoint } from '$lib/stores'
     import { afterNavigate, beforeNavigate } from '$app/navigation'
     import { Nav, Link, Input, Button, Footer, AjaxForm, ScrollToTop } from '$lib/components'
 
@@ -9,8 +10,6 @@
         mask: '+{7} (000) 000-00-00'
     }
 
-    const formEndpoint = 'https://fgaouvo.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.site.form.fill'
-    
     beforeNavigate(() => {
         document.documentElement.style.scrollBehavior = 'auto'
     })
@@ -73,7 +72,7 @@
                 </div>
                 <div>
                     <h2 class="no-top-margin">Обратная связь</h2>
-                    <AjaxForm action={ formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false }>
+                    <AjaxForm action={ $formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false }>
                         <div class="my-4">
                             <Input name="fio" type="text" placeholder="ФИО" wide />
                             <div class="grid grid-2 m-grid-1 my-4">

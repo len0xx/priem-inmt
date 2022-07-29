@@ -97,20 +97,20 @@
         }, 200)
     }
     
-    const resetFormResults = (): void => {
+    const resetFormResults = () => {
         setTimeout(() => {
             formSubmitted = false
             formSuccess = false
         }, 10 * 1000)
     }
 
-    const handleSuccess = (): void => {
+    const handleSuccess = () => {
         formSubmitted = true
         formSuccess = true
         resetFormResults()
     }
 
-    const handleError = (): void => {
+    const handleError = () => {
         formSubmitted = true
         formSuccess = false
         resetFormResults()
@@ -136,7 +136,7 @@
         return sortByPrice(a, b)
     })
 
-    const clearFilters = (): void => {
+    const clearFilters = () => {
         selectedSort = 'name';
         educationModes = [];
         payModes = [];
@@ -144,12 +144,12 @@
         exams = [];
     }
 
-    const getSearchResults = (): void => {
+    const getSearchResults = () => {
         search = mobileSearchValue;
         mobileSearchResultVisible = true;
     }
 
-    const closeSearch = (): void => {
+    const closeSearch = () => {
         search = '';
         mobileSearchVisible = false;
         clearFilters();

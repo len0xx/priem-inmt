@@ -120,7 +120,7 @@
         return sortByPrice(a, b)
     })
 
-    const clearFilters = (): void => {
+    const clearFilters = () => {
         selectedSort = 'name';
         educationModes = [];
         payModes = [];

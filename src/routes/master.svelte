@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { blur } from 'svelte/transition'
     import {
         Nav,
         Grid,
@@ -8,6 +7,7 @@
         Link,
         Text,
         Input,
+        Icon,
         Button,
         Filter,
         Switch,
@@ -34,6 +34,7 @@
     import faqText from '$lib/faqs'
     import { master as feedbacks } from '$lib/feedback'
     import { modal } from '$lib/stores'
+    import { blur, fly, fade } from 'svelte/transition'
 
     let programsExpanded = false
     let professionsExpanded = false
@@ -56,6 +57,7 @@
     let search = ''
     let feedbacksExpanded = false
     let linkColor: 'white' | 'black' = 'white'
+    let mobileFiltersVisible = false
 
     const openProgram = (num: number) => {
         if (!programActive[num]) {
@@ -117,6 +119,13 @@
         else if (selectedSort == 'places') return sortByPlaces(a, b)
         return sortByPrice(a, b)
     })
+
+    const clearFilters = (): void => {
+        selectedSort = 'name';
+        educationModes = [];
+        payModes = [];
+        languages = [];
+    }
 
     onMount(() => {
         pageLoaded = true
@@ -417,7 +426,7 @@
 <section id="programs">
     <div class="content">
         <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Образовательные программы</Heading>
-        <div class="filters">
+        <div class="filters mobile-hide">
             <div class="left">
                 <Filter label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
                 <Filter label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
@@ -427,6 +436,36 @@
                 <Filter width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
                 <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } />
             </div>
+        </div>
+        <div class="filters filters-mobile pc-hide">
+            <div class="filters-mobile__actions">
+                <Link href="" className="filters-mobile__title" preventDefault={true} on:click={() => mobileFiltersVisible = true}>
+                    Фильтры
+                    <Icon name="filter-blue-plus-icon" slot="after" width={14} height={14}/>
+                </Link>
+                <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск" lineWidth={ 0 } marginY={ 0 } />
+            </div>
+            {#if mobileFiltersVisible}
+                <div class="filters-mobile__content" in:fly={{ x: 300, duration: 200 }} out:fade="{{ duration: 200 }}">
+                    <div class="filters-mobile__head">
+                        <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>Фильтры</Heading>
+                        <div class="close-btn">
+                            <svg on:click={() => mobileFiltersVisible = false} width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="18" cy="18" r="18" fill="#1E4391"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L18 16.5858L21.2929 13.2929C21.6834 12.9024 22.3166 12.9024 22.7071 13.2929C23.0976 13.6834 23.0976 14.3166 22.7071 14.7071L19.4142 18L22.7071 21.2929C23.0976 21.6834 23.0976 22.3166 22.7071 22.7071C22.3166 23.0976 21.6834 23.0976 21.2929 22.7071L18 19.4142L14.7071 22.7071C14.3166 23.0976 13.6834 23.0976 13.2929 22.7071C12.9024 22.3166 12.9024 21.6834 13.2929 21.2929L16.5858 18L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z" fill="white"/>
+                            </svg>        
+                        </div>
+                    </div>
+                    <Filter hideOnBlur={false} width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
+                    <Filter hideOnBlur={false} label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
+                    <Filter hideOnBlur={false} label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
+                    <Filter hideOnBlur={false} label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
+                    <div class="filters-mobile__buttons">
+                        <Button size="S" on:click={ clearFilters }>Сбросить</Button>
+                        <Button size="S" variant="blue" on:click={() => mobileFiltersVisible = false}>Показать</Button>
+                    </div>
+                </div>
+            {/if}
         </div>
         <br />
         <br />

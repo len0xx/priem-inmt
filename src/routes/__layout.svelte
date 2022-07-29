@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { formEndpoint } from '$lib/stores'
+    import { formEndpoint, modal } from '$lib/stores'
     import { afterNavigate, beforeNavigate } from '$app/navigation'
-    import { Nav, Link, Input, Button, Footer, AjaxForm, ScrollToTop } from '$lib/components'
+    import { Nav, Link, Modal, Heading, Rainbow, Text, Input, Button, Footer, AjaxForm, ScrollToTop } from '$lib/components'
 
     let formSubmitted = false
     let formSuccess = false
@@ -37,6 +37,35 @@
         resetFormResults()
     }
 </script>
+
+<Modal bind:this={ $modal } align="center" closable={true}>
+    <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
+    <AjaxForm action={ $formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
+        <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
+        <Input name="fio" marginY={0.5} type="text" placeholder="ФИО" wide required={ true } /><br /><br />
+        <Input name="email" marginY={0.5} type="email" placeholder="Email" wide required={ true } /><br /><br />
+        <Input name="phone" marginY={0.5} mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
+        <Input name="message" marginY={0.5} type="text" placeholder="Сообщение" wide /><br /><br />
+        <label for="agreement4" class="checkbox-wrapper align-left">
+            <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
+            <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
+        </label>
+        <br />
+        <br />
+        <Button variant="blue">Отправить</Button>
+    </AjaxForm>
+    { #if formSubmitted }
+        <br />
+        <div class="align-center">
+            { #if formSuccess }
+                Спасибо! Ваша заявка отправлена
+            { :else }
+                Кажется, произошла ошибка при отправке формы. Свяжитесь, пожалуйста, с нами по почте: <a href="mailto:ok.inmt@urfu.ru">ok.inmt@urfu.ru</a>
+            { /if }
+        </div>
+    { /if }
+    <Rainbow slot="footer" size="L" />
+</Modal>
 
 <main>
     <ScrollToTop />

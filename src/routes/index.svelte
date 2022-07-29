@@ -5,18 +5,14 @@
         Grid,
         Link,
         Text,
-        Modal,
-        Input,
         Slide,
         Button,
         Header,
         Slider,
         Heading,
-        Rainbow,
         Partner,
         Benefit,
         Graduate,
-        AjaxForm,
         Carousel,
         NewsCard,
         Preloader,
@@ -29,45 +25,15 @@
     import partners from '$lib/partners'
     import graduates from '$lib/graduates'
     import { getSequentialPartialIndexes } from '$lib/utilities'
-    import { formEndpoint } from '$lib/stores'
+    import { modal } from '$lib/stores'
 
-    let modal: {
-        open: () => void,
-        close: () => void
-    } = undefined
     let menuVisible = false
     let showPreloader = true
     let pageLoaded = false
     let additional = false
-    let formSubmitted = false
-    let formSuccess = false
-    
-    let phoneMask = {
-        mask: '+{7} (000) 000-00-00'
-    }
-
     const openMenu = () => menuVisible = true
 
     const closeMenu = () => menuVisible = false
-
-    const resetFormResults = (): void => {
-        setTimeout(() => {
-            formSubmitted = false
-            formSuccess = false
-        }, 10 * 1000)
-    }
-
-    const handleSuccess = (): void => {
-        formSubmitted = true
-        formSuccess = true
-        resetFormResults()
-    }
-
-    const handleError = (): void => {
-        formSubmitted = true
-        formSuccess = false
-        resetFormResults()
-    }
 
     onMount(() => {
         pageLoaded = true
@@ -92,35 +58,6 @@
     <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/accommodation">Поселение</a><br /><br />
     <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
-
-<Modal bind:this={ modal } align="center" closable={true}>
-    <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
-    <AjaxForm action={ $formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
-        <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
-        <Input name="fio" marginY={0.5} type="text" placeholder="ФИО" wide required={ true } /><br /><br />
-        <Input name="email" marginY={0.5} type="email" placeholder="Email" wide required={ true } /><br /><br />
-        <Input name="phone" marginY={0.5} mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
-        <Input name="message" marginY={0.5} type="text" placeholder="Сообщение" wide /><br /><br />
-        <label for="agreement4" class="checkbox-wrapper align-left">
-            <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
-            <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
-        </label>
-        <br />
-        <br />
-        <Button variant="blue">Отправить</Button>
-    </AjaxForm>
-    { #if formSubmitted }
-        <br />
-        <div class="align-center">
-            { #if formSuccess }
-                Спасибо! Ваша заявка отправлена
-            { :else }
-                Кажется, произошла ошибка при отправке формы. Свяжитесь, пожалуйста, с нами по почте: <a href="mailto:ok.inmt@urfu.ru">ok.inmt@urfu.ru</a>
-            { /if }
-        </div>
-    { /if }
-    <Rainbow slot="footer" size="L" />
-</Modal>
 
 <Header hideOnScrollDown={ true } showOnScrollUp={ true } hideAfter={ 90 }>
     <div class="content">
@@ -162,7 +99,7 @@
                 <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
             </Nav>
             <div class="mobile-hide align-right">
-                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ modal.open }>Хочу поступить</Link>
+                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ $modal.open }>Хочу поступить</Link>
             </div>
         </div>
     </div>
@@ -311,7 +248,7 @@
                 <div>
                     <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Институт глазами студентов</Heading>
                     <Text id="jz91" marginTop={0}>Наши студенты рассказывают об учебе, лабораторных и курсовых работах, студенческой жизни и, как проходит их обучение в Институте новых материалов и технологий</Text>
-                    <Button className="mobile-hide" on:click={ modal.open }>Получить консультацию</Button>
+                    <Button className="mobile-hide" on:click={ $modal.open }>Получить консультацию</Button>
                 </div>
                 <Grid m={4} className="mobile-horizontal-scroll">
                     <VideoCard src="/video/first.mp4" />
@@ -322,7 +259,7 @@
             </Grid>
             <br class="pc-hide" />
             <br class="pc-hide" />
-            <Button className="pc-hide wide" on:click={ modal.open }>Поступить</Button>
+            <Button className="pc-hide wide" on:click={ $modal.open }>Поступить</Button>
         </div>
     </section>
     <section id="schoolarship">

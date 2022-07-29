@@ -7,7 +7,6 @@
         Step,
         Link,
         Text,
-        Modal,
         Input,
         Button,
         Filter,
@@ -15,11 +14,9 @@
         Header,
         SideBar,
         Heading,
-        Rainbow,
         Partner,
         Profile,
         Benefit,
-        AjaxForm,
         Carousel,
         Preloader,
         Profession,
@@ -36,12 +33,8 @@
     import professions from '$lib/professions'
     import faqText from '$lib/faqs'
     import { master as feedbacks } from '$lib/feedback'
-    import { formEndpoint } from '$lib/stores'
+    import { modal } from '$lib/stores'
 
-    let modal: {
-        open: () => void,
-        close: () => void
-    } = undefined
     let programsExpanded = false
     let professionsExpanded = false
     let menuVisible = false
@@ -61,14 +54,8 @@
     let languages: string[] = []
     let selectedSort = 'name'
     let search = ''
-    let formSubmitted = false
-    let formSuccess = false
     let feedbacksExpanded = false
     let linkColor: 'white' | 'black' = 'white'
-
-    let phoneMask = {
-        mask: '+{7} (000) 000-00-00'
-    }
 
     const openProgram = (num: number) => {
         if (!programActive[num]) {
@@ -112,25 +99,6 @@
         }, 200)
     }
     
-    const resetFormResults = (): void => {
-        setTimeout(() => {
-            formSubmitted = false
-            formSuccess = false
-        }, 10 * 1000)
-    }
-
-    const handleSuccess = (): void => {
-        formSubmitted = true
-        formSuccess = true
-        resetFormResults()
-    }
-
-    const handleError = (): void => {
-        formSubmitted = true
-        formSuccess = false
-        resetFormResults()
-    }
-
     const applyFilters = (program: Program, selectedEducationModes: EducationMode[], selectedPayModes: string[], selectedLanguages: string[], searchString: string): boolean => {
         const budgetPlaces = program.vacantSpots.reduce((acc: number, cur: string[]) => acc + +cur[0], 0)
         const paidPlaces = program.vacantSpots.reduce((acc: number, cur: string[]) => acc + +cur[1], 0)
@@ -173,35 +141,6 @@
     <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/accommodation">Поселение</a><br /><br />
     <a sveltekit:prefetch on:click={ closeMenu } class="underlined" href="/contacts">Контакты</a><br /><br />
 </MobileMenu>
-
-<Modal bind:this={ modal } align="center" closable={true}>
-    <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>
-    <AjaxForm action={ $formEndpoint } method="POST" bitrix={ true } on:success={ handleSuccess } on:error={ handleError } checkOk={ false } id="JSyW">
-        <Text className="subtitle">Специалисты института свяжутся с вами в ближайшее время</Text>
-        <Input name="fio" marginY={0.5} type="text" placeholder="ФИО" wide required={ true } /><br /><br />
-        <Input name="email" marginY={0.5} type="email" placeholder="Email" wide required={ true } /><br /><br />
-        <Input name="phone" marginY={0.5} mask={ phoneMask } type="tel" placeholder="Контактный телефон" wide required={ true } /><br /><br />
-        <Input name="message" marginY={0.5} type="text" placeholder="Сообщение" wide /><br /><br />
-        <label for="agreement4" class="checkbox-wrapper align-left">
-            <Input type="checkbox" name="agreement" id="agreement4" required={ true } />
-            <span class="fourty-text-black">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ </span>
-        </label>
-        <br />
-        <br />
-        <Button variant="blue">Отправить</Button>
-    </AjaxForm>
-    { #if formSubmitted }
-        <br />
-        <div class="align-center">
-            { #if formSuccess }
-                Спасибо! Ваша заявка отправлена
-            { :else }
-                Кажется, произошла ошибка при отправке формы. Свяжитесь, пожалуйста, с нами по почте: <a href="mailto:ok.inmt@urfu.ru">ok.inmt@urfu.ru</a>
-            { /if }
-        </div>
-    { /if }
-    <Rainbow slot="footer" size="L" />
-</Modal>
 
 <Header hideOnScrollDown={ true } showOnScrollUp={ true } hideAfter={ 90 } transparent={ true } className={ headerClass } on:scroll-up={ handleScrollUp } on:scroll-down={ handleScrollDown }>
     <div class="content">
@@ -250,7 +189,7 @@
                 <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
             </Nav>
             <div class="mobile-hide align-right">
-                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ modal.open }>Хочу поступить</Link>
+                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ $modal.open }>Хочу поступить</Link>
             </div>
         </div>
     </div>
@@ -266,7 +205,7 @@
                 </Text>
             </div>
             <div class="pc-hide">
-                <Button variant="blue" className="wide" on:click={ modal.open }>Хочу поступить</Button>
+                <Button variant="blue" className="wide" on:click={ $modal.open }>Хочу поступить</Button>
             </div>
         </Grid>
     </div>
@@ -499,7 +438,7 @@
                             <ProgramCard on:click={ () => openProgram(i) } { program } />
                         </div>
                         { #if programActive[i] }
-                            <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); modal.open()}} bind:hidden={programOpened[i]} {...program} />
+                            <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); $modal.open()}} bind:hidden={programOpened[i]} {...program} />
                         { /if }
                     { /if }
                 { /each }
@@ -521,7 +460,7 @@
         <Grid m={3} s={1}>
             <div>
                 <Heading size={1} marginTop={0} className="blue-text">Станьте ценным специалистом современной компании</Heading>
-                <Button className="mobile-hide" on:click={ modal.open }>Получить консультацию</Button>
+                <Button className="mobile-hide" on:click={ $modal.open }>Получить консультацию</Button>
             </div>
             <Text className="heading-3" marginTop={0}>Выпускники Института новых материалов и технологий способны создавать новые материалы с уникальными свойствами, проектировать конструкции, схемы, алгоритмы, технологии производства материалов, машин и оборудования, разрабатывать бизнес-планы создания технических новинок, управлять созданными машинами и обслуживать их, руководить промышленными предприятиями.</Text>
             <div style:opacity={0.8}>
@@ -537,7 +476,7 @@
             </div>
             <br class="pc-hide" />
             <br class="pc-hide" />
-            <Button className="pc-hide wide" on:click={ modal.open }>Получить консультацию</Button>
+            <Button className="pc-hide wide" on:click={ $modal.open }>Получить консультацию</Button>
         </Grid>
         <br />
         <br />
@@ -606,7 +545,7 @@
         <br />
         { #each professions as profession, i }
             { #if activeSpeciality == i }
-                <Profession on:linkClicked={ modal.open } {...profession} />
+                <Profession on:linkClicked={ $modal.open } {...profession} />
             { /if }
         { /each }
     </div>

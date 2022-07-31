@@ -143,6 +143,7 @@
         languages = [];
         exams = [];
         search = '';
+        mobileSearchValue = '';
     }
 
     const getSearchResults = () => {
@@ -309,7 +310,7 @@
                     <Filter hideOnBlur={false} label="Экзамены" name="exams" bind:group={ exams } type="checkbox" options={[ 'Русский язык', 'Математика', 'Физика', 'Информатика и ИКТ', 'Химия', 'Творческое испытание' ]} />
                     <div class="filters-mobile__buttons">
                         <Button size="S" on:click={ clearFilters }>Сбросить</Button>
-                        <Button size="S" variant="blue" on:click={() => mobileFiltersVisible = false}>Показать</Button>
+                        <Button size="S" variant="blue" on:click={ getSearchResults }>Показать</Button>
                     </div>
                 </div>
             {/if}

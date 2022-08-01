@@ -56,7 +56,7 @@
     let feedbacksExpanded = false
     let mobileFiltersVisible = false
     let mobileSearchValue = ''
-    let mobileSearchAutofocus = false
+    let mobileSearchInput: HTMLInputElement = undefined;
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
@@ -149,11 +149,11 @@
     }
 
     const openFilters = (autofocus: boolean) => {
-        mobileFiltersVisible = true;
+        mobileFiltersVisible = true
         if (autofocus) {
-            mobileSearchAutofocus = true;
+            mobileSearchInput.focus()
         } else {
-            mobileSearchAutofocus = false;
+            mobileSearchInput.blur()
         }
     }
 
@@ -298,11 +298,7 @@
                         </div>
                     </div>
                     <div class="filters-mobile__form">
-                        {#if mobileSearchAutofocus}
-                            <Input className="content-search__input" bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide={true} autofocus={true} />
-                        {:else}
-                            <Input className="content-search__input" bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide={true} />
-                        {/if}
+                        <Input className="content-search__input" bind:node={ mobileSearchInput } bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide={true} />
                         <Link href="" className="filters-mobile__title" preventDefault={true} on:click={ getSearchResults }>
                             Поиск
                         </Link>

@@ -147,7 +147,7 @@
         <Heading size={1} className="blue-text" marginTop={0}>Порядок поселения <br /> в общежитие</Heading>
         <Grid m={4} className="mobile-horizontal-scroll">
             <div class="numbered-section">
-                <img src="/img/section-1-alt-1.svg" alt="1">
+                <Icon name="section-1-alt-1" width={40} height={86} alt="1" />
                 <div>
                     <Text className="subtitle blue-text" marginTop={0}>Медицинское обследование</Text>
                     <Text>Абитуриенты могут проходить медицинский осмотр до выхода приказов о зачислении.</Text>
@@ -156,7 +156,7 @@
                 </div>
             </div>
             <div class="numbered-section">
-                <img src="/img/section-2-alt-1.svg" alt="2">
+                <Icon name="section-2-alt-1" width={40} height={86} alt="2" />
                 <div>
                     <Text className="subtitle blue-text" marginTop={0}>Получение документов</Text>
                     <Text opacity={0.6} color="var(--red)">Внимание! С момента получения документов необходимо заселиться в течение 7 рабочих дней, потом документты аннулируются</Text>
@@ -170,7 +170,7 @@
                 </div>
             </div>
             <div class="numbered-section">
-                <img src="/img/section-3-alt-1.svg" alt="3">
+                <Icon name="section-3-alt-1" width={40} height={86} alt="3" />
                 <div>
                     <Text className="subtitle blue-text" marginTop={0}>Оплата проживания в общежитии</Text>
                     <Text>Произвести оплату обеспечительного платежа в размере 5 000 рублей можно следующими способами: </Text>
@@ -183,7 +183,7 @@
                 </div>
             </div>
             <div class="numbered-section">
-                <img src="/img/section-4-alt-1.svg" alt="4">
+                <Icon name="section-4-alt-1" width={40} height={86} alt="4" />
                 <div>
                     <Text className="subtitle blue-text" marginTop={0}>Оформление временной регистрации по месту пребывания</Text>
                     <Text opacity={0.6} color="var(--red)">Внимание! Сниматься с регистрационного учета по месту жительства не нужно.</Text>
@@ -202,7 +202,7 @@
         <Heading size={1} className="blue-text" marginTop={0}>Порядок <br /> распределения мест<br /> в общежитии</Heading>
         <Grid m={3} className="mobile-horizontal-scroll">
             <div class="numbered-section">
-                <img src="/img/section-1-alt-2.svg" alt="1">
+                <Icon name="section-1-alt-2" width={40} height={40} alt="1" />
                 <div>
                     <Text className="subtitle" marginTop={0}>В первоочередном порядке в жилые помещения в студенческих общежитиях УрФУ подлежат заселению:</Text>
                     <Text>
@@ -215,7 +215,7 @@
                 </div>
             </div>
             <div class="numbered-section">
-                <img src="/img/section-2-alt-2.svg" alt="2">
+                <Icon name="section-2-alt-2" width={40} height={40} alt="2" />
                 <div>
                     <Text className="subtitle" marginTop={0}>Правом первоочередного поселения в жилые помещения в студенческих общежитиях УрФУ также обладают обучающиеся в УрФУ иностранные граждане и лица без гражданства, поселение которых является обязательным для УрФУ в соответствии с требованиями законодательства Российской Федерации:</Text>
                     <Text>
@@ -236,7 +236,7 @@
                 </div>
             </div>
             <div class="numbered-section">
-                <img src="/img/section-3-alt-2.svg" alt="3">
+                <Icon name="section-3-alt-2" width={40} height={40} alt="3" />
                 <div>
                     <Text className="subtitle" marginTop={0}>В случае, если хотя бы одному из перечисленных требований студент не удовлетворяет, то он будет заселяться в индивидуальном порядке на конкурсной основе.Помните, ВУЗ не может удовлетворить все заявки студентов на поселение.</Text>
                     <Text opacity={0.6} color="var(--red)">К сожалению, ВУЗ не может удовлетворить все заявки студентов на поселение, в связи с этим создан рейтинг поселения на конкурсной основе</Text>

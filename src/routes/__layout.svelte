@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { formEndpoint, modal } from '$lib/stores'
+    import { formEndpoint, modal, mobileMenu } from '$lib/stores'
     import { afterNavigate, beforeNavigate } from '$app/navigation'
-    import { Nav, Link, Modal, Heading, Rainbow, Text, Input, Button, Footer, AjaxForm, ScrollToTop } from '$lib/components'
+    import { Nav, Link, Modal, MobileMenu, Heading, Rainbow, Text, Input, Button, Footer, AjaxForm, ScrollToTop } from '$lib/components'
 
     let formSubmitted = false
     let formSuccess = false
@@ -37,6 +37,14 @@
         resetFormResults()
     }
 </script>
+
+<MobileMenu bind:this={ $mobileMenu }>
+    <Link prefetch on:click={ $mobileMenu.close } color="black" variant="hover" href="/bachelor">Бакалавриат и специалитет</Link><br /><br />
+    <Link prefetch on:click={ $mobileMenu.close } color="black" variant="hover" href="/master">Магистратура</Link><br /><br />
+    <Link prefetch on:click={ $mobileMenu.close } color="black" variant="hover" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</Link><br /><br />
+    <Link prefetch on:click={ $mobileMenu.close } color="black" variant="hover" href="/accommodation">Поселение</Link><br /><br />
+    <Link prefetch on:click={ $mobileMenu.close } color="black" variant="hover" href="/contacts">Контакты</Link><br /><br />
+</MobileMenu>
 
 <Modal bind:this={ $modal } align="center" closable={true}>
     <Heading size={2} className="blue-text" marginTop={0}>Получить консультацию</Heading>

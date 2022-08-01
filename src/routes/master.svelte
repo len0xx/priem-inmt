@@ -21,7 +21,6 @@
         Preloader,
         Profession,
         Expandable,
-        MobileMenu,
         RoundButton,
         ProgramCard,
         SelectButton
@@ -33,8 +32,8 @@
     import professions from '$lib/professions'
     import faqText from '$lib/faqs'
     import { master as feedbacks } from '$lib/feedback'
-    import { modal } from '$lib/stores'
-    import { blur, fly, fade } from 'svelte/transition'
+    import { modal, mobileMenu } from '$lib/stores'
+    import { blur, fly } from 'svelte/transition'
 
     let programsExpanded = false
     let professionsExpanded = false
@@ -57,11 +56,6 @@
     let feedbacksExpanded = false
     let linkColor: 'white' | 'black' = 'white'
     let mobileFiltersVisible = false
-
-    let mobileMenu: {
-        open: () => void,
-        close: () => void
-    } = undefined
 
     const openProgram = (num: number) => {
         if (!programActive[num]) {
@@ -120,7 +114,7 @@
         return sortByPrice(a, b)
     })
 
-    const clearFilters = () => {
+    const resetFilters = () => {
         selectedSort = 'name'
         educationModes = []
         payModes = []
@@ -142,14 +136,6 @@
 { #if showPreloader }
     <Preloader bind:invisible={pageLoaded} />
 { /if }
-
-<MobileMenu bind:this={ mobileMenu }>
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/master">Магистратура</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/accommodation">Поселение</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/contacts">Контакты</a><br /><br />
-</MobileMenu>
 
 <Header hideOnScrollDown={ true } showOnScrollUp={ true } hideAfter={ 90 } transparent={ true } className={ headerClass } on:scroll-up={ handleScrollUp } on:scroll-down={ handleScrollDown }>
     <div class="content">
@@ -179,7 +165,7 @@
                 <Button variant={ headerClass == 'header-scrolled' ? 'primary' : 'blue' } href="https://priem.urfu.ru" target="_BLANK">Подать документы</Button>
             </div>
             <div class="pc-hide align-right">
-                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ mobileMenu.open }>     
+                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ $mobileMenu.open }>     
             </div>
         </div>
     </div>
@@ -446,7 +432,7 @@
                 <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск" lineWidth={ 0 } marginY={ 0 } />
             </div>
             {#if mobileFiltersVisible}
-                <div class="filters-mobile__content" in:fly={{ x: 300, duration: 200 }} out:fade="{{ duration: 200 }}">
+                <div class="filters-mobile__content" transition:fly={{ x: 300, duration: 200 }}>
                     <div class="filters-mobile__head">
                         <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>Фильтры</Heading>
                         <div class="close-btn">
@@ -461,7 +447,7 @@
                     <Filter hideOnBlur={false} label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
                     <Filter hideOnBlur={false} label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
                     <div class="filters-mobile__buttons">
-                        <Button size="S" on:click={ clearFilters }>Сбросить</Button>
+                        <Button size="S" on:click={ resetFilters }>Сбросить</Button>
                         <Button size="S" variant="blue" on:click={() => mobileFiltersVisible = false}>Показать</Button>
                     </div>
                 </div>

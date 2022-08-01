@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { fade, fly } from 'svelte/transition'
+    import { fly } from 'svelte/transition'
 
     let visible = false
 
@@ -15,7 +15,7 @@
 </script>
 
 {#if visible}
-    <div class="mobile-menu" in:fly={{ x: 300, duration: 300 }} out:fade={{ duration: 100 }}>
+    <div class="mobile-menu" transition:fly={{ x: 300, duration: 300 }}>
         <div class="close-btn">
             <svg on:click={() => visible = false} width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="18" cy="18" r="18" fill="#1E4391"/>

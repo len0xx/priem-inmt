@@ -17,7 +17,6 @@
         NewsCard,
         Preloader,
         VideoCard,
-        MobileMenu,
         RoundButton
     } from '$lib/components'
     import images1 from '$lib/images1'
@@ -25,16 +24,11 @@
     import partners from '$lib/partners'
     import graduates from '$lib/graduates'
     import { getSequentialPartialIndexes } from '$lib/utilities'
-    import { modal } from '$lib/stores'
+    import { modal, mobileMenu } from '$lib/stores'
 
     let showPreloader = true
     let pageLoaded = false
     let additional = false
-
-    let mobileMenu: {
-        open: () => void,
-        close: () => void
-    } = undefined
 
     onMount(() => {
         pageLoaded = true
@@ -51,14 +45,6 @@
 { #if showPreloader }
     <Preloader bind:invisible={pageLoaded} />
 { /if }
-
-<MobileMenu bind:this={ mobileMenu }>
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/master">Магистратура</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/accommodation">Поселение</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/contacts">Контакты</a><br /><br />
-</MobileMenu>
 
 <Header hideOnScrollDown={ true } showOnScrollUp={ true } hideAfter={ 90 }>
     <div class="content">
@@ -81,7 +67,7 @@
                 <Button href="https://priem.urfu.ru" target="_BLANK">Подать документы</Button>
             </div>
             <div class="pc-hide align-right">
-                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ mobileMenu.open }>
+                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ $mobileMenu.open }>
             </div>
         </div>
     </div>

@@ -22,7 +22,6 @@
         Announce,
         Document,
         Preloader,
-        MobileMenu,
         RoundButton,
         ProgramCard,
         SelectButton,
@@ -33,9 +32,9 @@
     import images from '$lib/images3'
     import partners from '$lib/partners'
     import documents from '$lib/documents'
-    import { formEndpoint, modal } from '$lib/stores'
+    import { formEndpoint, modal, mobileMenu } from '$lib/stores'
     import { bachelor as feedbacks } from '$lib/feedback'
-    import { blur, fly, fade } from 'svelte/transition'
+    import { blur, fly } from 'svelte/transition'
 
     let linkColor: 'white' | 'black' = 'white'
     let programsExpanded = false
@@ -57,11 +56,6 @@
     let feedbacksExpanded = false
     let mobileFiltersVisible = false
     let mobileSearchValue = ''
-
-    let mobileMenu: {
-        open: () => void,
-        close: () => void
-    } = undefined
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
@@ -168,14 +162,6 @@
     <Preloader bind:invisible={pageLoaded} />
 { /if }
 
-<MobileMenu bind:this={ mobileMenu }>
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/master">Магистратура</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/accommodation">Поселение</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/contacts">Контакты</a><br /><br />
-</MobileMenu>
-
 <Header hideOnScrollDown={ true } showOnScrollUp={ true } hideAfter={ 90 } transparent={ true } className={ headerClass } on:scroll-up={ handleScrollUp } on:scroll-down={ handleScrollDown }>
     <div class="content">
         <div class="header-layout { headerClass == 'header-scrolled' ? 'black' : 'white' }">
@@ -204,7 +190,7 @@
                 <Button variant={ headerClass == 'header-scrolled' ? 'primary' : 'blue' } href="https://priem.urfu.ru" target="_BLANK">Подать документы</Button>
             </div>
             <div class="pc-hide align-right">
-                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ mobileMenu.open }>          
+                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ $mobileMenu.open }>          
             </div>
         </div>
     </div>
@@ -257,11 +243,13 @@
 </section>
 <section id="programs">
     <div class="content">
-        {#if search == ''}
-            <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Образовательные программы</Heading>
-        {:else}
-            <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Поиск по запросу {search}</Heading>
-        {/if}
+        <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>
+            { #if search }
+                Поиск по запросу {search}
+            { :else }
+                Образовательные программы
+            { /if }
+        </Heading>
         <div class="filters mobile-hide">
             <div class="left">
                 <Filter label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
@@ -285,7 +273,7 @@
                 </Link>
             </div>
             {#if mobileFiltersVisible}
-                <div class="filters-mobile__content" in:fly={{ x: 300, duration: 200 }} out:fade="{{ duration: 200 }}">
+                <div class="filters-mobile__content" transition:fly={{ x: 300, duration: 200 }}>
                     <div class="filters-mobile__head">
                         <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>Фильтры</Heading>
                         <div class="close-btn">

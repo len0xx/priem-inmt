@@ -159,17 +159,17 @@
             <div>
                 <a sveltekit:reload href="/">
                     { #if headerClass == 'header-scrolled' }
-                        <img src="/img/urfu-logo-colourful.svg" alt="Логотип Уральского федерального университета">
+                        <Icon name="urfu-logo-colourful" width={140} height={48} alt="Логотип Уральского федерального университета"/>
                     { :else }
-                        <img src="/img/logo_urfu.svg" alt="Логотип Уральского федерального университета">
+                        <Icon name="logo_urfu" width={142} height={48} alt="Логотип Уральского федерального университета"/>
                     { /if }
                 </a>
             </div>
             <div class="mobile-hide">
                 { #if headerClass == 'header-scrolled' }
-                    <img src="/img/menu-icon-gray.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ () => additional = true }>
+                    <Icon name="menu-icon-gray" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ () => additional = true }/>
                 { :else }
-                    <img src="/img/menu-icon-white.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ () => additional = true }>
+                    <Icon name="menu-icon-white" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ () => additional = true }/>
                 { /if }
             </div>
             <Nav className="mobile-hide">
@@ -181,7 +181,7 @@
                 <Button variant={ headerClass == 'header-scrolled' ? 'primary' : 'blue' } href="https://priem.urfu.ru" target="_BLANK">Подать документы</Button>
             </div>
             <div class="pc-hide align-right">
-                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ $mobileMenu.open }>     
+                <Icon name="menu-icon-gray-fill" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ $mobileMenu.open }/>
             </div>
         </div>
     </div>
@@ -190,7 +190,7 @@
     <div class="content">
         <div class="header-layout">
             <div>
-                <img src="/img/red-close.svg" class="menu-button" alt="Кнопка закрытия навигации" on:click={ () => additional = false }>
+                <Icon name="red-close" className="menu-button" width={52} height={52} alt="Кнопка закрытия навигации" on:click={ () => additional = false }/>
             </div>
             <Nav className="mobile-hide">
                 <Link color="black" lineWidth={ 3 } href="/bachelor" prefetch variant="hover">Бакалавриат и специалитет</Link>

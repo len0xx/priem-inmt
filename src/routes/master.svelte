@@ -56,6 +56,8 @@
     let feedbacksExpanded = false
     let linkColor: 'white' | 'black' = 'white'
     let mobileFiltersVisible = false
+    let mobileSearchValue = ''
+    let mobileSearchInput: HTMLInputElement
 
     const openProgram = (num: number) => {
         if (!programActive[num]) {
@@ -119,6 +121,20 @@
         educationModes = []
         payModes = []
         languages = []
+        search = ''
+        mobileSearchValue = ''
+    }
+
+    const getSearchResults = () => {
+        search = mobileSearchValue
+        mobileFiltersVisible = false
+    }
+
+    const openFilters = (focusOnInput: boolean) => {
+        mobileFiltersVisible = true
+        if (focusOnInput) {
+            setTimeout(() => mobileSearchInput.focus(), 100)
+        }
     }
 
     onMount(() => {
@@ -425,11 +441,13 @@
         </div>
         <div class="filters filters-mobile pc-hide">
             <div class="filters-mobile__actions">
-                <Link href="" className="filters-mobile__title" preventDefault={true} on:click={() => mobileFiltersVisible = true}>
+                <Link href="" className="filters-mobile__title" preventDefault={true} on:click={() => openFilters(false)}>
                     Фильтры
                     <Icon name="filter-blue-plus-icon" slot="after" width={14} height={14}/>
                 </Link>
-                <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск" lineWidth={ 0 } marginY={ 0 } />
+                <Link href="" className="filters-mobile__search" preventDefault={true} on:click={() => openFilters(true)}>
+                    Поиск
+                </Link>
             </div>
             {#if mobileFiltersVisible}
                 <div class="filters-mobile__content" transition:fly={{ x: 300, duration: 200 }}>
@@ -442,13 +460,19 @@
                             </svg>        
                         </div>
                     </div>
+                    <div class="filters-mobile__form">
+                        <Input className="content-search__input" bind:node={ mobileSearchInput } bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide={true} />
+                        <Link href="" className="filters-mobile__title" preventDefault={true} on:click={ getSearchResults }>
+                            Поиск
+                        </Link>
+                    </div>
                     <Filter hideOnBlur={false} width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
                     <Filter hideOnBlur={false} label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
                     <Filter hideOnBlur={false} label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
                     <Filter hideOnBlur={false} label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
                     <div class="filters-mobile__buttons">
                         <Button size="S" on:click={ resetFilters }>Сбросить</Button>
-                        <Button size="S" variant="blue" on:click={() => mobileFiltersVisible = false}>Показать</Button>
+                        <Button size="S" variant="blue" on:click={ getSearchResults }>Показать</Button>
                     </div>
                 </div>
             {/if}

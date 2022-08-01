@@ -56,9 +56,8 @@
     let formSuccess = false
     let feedbacksExpanded = false
     let mobileFiltersVisible = false
-    let mobileSearchVisible = false
-    let mobileSearchResultVisible = false
     let mobileSearchValue = ''
+    let mobileSearchAutofocus = false
 
     let mobileMenu: {
         open: () => void,
@@ -149,6 +148,15 @@
     const getSearchResults = () => {
         search = mobileSearchValue;
         mobileFiltersVisible = false;
+    }
+
+    const openFilters = (autofocus: boolean): void => {
+        mobileFiltersVisible = true;
+        if (autofocus) {
+            mobileSearchAutofocus = true;
+        } else {
+            mobileSearchAutofocus = false;
+        }
     }
 
     onMount(() => {
@@ -282,7 +290,7 @@
                     Фильтры
                     <Icon name="filter-blue-plus-icon" slot="after" width={14} height={14}/>
                 </Link>
-                <Link href="" className="filters-mobile__search" preventDefault={true} on:click={() => mobileFiltersVisible = true}>
+                <Link href="" className="filters-mobile__search" preventDefault={true} on:click={ openFilters }>
                     Поиск
                 </Link>
             </div>
@@ -298,7 +306,11 @@
                         </div>
                     </div>
                     <div class="filters-mobile__form">
-                        <Input className="content-search__input" bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide={true} />
+                        {#if mobileSearchAutofocus}
+                            <Input className="content-search__input" bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide={true} autofocus={true} />
+                        {:else}
+                            <Input className="content-search__input" bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide={true} />
+                        {/if}
                         <Link href="" className="filters-mobile__title" preventDefault={true} on:click={ getSearchResults }>
                             Поиск
                         </Link>

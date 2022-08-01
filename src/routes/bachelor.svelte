@@ -123,11 +123,15 @@
         return modeFilter && languageFilter && payFilter && examsFilter && degreeFilter && searchFilter
     }
 
-    $: programsFiltered = programs.filter(program => applyFilters(program, educationModes, payModes, languages, exams, search)).sort((a, b) => {
-        if (selectedSort == 'name') return sortByName(a, b)
-        else if (selectedSort == 'places') return sortByPlaces(a, b)
-        return sortByPrice(a, b)
-    })
+    $: programsFiltered = programs.filter(
+        program => applyFilters(program, educationModes, payModes, languages, exams, search)
+    ).sort(
+        (a, b) => {
+            if (selectedSort == 'name') return sortByName(a, b)
+            else if (selectedSort == 'places') return sortByPlaces(a, b)
+            return sortByPrice(a, b)
+        }
+    )
 
     const resetFilters = () => {
         selectedSort = 'name'

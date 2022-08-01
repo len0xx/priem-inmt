@@ -10,6 +10,7 @@
     export let min: number = null
     export let max: number = null
     export let mask: unknown = null
+    export let node: HTMLInputElement = undefined
     export let wide: boolean = null
     export let name: string = null
     export let step: number = null
@@ -34,21 +35,20 @@
     const dispatch = createEventDispatcher()
     let filledIn = false
     let internalValue = value
-    let input: HTMLInputElement
 
     const valueChanged = () => {
-        filledIn = input.value != ''
-        value = input.value
+        filledIn = node.value != ''
+        value = node.value
     }
 
     const inputHandler = () => {
         valueChanged()
-        dispatch('input', input.value)
+        dispatch('input', node.value)
     }
 
     const changeHandler = () => {
         valueChanged()
-        dispatch('change', input.value)
+        dispatch('change', node.value)
     }
 
     onMount(valueChanged)
@@ -83,7 +83,7 @@
     on:change={ changeHandler }
     class={ className }
     class:filledIn
-    bind:this={ input }
+    bind:this={ node }
     use:imask={ mask || undefined }
     placeholder={ placeholder || undefined }
     style:margin-top={ (marginTop !== null ? marginTop : marginY) + 'em' }

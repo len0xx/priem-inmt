@@ -72,5 +72,5 @@
 </script>
 
 <form {id} class={className} {action} {method} on:submit|preventDefault={handleSubmit}>
-    <slot></slot>
+    <slot />
 </form>

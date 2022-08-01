@@ -3,7 +3,7 @@
 </script>
 
 <nav class={className}>
-    <slot></slot>
+    <slot />
 </nav>
 
 <style>

@@ -56,7 +56,7 @@
     let feedbacksExpanded = false
     let mobileFiltersVisible = false
     let mobileSearchValue = ''
-    let mobileSearchInput: HTMLInputElement = undefined;
+    let mobileSearchInput: HTMLInputElement
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
@@ -148,12 +148,10 @@
         mobileFiltersVisible = false
     }
 
-    const openFilters = (autofocus: boolean) => {
+    const openFilters = (focusOnInput: boolean) => {
         mobileFiltersVisible = true
-        if (autofocus) {
-            mobileSearchInput.focus()
-        } else {
-            mobileSearchInput.blur()
+        if (focusOnInput) {
+            setTimeout(() => mobileSearchInput.focus(), 100)
         }
     }
 

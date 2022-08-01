@@ -7,20 +7,14 @@
         Header,
         Heading,
         Graduate,
-        Preloader,
-        MobileMenu
+        Preloader
     } from '$lib/components'
-    import { modal } from '$lib/stores'
+    import { modal, mobileMenu } from '$lib/stores'
 
     let showPreloader = true
     let pageLoaded = false
     let additional = false
     let headerClass = ''
-
-    let mobileMenu: {
-        open: () => void,
-        close: () => void
-    } = undefined
 
     const handleScrollUp = () => {
         setTimeout(() => {
@@ -50,14 +44,6 @@
     <Preloader bind:invisible={pageLoaded} />
 { /if }
 
-<MobileMenu bind:this={ mobileMenu }>
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/bachelor">Бакалавриат и специалитет</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/master">Магистратура</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" target="_BLANK" href="https://aspirant.urfu.ru/ru/aspirantura/">Аспирантура</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/accommodation">Поселение</a><br /><br />
-    <a sveltekit:prefetch on:click={ mobileMenu.close } class="underlined" href="/contacts">Контакты</a><br /><br />
-</MobileMenu>
-
 <Header hideOnScrollDown={ true } showOnScrollUp={ true } hideAfter={ 90 } transparent={ true } className={ headerClass } on:scroll-up={ handleScrollUp } on:scroll-down={ handleScrollDown }>
     <div class="content">
         <div class="header-layout { headerClass == 'header-scrolled' ? 'black' : 'white' }">
@@ -78,7 +64,7 @@
                 { /if }
             </div>
             <div class="pc-hide align-right">
-                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ mobileMenu.open }>        
+                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ $mobileMenu.open }>        
             </div>
         </div>
     </div>

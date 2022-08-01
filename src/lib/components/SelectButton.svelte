@@ -20,7 +20,7 @@
     on:mouseup
     on:mousedown
 >
-    <slot></slot>
+    <slot />
 </div>
 
 <style>

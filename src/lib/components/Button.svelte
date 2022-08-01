@@ -41,7 +41,7 @@
     on:mouseover
     on:mouseleave
 >
-    <slot></slot>
+    <slot />
 </button>
 
 <style>

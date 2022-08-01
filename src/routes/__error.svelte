@@ -29,7 +29,7 @@
         <div class="white-block">
             <h1>Ошибка { status }</h1>
             <p><b>{ message }</b></p>
-            <p><a sveltekit:reload href="/">Перейти на главную</a></p>
+            <p><a class="default-link" sveltekit:reload href="/">Перейти на главную</a></p>
         </div>
         <div class="rainbow"></div>
     </div>
@@ -59,11 +59,11 @@
         background-image: var(--rainbow-gradient);
     }
 
-    a {
+    a.default-link {
         color: blue;
     }
 
-    a:hover {
+    a.default-link:hover {
         text-decoration: underline;
     }
 </style>

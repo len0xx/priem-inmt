@@ -136,7 +136,7 @@
         return sortByPrice(a, b)
     })
 
-    const clearFilters = () => {
+    const resetFilters = () => {
         selectedSort = 'name';
         educationModes = [];
         payModes = [];
@@ -297,7 +297,7 @@
                         </div>
                     </div>
                     <div class="filters-mobile__form">
-                        <Input className="content-search__input" bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide={true} />
+                        <Input className="content-search__input" bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide />
                         <Link href="" className="filters-mobile__title" preventDefault={true} on:click={ getSearchResults }>
                             Поиск
                         </Link>
@@ -308,7 +308,7 @@
                     <Filter hideOnBlur={false} label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
                     <Filter hideOnBlur={false} label="Экзамены" name="exams" bind:group={ exams } type="checkbox" options={[ 'Русский язык', 'Математика', 'Физика', 'Информатика и ИКТ', 'Химия', 'Творческое испытание' ]} />
                     <div class="filters-mobile__buttons">
-                        <Button size="S" on:click={ clearFilters }>Сбросить</Button>
+                        <Button size="S" on:click={ resetFilters }>Сбросить</Button>
                         <Button size="S" variant="blue" on:click={() => mobileFiltersVisible = false}>Показать</Button>
                     </div>
                 </div>

@@ -56,8 +56,6 @@
     let formSuccess = false
     let feedbacksExpanded = false
     let mobileFiltersVisible = false
-    let mobileSearchVisible = false
-    let mobileSearchResultVisible = false
     let mobileSearchValue = ''
 
     let mobileMenu: {
@@ -137,17 +135,18 @@
     })
 
     const resetFilters = () => {
-        selectedSort = 'name';
-        educationModes = [];
-        payModes = [];
-        languages = [];
-        exams = [];
-        search = '';
+        selectedSort = 'name'
+        educationModes = []
+        payModes = []
+        languages = []
+        exams = []
+        search = ''
+        mobileSearchValue = ''
     }
 
     const getSearchResults = () => {
-        search = mobileSearchValue;
-        mobileFiltersVisible = false;
+        search = mobileSearchValue
+        mobileFiltersVisible = false
     }
 
     onMount(() => {

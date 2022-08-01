@@ -121,10 +121,10 @@
     })
 
     const clearFilters = () => {
-        selectedSort = 'name';
-        educationModes = [];
-        payModes = [];
-        languages = [];
+        selectedSort = 'name'
+        educationModes = []
+        payModes = []
+        languages = []
     }
 
     onMount(() => {

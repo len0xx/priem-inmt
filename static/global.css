@@ -735,22 +735,17 @@ input.blue-placeholder:not(.s)::placeholder {
     grid-column-gap: 12px;
 }
 
-.content-search {
-    background-color: #F6F6F6;
-    z-index: 90;
-}
-
-.content-search__form {
+.filters-mobile__form {
     display: flex;
     align-items: center;
     padding-right: 16px;
     padding-top: 7px;
     padding-bottom: 7px;
     background-color: #fff;
-    box-shadow: 0px 0px 8px #6DADF8;
-    margin-bottom: 0.5em;
+    margin-bottom: 2em;
+    transition: all 0.2s ease;
 }
 
-.content-search__results {
-    padding-top: 2em;
+.filters-mobile__form:focus-within {
+    box-shadow: 0px 0px 8px #6DADF8;
 }

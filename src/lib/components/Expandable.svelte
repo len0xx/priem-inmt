@@ -1,16 +1,21 @@
 <script lang="ts">
     import { Text, Heading } from '.'
     import Icon from '$lib/components/Icon.svelte'
+    import { fade } from 'svelte/transition';
 
     export let active = false
     export let className = ''
 </script>
 
-<div class="kit-expandable {className}" class:active={active} on:click>
+<div class="kit-expandable {className}" on:click>
     <div class="block-content">
         <div>
             <Heading size={ 3 } className="blue-text"><slot name="header"></slot></Heading>
-            <Text marginY={ 0 }><slot name="text"></slot></Text>
+            {#if active}
+                <div class="text" in:fade="{{ duration: 300 }}" out:fade="{{ duration: 150}}">
+                    <Text marginY={ 0 }><slot name="text"></slot></Text>
+                </div>
+            {/if}
         </div>
         <div class="icon">
             { #if active }
@@ -59,7 +64,7 @@
         transition: 0.1s ease-in-out;
     }
 
-    .kit-expandable.active {
+    /* .kit-expandable.active {
         border-top-color: var(--blue);
         border-bottom-color: var(--blue);
     }
@@ -71,5 +76,5 @@
     :global(.kit-expandable.active p) {
         transform: rotateX(0);
         height: auto;
-    }
+    } */
 </style>

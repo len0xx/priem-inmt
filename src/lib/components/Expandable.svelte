@@ -7,12 +7,12 @@
     export let className = ''
 </script>
 
-<div class="kit-expandable {className}" on:click>
+<div class="kit-expandable {className}" class:active on:click>
     <div class="block-content">
         <div>
             <Heading size={ 3 } className="blue-text"><slot name="header"></slot></Heading>
             {#if active}
-                <div class="text" transition:slide={{ duration: 350 }}>
+                <div class="text" transition:slide={{ duration: 200 }}>
                     <Text marginY={ 0 }><slot name="text"></slot></Text>
                 </div>
             {/if}
@@ -64,12 +64,12 @@
         transition: 0.1s ease-in-out;
     }
 
-    /* .kit-expandable.active {
+    .kit-expandable.active {
         border-top-color: var(--blue);
         border-bottom-color: var(--blue);
     }
 
-    :global(.kit-expandable:not(.active) p) {
+    /* :global(.kit-expandable:not(.active) p) {
         transform: rotateX(90deg);
         height: 0px;
     }

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Text, Heading } from '.'
     import Icon from '$lib/components/Icon.svelte'
-    import { fade } from 'svelte/transition';
+    import { slide } from 'svelte/transition';
 
     export let active = false
     export let className = ''
@@ -12,7 +12,7 @@
         <div>
             <Heading size={ 3 } className="blue-text"><slot name="header"></slot></Heading>
             {#if active}
-                <div class="text" in:fade="{{ duration: 300 }}" out:fade="{{ duration: 150}}">
+                <div class="text" transition:slide={{ duration: 350 }}>
                     <Text marginY={ 0 }><slot name="text"></slot></Text>
                 </div>
             {/if}

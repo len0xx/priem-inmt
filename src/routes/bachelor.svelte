@@ -345,7 +345,8 @@
         <Grid m={3} s={1} gap={3}>
             <div>
                 <Heading size={1} className="blue-text" marginTop={0}>Алгоритм поступления</Heading>
-                <Text className="heading-3">Первый шаг к поступлению –<br />
+                <Text className="heading-3">
+                    Первый шаг к поступлению –<br />
                     регистрация в личном кабинете<br />
                     абитуриента
                 </Text>

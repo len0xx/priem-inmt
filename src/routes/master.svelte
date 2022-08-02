@@ -174,7 +174,7 @@
             </div>
             <Nav className="mobile-hide">
                 <Link color={ linkColor } lineWidth={ 3 } href="#enroll" variant="hover">Как поступить</Link>
-                <Link color={ linkColor } lineWidth={ 3 } href="#dates" variant="hover">Календарь приема</Link>
+                <Link color={ linkColor } lineWidth={ 3 } href="#calendar" variant="hover">Календарь приема</Link>
                 <Link color={ linkColor } lineWidth={ 3 } href="#programs" variant="hover">Программы</Link>
             </Nav>
             <div class="mobile-hide align-right">

@@ -13,8 +13,8 @@ import Graduate from './Graduate.svelte'
 import Grid from './Grid.svelte'
 import Header from './Header.svelte'
 import Heading from './Heading.svelte'
-import Input from './Input.svelte'
 import Icon from './Icon.svelte'
+import Input from './Input.svelte'
 import Link from './Link.svelte'
 import MobileMenu from './MobileMenu.svelte'
 import Modal from './Modal.svelte'
@@ -56,8 +56,8 @@ export {
     Grid,
     Header,
     Heading,
-    Input,
     Icon,
+    Input,
     Link,
     MobileMenu,
     Modal,

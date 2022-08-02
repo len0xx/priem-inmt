@@ -612,11 +612,13 @@
             <Grid m={3} s={1} alignItems="start">
                 { #each feedbacks as feedback, i }
                     { #if i < 3 || feedbacksExpanded }
-                        <Profile img={ feedback.img }>
-                            <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                            <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                            <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                        </Profile>
+                        <div transition:blur={{ duration: 200 }}>
+                            <Profile img={ feedback.img }>
+                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                            </Profile>
+                        </div>
                     { /if }
                 { /each }
             </Grid>

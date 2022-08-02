@@ -13,7 +13,9 @@
             <Heading size={ 3 } className="blue-text"><slot name="header"></slot></Heading>
             {#if active}
                 <div class="text" transition:slide={{ duration: 200 }}>
-                    <Text marginY={ 0 }><slot name="text"></slot></Text>
+                    <Text marginY={ 0 }>
+                        <slot name="text" />
+                    </Text>
                 </div>
             {/if}
         </div>

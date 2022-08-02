@@ -636,10 +636,12 @@
             <div>
                 { #each faqText as faq, i }
                     { #if i < 4 || faqsExpanded }
-                        <Expandable bind:active={faqs[i]} on:click={() => toggleExpandable(i)}>
-                            <svelte:fragment slot="header">{ faq.question }</svelte:fragment>
-                            <svelte:fragment slot="text">{ @html faq.answer }</svelte:fragment>
-                        </Expandable>
+                        <div transition:blur={{ duration: 200 }}>
+                            <Expandable bind:active={faqs[i]} on:click={() => toggleExpandable(i)}>
+                                <svelte:fragment slot="header">{ faq.question }</svelte:fragment>
+                                <svelte:fragment slot="text">{ @html faq.answer }</svelte:fragment>
+                            </Expandable>
+                        </div>
                     { /if }
                 { /each }
                 { #if !faqsExpanded }

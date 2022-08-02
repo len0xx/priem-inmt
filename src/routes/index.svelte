@@ -25,11 +25,10 @@
     import partners from '$lib/partners'
     import graduates from '$lib/graduates'
     import { getSequentialPartialIndexes } from '$lib/utilities'
-    import { modal, mobileMenu } from '$lib/stores'
+    import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
 
     let showPreloader = true
     let pageLoaded = false
-    let additional = false
 
     onMount(() => {
         pageLoaded = true
@@ -56,7 +55,7 @@
                 </a>
             </div>
             <div class="mobile-hide">
-                <Icon name="menu-icon-gray" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ () => additional = true }/>
+                <Icon name="menu-icon-gray" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ () => $commonHeaderState = true }/>
             </div>
             <Nav className="mobile-hide">
                 <Link color="black" lineWidth={ 3 } href="#about" variant="hover">Об институте</Link>
@@ -69,25 +68,6 @@
             </div>
             <div class="pc-hide align-right">
                 <Icon name="menu-icon-gray-fill" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ $mobileMenu.open }/>
-            </div>
-        </div>
-    </div>
-</Header>
-<Header hideOnScrollDown={ false } showOnScrollUp={ false } className="additional-header { additional ? 'opened' : '' }">
-    <div class="content">
-        <div class="header-layout">
-            <div>
-                <Icon name="red-close" className="menu-button" width={52} height={52} alt="Кнопка закрытия навигации" on:click={ () => additional = false }/>
-            </div>
-            <Nav className="mobile-hide">
-                <Link color="black" lineWidth={ 3 } href="/bachelor" prefetch variant="hover">Бакалавриат и специалитет</Link>
-                <Link color="black" lineWidth={ 3 } href="/master" prefetch variant="hover">Магистратура</Link>
-                <Link color="black" lineWidth={ 3 } href="https://aspirant.urfu.ru/ru/aspirantura/" target="_BLANK" prefetch variant="hover">Аспирантура</Link>
-                <Link color="black" lineWidth={ 3 } href="/accommodation" prefetch variant="hover">Поселение</Link>
-                <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
-            </Nav>
-            <div class="mobile-hide align-right">
-                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ $modal.open }>Хочу поступить</Link>
             </div>
         </div>
     </div>

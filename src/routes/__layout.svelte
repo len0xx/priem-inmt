@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { formEndpoint, modal, mobileMenu, mainHeader } from '$lib/stores'
+    import { formEndpoint, modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { afterNavigate, beforeNavigate } from '$app/navigation'
     import { Nav, Link, Modal, MobileMenu, Header, Heading, Rainbow, Text, Input, Icon, Button, Footer, AjaxForm, ScrollToTop } from '$lib/components'
 
@@ -78,11 +78,11 @@
 <main>
     <ScrollToTop />
 
-    <Header bind:this={ $mainHeader } hideOnScrollDown={ false } showOnScrollUp={ false } className="additional-header">
+    <Header hideOnScrollDown={ false } showOnScrollUp={ false } className="additional-header { $commonHeaderState ? 'opened' : '' }">
         <div class="content">
             <div class="header-layout">
                 <div>
-                    <Icon name="red-close" className="menu-button" width={52} height={52} alt="Кнопка закрытия навигации" on:click={ $mainHeader.close }/>
+                    <Icon name="red-close" className="menu-button" width={52} height={52} alt="Кнопка закрытия навигации" on:click={() => $commonHeaderState = false }/>
                 </div>
                 <Nav className="mobile-hide">
                     <Link color="black" lineWidth={ 3 } href="/bachelor" prefetch variant="hover">Бакалавриат и специалитет</Link>

@@ -10,7 +10,6 @@
     let hide = false
     let scrolled = false
     let prevScroll = 0
-    let visible = false
 
     const dispatch = createEventDispatcher()
 
@@ -36,23 +35,13 @@
         prevScroll = currentScroll
     }
 
-    export const open = () => {
-        if (visible) return
-        visible = true
-    }
-
-    export const close = () => {
-        if (!visible) return
-        visible = false
-    }
-
     onMount(scrollHandler)
     afterNavigate(scrollHandler)
 </script>
 
 <svelte:window on:scroll={ scrollHandler }></svelte:window>
 
-<header class="kit-header {className} { visible ? 'opened' : '' }" class:kit-hidden={ hide } class:transparent-bg={ transparent } class:scrolled on:click>
+<header class="kit-header {className}" class:kit-hidden={ hide } class:transparent-bg={ transparent } class:scrolled on:click>
     <slot />
 </header>
 

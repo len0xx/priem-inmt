@@ -32,7 +32,7 @@
     import images from '$lib/images3'
     import partners from '$lib/partners'
     import documents from '$lib/documents'
-    import { formEndpoint, modal, mobileMenu, mainHeader } from '$lib/stores'
+    import { formEndpoint, modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { bachelor as feedbacks } from '$lib/feedback'
     import { blur, fly } from 'svelte/transition'
 
@@ -41,7 +41,6 @@
     let showPreloader = true
     let calendarMode = true
     let pageLoaded = false
-    // let additional = false
     let headerClass = ''
     let programActive: boolean[] = []
     let programOpened: boolean[] = []
@@ -188,9 +187,9 @@
             </div>
             <div class="mobile-hide">
                 { #if headerClass == 'header-scrolled' }
-                    <Icon name="menu-icon-gray" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ $mainHeader.open }/>
+                    <Icon name="menu-icon-gray" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={() => $commonHeaderState = true }/>
                 { :else }
-                    <Icon name="menu-icon-white" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ $mainHeader.open }/>
+                    <Icon name="menu-icon-white" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={() => $commonHeaderState = true }/>
                 { /if }
             </div>
             <Nav className="mobile-hide">
@@ -207,25 +206,6 @@
         </div>
     </div>
 </Header>
-<!-- <Header hideOnScrollDown={ false } showOnScrollUp={ false } className="additional-header { additional ? 'opened' : '' }">
-    <div class="content">
-        <div class="header-layout">
-            <div>
-                <Icon name="red-close" className="menu-button" width={52} height={52} alt="Кнопка закрытия навигации" on:click={ () => additional = false }/>
-            </div>
-            <Nav className="mobile-hide">
-                <Link color="black" lineWidth={ 3 } href="/bachelor" prefetch variant="hover">Бакалавриат и специалитет</Link>
-                <Link color="black" lineWidth={ 3 } href="/master" prefetch variant="hover">Магистратура</Link>
-                <Link color="black" lineWidth={ 3 } href="https://aspirant.urfu.ru/ru/aspirantura/" target="_BLANK" prefetch variant="hover">Аспирантура</Link>
-                <Link color="black" lineWidth={ 3 } href="/accommodation" prefetch variant="hover">Поселение</Link>
-                <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
-            </Nav>
-            <div class="mobile-hide align-right">
-                <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ $modal.open }>Хочу поступить</Link>
-            </div>
-        </div>
-    </div>
-</Header> -->
 <section class="promo bachelor" id="beginning">
     <div class="content">
         <Grid m={1} l={2} ratio="5:3" alignItems="end">

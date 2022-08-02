@@ -73,7 +73,7 @@
             </div>
             <Nav className="mobile-hide">
                 <Link color={ linkColor } lineWidth={ 3 } href="#dorms" variant="hover">Общежития</Link>
-                <Link color={ linkColor } lineWidth={ 3 } href="#contacts" variant="hover">Ответственные</Link>
+                <Link color={ linkColor } lineWidth={ 3 } href="#responsible" variant="hover">Ответственные</Link>
                 <Link color={ linkColor } lineWidth={ 3 } href="#order" variant="hover">Порядок поселения</Link>
                 <Link color={ linkColor } lineWidth={ 3 } href="#distribution" variant="hover">Распределение мест</Link>
                 <Link color={ linkColor } lineWidth={ 3 } href="#documents" variant="hover">Документы</Link>

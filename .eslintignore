@@ -7,3 +7,4 @@ src/lib/img/*
 static/*
 svelte.config.js
 node_modules/*
+src/lib/components/index.ts

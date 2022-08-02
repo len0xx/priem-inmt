@@ -1,5 +1,6 @@
 <script lang="ts">
     import { fly } from 'svelte/transition'
+    import Icon from '$lib/components/Icon.svelte'
 
     let visible = false
 
@@ -17,10 +18,7 @@
 {#if visible}
     <div class="mobile-menu" transition:fly={{ x: 300, duration: 300 }}>
         <div class="close-btn">
-            <svg on:click={() => visible = false} width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="18" cy="18" r="18" fill="#1E4391"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L18 16.5858L21.2929 13.2929C21.6834 12.9024 22.3166 12.9024 22.7071 13.2929C23.0976 13.6834 23.0976 14.3166 22.7071 14.7071L19.4142 18L22.7071 21.2929C23.0976 21.6834 23.0976 22.3166 22.7071 22.7071C22.3166 23.0976 21.6834 23.0976 21.2929 22.7071L18 19.4142L14.7071 22.7071C14.3166 23.0976 13.6834 23.0976 13.2929 22.7071C12.9024 22.3166 12.9024 21.6834 13.2929 21.2929L16.5858 18L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z" fill="white"/>
-            </svg>        
+            <Icon name="small-close-icon" width={36} height={36} alt="Кнопка закрытия окна" on:click={() => visible = false} />      
         </div>
         <nav>
             <slot />

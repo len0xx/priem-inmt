@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Text, Heading } from '.'
+    import Icon from '$lib/components/Icon.svelte'
 
     export let active = false
     export let className = ''
@@ -13,14 +14,9 @@
         </div>
         <div class="icon">
             { #if active }
-                <svg width="28" height="4" viewBox="0 0 28 4" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M28 2L0 2" stroke="#1E4391" stroke-width="3"/>
-                </svg>
+                <Icon name="minus" width={28} height={4} alt="Иконка минус" />
             { :else }
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14 28V0" stroke="#1E4391" stroke-width="3"/>
-                    <path d="M28 14L0 14" stroke="#1E4391" stroke-width="3"/>
-                </svg>
+                <Icon name="plus" width={28} height={28} alt="Иконка плюс" />
             { /if }           
         </div>
     </div>

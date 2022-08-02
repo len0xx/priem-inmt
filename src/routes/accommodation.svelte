@@ -5,6 +5,7 @@
         Grid,
         Link,
         Text,
+        Icon,
         Header,
         Teacher,
         Heading,
@@ -57,17 +58,17 @@
             <div>
                 <a sveltekit:reload href="/">
                     { #if headerClass == 'header-scrolled' }
-                        <img src="/img/urfu-logo-colourful.svg" alt="Логотип Уральского федерального университета">
+                        <Icon name="urfu-logo-colourful" width={140} height={48} alt="Логотип Уральского федерального университета"/>
                     { :else }
-                        <img src="/img/logo_urfu.svg" alt="Логотип Уральского федерального университета">
+                        <Icon name="logo_urfu" width={142} height={48} alt="Логотип Уральского федерального университета"/>
                     { /if }
                 </a>
             </div>
             <div class="mobile-hide">
                 { #if headerClass == 'header-scrolled' }
-                    <img src="/img/menu-icon-gray.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ () => additional = true }>
+                    <Icon name="menu-icon-gray" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ () => additional = true }/>
                 { :else }
-                    <img src="/img/menu-icon-white.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ () => additional = true }>
+                    <Icon name="menu-icon-white" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ () => additional = true }/>
                 { /if }
             </div>
             <Nav className="mobile-hide">
@@ -78,7 +79,7 @@
                 <Link color={ linkColor } lineWidth={ 3 } href="#documents" variant="hover">Документы</Link>
             </Nav>
             <div class="pc-hide align-right">
-                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ $mobileMenu.open }>          
+                <Icon name="menu-icon-gray-fill" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ $mobileMenu.open }/>
             </div>
         </div>
     </div>
@@ -87,7 +88,7 @@
     <div class="content">
         <div class="header-layout">
             <div>
-                <img src="/img/red-close.svg" class="menu-button" alt="Кнопка закрытия навигации" on:click={ () => additional = false }>
+                <Icon name="red-close" className="menu-button" width={52} height={52} alt="Кнопка закрытия навигации" on:click={ () => additional = false }/>
             </div>
             <Nav className="mobile-hide">
                 <Link color="black" lineWidth={ 3 } href="/bachelor" prefetch variant="hover">Бакалавриат и специалитет</Link>
@@ -146,7 +147,7 @@
         <Heading size={1} className="blue-text" marginTop={0}>Порядок поселения <br /> в общежитие</Heading>
         <Grid m={4} className="mobile-horizontal-scroll">
             <div class="numbered-section">
-                <img src="/img/section-1-alt-1.svg" alt="1">
+                <Icon name="section-1-alt-1" width={40} height={86} alt="1" />
                 <div>
                     <Text className="subtitle blue-text" marginTop={0}>Медицинское обследование</Text>
                     <Text>Абитуриенты могут проходить медицинский осмотр до выхода приказов о зачислении.</Text>
@@ -155,7 +156,7 @@
                 </div>
             </div>
             <div class="numbered-section">
-                <img src="/img/section-2-alt-1.svg" alt="2">
+                <Icon name="section-2-alt-1" width={40} height={86} alt="2" />
                 <div>
                     <Text className="subtitle blue-text" marginTop={0}>Получение документов</Text>
                     <Text opacity={0.6} color="var(--red)">Внимание! С момента получения документов необходимо заселиться в течение 7 рабочих дней, потом документты аннулируются</Text>
@@ -169,7 +170,7 @@
                 </div>
             </div>
             <div class="numbered-section">
-                <img src="/img/section-3-alt-1.svg" alt="3">
+                <Icon name="section-3-alt-1" width={40} height={86} alt="3" />
                 <div>
                     <Text className="subtitle blue-text" marginTop={0}>Оплата проживания в общежитии</Text>
                     <Text>Произвести оплату обеспечительного платежа в размере 5 000 рублей можно следующими способами: </Text>
@@ -182,7 +183,7 @@
                 </div>
             </div>
             <div class="numbered-section">
-                <img src="/img/section-4-alt-1.svg" alt="4">
+                <Icon name="section-4-alt-1" width={40} height={86} alt="4" />
                 <div>
                     <Text className="subtitle blue-text" marginTop={0}>Оформление временной регистрации по месту пребывания</Text>
                     <Text opacity={0.6} color="var(--red)">Внимание! Сниматься с регистрационного учета по месту жительства не нужно.</Text>
@@ -201,7 +202,7 @@
         <Heading size={1} className="blue-text" marginTop={0}>Порядок <br /> распределения мест<br /> в общежитии</Heading>
         <Grid m={3} className="mobile-horizontal-scroll">
             <div class="numbered-section">
-                <img src="/img/section-1-alt-2.svg" alt="1">
+                <Icon name="section-1-alt-2" width={40} height={40} alt="1" />
                 <div>
                     <Text className="subtitle" marginTop={0}>В первоочередном порядке в жилые помещения в студенческих общежитиях УрФУ подлежат заселению:</Text>
                     <Text>
@@ -214,7 +215,7 @@
                 </div>
             </div>
             <div class="numbered-section">
-                <img src="/img/section-2-alt-2.svg" alt="2">
+                <Icon name="section-2-alt-2" width={40} height={40} alt="2" />
                 <div>
                     <Text className="subtitle" marginTop={0}>Правом первоочередного поселения в жилые помещения в студенческих общежитиях УрФУ также обладают обучающиеся в УрФУ иностранные граждане и лица без гражданства, поселение которых является обязательным для УрФУ в соответствии с требованиями законодательства Российской Федерации:</Text>
                     <Text>
@@ -235,7 +236,7 @@
                 </div>
             </div>
             <div class="numbered-section">
-                <img src="/img/section-3-alt-2.svg" alt="3">
+                <Icon name="section-3-alt-2" width={40} height={40} alt="3" />
                 <div>
                     <Text className="subtitle" marginTop={0}>В случае, если хотя бы одному из перечисленных требований студент не удовлетворяет, то он будет заселяться в индивидуальном порядке на конкурсной основе.Помните, ВУЗ не может удовлетворить все заявки студентов на поселение.</Text>
                     <Text opacity={0.6} color="var(--red)">К сожалению, ВУЗ не может удовлетворить все заявки студентов на поселение, в связи с этим создан рейтинг поселения на конкурсной основе</Text>

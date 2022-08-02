@@ -180,17 +180,17 @@
             <div>
                 <a sveltekit:reload href="/">
                     { #if headerClass == 'header-scrolled' }
-                        <img src="/img/urfu-logo-colourful.svg" alt="Логотип Уральского федерального университета">
+                        <Icon name="urfu-logo-colourful" width={140} height={48} alt="Логотип Уральского федерального университета"/>
                     { :else }
-                        <img src="/img/logo_urfu.svg" alt="Логотип Уральского федерального университета">
+                        <Icon name="logo_urfu" width={142} height={48} alt="Логотип Уральского федерального университета"/>
                     { /if }
                 </a>
             </div>
             <div class="mobile-hide">
                 { #if headerClass == 'header-scrolled' }
-                    <img src="/img/menu-icon-gray.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ () => additional = true }>
+                    <Icon name="menu-icon-gray" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ () => additional = true }/>
                 { :else }
-                    <img src="/img/menu-icon-white.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ () => additional = true }>
+                    <Icon name="menu-icon-white" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ () => additional = true }/>
                 { /if }
             </div>
             <Nav className="mobile-hide">
@@ -202,7 +202,7 @@
                 <Button variant={ headerClass == 'header-scrolled' ? 'primary' : 'blue' } href="https://priem.urfu.ru" target="_BLANK">Подать документы</Button>
             </div>
             <div class="pc-hide align-right">
-                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ $mobileMenu.open }>          
+                <Icon name="menu-icon-gray-fill" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ $mobileMenu.open }/>
             </div>
         </div>
     </div>
@@ -211,7 +211,7 @@
     <div class="content">
         <div class="header-layout">
             <div>
-                <img src="/img/red-close.svg" class="menu-button" alt="Кнопка закрытия навигации" on:click={ () => additional = false }>
+                <Icon name="red-close" className="menu-button" width={52} height={52} alt="Кнопка закрытия навигации" on:click={ () => additional = false }/>
             </div>
             <Nav className="mobile-hide">
                 <Link color="black" lineWidth={ 3 } href="/bachelor" prefetch variant="hover">Бакалавриат и специалитет</Link>
@@ -289,10 +289,7 @@
                     <div class="filters-mobile__head">
                         <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>Фильтры</Heading>
                         <div class="close-btn">
-                            <svg on:click={() => mobileFiltersVisible = false} width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="18" cy="18" r="18" fill="#1E4391"/>
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L18 16.5858L21.2929 13.2929C21.6834 12.9024 22.3166 12.9024 22.7071 13.2929C23.0976 13.6834 23.0976 14.3166 22.7071 14.7071L19.4142 18L22.7071 21.2929C23.0976 21.6834 23.0976 22.3166 22.7071 22.7071C22.3166 23.0976 21.6834 23.0976 21.2929 22.7071L18 19.4142L14.7071 22.7071C14.3166 23.0976 13.6834 23.0976 13.2929 22.7071C12.9024 22.3166 12.9024 21.6834 13.2929 21.2929L16.5858 18L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z" fill="white"/>
-                            </svg>        
+                            <Icon name="small-close-icon" width={36} height={36} alt="Кнопка закрытия окна" on:click={() => mobileFiltersVisible = false} />    
                         </div>
                     </div>
                     <div class="filters-mobile__form">
@@ -623,32 +620,32 @@
         <div class="mobile-horizontal-scroll">
             <Grid l={6}>
                 <div class="align-center" style:min-width="200px">
-                    <img src="/img/blue-star.svg" alt="star">
+                    <Icon name="blue-star" width={40} height={40} alt="star" />
                     <Text className="semi-bold subtitle">Общежитие</Text>
                     <Text className="semi-bold small" opacity={0.6}>Иногородние студенты, обучающиеся по очной форме, могут получить место в общежитии на время обучения</Text>
                 </div>
                 <div class="align-center" style:min-width="200px">
-                    <img src="/img/blue-star.svg" alt="star">
+                    <Icon name="blue-star" width={40} height={40} alt="star" />
                     <Text className="semi-bold subtitle">Военная кафедра</Text>
                     <Text className="semi-bold small" opacity={0.6}>Студенты могут пройти обучение на офицеров и сержантов запаса во время получения основной специальности в ИНМТ </Text>
                 </div>
                 <div class="align-center" style:min-width="200px">
-                    <img src="/img/blue-star.svg" alt="star">
+                    <Icon name="blue-star" width={40} height={40} alt="star" />
                     <Text className="semi-bold subtitle">Студенческие организации</Text>
                     <Text className="semi-bold small" opacity={0.6}>Найти занятие по душе сможет каждый. Более 30 организаций и клубов по интересам доступны студентам вуза </Text>
                 </div>
                 <div class="align-center" style:min-width="200px">
-                    <img src="/img/blue-star.svg" alt="star">
+                    <Icon name="blue-star" width={40} height={40} alt="star" />
                     <Text className="semi-bold subtitle">Стипендии</Text>
                     <Text className="semi-bold small" opacity={0.6}>Дополнительная поддержка талантливых студентов за научную, общественную и творческую деятельность </Text>
                 </div>
                 <div class="align-center" style:min-width="200px">
-                    <img src="/img/blue-star.svg" alt="star">
+                    <Icon name="blue-star" width={40} height={40} alt="star" />
                     <Text className="semi-bold subtitle">Наука</Text>
                     <Text className="semi-bold small" opacity={0.6}>Современные лаборатории и опытные профессора помогут начать успешную карьеру в науке </Text>
                 </div>
                 <div class="align-center" style:min-width="200px">
-                    <img src="/img/blue-star.svg" alt="star">
+                    <Icon name="blue-star" width={40} height={40} alt="star" />
                     <Text className="semi-bold subtitle">Спорт</Text>
                     <Text className="semi-bold small" opacity={0.6}>Привычные занятия физкультурой можно заменить любимым видом спорта и присоединиться к одной из 20 сборных команд вуза</Text>
                 </div>

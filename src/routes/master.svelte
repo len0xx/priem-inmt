@@ -56,6 +56,8 @@
     let feedbacksExpanded = false
     let linkColor: 'white' | 'black' = 'white'
     let mobileFiltersVisible = false
+    let mobileSearchValue = ''
+    let mobileSearchInput: HTMLInputElement
 
     const openProgram = (num: number) => {
         if (!programActive[num]) {
@@ -119,6 +121,20 @@
         educationModes = []
         payModes = []
         languages = []
+        search = ''
+        mobileSearchValue = ''
+    }
+
+    const getSearchResults = () => {
+        search = mobileSearchValue
+        mobileFiltersVisible = false
+    }
+
+    const openFilters = (focusOnInput: boolean) => {
+        mobileFiltersVisible = true
+        if (focusOnInput) {
+            setTimeout(() => mobileSearchInput.focus(), 100)
+        }
     }
 
     onMount(() => {
@@ -143,17 +159,17 @@
             <div>
                 <a sveltekit:reload href="/">
                     { #if headerClass == 'header-scrolled' }
-                        <img src="/img/urfu-logo-colourful.svg" alt="Логотип Уральского федерального университета">
+                        <Icon name="urfu-logo-colourful" width={140} height={48} alt="Логотип Уральского федерального университета"/>
                     { :else }
-                        <img src="/img/logo_urfu.svg" alt="Логотип Уральского федерального университета">
+                        <Icon name="logo_urfu" width={142} height={48} alt="Логотип Уральского федерального университета"/>
                     { /if }
                 </a>
             </div>
             <div class="mobile-hide">
                 { #if headerClass == 'header-scrolled' }
-                    <img src="/img/menu-icon-gray.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ () => additional = true }>
+                    <Icon name="menu-icon-gray" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ () => additional = true }/>
                 { :else }
-                    <img src="/img/menu-icon-white.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ () => additional = true }>
+                    <Icon name="menu-icon-white" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ () => additional = true }/>
                 { /if }
             </div>
             <Nav className="mobile-hide">
@@ -165,7 +181,7 @@
                 <Button variant={ headerClass == 'header-scrolled' ? 'primary' : 'blue' } href="https://priem.urfu.ru" target="_BLANK">Подать документы</Button>
             </div>
             <div class="pc-hide align-right">
-                <img src="/img/menu-icon-gray-fill.svg" class="menu-button" alt="Кнопка открытия меню" on:click={ $mobileMenu.open }>     
+                <Icon name="menu-icon-gray-fill" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ $mobileMenu.open }/>
             </div>
         </div>
     </div>
@@ -174,7 +190,7 @@
     <div class="content">
         <div class="header-layout">
             <div>
-                <img src="/img/red-close.svg" class="menu-button" alt="Кнопка закрытия навигации" on:click={ () => additional = false }>
+                <Icon name="red-close" className="menu-button" width={52} height={52} alt="Кнопка закрытия навигации" on:click={ () => additional = false }/>
             </div>
             <Nav className="mobile-hide">
                 <Link color="black" lineWidth={ 3 } href="/bachelor" prefetch variant="hover">Бакалавриат и специалитет</Link>
@@ -425,22 +441,27 @@
         </div>
         <div class="filters filters-mobile pc-hide">
             <div class="filters-mobile__actions">
-                <Link href="" className="filters-mobile__title" preventDefault={true} on:click={() => mobileFiltersVisible = true}>
+                <Link href="" className="filters-mobile__title" preventDefault={true} on:click={() => openFilters(false)}>
                     Фильтры
                     <Icon name="filter-blue-plus-icon" slot="after" width={14} height={14}/>
                 </Link>
-                <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск" lineWidth={ 0 } marginY={ 0 } />
+                <Link href="" className="filters-mobile__search" preventDefault={true} on:click={() => openFilters(true)}>
+                    Поиск
+                </Link>
             </div>
             {#if mobileFiltersVisible}
                 <div class="filters-mobile__content" transition:fly={{ x: 300, duration: 200 }}>
                     <div class="filters-mobile__head">
                         <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>Фильтры</Heading>
                         <div class="close-btn">
-                            <svg on:click={() => mobileFiltersVisible = false} width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="18" cy="18" r="18" fill="#1E4391"/>
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L18 16.5858L21.2929 13.2929C21.6834 12.9024 22.3166 12.9024 22.7071 13.2929C23.0976 13.6834 23.0976 14.3166 22.7071 14.7071L19.4142 18L22.7071 21.2929C23.0976 21.6834 23.0976 22.3166 22.7071 22.7071C22.3166 23.0976 21.6834 23.0976 21.2929 22.7071L18 19.4142L14.7071 22.7071C14.3166 23.0976 13.6834 23.0976 13.2929 22.7071C12.9024 22.3166 12.9024 21.6834 13.2929 21.2929L16.5858 18L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z" fill="white"/>
-                            </svg>        
+                            <Icon name="small-close-icon" width={36} height={36} alt="Кнопка закрытия окна" on:click={() => mobileFiltersVisible = false} />    
                         </div>
+                    </div>
+                    <div class="filters-mobile__form">
+                        <Input className="content-search__input" bind:node={ mobileSearchInput } bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide={true} />
+                        <Link href="" className="filters-mobile__title" preventDefault={true} on:click={ getSearchResults }>
+                            Поиск
+                        </Link>
                     </div>
                     <Filter hideOnBlur={false} width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
                     <Filter hideOnBlur={false} label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
@@ -448,7 +469,7 @@
                     <Filter hideOnBlur={false} label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
                     <div class="filters-mobile__buttons">
                         <Button size="S" on:click={ resetFilters }>Сбросить</Button>
-                        <Button size="S" variant="blue" on:click={() => mobileFiltersVisible = false}>Показать</Button>
+                        <Button size="S" variant="blue" on:click={ getSearchResults }>Показать</Button>
                     </div>
                 </div>
             {/if}

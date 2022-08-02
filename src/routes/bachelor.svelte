@@ -32,7 +32,7 @@
     import images from '$lib/images3'
     import partners from '$lib/partners'
     import documents from '$lib/documents'
-    import { formEndpoint, modal, mobileMenu } from '$lib/stores'
+    import { formEndpoint, modal, mobileMenu, mainHeader } from '$lib/stores'
     import { bachelor as feedbacks } from '$lib/feedback'
     import { blur, fly } from 'svelte/transition'
 
@@ -41,7 +41,7 @@
     let showPreloader = true
     let calendarMode = true
     let pageLoaded = false
-    let additional = false
+    // let additional = false
     let headerClass = ''
     let programActive: boolean[] = []
     let programOpened: boolean[] = []
@@ -188,9 +188,9 @@
             </div>
             <div class="mobile-hide">
                 { #if headerClass == 'header-scrolled' }
-                    <Icon name="menu-icon-gray" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ () => additional = true }/>
+                    <Icon name="menu-icon-gray" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ $mainHeader.open }/>
                 { :else }
-                    <Icon name="menu-icon-white" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ () => additional = true }/>
+                    <Icon name="menu-icon-white" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={ $mainHeader.open }/>
                 { /if }
             </div>
             <Nav className="mobile-hide">
@@ -207,7 +207,7 @@
         </div>
     </div>
 </Header>
-<Header hideOnScrollDown={ false } showOnScrollUp={ false } className="additional-header { additional ? 'opened' : '' }">
+<!-- <Header hideOnScrollDown={ false } showOnScrollUp={ false } className="additional-header { additional ? 'opened' : '' }">
     <div class="content">
         <div class="header-layout">
             <div>
@@ -225,7 +225,7 @@
             </div>
         </div>
     </div>
-</Header>
+</Header> -->
 <section class="promo bachelor" id="beginning">
     <div class="content">
         <Grid m={1} l={2} ratio="5:3" alignItems="end">

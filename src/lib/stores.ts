@@ -5,3 +5,5 @@ export const formEndpoint = readable('https://fgaouvo.bitrix24.ru/bitrix/service
 export const modal = writable<{ open: () => void, close: () => void }>(undefined)
 
 export const mobileMenu = writable<{ open: () => void, close: () => void }>(undefined)
+
+export const mainHeader = writable<{open: () => void; close: () => void}>(undefined);

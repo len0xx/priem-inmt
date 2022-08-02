@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { formEndpoint, modal, mobileMenu } from '$lib/stores'
+    import { formEndpoint, modal, mobileMenu, mainHeader } from '$lib/stores'
     import { afterNavigate, beforeNavigate } from '$app/navigation'
-    import { Nav, Link, Modal, MobileMenu, Heading, Rainbow, Text, Input, Button, Footer, AjaxForm, ScrollToTop } from '$lib/components'
+    import { Nav, Link, Modal, MobileMenu, Header, Heading, Rainbow, Text, Input, Icon, Button, Footer, AjaxForm, ScrollToTop } from '$lib/components'
 
     let formSubmitted = false
     let formSuccess = false
@@ -77,6 +77,26 @@
 
 <main>
     <ScrollToTop />
+
+    <Header bind:this={ $mainHeader } hideOnScrollDown={ false } showOnScrollUp={ false } className="additional-header">
+        <div class="content">
+            <div class="header-layout">
+                <div>
+                    <Icon name="red-close" className="menu-button" width={52} height={52} alt="Кнопка закрытия навигации" on:click={ $mainHeader.close }/>
+                </div>
+                <Nav className="mobile-hide">
+                    <Link color="black" lineWidth={ 3 } href="/bachelor" prefetch variant="hover">Бакалавриат и специалитет</Link>
+                    <Link color="black" lineWidth={ 3 } href="/master" prefetch variant="hover">Магистратура</Link>
+                    <Link color="black" lineWidth={ 3 } href="https://aspirant.urfu.ru/ru/aspirantura/" target="_BLANK" prefetch variant="hover">Аспирантура</Link>
+                    <Link color="black" lineWidth={ 3 } href="/accommodation" prefetch variant="hover">Поселение</Link>
+                    <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
+                </Nav>
+                <div class="mobile-hide align-right">
+                    <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ $modal.open }>Хочу поступить</Link>
+                </div>
+            </div>
+        </div>
+    </Header>
 
     <slot />
 

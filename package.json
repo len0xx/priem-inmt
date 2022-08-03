@@ -12,7 +12,7 @@
         "dev": "vite dev --port 3000",
         "dev:host": "npm run dev -- --host",
         "preview": "vite preview",
-        "reexport": "./export-components.sh",
+        "reexport": "bash export-components.sh",
         "build:frontend": "npm run reexport && vite build",
         "build:backend": "echo '🔨 TypeScript build in progress' && tsc --project server && echo '📦 TypeScript build complete'",
         "build": "npm run check && npm run lint:fix && npm run build:frontend && npm run build:backend",

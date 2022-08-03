@@ -70,7 +70,6 @@
     .step {
         --step-bottom-padding: 20px;
         position: relative;
-        min-width: 360px;
     }
 
     @media screen and (max-width: 768px)  {

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Text, Heading } from '.'
     import Icon from '$lib/components/Icon.svelte'
-    import { slide } from 'svelte/transition';
+    import { slide } from 'svelte/transition'
 
     export let active = false
     export let className = ''

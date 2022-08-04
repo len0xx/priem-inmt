@@ -34,7 +34,7 @@
 
     const dispatch = createEventDispatcher()
     let filledIn = false
-    let internalValue = value
+    $: internalValue = value
 
     const valueChanged = () => {
         filledIn = node.value != ''

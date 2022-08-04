@@ -140,7 +140,6 @@
         exams = []
         search = ''
         mobileSearchValue = ''
-        mobileFiltersVisible = false
     }
 
     const getSearchResults = () => {

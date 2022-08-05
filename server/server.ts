@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import helmet from 'helmet'
 import express from 'express'
+import db from './db.js'
 // import authRouter from './src/routes/auth.js'
 import { authenticate } from './src/middlewares.js'
 
@@ -9,10 +10,21 @@ import { handler as SvelteKitHandler } from '../build/handler.js'
 
 // Environment variables
 dotenv.config()
-const { APP_PORT, APP_IP } = process.env
+const { APP_PORT, APP_IP } = process.env;
 // const dev = NODE_ENV === 'development'
 
 // Database connection
+(async () => {
+    try {
+        await db.authenticate()
+        console.log('DB connected successfully')
+    }
+    catch (e) {
+        console.error('DB connection failed')
+        console.error(e)
+        process.exit(1)
+    }
+})()
 
 // Express application
 const app = express()

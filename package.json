@@ -11,10 +11,12 @@
     "scripts": {
         "dev": "vite dev --port 3000",
         "dev:host": "npm run dev -- --host",
-        "preview": "vite preview",
+        "dev:backend": "npm run build && npm run bundle && echo '🖥  Starting the development server' && npm run build:backend:watch && nodemon build-prod/server/server.js",
+        "preview": "vite preview --port 3000",
         "reexport": "bash export-components.sh",
         "build:frontend": "npm run reexport && vite build",
         "build:backend": "echo '🔨 TypeScript build in progress' && tsc --project server && echo '📦 TypeScript build complete'",
+        "build:backend:watch": "tsc --watch --project server &",
         "build": "npm run check && npm run lint:fix && npm run build:frontend && npm run build:backend",
         "bundle": "bash prepare-prod.sh",
         "start": "echo '🖥  Starting the server' && node build-prod/server/server.js",

@@ -1,38 +1,51 @@
 import cookieParser from 'cookie-parser'
-import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
-import mongoose from 'mongoose'
+import helmet from 'helmet'
 import express from 'express'
-// import testRouter from './src/routes/test.js'
-// import authRouter from './src/routes/api/auth.js'
-// import signupRouter from './src/routes/api/signup.js'
-// import userInfoRouter from './src/routes/api/user-info.js'
+// import authRouter from './src/routes/auth.js'
+import { authenticate } from './src/middlewares.js'
 
-import { handler } from '../build/handler.js'
+import { handler as SvelteKitHandler } from '../build/handler.js'
 
+// Environment variables
 dotenv.config()
-
-const { APP_PORT, APP_IP, DB_CONNECTION_STRING } = process.env
+const { APP_PORT, APP_IP } = process.env
 // const dev = NODE_ENV === 'development'
 
-mongoose.connect(DB_CONNECTION_STRING)
-const db = mongoose.connection
-db.on('error', error => console.error(error))
-db.once('open', () => console.log('DB connected'))
+// Database connection
 
+// Express application
 const app = express()
+app.disable('x-powered-by')
 
+// Cookies, JSON and URLEncoded form requests support
 app.use(cookieParser())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+// Helmet middleware for protection headers
+// ! It's not fully tested yet and might break something
+app.use(helmet.crossOriginEmbedderPolicy())
+app.use(helmet.crossOriginOpenerPolicy())
+app.use(helmet.crossOriginResourcePolicy())
+app.use(helmet.dnsPrefetchControl())
+app.use(helmet.expectCt())
+app.use(helmet.frameguard())
+app.use(helmet.hidePoweredBy())
+app.use(helmet.hsts())
+app.use(helmet.ieNoOpen())
+app.use(helmet.noSniff())
+app.use(helmet.originAgentCluster())
+app.use(helmet.permittedCrossDomainPolicies())
+app.use(helmet.referrerPolicy())
+app.use(helmet.xssFilter())
+
+// Authentication middleware should be ran before all the routes
+app.use('*', authenticate)
 
 // Express routes
-// app.use('/test', testRouter)
-// app.use('/api/auth', authRouter)
-// app.use('/api/signup', signupRouter)
-// app.use('/api/user-info', userInfoRouter)
+// app.use('/api', authRouter)
 
-// SvelteKit handler
-app.use(handler)
+app.use(SvelteKitHandler)
 
 app.listen(+APP_PORT, APP_IP, () => console.log('Server runs on ' + APP_IP + ':' + APP_PORT))

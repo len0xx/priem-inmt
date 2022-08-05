@@ -1,0 +1,116 @@
+import type { CookieOptions, Response as ExpressResponse } from 'express'
+import type { HTTPErrorI } from './types'
+
+export class HTTPError extends Error implements HTTPErrorI {
+    public readonly code: number
+
+    constructor(code: number, message: string) {
+        super(message)
+        this.code = code
+        this.name = 'HTTPError'
+    }
+}
+
+export const isStatusSuccess = (status: number) => status >= 200 && status < 300
+
+export const isStatusRedirect = (status: number) => status >= 300 && status < 400
+
+export const isStatusError = (status: number) => status >= 400 && status < 600
+
+export type CookieList = Record<
+    string,
+    { value: string | null, options?: CookieOptions }
+>
+
+export const getErrorDetails = (error: Error) => {
+    const code = error instanceof HTTPError ? error.code : 400
+    return {
+        code,
+        message: error.message
+    }
+}
+
+export type ResponsePayload = string | Record<string, unknown>
+
+export class HTTPResponse {
+    public readonly status: number
+    private readonly json?: Record<string, unknown>
+    private readonly cookies?: CookieList
+    private readonly redirect?: string
+
+    constructor(handler: ExpressResponse, status: number, payload?: ResponsePayload, cookies?: CookieList) {
+        this.status = status
+
+        if (cookies !== undefined) this.cookies = cookies
+
+        if (typeof payload === 'string') {
+            if (isStatusRedirect(this.status)) {
+                this.redirect = payload
+            }
+            else if (isStatusError(this.status)) {
+                this.json = { error: payload }
+            }
+            else if (payload.length) {
+                this.json = { message: payload }
+            }
+            else {
+                this.json = { }
+            }
+        }
+        else this.json = payload
+
+        if (this.json) this.json.ok = !isStatusError(status)
+
+        this.parseCookies(handler)
+        this.invoke(handler)
+    }
+
+    private parseCookies(handler: ExpressResponse) {
+        if (this.cookies) {
+            for (const key in this.cookies) {
+                if (this.cookies[key].value)
+                    handler.cookie(key, this.cookies[key].value, this.cookies[key].options)
+                else
+                    handler.clearCookie(key)
+            }
+        }
+    }
+
+    private invoke(handler: ExpressResponse) {
+        if (isStatusRedirect(this.status)) {
+            handler.redirect(this.status, this.redirect)
+        }
+        else
+            handler.status(this.status).json(this.json)
+    }
+}
+
+export const validatePassword = (password: string) => {
+    const letters = 'QWERTYUIOPASDFGHJKLZXCVBNM'
+    const capitalLetters = [...'QWERTYUIOPASDFGHJKLZXCVBNM']
+    const lowercaseLetters = [...letters.toLowerCase()]
+    const numbers = [...'0123456789']
+    const minimumLength = 6
+    const maximumLength = 30
+
+    if (password.length < minimumLength || password.length > maximumLength)
+        return false
+
+    let containsCapital = false
+    capitalLetters.forEach(symbol => {
+        if (password.includes(symbol)) containsCapital = true
+    })
+
+    let containsLowercase = false
+    lowercaseLetters.forEach(symbol => {
+        if (password.includes(symbol)) containsLowercase = true
+    })
+
+    let containsNumber = false
+    numbers.forEach(symbol => {
+        if (password.includes(symbol)) containsNumber = true
+    })
+
+    if (!containsCapital || !containsLowercase || !containsNumber)
+        return false
+}

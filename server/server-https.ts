@@ -1,12 +1,12 @@
 import fs from 'fs'
 import https from 'https'
 import cookieParser from 'cookie-parser'
-import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
+import helmet from 'helmet'
 import express from 'express'
 // import testRouter from './src/routes/test.js'
 
-import { handler } from '../build/handler.js'
+import { handler as SvelteKitHandler } from '../build/handler.js'
 
 dotenv.config()
 
@@ -19,16 +19,34 @@ const { APP_PORT, APP_IP } = process.env
 // db.once('open', () => console.log('DB connected'))
 
 const app = express()
+app.disable('x-powered-by')
 
 app.use(cookieParser())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+// Helmet middleware for protection headers
+// ! It's not fully tested yet and might break something
+app.use(helmet.crossOriginEmbedderPolicy())
+app.use(helmet.crossOriginOpenerPolicy())
+app.use(helmet.crossOriginResourcePolicy())
+app.use(helmet.dnsPrefetchControl())
+app.use(helmet.expectCt())
+app.use(helmet.frameguard())
+app.use(helmet.hidePoweredBy())
+app.use(helmet.hsts())
+app.use(helmet.ieNoOpen())
+app.use(helmet.noSniff())
+app.use(helmet.originAgentCluster())
+app.use(helmet.permittedCrossDomainPolicies())
+app.use(helmet.referrerPolicy())
+app.use(helmet.xssFilter())
 
 // Express routes
 // app.use('/test', testRouter)
 
 // SvelteKit handler
-app.use(handler)
+app.use(SvelteKitHandler)
 
 const options = {
     key: fs.readFileSync('/etc/letsencrypt/live/inmt-priem.urfu.ru/privkey.pem'),

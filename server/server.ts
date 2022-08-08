@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import helmet from 'helmet'
 import express from 'express'
 import db from './db.js'
-// import authRouter from './src/routes/auth.js'
+import testRouter from './src/routes/test.js'
 // import { authenticate } from './src/middlewares.js'
 
 import { handler as SvelteKitHandler } from '../build/handler.js'
@@ -56,7 +56,7 @@ app.use(helmet.xssFilter())
 // app.use('*', authenticate)
 
 // Express routes
-// app.use('/api', authRouter)
+app.use('/test', testRouter)
 
 app.use(SvelteKitHandler)
 

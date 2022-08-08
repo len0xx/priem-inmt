@@ -7,3 +7,4 @@
 /build-prod/
 /.env
 *.mp4
+package-*.json

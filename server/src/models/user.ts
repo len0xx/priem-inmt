@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
 import sequelize from '../../db.js'
 
-export default class User extends Model {}
+class User extends Model {}
 
 User.init({
     firstName: {
@@ -18,3 +18,5 @@ User.init({
 })
 
 sequelize.sync({ alter: true })
+
+export default User

@@ -11,6 +11,10 @@ class UserService {
         this.model = User
     }
 
+    async get(id: number) {
+        return await this.model.findOne({ where: { id } })
+    }
+
     async getAll() {
         return await this.model.findAll()
     }

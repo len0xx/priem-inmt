@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import express from 'express'
 import db from './db.js'
 import testRouter from './src/routes/test.js'
+import authRouter from './src/routes/auth.js'
 import featureRouter from './src/routes/feature.js'
 // import { authenticate } from './src/middlewares.js'
 
@@ -57,6 +58,7 @@ app.use(helmet.xssFilter())
 // app.use('*', authenticate)
 
 // Express routes
+app.use('/api/auth', authRouter)
 app.use('/test', testRouter)
 app.use('/feature', featureRouter)
 

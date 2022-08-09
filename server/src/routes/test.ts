@@ -36,10 +36,18 @@ router.get('/:id', async (req: Request, res: Response) => {
     try {
         const user = await userService.get(id)
 
-        res.status(200).json({
-            ok: true,
-            user
-        })
+        if (user) {
+            res.status(200).json({
+                ok: true,
+                user
+            })
+        }
+        else {
+            res.status(404).json({
+                ok: false,
+                error: 'User was not found'
+            })
+        }
     }
     catch (e) {
         res.status(400).json({

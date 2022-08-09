@@ -36,7 +36,8 @@ EducationalProgram.init(
                     args: [[...Object.values(DegreeLevel).filter(k => typeof k === 'string')]],
                     msg: 'Degree value does not suit the DegreeLevel type'
                 }
-            }
+            },
+            defaultValue: DegreeLevel.BACHELOR
         },
         price: {
             type: DataTypes.STRING,

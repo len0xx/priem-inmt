@@ -27,7 +27,7 @@ class UserService {
         return users.map(this.getPublicObject)
     }
 
-    async create(user: { firstName: string, lastName: string }) {
+    async create(user: { firstName: string, lastName: string, email: string, password: string }) {
         const newUser = await this.model.create(user)
         return this.getPublicObject(newUser)
     }

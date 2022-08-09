@@ -2,18 +2,12 @@ import {DataTypes, Model, InferAttributes, InferCreationAttributes} from 'sequel
 import sequelize from '../../db.js'
 
 class Feature extends Model<InferAttributes<Feature>, InferCreationAttributes<Feature>> {
-    declare id: number
     declare title: string
     declare description: string
 }
 
 Feature.init(
     {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
         title: {
             type: DataTypes.STRING,
             allowNull: false,

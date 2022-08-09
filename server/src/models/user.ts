@@ -1,14 +1,14 @@
-import {DataTypes, Model, InferAttributes, InferCreationAttributes} from "sequelize";
-import sequelize from "../../db.js";
+import {DataTypes, Model, InferAttributes, InferCreationAttributes} from "sequelize"
+import sequelize from "../../db.js"
 
-type RoleType = "user" | "admin";
+type RoleType = "user" | "admin"
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-    declare firstName: string;
-    declare lastName: string;
-    declare email: string;
-    declare password: string;
-    declare role: RoleType;
+    declare firstName: string
+    declare lastName: string
+    declare email: string
+    declare password: string
+    declare role: RoleType
 }
 
 User.init(
@@ -35,8 +35,8 @@ User.init(
         sequelize, // We need to pass the connection instance
         modelName: "User", // We need to choose the model name
     }
-);
+)
 
-sequelize.sync({alter: true});
+sequelize.sync({alter: true})
 
-export default User;
+export default User

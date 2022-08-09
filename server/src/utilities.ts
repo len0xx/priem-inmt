@@ -1,4 +1,5 @@
 import type { CookieOptions, Response as ExpressResponse } from 'express'
+import { ValidationError } from 'sequelize'
 import type { HTTPErrorI } from './types'
 
 export class HTTPError extends Error implements HTTPErrorI {
@@ -24,10 +25,23 @@ export type CookieList = Record<
 
 export const getErrorDetails = (error: Error) => {
     const code = error instanceof HTTPError ? error.code : 400
-    return {
-        code,
-        message: error.message
+
+    let message = error.toString()
+    if (error instanceof ValidationError) {
+        const needle = ' Violation: '
+        const msg = error.message
+        if (msg.includes(needle)) {
+            message = msg.split(needle)[1]
+        }
+        else {
+            message = msg
+        }
     }
+    else if (error instanceof Error) {
+        message = error.message
+    }
+
+    return { code, message }
 }
 
 export type ResponsePayload = string | Record<string, unknown>

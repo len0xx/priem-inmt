@@ -22,26 +22,39 @@ User.init(
             validate: {
                 // Пример валидации
                 notNull: {
-                    msg: 'Введите имя!'
+                    msg: 'Имя является обязательным полем для заполнения'
                 }
             }
         },
         lastName: {
-            type: DataTypes.STRING,
-            allowNull: false,
+            type: DataTypes.STRING
         },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                notNull: {
+                    msg: 'Email является обязательным для заполнения'
+                }
+            }
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                len: {
+                    args: [6, 30],
+                    msg: 'Пароль должен быть длиной от 6 до 30 символов!'
+                },
+                notNull: {
+                    msg: 'Пароль является обязательным для заполнения'
+                }
+            }
         },
         role: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: 'user',
+            defaultValue: Role.User,
             validate: {
                 // Аналог типа ENUM – допускаем использование только определённых значений
                 isIn: {
@@ -58,7 +71,7 @@ User.init(
     }
 )
 
-sequelize.sync()
+sequelize.sync({ alter: true })
 
 export default User
 

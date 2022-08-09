@@ -10,9 +10,9 @@ router.get('/', async (req: Request, res: Response) => {
 
     const newUser = {
         firstName: firstName ? firstName.toString() : undefined,
-        lastName: lastName ? lastName.toString() : 'Petrov',
-        email: email ? email.toString() : 'email@example.com',
-        password: password ? password.toString() : 'ivanpetrowpasswd',
+        lastName: lastName ? lastName.toString() : undefined,
+        email: email ? email.toString() : undefined,
+        password: password ? password.toString() : undefined
     }
 
     try {

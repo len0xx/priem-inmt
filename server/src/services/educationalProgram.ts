@@ -1,13 +1,9 @@
 import EducationalProgram from '../models/educationalProgram.js'
-import sequelize from '../../db.js'
-import type { Sequelize } from 'sequelize/types'
 
 class EducationalProgramService {
-    client: Sequelize
     model: typeof EducationalProgram
 
-    constructor(sequelize: Sequelize) {
-        this.client = sequelize
+    constructor() {
         this.model = EducationalProgram
     }
 
@@ -24,4 +20,4 @@ class EducationalProgramService {
     }
 }
 
-export default new EducationalProgramService(sequelize)
+export default new EducationalProgramService()

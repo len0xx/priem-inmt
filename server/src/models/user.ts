@@ -19,6 +19,12 @@ User.init(
         firstName: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                // Пример валидации
+                notNull: {
+                    msg: 'Введите имя!'
+                }
+            }
         },
         lastName: {
             type: DataTypes.STRING,
@@ -36,6 +42,13 @@ User.init(
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: 'user',
+            validate: {
+                // Аналог типа ENUM – допускаем использование только определённых значений
+                isIn: {
+                    args: [[...Object.values(Role).filter(k => typeof k === 'string')]],
+                    msg: 'Role value does not suit the Role type'
+                }
+            }
         }
     },
     {

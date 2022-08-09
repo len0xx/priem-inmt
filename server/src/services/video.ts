@@ -1,13 +1,9 @@
 import Video from '../models/Video.js'
-import sequelize from '../../db.js'
-import type { Sequelize } from 'sequelize/types'
 
 class VideoService {
-    client: Sequelize
     model: typeof Video
 
-    constructor(sequelize: Sequelize) {
-        this.client = sequelize
+    constructor() {
         this.model = Video
     }
 
@@ -24,4 +20,4 @@ class VideoService {
     }
 }
 
-export default new VideoService(sequelize)
+export default new VideoService()

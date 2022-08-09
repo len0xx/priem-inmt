@@ -1,4 +1,4 @@
-import {DataTypes, Model, InferAttributes, InferCreationAttributes} from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
 import sequelize from '../../db.js'
 
 class Feature extends Model<InferAttributes<Feature>, InferCreationAttributes<Feature>> {
@@ -19,10 +19,10 @@ Feature.init(
     },
     {
         sequelize,
-        modelName: 'Feature',
+        modelName: 'Feature'
     }
 )
 
-sequelize.sync({ alter: true })
+sequelize.sync()
 
 export default Feature

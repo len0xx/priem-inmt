@@ -1,13 +1,9 @@
 import Feature from '../models/feature.js'
-import sequelize from '../../db.js'
-import type { Sequelize } from 'sequelize/types'
 
 class FeatureService {
-    client: Sequelize
     model: typeof Feature
 
-    constructor(sequelize: Sequelize) {
-        this.client = sequelize
+    constructor() {
         this.model = Feature
     }
 
@@ -24,4 +20,4 @@ class FeatureService {
     }
 }
 
-export default new FeatureService(sequelize)
+export default new FeatureService()

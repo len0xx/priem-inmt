@@ -19,7 +19,7 @@ class UserService {
 
     async get(id: number) {
         const user = await this.model.findByPk(id)
-        return this.getPublicObject(user)
+        return user
     }
 
     async getAll() {

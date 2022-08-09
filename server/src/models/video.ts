@@ -12,11 +12,10 @@ Video.init({
     }
 },
 {
-    // Other model options go here
-    sequelize, // We need to pass the connection instance
-    modelName: 'Video' // We need to choose the model name
+    sequelize,
+    modelName: 'Video'
 })
 
-sequelize.sync({ alter: true })
+sequelize.sync()
 
 export default Video

@@ -6,21 +6,15 @@ enum Role {
     Admin = 'admin'
 }
 
-export interface UserI {
-    firstName: string
-    lastName: string
-    email: string
-    password: string
-    role: Role
-}
-
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare firstName: string
     declare lastName: string
     declare email: string
     declare password: string
-    declare role: Role
+    declare role?: Role
 }
+
+export interface UserI extends InferAttributes<User> { }
 
 User.init(
     {
@@ -100,8 +94,6 @@ User.init(
         modelName: 'User' // We need to choose the model name
     }
 )
-
-sequelize.sync({ alter: true })
 
 export default User
 

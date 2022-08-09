@@ -1,4 +1,4 @@
-import Video from '../models/Video.js'
+import Video, { VideoI } from '../models/Video.js'
 
 class VideoService {
     model: typeof Video
@@ -15,7 +15,7 @@ class VideoService {
         return await this.model.findAll()
     }
 
-    async create(video: { src: string }) {
+    async create(video: VideoI) {
         return await this.model.create(video)
     }
 }

@@ -17,6 +17,8 @@ class EducationalProgram extends Model<InferAttributes<EducationalProgram>, Infe
     declare text: string
 }
 
+export interface EducationalProgramI extends InferAttributes<EducationalProgram> { }
+
 EducationalProgram.init(
     {
         title: {
@@ -80,7 +82,5 @@ EducationalProgram.init(
         modelName: 'EducationalProgram',
     }
 )
-
-sequelize.sync({alter: true})
 
 export default EducationalProgram

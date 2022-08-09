@@ -1,4 +1,4 @@
-import User from '../models/user.js'
+import User, { UserI } from '../models/user.js'
 
 class UserService {
     model: typeof User
@@ -15,7 +15,7 @@ class UserService {
         return await this.model.findAll()
     }
 
-    async create(user: { firstName: string, lastName: string, email: string, password: string }) {
+    async create(user: UserI) {
         return await this.model.create(user)
     }
 }

@@ -1,4 +1,4 @@
-import Feature from '../models/feature.js'
+import Feature, { FeatureI } from '../models/feature.js'
 
 class FeatureService {
     model: typeof Feature
@@ -15,7 +15,7 @@ class FeatureService {
         return await this.model.findAll()
     }
 
-    async create(feature: { title: string, description: string }) {
+    async create(feature: FeatureI) {
         return await this.model.create(feature)
     }
 }

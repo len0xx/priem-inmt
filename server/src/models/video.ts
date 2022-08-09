@@ -5,6 +5,8 @@ class Video extends Model<InferAttributes<Video>, InferCreationAttributes<Video>
     declare src: string
 }
 
+export interface VideoI extends InferAttributes<Video> { }
+
 Video.init({
     src: {
         type: DataTypes.STRING,
@@ -15,7 +17,5 @@ Video.init({
     sequelize,
     modelName: 'Video'
 })
-
-sequelize.sync()
 
 export default Video

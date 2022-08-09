@@ -1,4 +1,4 @@
-import EducationalProgram from '../models/educationalProgram.js'
+import EducationalProgram, { EducationalProgramI } from '../models/educationalProgram.js'
 
 class EducationalProgramService {
     model: typeof EducationalProgram
@@ -15,7 +15,7 @@ class EducationalProgramService {
         return await this.model.findAll()
     }
 
-    async create(educationalProgram: Record<string, unknown>) {
+    async create(educationalProgram: EducationalProgramI) {
         return await this.model.create(educationalProgram)
     }
 }

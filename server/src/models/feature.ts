@@ -6,6 +6,8 @@ class Feature extends Model<InferAttributes<Feature>, InferCreationAttributes<Fe
     declare description: string
 }
 
+export interface FeatureI extends InferAttributes<Feature> { }
+
 Feature.init(
     {
         title: {
@@ -22,7 +24,5 @@ Feature.init(
         modelName: 'Feature'
     }
 )
-
-sequelize.sync()
 
 export default Feature

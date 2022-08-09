@@ -4,6 +4,7 @@ import sequelize from "../../db.js"
 type RoleType = "user" | "admin"
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+    declare id: number
     declare firstName: string
     declare lastName: string
     declare email: string
@@ -13,6 +14,11 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 
 User.init(
     {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
         firstName: {
             type: DataTypes.STRING,
             allowNull: false,

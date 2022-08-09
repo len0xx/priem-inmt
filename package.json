@@ -17,6 +17,7 @@
         "build:frontend": "npm run reexport && vite build",
         "build:backend": "echo '🔨 TypeScript build in progress' && tsc --project server && echo '📦 TypeScript build complete'",
         "build:backend:watch": "tsc --watch --project server &",
+        "build:start:b": "npm run lint:fix && npm run build:backend && npm run bundle && npm run start",
         "build:start": "npm run build && npm run bundle && npm run start",
         "build": "npm run check && npm run lint:fix && npm run build:frontend && npm run build:backend",
         "bundle": "bash prepare-prod.sh",

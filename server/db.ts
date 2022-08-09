@@ -16,7 +16,7 @@ interface ConnectionConfig {
 const CONFIG: ConnectionConfig = {
     database: dev ? 'postgres' : DB_NAME,
     user: dev ? 'postgres' : DB_USER,
-    password: dev ? 'postgres' : DB_PASSWORD,
+    password: dev ? '' : DB_PASSWORD,
     options: {
         host: dev ? 'localhost' : DB_HOST,
         dialect: 'postgres'

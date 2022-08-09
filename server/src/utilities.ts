@@ -133,9 +133,3 @@ export const validatePassword = (password: string) => {
     if (!containsCapital || !containsLowercase || !containsNumber)
         return false
 }
-
-export enum DegreeLevel {
-    BACHELOR = 'Бакалавриат',
-    SPECIALIST = 'Специалитет',
-    MASTER = 'Магистратура'
-}

@@ -41,3 +41,9 @@ export interface DefaultModel {
     createdAt: Date,
     updatedAt: Date
 }
+
+export enum DegreeLevel {
+    BACHELOR = 'Бакалавриат',
+    SPECIALIST = 'Специалитет',
+    MASTER = 'Магистратура'
+}

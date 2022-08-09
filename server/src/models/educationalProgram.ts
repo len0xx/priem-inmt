@@ -1,6 +1,6 @@
 import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
 import sequelize from '../../db.js'
-import { DegreeLevel } from '../utilities.js'
+import { DegreeLevel } from '../types/index.js'
 
 class EducationalProgram extends Model<InferAttributes<EducationalProgram>, InferCreationAttributes<EducationalProgram>> {
     declare title: string

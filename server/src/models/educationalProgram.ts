@@ -1,11 +1,6 @@
 import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
 import sequelize from '../../db.js'
-
-enum DegreeLevel {
-    BACHELOR = 'Бакалавриат',
-    SPECIALIST = 'Специалитет',
-    MASTER = 'Магистратура'
-}
+import { DegreeLevel } from '../utilities.js'
 
 class EducationalProgram extends Model<InferAttributes<EducationalProgram>, InferCreationAttributes<EducationalProgram>> {
     declare title: string

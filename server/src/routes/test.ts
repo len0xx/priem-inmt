@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import userService from '../services/user.js'
-import type { Request, Response } from 'express'
 import { getErrorDetails } from '../utilities.js'
+import type { Request, Response } from 'express'
 
 const router = Router() /* eslint-disable-line */
 

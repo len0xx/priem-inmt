@@ -29,7 +29,7 @@ export const getErrorDetails = (error: Error) => {
     let message = error.toString()
     if (error instanceof ValidationError) {
         const needles = ['Violation:', 'Validation error:']
-        let msg = error.message
+        const msg = error.message
         let messages = msg.split('\n')
         messages = messages.map(
             theMsg => {
@@ -132,4 +132,10 @@ export const validatePassword = (password: string) => {
 
     if (!containsCapital || !containsLowercase || !containsNumber)
         return false
+}
+
+export enum DegreeLevel {
+    BACHELOR = 'Бакалавриат',
+    SPECIALIST = 'Специалитет',
+    MASTER = 'Магистратура'
 }

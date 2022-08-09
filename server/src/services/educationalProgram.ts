@@ -19,20 +19,7 @@ class EducationalProgramService {
         return await this.model.findAll()
     }
 
-    async create(educationalProgram: {
-        title: string,
-        degree: string,
-        price: string,
-        duration: string,
-        languages: string,
-        directions: string,
-        educationModes: string,
-        teacher: object,
-        vacantSpots: object,
-        feedbacks: object,
-        exams: object,
-        text: string
-     }) {
+    async create(educationalProgram: Record<string, unknown>) {
         return await this.model.create(educationalProgram)
     }
 }

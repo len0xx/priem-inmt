@@ -19,7 +19,7 @@ class UserService {
         return await this.model.findAll()
     }
 
-    async create(user: { firstName: string, lastName: string }) {
+    async create(user: { firstName: string, lastName: string, email: string, password: string }) {
         return await this.model.create(user)
     }
 }

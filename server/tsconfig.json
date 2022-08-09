@@ -10,7 +10,7 @@
 		"importsNotUsedAsValues": "error",
 		"esModuleInterop": true,
         "allowJs": false,
-		"outDir": "./build",
+		"outDir": "../build-prod/server",
 		"rootDir": "."
 	}
 }

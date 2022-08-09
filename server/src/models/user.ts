@@ -1,7 +1,8 @@
-import {DataTypes, Model, InferAttributes, InferCreationAttributes} from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
 import sequelize from '../../db.js'
 
 type RoleType = 'user' | 'admin'
+enum Role { User = 'user', Admin = 'admin' }
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare firstName: string
@@ -19,15 +20,20 @@ User.init(
         },
         lastName: {
             type: DataTypes.STRING,
+            allowNull: false,
         },
         email: {
             type: DataTypes.STRING,
+            allowNull: false,
         },
         password: {
             type: DataTypes.STRING,
+            allowNull: false,
         },
         role: {
-            type: DataTypes.STRING,
+            type: DataTypes.ENUM(Role.User, Role.Admin),
+            allowNull: false,
+            defaultValue: Role.User,
         },
     },
     {

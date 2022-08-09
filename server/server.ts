@@ -12,13 +12,14 @@ import { handler as SvelteKitHandler } from '../build/handler.js'
 
 // Environment variables
 dotenv.config()
-const { APP_PORT, APP_IP } = process.env;
-// const dev = NODE_ENV === 'development'
+const { APP_PORT, APP_IP, NODE_ENV } = process.env;
+const dev = NODE_ENV === 'development';
 
 // Database connection
 (async () => {
     try {
         await db.authenticate()
+        db.sync({ alter: dev })
         console.log('DB connected successfully')
     }
     catch (e) {

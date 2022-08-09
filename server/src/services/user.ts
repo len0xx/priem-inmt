@@ -1,27 +1,36 @@
 import User from '../models/user.js'
-import sequelize from '../../db.js'
-import type { Sequelize } from 'sequelize/types'
+import type { PublicUser } from '../models/user'
+import type { DefaultModel } from '../types'
 
 class UserService {
-    client: Sequelize
     model: typeof User
 
-    constructor(sequelize: Sequelize) {
-        this.client = sequelize
+    constructor() {
         this.model = User
     }
 
+    private getPublicObject(user: User): PublicUser {
+        const newUser: PublicUser & User & DefaultModel = user as User & DefaultModel
+        delete newUser.password
+        delete newUser.createdAt
+        delete newUser.updatedAt
+        return newUser
+    }
+
     async get(id: number) {
-        return await this.model.findByPk(id)
+        const user = await this.model.findByPk(id)
+        return this.getPublicObject(user)
     }
 
     async getAll() {
-        return await this.model.findAll()
+        const users = await this.model.findAll()
+        return users.map(this.getPublicObject)
     }
 
     async create(user: { firstName: string, lastName: string }) {
-        return await this.model.create(user)
+        const newUser = await this.model.create(user)
+        return this.getPublicObject(newUser)
     }
 }
 
-export default new UserService(sequelize)
+export default new UserService()

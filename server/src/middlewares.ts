@@ -1,6 +1,6 @@
 // import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
-// import { getPublicUserModel, UserModel } from './models/user.js'
+// import User from './models/user.js'
 // import type { Response, NextFunction } from 'express'
 // import type { CustomRequest } from './types'
 

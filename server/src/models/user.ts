@@ -1,4 +1,4 @@
-import {DataTypes, Model, InferAttributes, InferCreationAttributes} from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
 import sequelize from '../../db.js'
 
 type RoleType = 'user' | 'admin'
@@ -37,6 +37,13 @@ User.init(
     }
 )
 
-sequelize.sync({alter: true})
+sequelize.sync({ alter: true })
 
 export default User
+
+export interface PublicUser {
+    firstName: string,
+    lastName?: string,
+    email: string,
+    role: RoleType
+}

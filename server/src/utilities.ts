@@ -29,8 +29,10 @@ export const getErrorDetails = (error: Error) => {
     let message = error.toString()
     if (error instanceof ValidationError) {
         const needle = ' Violation: '
-        const msg = error.message
+        let msg = error.message
         if (msg.includes(needle)) {
+            msg = msg.split('\n')[0]
+            if (msg.endsWith(',')) msg = msg.slice(0, msg.length - 1)
             message = msg.split(needle)[1]
         }
         else {

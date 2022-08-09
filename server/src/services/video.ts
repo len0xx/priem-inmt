@@ -19,7 +19,7 @@ class VideoService {
         return await this.model.findAll()
     }
 
-    async create(video: { firstName: string, lastName: string }) {
+    async create(video: { src: string }) {
         return await this.model.create(video)
     }
 }

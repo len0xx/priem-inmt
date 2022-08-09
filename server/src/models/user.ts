@@ -6,6 +6,14 @@ enum Role {
     Admin = 'admin'
 }
 
+export interface UserI {
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    role: Role
+}
+
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare firstName: string
     declare lastName: string

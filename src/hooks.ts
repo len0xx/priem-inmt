@@ -1,9 +1,8 @@
 import cookie from 'cookie'
-import dotenv from 'dotenv'
-import jwt from 'jsonwebtoken'
+import * as dotenv from 'dotenv'
 import axios from 'axios'
 import { v4 as uuid } from '@lukeed/uuid'
-import type { Handle } from '@sveltejs/kit'
+import type { Handle, GetSession, RequestEvent } from '@sveltejs/kit'
 
 dotenv.config()
 
@@ -12,7 +11,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     const response = await resolve(event)
 
     if (!cookies.csrf) {
-        // if this is the first time the user has visited this app, set a csrf cookie
+        // if this is the first time the user has visited this app, set a CSRF cookie
         response.headers.set(
             'set-cookie',
             cookie.serialize('csrf', uuid(), {
@@ -25,8 +24,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     return response
 }
 
-/** @type {import('@sveltejs/kit').GetSession} */
-export async function getSession(event) {
+export const getSession: GetSession = async (event: RequestEvent & { locals: App.Locals }) => {
     const cookies = cookie.parse(event.request.headers.get('cookie') || '')
     event.locals.token = cookies.token
     event.locals.csrf = cookies.csrf
@@ -34,33 +32,54 @@ export async function getSession(event) {
 
     if (event.locals.token) {
         try {
-            const decode = jwt.verify(event.locals.token, process.env.SECRET) as Record<string, string>
-
-            const body = {
-                token: event.locals.token,
-                id: decode.id
-            }
+            const HOST = event.request.headers.get('host')
+            const PROTOCOL = HOST.startsWith('localhost') ? 'http' : 'https'
+            const BASE_API_URL = `${PROTOCOL}://${HOST}/api`
 
             const headers = {
                 'X-API-Key': process.env.API_KEY
             }
 
-            // TODO: Add a header with a public key
-            const axiosResponse = await axios({method: 'post', url: 'http://localhost:3000/api/user-info', data: body, headers})
+            // Проверяем токен пользователя
+            // Если он некорректный или истёк – верификация провалится
+            // Это нужно делать обязательно на Express сервере т.к. пакет JWT работает только там
+            const verificationResponse = await axios({
+                method: 'post',
+                url: `${BASE_API_URL}/auth/verify`,
+                data: { token: event.locals.token },
+                headers
+            })
+            const verification = verificationResponse.data
+            if (!verification.ok) throw new Error('Verification failed')
+
+            const body = {
+                token: event.locals.token,
+                id: verification.id
+            }
+
+            // Получаем информацию о пользователе
+            const axiosResponse = await axios({
+                method: 'get',
+                url: `${BASE_API_URL}/auth/user`,
+                data: body,
+                headers
+            })
             const response = axiosResponse.data
 
             if (response.ok) {
                 event.locals.user = response.user
             }
         }
-        catch {
-            // do nothing
+        catch (e) {
+            // we've got an error sadly
+            // don't know what to do with it
+            console.error('We\'ve got an error while fetching the session')
+            console.error(e)
         }
     }
 
-
     return {
-        loggedIn: !!cookies.token,
+        loggedIn: !!(event.locals.token && event.locals.user),
         token: event.locals.token,
         csrf: event.locals.csrf,
         user: event.locals.user

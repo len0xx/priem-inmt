@@ -48,6 +48,28 @@ User.init(
                 },
                 notNull: {
                     msg: 'Пароль является обязательным для заполнения'
+                },
+                containsLowerAndUpperCase(value: string) {
+                    const letters = 'qwertyuiopasdfghjklzxcvbnm'
+                    const lowerLetters = [...letters]
+                    const upperLetters = [...(letters.toUpperCase())]
+                    
+                    let containsLower = false
+                    let containsUpper = false
+                    lowerLetters.forEach(letter => value.includes(letter) ? containsLower = true : null)
+                    upperLetters.forEach(letter => value.includes(letter) ? containsUpper = true : null)
+                    
+                    if (!(containsLower && containsUpper))
+                        throw new Error('Пароль должен содержать заглавные и строчные буквы')
+                },
+                containsNumbers(value: string) {
+                    const numbers = [...'0123456789']
+                    
+                    let containsNumbers = false
+                    numbers.forEach(letter => value.includes(letter) ? containsNumbers = true : null)
+                    
+                    if (!containsNumbers)
+                        throw new Error('Пароль должен содержать хотя бы одну цифру')
                 }
             }
         },

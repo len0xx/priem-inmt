@@ -37,6 +37,7 @@ export enum HTTPStatus {
 }
 
 export interface DefaultModel {
+    id: number,
     createdAt: Date,
     updatedAt: Date
 }

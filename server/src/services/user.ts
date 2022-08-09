@@ -12,7 +12,7 @@ class UserService {
     }
 
     async get(id: number) {
-        return await this.model.findOne({ where: { id } })
+        return await this.model.findByPk(id)
     }
 
     async getAll() {

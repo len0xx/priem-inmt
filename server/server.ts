@@ -6,7 +6,7 @@ import db from './db.js'
 import testRouter from './src/routes/test.js'
 import authRouter from './src/routes/auth.js'
 import featureRouter from './src/routes/feature.js'
-// import { authenticate } from './src/middlewares.js'
+import { authenticate } from './src/middlewares.js'
 
 import { handler as SvelteKitHandler } from '../build/handler.js'
 
@@ -56,7 +56,7 @@ app.use(helmet.referrerPolicy())
 app.use(helmet.xssFilter())
 
 // Authentication middleware should be ran before all the routes
-// app.use('*', authenticate)
+app.use('*', authenticate)
 
 // Express routes
 app.use('/api/auth', authRouter)

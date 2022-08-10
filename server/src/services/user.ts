@@ -8,6 +8,7 @@ class UserService {
     }
 
     async get(id: number) {
+        // TODO: Hide the password
         return await this.model.findByPk(id)
     }
 

@@ -7,7 +7,7 @@ import type { FindOptions, InferAttributes } from 'sequelize'
 
 dotenv.config()
 
-const dev = process.env.NODE_ENV == 'development'
+// const dev = process.env.NODE_ENV == 'development'
 
 class UserService {
     model: typeof User
@@ -17,13 +17,17 @@ class UserService {
     }
 
     async get(id: number, fetchPassword = false) {
-        // TODO: Hide the password
-        return await this.model.findByPk(id)
+        const attributes = [ 'firstName', 'lastName', 'id', 'email', 'role' ]
+        if (fetchPassword) attributes.push('password')
+
+        return await this.model.findByPk(id, { attributes })
     }
 
     async getByQuery(where: FindOptions<InferAttributes<User>>, fetchPassword = false) {
-        // TODO: Hide the password
-        const result = await this.model.findAll(where)
+        const attributes = [ 'firstName', 'lastName', 'id', 'email', 'role' ]
+        if (fetchPassword) attributes.push('password')
+
+        const result = await this.model.findAll({ ...where, attributes })
         return result
     }
 
@@ -32,19 +36,21 @@ class UserService {
     }
 
     async create(user: UserI) {
-        return (await this.model.create(user))
+        const result = await this.model.create(user)
+        return result.id
     }
 
     async login(email: string, password: string, ip: string) {
         const results = await this.getByQuery({ where: { email } }, true)
-        const user = (results[0]) as User
+        const user = results[0] as User
         if (!user) throw new HTTPError(404, 'Пользователь с таким Email не найден')
 
         const passwordComparison = await bcrypt.compare(password, user.password)
         if (!passwordComparison) throw new HTTPError(400, 'Неверный пароль')
 
-        if (dev) console.log(user)
+        // if (dev) console.log(user)
 
+        // TODO: Move token creation to the controller
         const token = jwt.sign(
             {
                 id: user.id,
@@ -66,8 +72,8 @@ class UserService {
         if (sameEmailExists) throw new HTTPError(400, 'Пользователь с таким Email уже зарегистрирован')
 
         user.password = ((await bcrypt.hash(user.password, 10)) as string)
-        const newUser = await this.create(user)
-        return newUser
+        const newUserId = await this.create(user)
+        return newUserId
     }
 }
 

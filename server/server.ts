@@ -12,7 +12,7 @@ import { handler as SvelteKitHandler } from '../build/handler.js'
 
 // Environment variables
 dotenv.config()
-const { APP_PORT, APP_IP, NODE_ENV } = process.env;
+const { APP_PORT, APP_IP, NODE_ENV } = process.env
 const dev = NODE_ENV === 'development';
 
 // Database connection
@@ -55,7 +55,7 @@ app.use(helmet.permittedCrossDomainPolicies())
 app.use(helmet.referrerPolicy())
 app.use(helmet.xssFilter())
 
-// Authentication middleware should be ran before all the routes
+// Authentication middleware should run before all the routes
 app.use('*', authenticate)
 
 // Express routes

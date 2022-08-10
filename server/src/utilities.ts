@@ -28,7 +28,7 @@ export const getErrorDetails = (error: Error) => {
 
     let message = error.toString()
     if (error instanceof ValidationError) {
-        const needles = ['Violation:', 'Validation error:']
+        const needles = ['Violation:', 'Validation error:', 'notNull']
         const msg = error.message
         let messages = msg.split('\n')
         messages = messages.map(
@@ -67,18 +67,16 @@ export class HTTPResponse {
                 this.redirect = payload
             }
             else if (isStatusError(this.status)) {
-                this.json = { error: payload }
+                this.json = { ok: false, error: payload }
             }
             else if (payload.length) {
-                this.json = { message: payload }
+                this.json = { ok: true, message: payload }
             }
             else {
                 this.json = { }
             }
         }
         else this.json = payload
-
-        if (this.json) this.json.ok = !isStatusError(status)
 
         this.parseCookies(handler)
         this.invoke(handler)

@@ -59,7 +59,7 @@ export const getSession: GetSession = async (event: RequestEvent & { locals: App
 
             // Получаем информацию о пользователе
             const axiosResponse = await axios({
-                method: 'get',
+                method: 'post',
                 url: `${BASE_API_URL}/auth/user`,
                 data: body,
                 headers

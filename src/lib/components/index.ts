@@ -38,6 +38,7 @@ import Step from './Step.svelte'
 import Switch from './Switch.svelte'
 import Teacher from './Teacher.svelte'
 import Text from './Text.svelte'
+import TipTap from './TipTap.svelte'
 import VideoCard from './VideoCard.svelte'
 
 export { 
@@ -81,5 +82,6 @@ export {
     Switch,
     Teacher,
     Text,
+    TipTap,
     VideoCard,
 }

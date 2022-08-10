@@ -43,7 +43,7 @@ export function detectOS(): OS {
         os = 'Windows'
     } else if (/Android/.test(userAgent)) {
         os = 'Android'
-    } else if (!os && /Linux/.test(platform)) {
+    } else if (/Linux/.test(platform)) {
         os = 'Linux'
     }
 
@@ -120,9 +120,11 @@ export function sendWindowAJAX(
         }
     })
 
-    request.fail((jqXHR, res) => {
-        if (callbackError) callbackError(res)
-        console.error(res)
+    request.fail((jqXHR) => {
+        if (callbackError) callbackError(
+            (jqXHR.responseJSON && jqXHR.responseJSON.error) ? jqXHR.responseJSON.error : jqXHR.responseText
+        )
+        // console.error(jqXHR)
     })
 }
 

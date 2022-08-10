@@ -66,7 +66,7 @@
                 }
                 if (!noReset) (e.target as HTMLFormElement).reset()
             },
-            (res) => { dispatch('error', res) }
+            (res) => { dispatch('error', { error: res }) }
         )
     }
 </script>

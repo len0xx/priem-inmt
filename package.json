@@ -30,6 +30,21 @@
     "dependencies": {
         "@lukeed/uuid": "^2.0.0",
         "@sequelize/core": "^7.0.0-alpha.10",
+        "@tiptap/core": "^2.0.0-beta.182",
+        "@tiptap/extension-bold": "^2.0.0-beta.28",
+        "@tiptap/extension-bullet-list": "^2.0.0-beta.29",
+        "@tiptap/extension-character-count": "^2.0.0-beta.31",
+        "@tiptap/extension-document": "^2.0.0-beta.17",
+        "@tiptap/extension-hard-break": "^2.0.0-beta.33",
+        "@tiptap/extension-heading": "^2.0.0-beta.29",
+        "@tiptap/extension-image": "^2.0.0-beta.30",
+        "@tiptap/extension-italic": "^2.0.0-beta.28",
+        "@tiptap/extension-link": "^2.0.0-beta.43",
+        "@tiptap/extension-list-item": "^2.0.0-beta.23",
+        "@tiptap/extension-paragraph": "^2.0.0-beta.26",
+        "@tiptap/extension-placeholder": "^2.0.0-beta.53",
+        "@tiptap/extension-text": "^2.0.0-beta.17",
+        "@tiptap/extension-underline": "^2.0.0-beta.25",
         "axios": "^0.26.1",
         "bcrypt": "^5.0.1",
         "cookie-parser": "^1.4.6",
@@ -43,7 +58,8 @@
         "pg-hstore": "^2.3.4",
         "sequelize": "^6.21.3",
         "svelte-carousel": "^1.0.19",
-        "svelte-imask": "^1.2.0"
+        "svelte-imask": "^1.2.0",
+        "tiptap": "^1.32.2"
     },
     "devDependencies": {
         "@sveltejs/adapter-node": "1.0.0-next.82",

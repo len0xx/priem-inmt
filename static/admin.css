@@ -1,0 +1,111 @@
+.white-block {
+    max-width: 450px;
+    border-radius: 0.75em;
+    padding: 2em 1em;
+    margin: 0 auto;
+}
+
+.white-block-wide {
+    max-width: calc(100vw - 300px);
+    padding: 3em 2em;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, .05);
+}
+
+main {
+    min-height: 100vh;
+    background-color: #E9E9E9;
+}
+
+input:not([type="checkbox"]) {
+    width: 100%;
+}
+
+label + input[type="checkbox"] {
+    margin-left: 1em;
+}
+
+aside.left-menu {
+    background-color: white;
+    padding: 1em;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+nav a.menu-item:not(:first-of-type) {
+    margin-left: 0;
+}
+
+aside.left-menu > nav > a.menu-item {
+    display: block;
+    position: relative;
+    background-color: rgba(0, 0, 60, 0.04);
+    color: #777;
+    padding: 0.4em 1.1em;
+    border-radius: 4px;
+}
+
+aside.left-menu > nav > a.menu-item.active {
+    background-color: rgba(0, 0, 60, 0.1);
+    color: var(--blue);
+}
+
+aside.left-menu > nav > a.menu-item.active:hover {
+    background-color: rgba(0, 0, 60, 0.15);
+    color: var(--blue);
+}
+
+aside.left-menu > nav > a.menu-item:not(:last-of-type) {
+    margin: 0;
+    margin-bottom: 0.5em;
+}
+
+aside.left-menu > nav > a.menu-item:hover {
+    color: #444;
+    background-color: rgba(0, 0, 60, 0.12);
+}
+
+footer.admin-panel-footer {
+    padding: 1em 0 3em 0;
+    text-align: center;
+}
+
+section.main-content {
+    padding: 3em;
+}
+
+textarea.form-control {
+    border: 1px solid rgb(100, 130, 200);
+    min-width: 300px;
+}
+
+html body div.b24-widget-button-wrapper:not(.s) {
+    display: none !important;
+}
+
+.white-block.authorization-block {
+    padding: 3em;
+}
+
+.white-block.authorization-block h2 {
+    margin-top: 0;
+}
+
+.admin-header-layout {
+    display: grid;
+    position: relative;
+    grid-template-columns: 1fr 6fr 3fr;
+    gap: 1em;
+}
+
+.white-block-wide h2:first-of-type {
+    margin-top: 0;
+}
+
+.buttons-row {
+    margin-top: 1em;
+}
+
+.buttons-row button:not(:first-of-type) {
+    margin-left: 1em;
+}

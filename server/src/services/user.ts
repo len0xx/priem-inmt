@@ -2,7 +2,6 @@ import User, { UserI } from '../models/user.js'
 import { HTTPError, validatePassword } from '../utilities.js'
 import bcrypt from 'bcrypt'
 import dotenv from 'dotenv'
-import jwt from 'jsonwebtoken'
 import type { FindOptions, InferAttributes } from 'sequelize'
 
 dotenv.config()
@@ -40,7 +39,7 @@ class UserService {
         return result.id
     }
 
-    async login(email: string, password: string, ip: string) {
+    async login(email: string, password: string) {
         const results = await this.getByQuery({ where: { email } }, true)
         const user = results[0] as User
         if (!user) throw new HTTPError(404, 'Пользователь с таким Email не найден')
@@ -49,18 +48,8 @@ class UserService {
         if (!passwordComparison) throw new HTTPError(400, 'Неверный пароль')
 
         // if (dev) console.log(user)
-
-        // TODO: Move token creation to the controller
-        const token = jwt.sign(
-            {
-                id: user.id,
-                ip: ip
-            },
-            process.env.SECRET,
-            { expiresIn: 86400 * 2 }
-        )
     
-        return token
+        return user.id
     }
 
     async signup(user: UserI) {

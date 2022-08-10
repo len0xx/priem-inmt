@@ -1,13 +1,23 @@
 import userService from '../../services/user.js'
 import { getErrorDetails, HTTPResponse } from '../../utilities.js'
-import type { Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
 import { HTTPStatus } from '../../types/enums.js'
+import type { Request, Response } from 'express'
 
 export const login = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body
 
-        const token = await userService.login(email, password, req.ip)
+        const userId = await userService.login(email, password)
+
+        const token = jwt.sign(
+            {
+                id: userId,
+                ip: req.ip
+            },
+            process.env.SECRET,
+            { expiresIn: 86400 * 2 }
+        )
 
         const cookies = {
             token: {

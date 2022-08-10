@@ -73,10 +73,10 @@ export class HTTPResponse {
                 this.json = { ok: true, message: payload }
             }
             else {
-                this.json = { }
+                this.json = { ok: true }
             }
         }
-        else this.json = payload
+        else this.json = { ok: !isStatusError(this.status), ...payload}
 
         this.parseCookies(handler)
         this.invoke(handler)
@@ -105,7 +105,7 @@ export class HTTPResponse {
 export const validatePassword = (password: string) => {
     const letters = 'QWERTYUIOPASDFGHJKLZXCVBNM'
     const capitalLetters = [...'QWERTYUIOPASDFGHJKLZXCVBNM']
-    const lowercaseLetters = [...letters.toLowerCase()]
+    const lowerLetters = [...letters.toLowerCase()]
     const numbers = [...'0123456789']
     const minimumLength = 6
     const maximumLength = 30
@@ -118,9 +118,9 @@ export const validatePassword = (password: string) => {
         if (password.includes(symbol)) containsCapital = true
     })
 
-    let containsLowercase = false
-    lowercaseLetters.forEach(symbol => {
-        if (password.includes(symbol)) containsLowercase = true
+    let containsLower = false
+    lowerLetters.forEach(symbol => {
+        if (password.includes(symbol)) containsLower = true
     })
 
     let containsNumber = false
@@ -128,6 +128,5 @@ export const validatePassword = (password: string) => {
         if (password.includes(symbol)) containsNumber = true
     })
 
-    if (!containsCapital || !containsLowercase || !containsNumber)
-        return false
+    return containsCapital && containsLower && containsNumber
 }

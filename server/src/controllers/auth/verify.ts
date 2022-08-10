@@ -11,7 +11,7 @@ export const verify = async (req: Request, res: Response) => {
 
     try {
         if (!token)
-            return new HTTPResponse(res, HTTPStatus.UNAUTHORIZED, 'Token in missing')
+            return new HTTPResponse(res, HTTPStatus.UNAUTHORIZED, 'Token is missing')
 
         const decode = jwt.verify(token, process.env.SECRET) as Record<string, string>
 

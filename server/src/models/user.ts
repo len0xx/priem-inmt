@@ -15,7 +15,7 @@ class User extends Model<InferAttributes<User, { omit: 'id' }>, InferCreationAtt
     declare role?: Role
 }
 
-export interface UserI extends InferAttributes<User, { omit: 'id' }> { }
+export type UserI = InferAttributes<User, { omit: 'id' }>
 
 User.init(
     {

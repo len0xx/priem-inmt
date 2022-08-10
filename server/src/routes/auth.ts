@@ -10,7 +10,7 @@ router.post('/verify', verify)
 
 router.post('/login', login)
 
-router.post('/logout', logout)
+router.get('/logout', logout)
 
 router.post('/signup', signup)
 

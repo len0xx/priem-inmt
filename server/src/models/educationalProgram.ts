@@ -17,7 +17,7 @@ class EducationalProgram extends Model<InferAttributes<EducationalProgram>, Infe
     declare text: string
 }
 
-export interface EducationalProgramI extends InferAttributes<EducationalProgram> { }
+export type EducationalProgramI = InferAttributes<EducationalProgram>
 
 EducationalProgram.init(
     {

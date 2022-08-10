@@ -48,7 +48,7 @@ class UserService {
         if (!passwordComparison) throw new HTTPError(400, 'Неверный пароль')
 
         // if (dev) console.log(user)
-    
+
         return user.id
     }
 

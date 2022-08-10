@@ -6,7 +6,7 @@ class Feature extends Model<InferAttributes<Feature>, InferCreationAttributes<Fe
     declare description: string
 }
 
-export interface FeatureI extends InferAttributes<Feature> { }
+export type FeatureI = InferAttributes<Feature>
 
 Feature.init(
     {

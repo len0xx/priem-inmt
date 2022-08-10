@@ -5,7 +5,7 @@ class Video extends Model<InferAttributes<Video>, InferCreationAttributes<Video>
     declare src: string
 }
 
-export interface VideoI extends InferAttributes<Video> { }
+export type VideoI = InferAttributes<Video>
 
 Video.init({
     src: {

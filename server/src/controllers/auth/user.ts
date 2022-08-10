@@ -19,7 +19,7 @@ export const getInfo = async (req: Request, res: Response) => {
 
         const decode = jwt.verify(token, process.env.SECRET) as Record<string, string>
 
-        if (id !== decode.id) {
+        if (+id !== +decode.id) {
             return new HTTPResponse(res, HTTPStatus.UNAUTHORIZED, 'Некорректный id')
         }
 

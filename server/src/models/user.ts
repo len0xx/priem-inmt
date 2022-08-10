@@ -6,7 +6,8 @@ enum Role {
     Admin = 'admin'
 }
 
-class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+class User extends Model<InferAttributes<User, { omit: 'id' }>, InferCreationAttributes<User>> {
+    declare id?: number
     declare firstName: string
     declare lastName: string
     declare email: string
@@ -14,7 +15,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare role?: Role
 }
 
-export interface UserI extends InferAttributes<User> { }
+export interface UserI extends InferAttributes<User, { omit: 'id' }> { }
 
 User.init(
     {
@@ -28,12 +29,11 @@ User.init(
                 }
             }
         },
-        lastName: {
-            type: DataTypes.STRING
-        },
+        lastName: DataTypes.STRING,
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
             validate: {
                 notNull: {
                     msg: 'Email является обязательным для заполнения'
@@ -44,34 +44,8 @@ User.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: {
-                    args: [6, 30],
-                    msg: 'Пароль должен быть длиной от 6 до 30 символов!'
-                },
                 notNull: {
                     msg: 'Пароль является обязательным для заполнения'
-                },
-                containsLowerAndUpperCase(value: string) {
-                    const letters = 'qwertyuiopasdfghjklzxcvbnm'
-                    const lowerLetters = [...letters]
-                    const upperLetters = [...(letters.toUpperCase())]
-
-                    let containsLower = false
-                    let containsUpper = false
-                    lowerLetters.forEach(letter => value.includes(letter) ? containsLower = true : null)
-                    upperLetters.forEach(letter => value.includes(letter) ? containsUpper = true : null)
-
-                    if (!(containsLower && containsUpper))
-                        throw new Error('Пароль должен содержать заглавные и строчные буквы')
-                },
-                containsNumbers(value: string) {
-                    const numbers = [...'0123456789']
-
-                    let containsNumbers = false
-                    numbers.forEach(letter => value.includes(letter) ? containsNumbers = true : null)
-
-                    if (!containsNumbers)
-                        throw new Error('Пароль должен содержать хотя бы одну цифру')
                 }
             }
         },

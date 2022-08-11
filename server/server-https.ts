@@ -63,8 +63,6 @@ app.use('/api/auth', authRouter)
 
 app.use(SvelteKitHandler)
 
-app.listen(+APP_PORT, APP_IP, () => console.log('Server runs on ' + APP_IP + ':' + APP_PORT))
-
 const options = {
     key: fs.readFileSync('/etc/letsencrypt/live/inmt-priem.urfu.ru/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/inmt-priem.urfu.ru/fullchain.pem')

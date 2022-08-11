@@ -80,7 +80,7 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2>Новая образовательная программа</h2>
-        <AjaxForm method="POST" action="/api/program" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
+        <AjaxForm method="POST" action="/api/program/create" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
             <h3>Общая информация</h3>
             <Grid m={2} ratio="2:1">
                 <div>
@@ -268,17 +268,17 @@
             <Grid m={2} ratio="1:2">
                 <div>
                     <div>
-                        <label for="feedback_name2">ФИО</label><br />
-                        <input class="form-control wide" type="text" name="feedback_name2" />
+                        <label for="feedback_name1">ФИО</label><br />
+                        <input class="form-control wide" type="text" name="feedback_name1" />
                     </div>
                     <div>
-                        <label for="feedback_caption2">Подпись</label><br />
-                        <input class="form-control wide" type="text" name="feedback_caption2" />
+                        <label for="feedback_caption1">Подпись</label><br />
+                        <input class="form-control wide" type="text" name="feedback_caption1" />
                     </div>
                 </div>
                 <div>
-                    <label for="feedback_text2">Текст отзыва</label><br />
-                    <textarea name="feedback_text2" cols="30" rows="10"></textarea>
+                    <label for="feedback_text1">Текст отзыва</label><br />
+                    <textarea name="feedback_text1" cols="30" rows="10"></textarea>
                 </div>
             </Grid>
             { #if feedbacksExpanded }

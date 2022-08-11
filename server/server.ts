@@ -6,6 +6,7 @@ import db from './db.js'
 // import testRouter from './src/routes/test.js'
 import authRouter from './src/routes/auth.js'
 // import featureRouter from './src/routes/feature.js'
+import programRouter from './src/routes/program.js'
 import { authenticate } from './src/middlewares.js'
 
 import { handler as SvelteKitHandler } from '../build/handler.js'
@@ -62,6 +63,7 @@ app.use('*', authenticate)
 app.use('/api/auth', authRouter)
 // app.use('/test', testRouter)
 // app.use('/feature', featureRouter)
+app.use('/api/program', programRouter)
 
 app.use(SvelteKitHandler)
 

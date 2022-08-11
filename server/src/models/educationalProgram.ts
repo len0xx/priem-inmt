@@ -5,11 +5,8 @@ import { DegreeLevel } from '../types/enums.js'
 class EducationalProgram extends Model<InferAttributes<EducationalProgram>, InferCreationAttributes<EducationalProgram>> {
     declare title: string
     declare degree: string
-    declare price: string
-    declare duration: string
-    declare languages: string
-    declare directions: string
-    declare educationModes: string
+    declare educationModes: object
+    declare directions: object
     declare teacher: object
     declare vacantSpots: object
     declare feedbacks: object
@@ -36,24 +33,12 @@ EducationalProgram.init(
             },
             defaultValue: DegreeLevel.BACHELOR
         },
-        price: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        duration: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        languages: {
-            type: DataTypes.STRING,
+        educationModes: {
+            type: DataTypes.JSON,
             allowNull: false
         },
         directions: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        educationModes: {
-            type: DataTypes.STRING,
+            type: DataTypes.JSON,
             allowNull: false
         },
         teacher: {

@@ -2,19 +2,20 @@
     // import { sendNodeAJAX } from '../../../shared/utilities'
     import type { Load } from '@sveltejs/kit'
     
-    export const load: Load = () => {
-        // const loggedIn = !!(session.loggedIn)
+    export const load: Load = ({ session }) => {
+        const loggedIn = !!(session.loggedIn)
 
-        // if (!loggedIn) {
-        //     return {
-        //         status: 302,
-        //         redirect: '/admin-panel/auth/login'
-        //     }
-        // }
+        if (!loggedIn) {
+            return {
+                status: 302,
+                redirect: '/admin-panel/auth/login'
+            }
+        }
 
         return {
             props: {
                 programs: [{
+                    id: 1,
                     title: 'Живые системы. Перспективные химико-фармацевтические и биотехнологии: исследования и разработки',
                     vacantSpots: [
                         [46, 4]
@@ -93,12 +94,12 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Опубликованные образовательные программы</h2>
         <a href="/admin-panel/programs/new"><button type="button" class="btn btn-outline-primary">Создать новую программу</button></a>
-        <h3>Специалитет{ programsSpec.length ? ` (${programsSpec.length})` : '' }</h3>
+        <h3>Специалитет { programsSpec.length ? `(${programsSpec.length})` : '' }</h3>
         { #if programsSpec.length }
             <Grid s={1} m={2} l={3}>
                 { #each programsSpec as program }
                     <Card variant="grey" color="custom">
-                        <svelte:fragment slot="title"><a href="/program/{ program._id }">{ program.title }</a></svelte:fragment>
+                        <svelte:fragment slot="title"><a href="/program/{ program.id }">{ program.title }</a></svelte:fragment>
                         <svelte:fragment slot="left">{ program.vacantSpots.length ? program.vacantSpots[0][0] : 'NaN' } бюджет { program.vacantSpots.length ? program.vacantSpots[0][1] : 'NaN' } контракт</svelte:fragment>
                         <svelte:fragment slot="right">от { program.price.length ? program.price[0] : 'NaN' } ₽</svelte:fragment>
                     </Card>

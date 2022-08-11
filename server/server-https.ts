@@ -4,23 +4,36 @@ import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import helmet from 'helmet'
 import express from 'express'
-// import testRouter from './src/routes/test.js'
+import db from './db.js'
+import authRouter from './src/routes/auth.js'
+import { authenticate } from './src/middlewares.js'
 
 import { handler as SvelteKitHandler } from '../build/handler.js'
 
+// Environment variables
 dotenv.config()
+const { APP_PORT, APP_IP, NODE_ENV } = process.env
+const dev = NODE_ENV === 'development';
 
-const { APP_PORT, APP_IP } = process.env
-// const dev = NODE_ENV === 'development'
+// Database connection
+(async () => {
+    try {
+        await db.authenticate()
+        db.sync({ alter: dev })
+        console.log('DB connected successfully')
+    }
+    catch (e) {
+        console.error('DB connection failed')
+        console.error(e)
+        process.exit(1)
+    }
+})()
 
-// mongoose.connect(DB_CONNECTION_STRING)
-// const db = mongoose.connection
-// db.on('error', error => console.error(error))
-// db.once('open', () => console.log('DB connected'))
-
+// Express application
 const app = express()
 app.disable('x-powered-by')
 
+// Cookies, JSON and URLEncoded form requests support
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -42,11 +55,15 @@ app.use(helmet.permittedCrossDomainPolicies())
 app.use(helmet.referrerPolicy())
 app.use(helmet.xssFilter())
 
-// Express routes
-// app.use('/test', testRouter)
+// Authentication middleware should run before all the routes
+app.use('*', authenticate)
 
-// SvelteKit handler
+// Express routes
+app.use('/api/auth', authRouter)
+
 app.use(SvelteKitHandler)
+
+app.listen(+APP_PORT, APP_IP, () => console.log('Server runs on ' + APP_IP + ':' + APP_PORT))
 
 const options = {
     key: fs.readFileSync('/etc/letsencrypt/live/inmt-priem.urfu.ru/privkey.pem'),

@@ -22,31 +22,28 @@ export const create = async (req: Request, res: Response) => {
                 price: requestData.price1,
                 duration: requestData.period1,
                 languages: requestData.language1,
+                vacantSpots: {
+                    budget: requestData.budget1,
+                    contract: requestData.contract1
+                },
             },
             partTime: {
                 price: requestData.price2,
                 duration: requestData.period2,
                 languages: requestData.language2,
+                vacantSpots: {
+                    budget: requestData.budget2,
+                    contract: requestData.contract2
+                },
             },
             partFullTime: {
                 price: requestData.price3,
                 duration: requestData.period3,
                 languages: requestData.language3,
-            }
-        }
-
-        const vacantSpots = {
-            fullTime: {
-                budget: requestData.budget1,
-                contract: requestData.contract1
-            },
-            partTime: {
-                budget: requestData.budget2,
-                count: requestData.contract2
-            },
-            partFullTime: {
-                budget: requestData.budget3,
-                count: requestData.contract3
+                vacantSpots: {
+                    budget: requestData.budget3,
+                    contract: requestData.contract3
+                },
             }
         }
 

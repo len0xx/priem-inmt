@@ -86,7 +86,6 @@ export const create = async (req: Request, res: Response) => {
             title: title,
             degree: degree,
             educationModes: educationModes,
-            vacantSpots: vacantSpots,
             directions: directions,
             teacher: teacher,
             exams: exams,

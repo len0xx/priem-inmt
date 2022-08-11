@@ -8,7 +8,6 @@ class EducationalProgram extends Model<InferAttributes<EducationalProgram>, Infe
     declare educationModes: object
     declare directions: object
     declare teacher: object
-    declare vacantSpots: object
     declare feedbacks: object
     declare exams: object
     declare text: string
@@ -42,10 +41,6 @@ EducationalProgram.init(
             allowNull: false
         },
         teacher: {
-            type: DataTypes.JSON,
-            allowNull: false
-        },
-        vacantSpots: {
             type: DataTypes.JSON,
             allowNull: false
         },

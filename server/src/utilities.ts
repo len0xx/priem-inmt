@@ -104,35 +104,6 @@ export class HTTPResponse {
     }
 }
 
-export const validatePassword = (password: string) => {
-    const letters = 'QWERTYUIOPASDFGHJKLZXCVBNM'
-    const capitalLetters = [...'QWERTYUIOPASDFGHJKLZXCVBNM']
-    const lowerLetters = [...letters.toLowerCase()]
-    const numbers = [...'0123456789']
-    const minimumLength = 6
-    const maximumLength = 30
-
-    if (password.length < minimumLength || password.length > maximumLength)
-        return false
-
-    let containsCapital = false
-    capitalLetters.forEach(symbol => {
-        if (password.includes(symbol)) containsCapital = true
-    })
-
-    let containsLower = false
-    lowerLetters.forEach(symbol => {
-        if (password.includes(symbol)) containsLower = true
-    })
-
-    let containsNumber = false
-    numbers.forEach(symbol => {
-        if (password.includes(symbol)) containsNumber = true
-    })
-
-    return containsCapital && containsLower && containsNumber
-}
-
 export const hashPassword = (password: string) => bcrypt.hashSync(password, 10)
 
 export const comparePasswords = (plain: string, hashed: string) => bcrypt.compareSync(plain, hashed)

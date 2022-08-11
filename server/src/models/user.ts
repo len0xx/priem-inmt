@@ -1,5 +1,6 @@
 import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
 import sequelize from '../../db.js'
+import { hashPassword } from '../utilities.js'
 
 enum Role {
     User = 'user',
@@ -44,8 +45,42 @@ User.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
+                len: {
+                    args: [6, 30],
+                    msg: 'Пароль должен иметь длину от 6 до 30 символов'
+                },
                 notNull: {
                     msg: 'Пароль является обязательным для заполнения'
+                },
+                containsUpper(value: string) {
+                    const capitalLetters = [...'QWERTYUIOPASDFGHJKLZXCVBNM']
+
+                    let containsCapital = false
+                    capitalLetters.forEach(symbol => {
+                        if (value.includes(symbol)) containsCapital = true
+                    })
+
+                    if (!containsCapital) throw new Error('Пароль должен содержать заглавные буквы')
+                },
+                containsLower(value: string) {
+                    const lowerLetters = [...'QWERTYUIOPASDFGHJKLZXCVBNM'.toLowerCase()]
+
+                    let containsLower = false
+                    lowerLetters.forEach(symbol => {
+                        if (value.includes(symbol)) containsLower = true
+                    })
+
+                    if (!containsLower) throw new Error('Пароль должен содержать строчные буквы')
+                },
+                containsNumbers(value: string) {
+                    const numbers = [...'0123456789']
+
+                    let containsNumber = false
+                    numbers.forEach(symbol => {
+                        if (value.includes(symbol)) containsNumber = true
+                    })
+
+                    if (!containsNumber) throw new Error('Пароль должен содержать цифры')
                 }
             }
         },
@@ -65,7 +100,13 @@ User.init(
     {
         // Other model options go here
         sequelize, // We need to pass the connection instance
-        modelName: 'User' // We need to choose the model name
+        modelName: 'User', // We need to choose the model name
+        hooks: {
+            beforeCreate(instance: User) {
+                // Хешируем пароль перед сохранением
+                instance.password = hashPassword(instance.password)
+            }
+        }
     }
 )
 

@@ -1,8 +1,8 @@
 import User, { UserI } from '../models/user.js'
-import { HTTPError, validatePassword } from '../utilities.js'
-import bcrypt from 'bcrypt'
+import { HTTPError, comparePasswords } from '../utilities.js'
 import dotenv from 'dotenv'
 import type { FindOptions, InferAttributes } from 'sequelize'
+import { HTTPStatus } from '../types/enums.js'
 
 dotenv.config()
 
@@ -41,26 +41,29 @@ class UserService {
 
     async login(email: string, password: string) {
         const results = await this.getByQuery({ where: { email } }, true)
-        const user = results[0] as User
-        if (!user) throw new HTTPError(404, 'Пользователь с таким Email не найден')
+        const user = results[0]
 
-        const passwordComparison = await bcrypt.compare(password, user.password)
-        if (!passwordComparison) throw new HTTPError(400, 'Неверный пароль')
+        if (!user)
+            throw new HTTPError(HTTPStatus.NOT_FOUND, 'Пользователь с таким Email не найден')
 
-        // if (dev) console.log(user)
+        const passwordComparison = comparePasswords(password, user.password)
+        if (!passwordComparison)
+            throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Неверный пароль')
 
         return user.id
     }
 
     async signup(user: UserI) {
-        if (!user.email) throw new HTTPError(400, 'Email является обязательным для заполнения')
-        if (!user.password) throw new HTTPError(400, 'Пароль является обязательным для заполнения')
-        if (!validatePassword(user.password)) throw new HTTPError(400, 'Пароль должен иметь длину от 6 до 30 символов и содержать в себе как минимум по одной строчной и заглавной букве и одну цифру')
+        if (!user.email)
+            throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Email является обязательным для заполнения')
 
-        const sameEmailExists = await this.getByQuery({ where: { email: user.email } }, true)[0] as User
-        if (sameEmailExists) throw new HTTPError(400, 'Пользователь с таким Email уже зарегистрирован')
+        if (!user.password)
+            throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Пароль является обязательным для заполнения')
 
-        user.password = ((await bcrypt.hash(user.password, 10)) as string)
+        const sameEmailExists = (await this.getByQuery({ where: { email: user.email } }, true)[0]) as User
+        if (sameEmailExists)
+            throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Пользователь с таким Email уже зарегистрирован')
+
         const newUserId = await this.create(user)
         return newUserId
     }

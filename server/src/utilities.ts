@@ -1,6 +1,8 @@
 import type { CookieOptions, Response as ExpressResponse } from 'express'
 import { ValidationError } from 'sequelize'
 import type { HTTPErrorI } from './types'
+import bcrypt from 'bcrypt'
+// import jwt from 'jsonwebtoken'
 
 export class HTTPError extends Error implements HTTPErrorI {
     public readonly code: number
@@ -130,3 +132,7 @@ export const validatePassword = (password: string) => {
 
     return containsCapital && containsLower && containsNumber
 }
+
+export const hashPassword = (password: string) => bcrypt.hashSync(password, 10)
+
+export const comparePasswords = (plain: string, hashed: string) => bcrypt.compareSync(plain, hashed)

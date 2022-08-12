@@ -11,7 +11,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     const response = await resolve(event)
 
     if (!cookies.csrf) {
-        // if this is the first time the user has visited this app, set a CSRF cookie
+        // Если пользователь впервые открыл этот сайт, устанавливаем необходимые куки, в том числе и CSRF
         response.headers.set(
             'set-cookie',
             cookie.serialize('csrf', uuid(), {

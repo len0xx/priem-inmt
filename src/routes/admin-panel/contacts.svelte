@@ -2,7 +2,7 @@
     // import { sendNodeAJAX } from '../../../shared/utilities'
     import type { Load } from '@sveltejs/kit'
     
-    export const load: Load = ({ session }) => {
+    export const load: Load = () => {
         // const basicInfo = await sendNodeAJAX(
         //     `http://${url.hostname}/api/info`,
         //     'GET',

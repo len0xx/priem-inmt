@@ -1,15 +1,8 @@
 import educationalProgramService from '../../services/educationalProgram.js'
 import { getErrorDetails, HTTPResponse } from '../../utilities.js'
-import type { Request, Response } from 'express'
 import { HTTPStatus } from '../../types/enums.js'
-import type { EducationModesI } from '../../models/educationalProgram.js'
-
-interface TeacherI {
-    name: string,
-    caption: string,
-    phone: string,
-    email: string
-}
+import type { Request, Response } from 'express'
+import type { EducationModesI, TeacherI } from '../../models/educationalProgram.js'
 
 export const create = async (req: Request, res: Response) => {
     try {

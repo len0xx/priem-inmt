@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import { getErrorDetails, HTTPResponse } from '../../utilities.js'
-import type { Request, Response } from 'express'
 import { HTTPStatus } from '../../types/enums.js'
+import type { Request, Response } from 'express'
 
 dotenv.config()
 

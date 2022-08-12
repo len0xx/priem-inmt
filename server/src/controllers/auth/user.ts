@@ -2,8 +2,8 @@ import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 import userService from '../../services/user.js'
 import { HTTPResponse, getErrorDetails } from '../../utilities.js'
-import type { Request, Response } from 'express'
 import { HTTPStatus } from '../../types/enums.js'
+import type { Request, Response } from 'express'
 
 dotenv.config()
 

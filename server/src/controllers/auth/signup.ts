@@ -1,7 +1,7 @@
 import userService from '../../services/user.js'
 import { getErrorDetails, HTTPResponse } from '../../utilities.js'
-import type { Request, Response } from 'express'
 import { HTTPStatus } from '../../types/enums.js'
+import type { Request, Response } from 'express'
 import type { UserI } from '../../models/user.js'
 
 export const signup = async (req: Request, res: Response) => {

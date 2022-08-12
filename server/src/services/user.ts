@@ -1,12 +1,10 @@
 import User, { UserI } from '../models/user.js'
 import { HTTPError, comparePasswords } from '../utilities.js'
 import dotenv from 'dotenv'
-import type { FindOptions, InferAttributes } from 'sequelize'
+import type { FindOptions, UpdateOptions, InferAttributes } from 'sequelize'
 import { HTTPStatus } from '../types/enums.js'
 
 dotenv.config()
-
-// const dev = process.env.NODE_ENV == 'development'
 
 class UserService {
     model: typeof User
@@ -30,6 +28,10 @@ class UserService {
         return result
     }
 
+    async update(data: Record<string, unknown>, where: UpdateOptions) {
+        return await this.model.update(data, where)
+    }
+
     async getAll() {
         return (await this.model.findAll())
     }
@@ -39,7 +41,7 @@ class UserService {
         return result.id
     }
 
-    async login(email: string, password: string) {
+    async login(email: string, password: string, ip: string) {
         const results = await this.getByQuery({ where: { email } }, true)
         const user = results[0]
 
@@ -49,6 +51,17 @@ class UserService {
         const passwordComparison = comparePasswords(password, user.password)
         if (!passwordComparison)
             throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Неверный пароль')
+
+        const newData = {
+            lastLoginDate: new Date(),
+            lastLoginIP: ip
+        }
+        try {
+            await this.update(newData, { where: { id: user.id } })
+        }
+        catch (e) {
+            console.error(e)
+        }
 
         return user.id
     }

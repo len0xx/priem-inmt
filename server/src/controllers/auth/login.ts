@@ -8,7 +8,7 @@ export const login = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body
 
-        const userId = await userService.login(email, password)
+        const userId = await userService.login(email, password, req.ip)
 
         const token = jwt.sign(
             {

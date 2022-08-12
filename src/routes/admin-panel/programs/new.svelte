@@ -16,7 +16,7 @@
 
 <script lang="ts">
     import { imask } from 'svelte-imask'
-    import { Grid, AjaxForm, RoundButton, TipTap } from '$lib/components'
+    import { Grid, AjaxForm, RoundButton, TipTap } from '$components'
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000'

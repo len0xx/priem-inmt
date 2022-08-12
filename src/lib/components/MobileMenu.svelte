@@ -1,6 +1,6 @@
 <script lang="ts">
     import { fly } from 'svelte/transition'
-    import Icon from '$lib/components/Icon.svelte'
+    import { Icon } from '.'
 
     let visible = false
 

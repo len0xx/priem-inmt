@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ScrollToTop, Header, Link } from '$lib/components'
+    import { ScrollToTop, Header, Link } from '$components'
     import { page } from '$app/stores'
     
     // User authorization

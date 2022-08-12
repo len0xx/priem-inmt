@@ -8,7 +8,7 @@
         Heading,
         Graduate,
         Preloader
-    } from '$lib/components'
+    } from '$components'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
 
     let showPreloader = true

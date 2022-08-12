@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { Text, Heading } from '.'
-    import Icon from '$lib/components/Icon.svelte'
+    import { Icon, Text, Heading } from '.'
     import { slide } from 'svelte/transition'
 
     export let active = false

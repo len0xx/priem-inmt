@@ -77,7 +77,7 @@
 </script>
 
 <script lang="ts">
-    import { Grid, Card } from '$lib/components'
+    import { Grid, Card } from '$components'
 
     export let programs: any[]
 

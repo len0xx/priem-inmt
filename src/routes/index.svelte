@@ -19,7 +19,7 @@
         Preloader,
         VideoCard,
         RoundButton
-    } from '$lib/components'
+    } from '$components'
     import images1 from '$lib/images1'
     import images2 from '$lib/images2'
     import partners from '$lib/partners'

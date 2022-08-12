@@ -20,8 +20,7 @@
 </script>
 
 <script lang="ts">
-    import AjaxForm from '$lib/components/AjaxForm.svelte'
-    import Button from '$lib/components/Button.svelte'
+    import { Button, AjaxForm } from '$components'
     import { redirect } from '$lib/utilities'
 
     let success = false

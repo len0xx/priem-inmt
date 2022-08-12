@@ -1,7 +1,7 @@
 <script lang="ts">
     import { formEndpoint, modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { afterNavigate, beforeNavigate } from '$app/navigation'
-    import { Nav, Link, Modal, MobileMenu, Header, Heading, Rainbow, Text, Input, Icon, Button, Footer, AjaxForm, ScrollToTop } from '$lib/components'
+    import { Nav, Link, Modal, MobileMenu, Header, Heading, Rainbow, Text, Input, Icon, Button, Footer, AjaxForm, ScrollToTop } from '$components'
 
     let formSubmitted = false
     let formSuccess = false

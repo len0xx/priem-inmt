@@ -2,7 +2,7 @@
     import { onMount, createEventDispatcher } from 'svelte'
     import { fade, blur } from 'svelte/transition'
     import { clickOutside } from '$lib/actions'
-    import Icon from '$lib/components/Icon.svelte'
+    import { Icon } from '.'
     
     type Align = 'unset' | 'inherit' | 'initial' | 'left' | 'center' | 'right'
 

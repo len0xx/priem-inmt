@@ -56,7 +56,7 @@ export const create = async (req: Request, res: Response) => {
 
         const feedbacks = {}
 
-        for (let i = 1; i <= 5; i++) {
+        for (let i = 1; i <= 2; i++) {
             const name = requestData[`feedback_name${i}`]
             const caption = requestData[`feedback_caption${i}`]
             const text = requestData[`feedback_text${i}`]
@@ -71,7 +71,7 @@ export const create = async (req: Request, res: Response) => {
 
         const exams = {}
 
-        for (let i = 1; i <= 2; i++) {
+        for (let i = 1; i <= 5; i++) {
             const exam = requestData[`exam${i}`]
             const result = requestData[`result${i}`]
             if (exam !== undefined && result !== undefined) {

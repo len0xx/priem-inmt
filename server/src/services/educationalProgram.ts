@@ -18,6 +18,11 @@ class EducationalProgramService {
     async create(educationalProgram: EducationalProgramI) {
         return await this.model.create(educationalProgram)
     }
+
+    async edit(id: number, educationalProgram: EducationalProgramI) {
+        const program = await this.model.findByPk(id)
+        return await program.update(educationalProgram)
+    }
 }
 
 export default new EducationalProgramService()

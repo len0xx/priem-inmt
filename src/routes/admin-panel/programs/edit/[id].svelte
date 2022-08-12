@@ -4,10 +4,11 @@
 
     export const load: Load = async ({ fetch, params }) => {
         const programId = params.id
-        const res = await fetch(`/api/program/get/${programId}`)
+        const res = await fetch(`http://localhost:8080/api/program/get/${programId}`)
+        const programResult = (await res.json()).program
 
         if (res.ok) {
-            return { props: { program: await res.json() } }
+            return { props: { program: programResult } }
         }
     }
 </script>
@@ -20,43 +21,31 @@
         mask: '+{7}-(000)-000-0000',
     }
 
-    export let program: any // change to object type?
-    console.log(program)
+    export let program: any
 
     let feedbacksExpanded = false
-    let mode1 = true
-    let mode2 = false
-    let mode3 = false
+    let mode1 = Boolean(program.educationModes.fullTime)
+    let mode2 = Boolean(program.educationModes.partFullTime)
+    let mode3 = Boolean(program.educationModes.partTime)
     let degree = 'Бакалавриат'
-    let activeExams = [true, false, false, false, false]
-    let countExams = 1
+    let activeExams = [false, false, false, false, false]
 
-    const addExam = () => {
-        let active = 1
-        for (let i = 1; i < activeExams.length; i++) {
-            if (!activeExams[i]) {
-                activeExams[i] = true
-                active++
-                countExams = active
-                return
-            }
+    let exams = program.exams
 
-            active++
+    for (let i = 0; i < exams.length; i++) {
+        if (!activeExams[i]) {
+            activeExams[i] = true
         }
     }
 
-    const removeExam = () => {
-        let active = 5
-        for (let i = activeExams.length - 1; i >= 1; i--) {
-            if (activeExams[i]) {
-                activeExams[i] = false
-                active--
-                countExams = active
-                return
-            }
+    console.log(exams)
 
-            active--
-        }
+    const addExam = () => {
+        // TODO: Реализовать функцию
+    }
+
+    const removeExam = () => 
+        // TODO: Реализовать функцию
     }
 
     const handleSuccess = () => {
@@ -94,6 +83,7 @@
                         class="form-control wide"
                         type="text"
                         name="title"
+                        value={program.title}
                         required
                         placeholder="Конструирование и технология электронных средств"
                     />
@@ -150,7 +140,7 @@
                             type="number"
                             name="budget1"
                             placeholder="10"
-                            value="0"
+                            value={program.educationModes.fullTime.vacantSpots.budget}
                             required
                         />
                     {/if}
@@ -165,6 +155,7 @@
                             type="number"
                             name="budget2"
                             placeholder="10"
+                            value={program.educationModes.partFullTime.vacantSpots.budget}
                         />
                     {/if}
                 </div>
@@ -178,6 +169,7 @@
                             type="number"
                             name="budget3"
                             placeholder="10"
+                            value={program.educationModes.partTime.vacantSpots.budget}
                         />
                     {/if}
                 </div>
@@ -191,7 +183,7 @@
                             type="number"
                             name="contract1"
                             placeholder="10"
-                            value="0"
+                            value={program.educationModes.fullTime.vacantSpots.contract}
                             required
                         />
                     {/if}
@@ -206,6 +198,7 @@
                             type="number"
                             name="contract2"
                             placeholder="10"
+                            value={program.educationModes.partFullTime.vacantSpots.contract}
                         />
                     {/if}
                 </div>
@@ -219,6 +212,7 @@
                             type="number"
                             name="contract3"
                             placeholder="10"
+                            value={program.educationModes.partTime.vacantSpots.contract}
                         />
                     {/if}
                 </div>
@@ -230,6 +224,7 @@
                             type="text"
                             name="period1"
                             placeholder="2 года и 6 месяцев"
+                            value={program.educationModes.fullTime.duration}
                         />
                     {/if}
                 </div>
@@ -241,6 +236,7 @@
                             class="form-control wide"
                             type="text"
                             name="period2"
+                            value={program.educationModes.partFullTime.duration}
                         />
                     {/if}
                 </div>
@@ -252,6 +248,7 @@
                             class="form-control wide"
                             type="text"
                             name="period3"
+                            value={program.educationModes.partTime.duration}
                         />
                     {/if}
                 </div>
@@ -267,6 +264,7 @@
                             type="text"
                             name="price1"
                             placeholder="170 000"
+                            value={program.educationModes.fullTime.price}
                         />
                     {/if}
                 </div>
@@ -282,6 +280,7 @@
                             class="form-control wide"
                             type="text"
                             name="price2"
+                            value={program.educationModes.partFullTime.price}
                         />
                     {/if}
                 </div>
@@ -296,6 +295,7 @@
                             class="form-control wide"
                             type="text"
                             name="price3"
+                            value={program.educationModes.partTime.price}
                         />
                     {/if}
                 </div>
@@ -308,6 +308,7 @@
                             type="text"
                             name="language1"
                             placeholder="Русский, Английский"
+                            value={program.educationModes.fullTime.languages}
                         />
                     {/if}
                 </div>
@@ -321,6 +322,7 @@
                             type="text"
                             name="language2"
                             placeholder="Русский, Английский"
+                            value={program.educationModes.partFullTime.languages}
                         />
                     {/if}
                 </div>
@@ -333,6 +335,7 @@
                             type="text"
                             name="language3"
                             placeholder="Русский, Английский"
+                            value={program.educationModes.partTime.languages}
                         />
                     {/if}
                 </div>
@@ -340,13 +343,13 @@
                     <label for="directions"
                         >Направления подготовки (каждое с новой строки)</label
                     ><br />
-                    <textarea name="directions" cols="30" rows="4" />
+                    <textarea name="directions" cols="30" rows="4" value={program.directions} />
                 </div>
             </Grid>
             {#if degree != 'Магистратура'}
                 <h3>Экзамены</h3>
                 <Grid m={2}>
-                    {#each activeExams as exam, i}
+                    {#each exams as exam, i}
                         {#if exam}
                             <div>
                                 <label for="exam{i + 1}"
@@ -356,6 +359,7 @@
                                     class="form-control wide"
                                     type="text"
                                     name="exam{i + 1}"
+                                    value={exam.exam}
                                     required
                                 />
                             </div>
@@ -367,6 +371,7 @@
                                     class="form-control wide"
                                     type="text"
                                     name="result{i + 1}"
+                                    value={exam.result}
                                     required
                                 />
                             </div>
@@ -374,14 +379,14 @@
                     {/each}
                 </Grid>
                 <div class="buttons-row">
-                    {#if countExams < 5}
+                    {#if exams.length < 5}
                         <button
                             type="button"
                             on:click={addExam}
                             class="btn btn-primary">Добавить экзамен</button
                         >
                     {/if}
-                    {#if countExams > 1}
+                    {#if exams.length > 1}
                         <button
                             type="button"
                             on:click={removeExam}
@@ -398,6 +403,7 @@
                         class="form-control wide"
                         type="text"
                         name="teacher_name"
+                        value={program.teacher.name}
                         required
                     />
                 </div>
@@ -407,6 +413,7 @@
                         class="form-control wide"
                         type="text"
                         name="teacher_caption"
+                        value={program.teacher.caption}
                         required
                     />
                 </div>
@@ -418,6 +425,7 @@
                         type="text"
                         use:imask={phoneMask}
                         name="teacher_phone"
+                        value={program.teacher.phone}
                     />
                 </div>
                 <div>
@@ -426,13 +434,14 @@
                         class="form-control wide"
                         type="email"
                         name="teacher_email"
+                        value={program.teacher.email}
                     />
                 </div>
                 <div />
             </Grid>
             <h3>Описание программы</h3>
             <Grid m={2} ratio="2:1">
-                <TipTap name="text" />
+                <TipTap name="text" content={program.text} />
             </Grid>
             <h3>Отзывы</h3>
             <Grid m={2} ratio="1:2">

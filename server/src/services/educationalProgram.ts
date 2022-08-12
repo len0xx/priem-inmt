@@ -23,6 +23,11 @@ class EducationalProgramService {
         const program = await this.model.findByPk(id)
         return await program.update(educationalProgram)
     }
+
+    async remove(id: number) {
+        const program = await this.model.findByPk(id)
+        return await program.destroy()
+    }
 }
 
 export default new EducationalProgramService()

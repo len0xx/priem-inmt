@@ -4,11 +4,10 @@
 
     export const load: Load = async ({ fetch, params }) => {
         const programId = params.id
-        const res = await fetch(`/api/program/edit/${programId}`)
-        const program = (await res.json()).program
+        const res = await fetch(`/api/program/get/${programId}`)
 
         if (res.ok) {
-            return { props: { program: program } }
+            return { props: { program: await res.json() } }
         }
     }
 </script>
@@ -22,6 +21,7 @@
     }
 
     export let program: any // change to object type?
+    console.log(program)
 
     let feedbacksExpanded = false
     let mode1 = true
@@ -94,7 +94,6 @@
                         class="form-control wide"
                         type="text"
                         name="title"
-                        value={program.title}
                         required
                         placeholder="Конструирование и технология электронных средств"
                     />

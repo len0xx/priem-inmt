@@ -1,22 +1,6 @@
-<script context="module" lang="ts">
-    // import { sendNodeAJAX } from '../../../shared/utilities'
-    import type { Load } from '@sveltejs/kit'
-    
-    export const load: Load = ({ session }) => {
-        const loggedIn = !!(session.loggedIn)
-
-        if (!loggedIn) {
-            return {
-                status: 302,
-                redirect: '/admin-panel/auth/login'
-            }
-        }
-    }
-</script>
-
 <script lang="ts">
     import { imask } from 'svelte-imask'
-    import { Grid, AjaxForm, RoundButton, TipTap } from '$lib/components'
+    import { Grid, AjaxForm, RoundButton, TipTap } from '$components'
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000'

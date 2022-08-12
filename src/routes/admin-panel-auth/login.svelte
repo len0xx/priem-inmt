@@ -2,15 +2,6 @@
     import type { Load } from '@sveltejs/kit'
 
     export const load: Load = async ({ session }) => {
-        const loggedIn = session.loggedIn
-
-        if (loggedIn) {
-            return {
-                status: 302,
-                redirect: '/admin-panel'
-            }
-        }
-
         return {
             props: {
                 csrfToken: session.csrf
@@ -20,9 +11,9 @@
 </script>
 
 <script lang="ts">
-    import AjaxForm from '$lib/components/AjaxForm.svelte'
-    import Button from '$lib/components/Button.svelte'
+    import { Button, AjaxForm } from '$components'
     import { redirect } from '$lib/utilities'
+    import { slide } from 'svelte/transition'
 
     let success = false
     let errorText = ''
@@ -45,11 +36,11 @@
 
 <div class="white-block authorization-block">
     <h2>Войдите в свой аккаунт</h2>
-    <AjaxForm action="/api/auth/login" method="POST" on:success={handleSuccess} on:error={handleError} {csrfToken}>
+    <AjaxForm action="/api/auth/login" method="POST" on:success={ handleSuccess } on:error={ handleError } {csrfToken}>
         { #if success }
-            <p class="success">Вход успешен</p>
+            <p transition:slide={{ duration: 200 }} class="success">Вход успешен</p>
         { :else if errorText }
-            <p class="error">{ errorText }</p>
+            <p transition:slide={{ duration: 200 }} class="error">{ errorText }</p>
         {/if }
         <label for="email">Email:</label><br>
         <input class="form-control" type="email" name="email" required><br>

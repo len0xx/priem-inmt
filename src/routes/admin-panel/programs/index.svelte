@@ -2,16 +2,7 @@
     // import { sendNodeAJAX } from '../../../shared/utilities'
     import type { Load } from '@sveltejs/kit'
     
-    export const load: Load = ({ session }) => {
-        const loggedIn = !!(session.loggedIn)
-
-        if (!loggedIn) {
-            return {
-                status: 302,
-                redirect: '/admin-panel/auth/login'
-            }
-        }
-
+    export const load: Load = () => {
         return {
             props: {
                 programs: [{
@@ -77,7 +68,7 @@
 </script>
 
 <script lang="ts">
-    import { Grid, Card } from '$lib/components'
+    import { Grid, Card } from '$components'
 
     export let programs: any[]
 

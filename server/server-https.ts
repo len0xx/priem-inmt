@@ -6,16 +6,16 @@ import helmet from 'helmet'
 import express from 'express'
 import db from './db.js'
 import authRouter from './src/routes/auth.js'
-import { authenticate } from './src/middlewares.js'
+import { authenticate, redirectLogout, requireAuthorized, requireUnauthorized } from './src/middlewares.js'
 
 import { handler as SvelteKitHandler } from '../build/handler.js'
 
-// Environment variables
+// Импортируем переменные среды окружения
 dotenv.config()
 const { APP_PORT, APP_IP, NODE_ENV } = process.env
 const dev = NODE_ENV === 'development';
 
-// Database connection
+// Подключаемся к БД
 (async () => {
     try {
         await db.authenticate()
@@ -29,17 +29,17 @@ const dev = NODE_ENV === 'development';
     }
 })()
 
-// Express application
+// Создаём приложение Express
 const app = express()
 app.disable('x-powered-by')
 
-// Cookies, JSON and URLEncoded form requests support
+// Поддержка Cookie и стандартных способов отправки форм
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Helmet middleware for protection headers
-// ! It's not fully tested yet and might break something
+// Helmet middleware для заголовков безопасности
+// ! Использование этого middleware до сих пор не проверено до конца и может сломать что-нибудь
 app.use(helmet.crossOriginEmbedderPolicy())
 app.use(helmet.crossOriginOpenerPolicy())
 app.use(helmet.crossOriginResourcePolicy())
@@ -55,12 +55,19 @@ app.use(helmet.permittedCrossDomainPolicies())
 app.use(helmet.referrerPolicy())
 app.use(helmet.xssFilter())
 
-// Authentication middleware should run before all the routes
+// Middleware для авторизации пользователя
 app.use('*', authenticate)
+
+// Защищаем пути к панели администрирования от неавторизованных пользователей
+app.use('/admin-panel', requireAuthorized)
+app.use('/admin-panel/*', requireAuthorized)
+app.use('/admin-panel-auth/logout', redirectLogout)
+app.use('/admin-panel-auth/*', requireUnauthorized)
 
 // Express routes
 app.use('/api/auth', authRouter)
 
+// Обработчик SvelteKit
 app.use(SvelteKitHandler)
 
 const options = {
@@ -68,5 +75,5 @@ const options = {
     cert: fs.readFileSync('/etc/letsencrypt/live/inmt-priem.urfu.ru/fullchain.pem')
 }
 
-// Use the SSL certificate
+// Запускаем сервер с использование SSL сертификата
 https.createServer(options, app).listen(+APP_PORT, APP_IP, () => console.log('Server runs on ' + APP_IP + ':' + APP_PORT))

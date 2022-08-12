@@ -9,7 +9,7 @@
 </script> -->
 
 <script lang="ts">
-    import { ScrollToTop, Header, Link } from '$lib/components'
+    import { ScrollToTop, Header, Link } from '$components'
 
     // export let info: string
 

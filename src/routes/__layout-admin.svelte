@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ScrollToTop, Header, Link } from '$lib/components'
+    import { ScrollToTop, Header, Link } from '$components'
     import { page } from '$app/stores'
     
     // User authorization
@@ -33,7 +33,7 @@
                 <div class="align-right">
                     { #if user }
                         Добро пожаловать, { user.firstName } <br />
-                        <a href="/admin-panel/auth/logout">Выйти</a>
+                        <a href="/admin-panel-auth/logout">Выйти</a>
                     { /if }
                 </div>
             </div>

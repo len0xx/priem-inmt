@@ -8,16 +8,16 @@ import authRouter from './src/routes/auth.js'
 import infoRouter from './src/routes/admin/info.js'
 // import featureRouter from './src/routes/feature.js'
 import programRouter from './src/routes/program.js'
-import { authenticate } from './src/middlewares.js'
+import { authenticate, redirectLogout, requireAuthorized, requireUnauthorized } from './src/middlewares.js'
 
 import { handler as SvelteKitHandler } from '../build/handler.js'
 
-// Environment variables
+// Импортируем переменные среды окружения
 dotenv.config()
 const { APP_PORT, APP_IP, NODE_ENV } = process.env
 const dev = NODE_ENV === 'development';
 
-// Database connection
+// Подключаемся к БД
 (async () => {
     try {
         await db.authenticate()
@@ -31,17 +31,17 @@ const dev = NODE_ENV === 'development';
     }
 })()
 
-// Express application
+// Создаём приложение Express
 const app = express()
 app.disable('x-powered-by')
 
-// Cookies, JSON and URLEncoded form requests support
+// Поддержка Cookie и стандартных способов отправки форм
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Helmet middleware for protection headers
-// ! It's not fully tested yet and might break something
+// Helmet middleware для заголовков безопасности
+// ! Использование этого middleware до сих пор не проверено до конца и может сломать что-нибудь
 app.use(helmet.crossOriginEmbedderPolicy())
 app.use(helmet.crossOriginOpenerPolicy())
 app.use(helmet.crossOriginResourcePolicy())
@@ -57,8 +57,14 @@ app.use(helmet.permittedCrossDomainPolicies())
 app.use(helmet.referrerPolicy())
 app.use(helmet.xssFilter())
 
-// Authentication middleware should run before all the routes
+// Middleware для авторизации пользователя
 app.use('*', authenticate)
+
+// Защищаем пути к панели администрирования от неавторизованных пользователей
+app.use('/admin-panel', requireAuthorized)
+app.use('/admin-panel/*', requireAuthorized)
+app.use('/admin-panel-auth/logout', redirectLogout)
+app.use('/admin-panel-auth/*', requireUnauthorized)
 
 // Express routes
 app.use('/api/auth', authRouter)
@@ -67,6 +73,7 @@ app.use('/api/admin/info', infoRouter)
 // app.use('/feature', featureRouter)
 app.use('/api/program', programRouter)
 
+// Обработчик SvelteKit
 app.use(SvelteKitHandler)
 
 app.listen(+APP_PORT, APP_IP, () => console.log('Server runs on ' + APP_IP + ':' + APP_PORT))

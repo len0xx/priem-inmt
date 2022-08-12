@@ -12,7 +12,7 @@
         Graduate,
         Document,
         Preloader
-    } from '$lib/components'
+    } from '$components'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import documents from '$lib/documents2'
 

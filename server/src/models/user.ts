@@ -14,6 +14,8 @@ class User extends Model<InferAttributes<User, { omit: 'id' }>, InferCreationAtt
     declare email: string
     declare password: string
     declare role?: Role
+    declare lastLoginIP?: string
+    declare lastLoginDate?: Date
 }
 
 export type UserI = InferAttributes<User, { omit: 'id' }>
@@ -95,6 +97,17 @@ User.init(
                     msg: 'Role value does not suit the Role type'
                 }
             }
+        },
+        lastLoginIP: {
+            type: DataTypes.STRING,
+            validate: {
+                isIP: {
+                    msg: 'Введён некорректный IP адрес'
+                }
+            }
+        },
+        lastLoginDate: {
+            type: DataTypes.DATE
         }
     },
     {

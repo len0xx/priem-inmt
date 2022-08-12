@@ -10,8 +10,9 @@ interface TeacherI {
     email: string
 }
 
-export const create = async (req: Request, res: Response) => {
+export const edit = async (req: Request, res: Response) => {
     try {
+        const id = +req.params.id
         const requestData = req.body
         const { title, degree, text } = req.body
 
@@ -82,7 +83,7 @@ export const create = async (req: Request, res: Response) => {
             }
         }
 
-        await educationalProgramService.create({
+        await educationalProgramService.edit(id,{
             title: title,
             degree: degree,
             educationModes: educationModes,
@@ -92,7 +93,7 @@ export const create = async (req: Request, res: Response) => {
             text: text,
             feedbacks: feedbacks,
         })
-        return new HTTPResponse(res, HTTPStatus.CREATED, 'Образовательная программа успешно создана')
+        return new HTTPResponse(res, HTTPStatus.CREATED, 'Образовательная программа успешно обновлена')
     }
     catch (err) {
         console.error(err)

@@ -3,15 +3,6 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = ({ session }) => {
-        const loggedIn = !!(session.loggedIn)
-
-        if (!loggedIn) {
-            return {
-                status: 302,
-                redirect: '/admin-panel/auth/login'
-            }
-        }
-
         // const basicInfo = await sendNodeAJAX(
         //     `http://${url.hostname}/api/info`,
         //     'GET',

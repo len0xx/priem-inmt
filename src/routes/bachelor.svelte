@@ -26,7 +26,7 @@
         ProgramCard,
         SelectButton,
         ScrollingPhoto,
-    } from '$lib/components'
+    } from '$components'
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
     import programs, { type EducationMode, type Program } from '$lib/programs'
     import images from '$lib/images3'

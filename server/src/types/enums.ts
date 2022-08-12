@@ -25,7 +25,6 @@ export enum HTTPStatus {
     HTTP_VERSION_NOT_SUPPORTED = 505
 }
 
-
 export enum DegreeLevel {
     BACHELOR = 'Бакалавриат',
     SPECIALIST = 'Специалитет',

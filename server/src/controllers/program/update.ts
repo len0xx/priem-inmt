@@ -1,14 +1,8 @@
 import educationalProgramService from '../../services/educationalProgram.js'
 import { getErrorDetails, HTTPResponse } from '../../utilities.js'
-import type { Request, Response } from 'express'
 import { HTTPStatus } from '../../types/enums.js'
-
-interface TeacherI {
-    name: string,
-    caption: string,
-    phone: string,
-    email: string
-}
+import type { Request, Response } from 'express'
+import type { TeacherI, EducationModesI } from '../../models/educationalProgram'
 
 export const update = async (req: Request, res: Response) => {
     try {
@@ -16,9 +10,9 @@ export const update = async (req: Request, res: Response) => {
         const requestData = req.body
         const { title, degree, text } = req.body
 
-        const directions = (req.body.directions).split('\n')
+        const directions: string[] = (req.body.directions).split('\n')
 
-        const educationModes = {
+        const educationModes: EducationModesI = {
             fullTime: {
                 price: requestData.price1,
                 duration: requestData.period1,
@@ -55,7 +49,7 @@ export const update = async (req: Request, res: Response) => {
             email: requestData.teacher_email
         }
 
-        const feedbacks = {}
+        const feedbacks = []
 
         for (let i = 1; i <= 2; i++) {
             const name = requestData[`feedback_name${i}`]
@@ -70,14 +64,14 @@ export const update = async (req: Request, res: Response) => {
             }
         }
 
-        const exams = {}
+        const exams = []
 
         for (let i = 1; i <= 5; i++) {
             const exam = requestData[`exam${i}`]
             const result = requestData[`result${i}`]
             if (exam !== undefined && result !== undefined) {
                 exams[i - 1] = {
-                    exam: exam,
+                    title: exam,
                     result: result,
                 }
             }

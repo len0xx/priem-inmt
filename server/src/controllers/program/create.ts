@@ -2,6 +2,7 @@ import educationalProgramService from '../../services/educationalProgram.js'
 import { getErrorDetails, HTTPResponse } from '../../utilities.js'
 import type { Request, Response } from 'express'
 import { HTTPStatus } from '../../types/enums.js'
+import type { EducationModesI } from '../../models/educationalProgram.js'
 
 interface TeacherI {
     name: string,
@@ -16,7 +17,7 @@ export const create = async (req: Request, res: Response) => {
         const { title, degree, text, mode1, mode2, mode3 } = req.body
 
         const directions = (req.body.directions).split('\n')
-        const educationModes = {}
+        const educationModes: EducationModesI = {}
 
         if (mode1) {
             educationModes['fullTime'] = {
@@ -61,7 +62,7 @@ export const create = async (req: Request, res: Response) => {
             email: requestData.teacher_email
         }
 
-        const feedbacks = {}
+        const feedbacks = []
 
         for (let i = 1; i <= 2; i++) {
             const name = requestData[`feedback_name${i}`]
@@ -76,7 +77,7 @@ export const create = async (req: Request, res: Response) => {
             }
         }
 
-        const exams = {}
+        const exams = []
 
         for (let i = 1; i <= 5; i++) {
             const exam = requestData[`exam${i}`]

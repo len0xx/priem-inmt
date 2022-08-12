@@ -16,18 +16,20 @@
 <script lang="ts">
     import { imask } from 'svelte-imask'
     import { Grid, AjaxForm, RoundButton, TipTap } from '$lib/components'
+    import { DegreeLevel } from '../../../../types/enums'
+    import type { EducationalProgram } from '../../../../types'
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000',
     }
 
-    export let program: any
+    export let program: EducationalProgram
 
     let feedbacksExpanded = false
     let mode1 = Boolean(program.educationModes.fullTime)
     let mode2 = Boolean(program.educationModes.partFullTime)
     let mode3 = Boolean(program.educationModes.partTime)
-    let degree = 'Бакалавриат'
+    let degree = DegreeLevel.BACHELOR
     let activeExams = [false, false, false, false, false]
 
     let exams = program.exams
@@ -359,7 +361,7 @@
                                     class="form-control wide"
                                     type="text"
                                     name="exam{i + 1}"
-                                    value={exam.exam}
+                                    value={exam.title}
                                     required
                                 />
                             </div>

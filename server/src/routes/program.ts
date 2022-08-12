@@ -7,7 +7,7 @@ import { edit } from '../controllers/program/edit.js'
 const router = Router() // eslint-disable-line new-cap
 
 router.post('/create', create)
-router.post('/remove/:id', remove)
+router.post('/delete/:id', remove)
 router.get('/get/:id', get)
 router.post('/edit/:id', edit)
 

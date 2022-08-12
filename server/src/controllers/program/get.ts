@@ -7,6 +7,8 @@ export const get = async (req: Request, res: Response) => {
     try {
         const id = +req.params.id
         const program = await educationalProgramService.get(id)
+        // const directions = (Object.values(program.directions)).join('\n')
+        // program.directions = JSON.parse(directions)
 
         return new HTTPResponse(res, HTTPStatus.SUCCESS, { program })
     }

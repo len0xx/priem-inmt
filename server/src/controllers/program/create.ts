@@ -13,12 +13,13 @@ interface TeacherI {
 export const create = async (req: Request, res: Response) => {
     try {
         const requestData = req.body
-        const { title, degree, text } = req.body
+        const { title, degree, text, mode1, mode2, mode3 } = req.body
 
         const directions = (req.body.directions).split('\n')
+        const educationModes = {}
 
-        const educationModes = {
-            fullTime: {
+        if (mode1) {
+            educationModes['fullTime'] = {
                 price: requestData.price1,
                 duration: requestData.period1,
                 languages: requestData.language1,
@@ -26,8 +27,11 @@ export const create = async (req: Request, res: Response) => {
                     budget: requestData.budget1,
                     contract: requestData.contract1
                 },
-            },
-            partTime: {
+            }
+        }
+
+        if (mode2) {
+            educationModes['partTime'] = {
                 price: requestData.price2,
                 duration: requestData.period2,
                 languages: requestData.language2,
@@ -35,8 +39,11 @@ export const create = async (req: Request, res: Response) => {
                     budget: requestData.budget2,
                     contract: requestData.contract2
                 },
-            },
-            partFullTime: {
+            }
+        }
+
+        if (mode3) {
+            educationModes['partFullTime'] = {
                 price: requestData.price3,
                 duration: requestData.period3,
                 languages: requestData.language3,

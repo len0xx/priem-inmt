@@ -20,9 +20,7 @@
         // )
 
         return {
-            props: {
-                user: session.user
-            }
+            props: {}
         }
     }
 </script>
@@ -45,31 +43,31 @@
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Контактный номер телефона:</span><br />
-                    <input class="form-control" type="tel" name="contact-phone" id="contact-phone" />
+                    <input class="form-control" type="tel" name="tel" id="tel" />
                 </label>
                 <label>
                     <span class="caption">Контактный адрес электронной почты:</span><br />
-                    <input class="form-control" type="email" name="contact-email" id="contact-email"
+                    <input class="form-control" type="email" name="email" id="email"
                         placeholder="contact@urfu.ru" />
                 </label>
                 <label>
                     <span class="caption">Дирекция института:</span><br />
-                    <input class="form-control" type="text" name="direction" id="direction"
+                    <input class="form-control" type="text" name="directorateAddress" id="directorateAddress"
                         placeholder="г. Екатеринбург, ул. Софьи Ковалевской, 5" />
                 </label>
                 <label>
                     <span class="caption">Приёмная комиссия:</span><br />
-                    <input class="form-control" type="text" name="priem" id="priem"
+                    <input class="form-control" type="text" name="admissionsAddress" id="admissionsAddress"
                         placeholder="г. Екатеринбург, ул. Мира, 19" />
                 </label>
                 <label>
                     <span class="caption">Ссылка ВКонтакте:</span><br />
-                    <input class="form-control" type="text" name="vk" id="vk"
+                    <input class="form-control" type="text" name="vkUrl" id="vkUrl"
                         placeholder="https://vk.com/ural.federal.university" />
                 </label>
                 <label>
                     <span class="caption">Ссылка Telegram:</span><br />
-                    <input class="form-control" type="text" name="telegram" id="telegram"
+                    <input class="form-control" type="text" name="tgUrl" id="tgUrl"
                         placeholder="https://t.me/urfu" />
                 </label>
             </div>

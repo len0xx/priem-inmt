@@ -10,7 +10,7 @@ interface TeacherI {
     email: string
 }
 
-export const edit = async (req: Request, res: Response) => {
+export const update = async (req: Request, res: Response) => {
     try {
         const id = +req.params.id
         const requestData = req.body
@@ -83,7 +83,7 @@ export const edit = async (req: Request, res: Response) => {
             }
         }
 
-        await educationalProgramService.edit(id,{
+        await educationalProgramService.update(id,{
             title: title,
             degree: degree,
             educationModes: educationModes,

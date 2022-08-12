@@ -19,12 +19,12 @@ class EducationalProgramService {
         return await this.model.create(educationalProgram)
     }
 
-    async edit(id: number, educationalProgram: EducationalProgramI) {
+    async update(id: number, educationalProgram: EducationalProgramI) {
         const program = await this.model.findByPk(id)
         return await program.update(educationalProgram)
     }
 
-    async remove(id: number) {
+    async delete(id: number) {
         const program = await this.model.findByPk(id)
         return await program.destroy()
     }

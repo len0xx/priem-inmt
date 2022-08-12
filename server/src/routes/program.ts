@@ -1,14 +1,14 @@
 import { Router } from 'express'
 import { create } from '../controllers/program/create.js'
-import { remove } from '../controllers/program/remove.js'
+import { del } from '../controllers/program/delete.js'
 import { get } from '../controllers/program/get.js'
-import { edit } from '../controllers/program/edit.js'
+import { update } from '../controllers/program/update.js'
 
 const router = Router() // eslint-disable-line new-cap
 
 router.post('/create', create)
-router.post('/delete/:id', remove)
+router.post('/delete/:id', del)
 router.get('/get/:id', get)
-router.post('/edit/:id', edit)
+router.post('/update/:id', update)
 
 export default router

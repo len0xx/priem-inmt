@@ -44,7 +44,7 @@
         // TODO: Реализовать функцию
     }
 
-    const removeExam = () => 
+    const removeExam = () => {
         // TODO: Реализовать функцию
     }
 

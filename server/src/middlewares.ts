@@ -3,6 +3,8 @@ import dotenv from 'dotenv'
 import userService from './services/user.js'
 import type { Response, NextFunction } from 'express'
 import type { CustomRequest } from './types'
+import { HTTPResponse } from './utilities.js'
+import { HTTPStatus } from './types/enums.js'
 
 dotenv.config()
 
@@ -16,3 +18,22 @@ export const authenticate = async (req: CustomRequest, _: Response, next: NextFu
     }
     next()
 }
+
+// Если пользователь не авторизован – перенаправляем его на страницу входа
+export const requireAuthorized = async (req: CustomRequest, res: Response, next: NextFunction) => {
+    if (!(req.user && req.user.email))
+        return new HTTPResponse(res, HTTPStatus.MOVED, '/admin-panel-auth/login')
+
+    next()
+}
+
+// Если пользователь авторизован – перенаправляем его на главную
+export const requireUnauthorized = async (req: CustomRequest, res: Response, next: NextFunction) => {
+    if (req.user && req.user.email)
+        return new HTTPResponse(res, HTTPStatus.MOVED, '/admin-panel')
+
+    next()
+}
+
+// Перенаправляем пользователя с /admin-panel-auth/logout на /api/auth/logout
+export const redirectLogout = async (_: CustomRequest, res: Response) => new HTTPResponse(res, HTTPStatus.MOVED, '/api/auth/logout')

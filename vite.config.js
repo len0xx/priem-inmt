@@ -5,8 +5,7 @@ const config = {
     plugins: [sveltekit()],
     resolve: {
         alias: {
-            '$components': 'src/lib/components/index.ts',
-            '$components/*': 'src/lib/components/*'
+            '$components': 'src/lib/components/index.ts'
         }
     },
     optimizeDeps: {

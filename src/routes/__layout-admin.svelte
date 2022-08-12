@@ -33,7 +33,7 @@
                 <div class="align-right">
                     { #if user }
                         Добро пожаловать, { user.firstName } <br />
-                        <a href="/admin-panel/auth/logout">Выйти</a>
+                        <a href="/admin-panel-auth/logout">Выйти</a>
                     { /if }
                 </div>
             </div>

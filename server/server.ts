@@ -3,12 +3,12 @@ import dotenv from 'dotenv'
 import helmet from 'helmet'
 import express from 'express'
 import db from './db.js'
-// import testRouter from './src/routes/test.js'
 import authRouter from './src/routes/auth.js'
 import infoRouter from './src/routes/admin/info.js'
+import postRouter from './src/routes/admin/post.js'
 // import featureRouter from './src/routes/feature.js'
 import programRouter from './src/routes/program.js'
-import { authenticate, redirectLogout, requireAuthorized, requireUnauthorized } from './src/middlewares.js'
+import { authorize, redirectLogout, requireAuthorization, requireUnauthorized } from './src/middlewares.js'
 
 import { handler as SvelteKitHandler } from '../build/handler.js'
 
@@ -58,17 +58,18 @@ app.use(helmet.referrerPolicy())
 app.use(helmet.xssFilter())
 
 // Middleware для авторизации пользователя
-app.use('*', authenticate)
+app.use('*', authorize)
 
 // Защищаем пути к панели администрирования от неавторизованных пользователей
-app.use('/admin-panel', requireAuthorized)
-app.use('/admin-panel/*', requireAuthorized)
+app.use('/admin-panel', requireAuthorization('redirect'))
+app.use('/admin-panel/*', requireAuthorization('redirect'))
 app.use('/admin-panel-auth/logout', redirectLogout)
 app.use('/admin-panel-auth/*', requireUnauthorized)
 
 // Express routes
 app.use('/api/auth', authRouter)
 app.use('/api/admin/info', infoRouter)
+app.use('/api/admin/post', postRouter)
 // app.use('/test', testRouter)
 // app.use('/feature', featureRouter)
 app.use('/api/program', programRouter)

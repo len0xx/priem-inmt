@@ -1,11 +1,7 @@
 import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
 import sequelize from '../../db.js'
 import { hashPassword } from '../utilities.js'
-
-enum Role {
-    User = 'user',
-    Admin = 'admin'
-}
+import { Role } from '../types/enums.js'
 
 class User extends Model<InferAttributes<User, { omit: 'id' }>, InferCreationAttributes<User>> {
     declare id?: number

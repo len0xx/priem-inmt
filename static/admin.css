@@ -18,10 +18,6 @@ main {
     background-color: #E9E9E9;
 }
 
-input:not([type="checkbox"]) {
-    width: 100%;
-}
-
 label + input[type="checkbox"] {
     margin-left: 1em;
 }
@@ -75,7 +71,6 @@ section.main-content {
 }
 
 textarea.form-control {
-    border: 1px solid rgb(100, 130, 200);
     min-width: 300px;
 }
 

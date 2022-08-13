@@ -1,28 +1,5 @@
-<script context="module" lang="ts">
-    // import { sendNodeAJAX } from '../../../shared/utilities'
-    import type { Load } from '@sveltejs/kit'
-    
-    export const load: Load = () => {
-        // const basicInfo = await sendNodeAJAX(
-        //     `http://${url.hostname}/api/info`,
-        //     'GET',
-        //     { csrf: session.csrfToken },
-        //     { cookie: `csrf=${session.csrfToken}` }
-        // )
-
-        return {
-            props: {}
-        }
-    }
-</script>
-
-<script lang="ts">
-    // export let user = undefined
-    // export let info = {}
-</script>
-
 <svelte:head>
-    <title>Панель администратора</title>
+    <title>ИНМТ – Панель администратора</title>
 </svelte:head>
 
 <section class="main-content">

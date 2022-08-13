@@ -124,7 +124,6 @@ export function sendWindowAJAX(
         if (callbackError) callbackError(
             (jqXHR.responseJSON && jqXHR.responseJSON.error) ? jqXHR.responseJSON.error : jqXHR.responseText
         )
-        // console.error(jqXHR)
     })
 }
 
@@ -189,7 +188,7 @@ export function sortByPrice(a: Program, b: Program): number {
     return 0
 }
 
-export const range = (start: number, end: number) => {
+export const range = (start: number, end: number): number[] => {
     const result = []
     for (let i = start; i <= end; i++) {
         result.push(i)
@@ -197,7 +196,7 @@ export const range = (start: number, end: number) => {
     return result
 }
 
-export const getSequentialPartialIndexes = (arr: Array<unknown>, size: number): Array<Array<number>> => {
+export const getSequentialPartialIndexes = <T>(arr: T[], size: number): number[][] => {
     const result = []
     let i = 0
     while (i < arr.length) {

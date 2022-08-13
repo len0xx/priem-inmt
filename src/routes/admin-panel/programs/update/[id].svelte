@@ -18,6 +18,7 @@
     import { Grid, AjaxForm, RoundButton, TipTap } from '$lib/components'
     import { DegreeLevel } from '../../../../types/enums'
     import type { EducationalProgram } from '../../../../types'
+import { redirect } from '$lib/utilities'
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000',
@@ -49,9 +50,25 @@
             return
         }
     }
+
     const removeExam = () => {
         exams[examsCount - 1] = undefined
         examsCount --
+    }
+
+    const removeProgram = async () => {
+        /* eslint-disable no-alert */
+        let isRemove = confirm('Подтвердите удаление образвательной программы')
+        if (isRemove) {
+            const res = await fetch(`http://localhost:8080/api/program/delete/${program.id}`, { method: 'DELETE' })
+            if (res.ok) {
+                /* eslint-disable no-alert */
+                const redirectConfirm = confirm('Программа удалена')
+                if (redirectConfirm) {
+                    redirect('/admin-panel/programs')
+                }
+            }
+        }
     }
 
     const handleSuccess = () => {
@@ -515,6 +532,7 @@
             <br />
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
+                <button type="button" on:click={removeProgram} class="btn btn-danger">Удалить</button>
             </div>
         </AjaxForm>
     </div>

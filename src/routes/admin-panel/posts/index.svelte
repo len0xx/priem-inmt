@@ -99,6 +99,7 @@
                         <h4 class="card-title">{ post.title }</h4>
                         <p class="card-text">{ post.text }</p>
                         <a href="/admin-panel/posts/update/{ post.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                        <button class="btn btn-outline-danger btn-sm">Удалить</button>
                     </div>
                 </div>
             { /each }

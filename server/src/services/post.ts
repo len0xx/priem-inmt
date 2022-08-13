@@ -11,6 +11,10 @@ class PostService {
         return await this.model.findByPk(id)
     }
 
+    async delete(id: number) {
+        return await this.model.destroy({ where: { id } })
+    }
+
     async getAll() {
         return await this.model.findAll()
     }

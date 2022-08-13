@@ -349,11 +349,7 @@
                     <label for="directions"
                         >Направления подготовки (каждое с новой строки)</label
                     ><br />
-<<<<<<< HEAD
                     <textarea name="directions" cols="30" rows="4" value={directions} />
-=======
-                    <textarea class="form-control" name="directions" cols="30" rows="4" value={program.directions} />
->>>>>>> 351fe3844a320905b03be684318ec3381bfda518
                 </div>
             </Grid>
             {#if degree != DegreeLevel.MASTER}

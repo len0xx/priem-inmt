@@ -197,7 +197,7 @@ export const range = (start: number, end: number) => {
     return result
 }
 
-export const getSequentialPartialIndexes = (arr: Array<unknown>, size: number): Array<Array<number>> => {
+export const getSequentialPartialIndexes = <T>(arr: T[], size: number): number[][] => {
     const result = []
     let i = 0
     while (i < arr.length) {

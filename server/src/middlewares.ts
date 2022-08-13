@@ -32,7 +32,7 @@ export const requireAuthorization = (response: 'redirect' | 'text' = 'text') => 
     return (req: CustomRequest, res: Response, next: NextFunction) => {
         if (!(req.user && req.user instanceof User && req.user.role === requiredRole))
             return new HTTPResponse(res, status, payload)
-    
+
         next()
     }
 }

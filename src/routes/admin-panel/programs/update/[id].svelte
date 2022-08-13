@@ -349,7 +349,7 @@
                     <label for="directions"
                         >Направления подготовки (каждое с новой строки)</label
                     ><br />
-                    <textarea name="directions" cols="30" rows="4" value={directions} />
+                    <textarea class="form-control" name="directions" cols="30" rows="4" value={directions} />
                 </div>
             </Grid>
             {#if degree != DegreeLevel.MASTER}
@@ -474,17 +474,9 @@
                     </div>
                     <div>
                         <label for="feedback_text{i + 1}">Текст отзыва</label><br />
-                        <textarea name="feedback_text{i + 1}" cols="30" rows="10" value={feedback.text} />
+                        <textarea class="form-control" name="feedback_text{i + 1}" cols="30" rows="10">{feedback.text}</textarea>
                     </div>
-<<<<<<< HEAD
                 {/each}
-=======
-                </div>
-                <div>
-                    <label for="feedback_text1">Текст отзыва</label><br />
-                    <textarea class="form-control" name="feedback_text1" cols="30" rows="10" />
-                </div>
->>>>>>> 351fe3844a320905b03be684318ec3381bfda518
             </Grid>
             {#if feedbacksExpanded}
                 <Grid m={2} ratio="1:2">

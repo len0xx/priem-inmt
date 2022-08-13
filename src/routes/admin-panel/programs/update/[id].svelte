@@ -33,17 +33,21 @@
     let activeExams = [false, false, false, false, false]
 
     let exams = program.exams
+    let examsCount = Object.keys(exams).length
 
-    for (let i = 0; i < exams.length; i++) {
+    for (let i = 0; i < examsCount; i++) {
         if (!activeExams[i]) {
             activeExams[i] = true
         }
     }
 
-    console.log(exams)
-
     const addExam = () => {
-        // TODO: Реализовать функцию
+        // for (let i = examsCount - 1; i < activeExams.length; i++) {
+        //     if (!activeExams[i]) {
+        //         activeExams[i] = true
+        //         return
+        //     }
+        // }
     }
 
     const removeExam = () => {
@@ -351,7 +355,7 @@
             {#if degree != 'Магистратура'}
                 <h3>Экзамены</h3>
                 <Grid m={2}>
-                    {#each exams as exam, i}
+                    {#each Object.entries(exams) as [i, exam]}
                         {#if exam}
                             <div>
                                 <label for="exam{i + 1}"
@@ -381,14 +385,14 @@
                     {/each}
                 </Grid>
                 <div class="buttons-row">
-                    {#if exams.length < 5}
+                    {#if examsCount < 5}
                         <button
                             type="button"
                             on:click={addExam}
                             class="btn btn-primary">Добавить экзамен</button
                         >
                     {/if}
-                    {#if exams.length > 1}
+                    {#if examsCount > 1}
                         <button
                             type="button"
                             on:click={removeExam}

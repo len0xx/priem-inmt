@@ -4,7 +4,7 @@
 
     export const load: Load = async ({ fetch, params }) => {
         const programId = params.id
-        const res = await fetch(`http://localhost:8080/api/program/get/${programId}`)
+        const res = await fetch(`http://localhost:8080/api/program/${programId}`)
         const programResult = (await res.json()).program
 
         if (res.ok) {
@@ -60,7 +60,7 @@ import { redirect } from '$lib/utilities'
         /* eslint-disable no-alert */
         let isRemove = confirm('Подтвердите удаление образвательной программы')
         if (isRemove) {
-            const res = await fetch(`http://localhost:8080/api/program/delete/${program.id}`, { method: 'DELETE' })
+            const res = await fetch(`http://localhost:8080/api/program/${program.id}`, { method: 'DELETE' })
             if (res.ok) {
                 /* eslint-disable no-alert */
                 const redirectConfirm = confirm('Программа удалена')
@@ -92,8 +92,8 @@ import { redirect } from '$lib/utilities'
     <div class="white-block-wide">
         <h2>Редактирование образовательной программы</h2>
         <AjaxForm
-            method="POST"
-            action="/api/program/update/{program.id}"
+            method="PATCH"
+            action="/api/program/{program.id}"
             noReset={false}
             on:success={handleSuccess}
             on:error={handleError}

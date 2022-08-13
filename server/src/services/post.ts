@@ -11,6 +11,10 @@ class PostService {
         return await this.model.findByPk(id)
     }
 
+    async getAll() {
+        return await this.model.findAll()
+    }
+
     async create(post: PostI) {
         return await this.model.create(post)
     }

@@ -24,46 +24,46 @@
     }
 
     export let program: EducationalProgram
+    let directions = (Object.values(program.directions)).join('\n')
 
     let feedbacksExpanded = false
+    let feedbacks = program.feedbacks
+    let feedbacksCount = Object.keys(program.feedbacks).length
     let mode1 = Boolean(program.educationModes.fullTime)
     let mode2 = Boolean(program.educationModes.partFullTime)
     let mode3 = Boolean(program.educationModes.partTime)
-    let degree = DegreeLevel.BACHELOR
-    let activeExams = [false, false, false, false, false]
+    let degree = program.degree
+    let totalExams = 5
 
     let exams = program.exams
     let examsCount = Object.keys(exams).length
 
-    for (let i = 0; i < examsCount; i++) {
-        if (!activeExams[i]) {
-            activeExams[i] = true
+    const addExam = () => {
+        for (let i = examsCount; i < totalExams; i++) {
+            exams[i] = {
+                title: '',
+                result: ''
+            }
+            examsCount++
+            console.log(exams)
+            return
         }
     }
-
-    const addExam = () => {
-        // for (let i = examsCount - 1; i < activeExams.length; i++) {
-        //     if (!activeExams[i]) {
-        //         activeExams[i] = true
-        //         return
-        //     }
-        // }
-    }
-
     const removeExam = () => {
-        // TODO: Реализовать функцию
+        exams[examsCount - 1] = undefined
+        examsCount --
     }
 
     const handleSuccess = () => {
         /* eslint-disable no-alert */
         // TODO: Заменить alert на более приятный интерфейс
-        alert('Программа создана успешно')
+        alert('Программа обновлена успешно')
     }
 
     const handleError = () => {
         /* eslint-disable no-alert */
         // TODO: Заменить alert на более приятный интерфейс
-        alert('Произошла ошибка во время создания программы')
+        alert('Произошла ошибка во время обновления программы')
     }
 </script>
 
@@ -76,7 +76,7 @@
         <h2>Редактирование образовательной программы</h2>
         <AjaxForm
             method="POST"
-            action="/api/program/create"
+            action="/api/program/update/{program.id}"
             noReset={false}
             on:success={handleSuccess}
             on:error={handleError}
@@ -146,7 +146,7 @@
                             type="number"
                             name="budget1"
                             placeholder="10"
-                            value={program.educationModes.fullTime.vacantSpots.budget}
+                            value={program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.budget : '0'}
                             required
                         />
                     {/if}
@@ -161,7 +161,7 @@
                             type="number"
                             name="budget2"
                             placeholder="10"
-                            value={program.educationModes.partFullTime.vacantSpots.budget}
+                            value={program.educationModes.partFullTime ? program.educationModes.partFullTime.vacantSpots.budget: '0'}
                         />
                     {/if}
                 </div>
@@ -175,7 +175,7 @@
                             type="number"
                             name="budget3"
                             placeholder="10"
-                            value={program.educationModes.partTime.vacantSpots.budget}
+                            value={program.educationModes.partTime ? program.educationModes.partTime.vacantSpots.budget : '0'}
                         />
                     {/if}
                 </div>
@@ -189,7 +189,7 @@
                             type="number"
                             name="contract1"
                             placeholder="10"
-                            value={program.educationModes.fullTime.vacantSpots.contract}
+                            value={program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : '0'}
                             required
                         />
                     {/if}
@@ -204,7 +204,7 @@
                             type="number"
                             name="contract2"
                             placeholder="10"
-                            value={program.educationModes.partFullTime.vacantSpots.contract}
+                            value={program.educationModes.partFullTime ? program.educationModes.partFullTime.vacantSpots.contract : '0'}
                         />
                     {/if}
                 </div>
@@ -218,7 +218,7 @@
                             type="number"
                             name="contract3"
                             placeholder="10"
-                            value={program.educationModes.partTime.vacantSpots.contract}
+                            value={program.educationModes.partTime ? program.educationModes.partTime.vacantSpots.contract : '0'}
                         />
                     {/if}
                 </div>
@@ -230,7 +230,7 @@
                             type="text"
                             name="period1"
                             placeholder="2 года и 6 месяцев"
-                            value={program.educationModes.fullTime.duration}
+                            value={program.educationModes.fullTime ? program.educationModes.fullTime.duration : ''}
                         />
                     {/if}
                 </div>
@@ -242,7 +242,7 @@
                             class="form-control wide"
                             type="text"
                             name="period2"
-                            value={program.educationModes.partFullTime.duration}
+                            value={program.educationModes.partFullTime ? program.educationModes.partFullTime.duration : ''}
                         />
                     {/if}
                 </div>
@@ -254,7 +254,7 @@
                             class="form-control wide"
                             type="text"
                             name="period3"
-                            value={program.educationModes.partTime.duration}
+                            value={program.educationModes.partTime ? program.educationModes.partTime.duration : ''}
                         />
                     {/if}
                 </div>
@@ -270,7 +270,7 @@
                             type="text"
                             name="price1"
                             placeholder="170 000"
-                            value={program.educationModes.fullTime.price}
+                            value={program.educationModes.fullTime ? program.educationModes.fullTime.price : ''}
                         />
                     {/if}
                 </div>
@@ -286,7 +286,7 @@
                             class="form-control wide"
                             type="text"
                             name="price2"
-                            value={program.educationModes.partFullTime.price}
+                            value={program.educationModes.partFullTime ? program.educationModes.partFullTime.price : ''}
                         />
                     {/if}
                 </div>
@@ -301,7 +301,7 @@
                             class="form-control wide"
                             type="text"
                             name="price3"
-                            value={program.educationModes.partTime.price}
+                            value={program.educationModes.partTime.price ? program.educationModes.partTime.price : ''}
                         />
                     {/if}
                 </div>
@@ -314,7 +314,7 @@
                             type="text"
                             name="language1"
                             placeholder="Русский, Английский"
-                            value={program.educationModes.fullTime.languages}
+                            value={program.educationModes.fullTime ? program.educationModes.fullTime.languages : ''}
                         />
                     {/if}
                 </div>
@@ -328,7 +328,7 @@
                             type="text"
                             name="language2"
                             placeholder="Русский, Английский"
-                            value={program.educationModes.partFullTime.languages}
+                            value={program.educationModes.partFullTime ? program.educationModes.partFullTime.languages : ''}
                         />
                     {/if}
                 </div>
@@ -341,7 +341,7 @@
                             type="text"
                             name="language3"
                             placeholder="Русский, Английский"
-                            value={program.educationModes.partTime.languages}
+                            value={program.educationModes.partTime ? program.educationModes.partTime.languages: ''}
                         />
                     {/if}
                 </div>
@@ -349,14 +349,14 @@
                     <label for="directions"
                         >Направления подготовки (каждое с новой строки)</label
                     ><br />
-                    <textarea name="directions" cols="30" rows="4" value={program.directions} />
+                    <textarea name="directions" cols="30" rows="4" value={directions} />
                 </div>
             </Grid>
-            {#if degree != 'Магистратура'}
+            {#if degree != DegreeLevel.MASTER}
                 <h3>Экзамены</h3>
                 <Grid m={2}>
-                    {#each Object.entries(exams) as [i, exam]}
-                        {#if exam}
+                    {#each Object.values(exams) as exam, i}
+                        {#if exams[i] != undefined}
                             <div>
                                 <label for="exam{i + 1}"
                                     >Название экзамена</label
@@ -389,14 +389,14 @@
                         <button
                             type="button"
                             on:click={addExam}
-                            class="btn btn-primary">Добавить экзамен</button
+                            class="btn btn-outline-primary">Добавить экзамен</button
                         >
                     {/if}
                     {#if examsCount > 1}
                         <button
                             type="button"
                             on:click={removeExam}
-                            class="btn btn-danger">Удалить экзамен</button
+                            class="btn btn btn-outline-danger">Удалить экзамен</button
                         >
                     {/if}
                 </div>
@@ -451,28 +451,32 @@
             </Grid>
             <h3>Отзывы</h3>
             <Grid m={2} ratio="1:2">
-                <div>
+                {#each Object.values(feedbacks) as feedback, i}
                     <div>
-                        <label for="feedback_name1">ФИО</label><br />
-                        <input
-                            class="form-control wide"
-                            type="text"
-                            name="feedback_name1"
-                        />
+                        <div>
+                            <label for="feedback_name{i + 1}">ФИО</label><br />
+                            <input
+                                class="form-control wide"
+                                type="text"
+                                name="feedback_name{i + 1}"
+                                value={feedback.name}
+                            />
+                        </div>
+                        <div>
+                            <label for="feedback_caption{i + 1}">Подпись</label><br />
+                            <input
+                                class="form-control wide"
+                                type="text"
+                                name="feedback_caption{i + 1}"
+                                value={feedback.caption}
+                            />
+                        </div>
                     </div>
                     <div>
-                        <label for="feedback_caption1">Подпись</label><br />
-                        <input
-                            class="form-control wide"
-                            type="text"
-                            name="feedback_caption1"
-                        />
+                        <label for="feedback_text{i + 1}">Текст отзыва</label><br />
+                        <textarea name="feedback_text{i + 1}" cols="30" rows="10" value={feedback.text} />
                     </div>
-                </div>
-                <div>
-                    <label for="feedback_text1">Текст отзыва</label><br />
-                    <textarea name="feedback_text1" cols="30" rows="10" />
-                </div>
+                {/each}
             </Grid>
             {#if feedbacksExpanded}
                 <Grid m={2} ratio="1:2">
@@ -499,7 +503,7 @@
                         <textarea name="feedback_text2" cols="30" rows="10" />
                     </div>
                 </Grid>
-            {:else}
+            {:else if feedbacksCount < 2}
                 <div class="align-center">
                     <RoundButton
                         variant="plus"
@@ -510,7 +514,7 @@
             {/if}
             <br />
             <div class="buttons-row">
-                <button class="btn btn-primary">Создать</button>
+                <button class="btn btn-primary">Сохранить</button>
             </div>
         </AjaxForm>
     </div>

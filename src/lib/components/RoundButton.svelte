@@ -70,6 +70,7 @@
 </script>
 
 <button
+    type="button"
     class="kit-round-button {sizeClass} {className} theme-{theme}"
     class:pressed
     on:click

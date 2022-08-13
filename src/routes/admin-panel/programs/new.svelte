@@ -103,7 +103,7 @@
                 <div>
                     { #if mode1 }
                     <label for="budget1">Количество мест - Бюджет (очно)</label><br />
-                    <input class="form-control wide" type="number" name="budget1" placeholder="10" value="0" required />
+                    <input class="form-control wide" type="number" name="budget1" placeholder="10" required />
                     { /if }
                 </div>
                 <div>
@@ -121,7 +121,7 @@
                 <div>
                     { #if mode1 }
                     <label for="contract1">Количество мест - Контракт (очно)</label><br />
-                    <input class="form-control wide" type="number" name="contract1" placeholder="10" value="0" required />
+                    <input class="form-control wide" type="number" name="contract1" placeholder="10" required />
                     { /if }
                 </div>
                 <div>
@@ -216,10 +216,10 @@
                 </Grid>
                 <div class="buttons-row">
                     { #if countExams < 5 }
-                        <button type="button" on:click={ addExam } class="btn btn-primary">Добавить экзамен</button>
+                        <button type="button" on:click={ addExam } class="btn btn-outline-primary">Добавить экзамен</button>
                     { /if }
                     { #if countExams > 1 }
-                        <button type="button" on:click={ removeExam } class="btn btn-danger">Удалить экзамен</button>
+                        <button type="button" on:click={ removeExam } class="btn btn-outline-danger">Удалить экзамен</button>
                     { /if }
                 </div>
             { /if }

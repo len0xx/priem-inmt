@@ -2,11 +2,12 @@
     // import { sendNodeAJAX } from '../../../shared/utilities'
     import type { Load } from '@sveltejs/kit'
     
-    export const load: Load = () => {
-        return {
-            props: {
-                programs: []
-            }
+    export const load: Load = async ({ fetch }) => {
+        const res = await fetch('http://localhost:8080/api/program/getAll')
+        const programsResult = (await res.json()).programs
+
+        if (res.ok) {
+            return { props: { programs: programsResult } }
         }
     }
 </script>

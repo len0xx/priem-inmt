@@ -3,12 +3,11 @@ import { getErrorDetails, HTTPResponse } from '../../utilities.js'
 import { HTTPStatus } from '../../types/enums.js'
 import type { Request, Response } from 'express'
 
-export const get = async (req: Request, res: Response) => {
+export const getAll = async (req: Request, res: Response) => {
     try {
-        const id = +req.params.id
-        const program = await educationalProgramService.get(id)
+        const programs = await educationalProgramService.getAll()
 
-        return new HTTPResponse(res, HTTPStatus.SUCCESS, { program })
+        return new HTTPResponse(res, HTTPStatus.SUCCESS, { programs })
     }
     catch (err) {
         console.error(err)

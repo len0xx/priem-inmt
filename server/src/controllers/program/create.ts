@@ -73,11 +73,11 @@ export const create = async (req: Request, res: Response) => {
         const exams = []
 
         for (let i = 1; i <= 5; i++) {
-            const exam = requestData[`exam${i}`]
+            const title = requestData[`exam${i}`]
             const result = requestData[`result${i}`]
-            if (exam !== undefined && result !== undefined) {
+            if (title !== undefined && result !== undefined) {
                 exams[i - 1] = {
-                    exam: exam,
+                    title: title,
                     result: result,
                 }
             }

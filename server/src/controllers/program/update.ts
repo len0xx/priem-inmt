@@ -8,12 +8,13 @@ export const update = async (req: Request, res: Response) => {
     try {
         const id = +req.params.id
         const requestData = req.body
-        const { title, degree, text } = req.body
+        const { title, degree, text, mode1, mode2, mode3 } = req.body
 
         const directions: string[] = (req.body.directions).split('\n')
+        const educationModes: EducationModesI = {}
 
-        const educationModes: EducationModesI = {
-            fullTime: {
+        if (mode1) {
+            educationModes['fullTime'] = {
                 price: requestData.price1,
                 duration: requestData.period1,
                 languages: requestData.language1,
@@ -21,8 +22,11 @@ export const update = async (req: Request, res: Response) => {
                     budget: requestData.budget1,
                     contract: requestData.contract1
                 },
-            },
-            partTime: {
+            }
+        }
+
+        if (mode2) {
+            educationModes['partTime'] = {
                 price: requestData.price2,
                 duration: requestData.period2,
                 languages: requestData.language2,
@@ -30,8 +34,11 @@ export const update = async (req: Request, res: Response) => {
                     budget: requestData.budget2,
                     contract: requestData.contract2
                 },
-            },
-            partFullTime: {
+            }
+        }
+
+        if (mode3) {
+            educationModes['partFullTime'] = {
                 price: requestData.price3,
                 duration: requestData.period3,
                 languages: requestData.language3,
@@ -87,7 +94,7 @@ export const update = async (req: Request, res: Response) => {
             text: text,
             feedbacks: feedbacks,
         })
-        return new HTTPResponse(res, HTTPStatus.CREATED, 'Образовательная программа успешно обновлена')
+        return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Образовательная программа успешно обновлена')
     }
     catch (err) {
         console.error(err)

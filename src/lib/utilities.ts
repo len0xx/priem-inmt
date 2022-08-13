@@ -124,7 +124,6 @@ export function sendWindowAJAX(
         if (callbackError) callbackError(
             (jqXHR.responseJSON && jqXHR.responseJSON.error) ? jqXHR.responseJSON.error : jqXHR.responseText
         )
-        // console.error(jqXHR)
     })
 }
 

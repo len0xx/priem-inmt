@@ -5,6 +5,7 @@ import express from 'express'
 import db from './db.js'
 import authRouter from './src/routes/auth.js'
 import infoRouter from './src/routes/admin/info.js'
+import postRouter from './src/routes/admin/post.js'
 // import featureRouter from './src/routes/feature.js'
 import programRouter from './src/routes/program.js'
 import { authorize, redirectLogout, requireAuthorization, requireUnauthorized } from './src/middlewares.js'
@@ -68,6 +69,7 @@ app.use('/admin-panel-auth/*', requireUnauthorized)
 // Express routes
 app.use('/api/auth', authRouter)
 app.use('/api/admin/info', infoRouter)
+app.use('/api/admin/post', postRouter)
 // app.use('/test', testRouter)
 // app.use('/feature', featureRouter)
 app.use('/api/program', programRouter)

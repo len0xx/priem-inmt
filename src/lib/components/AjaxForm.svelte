@@ -58,7 +58,7 @@
                         dispatch('success', res)
                     }
                     else if (res.ok === false) {
-                        dispatch('error', res)
+                        dispatch('error', { error: res })
                     }
                 }
                 else {

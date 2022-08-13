@@ -1,12 +1,26 @@
-<script>
+<script lang="ts">
     import { AjaxForm } from '$components'
+    import { slide } from 'svelte/transition'
     import { range } from '$lib/utilities'
 
     let links = 1
+    let success = false
+    let errorText = ''
+    let successText = 'Публикация создана'
 
     const addLink = () => links++
 
     const removeLink = () => links--
+
+    const handleSuccess = (event: CustomEvent<{ message: string }>) => {
+        success = true
+        successText = event.detail.message
+    }
+
+    const handleError = (event: CustomEvent<{ error: string }>) => {
+        success = false
+        errorText = event.detail.error
+    }
 </script>
 
 <svelte:head>
@@ -17,7 +31,13 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Публикации на главной странице</h2>
         <h3>Создать новую публикацию</h3>
-        <AjaxForm action="/api/admin/post" method="POST">
+        <AjaxForm action="/api/admin/post" method="POST" on:success={ handleSuccess } on:error={ handleError }>
+            { #if success }
+                <p transition:slide={{ duration: 200 }} class="success">{ successText }</p>
+            { /if }
+            { #if errorText }
+                <p transition:slide={{ duration: 200 }} class="error">{ errorText }</p>
+            { /if }
             <div class="grid grid-2 m-grid-1">
                 <div>
                     <label>
@@ -32,7 +52,7 @@
                     </label>
                 </div>
                 <div id="vs2f">
-                    { #each range(1, links) as _, i }
+                    { #each range(1, links) as i }
                         <div class="input-group">
                             <span class="input-group-text">Ссылка</span>
                             <input type="text" aria-label="Текст ссылки" name="link_text{ i }" placeholder="Текст ссылки" class="form-control">
@@ -41,10 +61,10 @@
                         <br />
                     { /each }
                     { #if links < 5 }
-                        <button type="button" class="btn btn-primary" on:click={ addLink }>Добавить ссылку</button>
+                        <button type="button" class="btn btn-outline-primary" on:click={ addLink }>Добавить ссылку</button>
                     { /if }
                     { #if links > 1 }
-                        <button type="button" class="btn btn-danger" on:click={ removeLink }>Убрать ссылку</button>
+                        <button type="button" class="btn btn-outline-danger" on:click={ removeLink }>Убрать ссылку</button>
                     { /if }
                 </div>
             </div>

@@ -75,6 +75,7 @@ import { redirect } from '$lib/utilities'
         /* eslint-disable no-alert */
         // TODO: Заменить alert на более приятный интерфейс
         alert('Программа обновлена успешно')
+        redirect('admin-panel/programs')
     }
 
     const handleError = () => {

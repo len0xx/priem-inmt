@@ -1,12 +1,29 @@
+<script lang="ts" context="module">
+    import type { Load } from '@sveltejs/kit'
+
+    export const load: Load = async ({ fetch }) => {
+        const res = await fetch('http://localhost:8080/api/admin/post')
+        const posts = (await res.json()).posts
+
+        if (res.ok) {
+            return { props: { posts } }
+        }
+    }
+</script>
+
 <script lang="ts">
     import { AjaxForm } from '$components'
     import { slide } from 'svelte/transition'
     import { range } from '$lib/utilities'
+    import { Grid } from '$components'
+    import type { PostI } from '../../../types'
+
+    export let posts: PostI[]
 
     let links = 1
     let success = false
     let errorText = ''
-    let successText = 'Публикация создана'
+    let successText = ''
 
     const addLink = () => links++
 
@@ -71,6 +88,21 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </AjaxForm>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Существующие публикации</h3>
+        <Grid l={3} m={2} s={1}>
+            { #each posts as post, i (i) }
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{ post.title }</h4>
+                        <p class="card-text">{ post.text }</p>
+                        <a href="/admin-panel/posts/update/{ post.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                    </div>
+                </div>
+            { /each }
+        </Grid>
     </div>
 </section>
 

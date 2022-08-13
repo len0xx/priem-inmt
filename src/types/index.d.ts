@@ -41,3 +41,10 @@ export interface EducationalProgram {
     }[]
     text: string
 }
+
+export interface PostI {
+    id?: number
+    title: string
+    text: string
+    links: { text: string, url: string }[]
+}

@@ -6,7 +6,7 @@
     import { session } from '$app/stores'
     let user = $session.user
 
-    $: url = $page.url.pathname
+    $: URL = $page.url.pathname
     const BASE_URL = '/admin-panel'
     const MAIN_URL = BASE_URL + '/main'
     const PROGRAMS_URL = BASE_URL + '/programs'
@@ -14,6 +14,7 @@
     const MASTER_URL = BASE_URL + '/master'
     const ACCOMMODATION_URL = BASE_URL + '/accommodation'
     const CONTACTS_URL = BASE_URL + '/contacts'
+    const POSTS_URL = BASE_URL + '/posts'
 
     const TECH_SUPPORT_EMAIL = 'contact@len0xx.space'
 </script>
@@ -44,13 +45,14 @@
 
     <aside class="left-menu">
         <nav>
-            <a href={ BASE_URL } class:active={ url === BASE_URL } sveltekit:prefetch class="menu-item">Общая информация</a>
-            <a href={ MAIN_URL } class:active={ url.startsWith(MAIN_URL) } sveltekit:prefetch class="menu-item">Главная страница</a>
-            <a href={ PROGRAMS_URL } class:active={ url.startsWith(PROGRAMS_URL) } sveltekit:prefetch class="menu-item">Образовательные программы</a>
-            <a href={ BACHELOR_URL } class:active={ url.startsWith(BACHELOR_URL) } sveltekit:prefetch class="menu-item">Бакалавриат и специалитет</a>
-            <a href={ MASTER_URL } class:active={ url.startsWith(MASTER_URL) } sveltekit:prefetch class="menu-item">Магистратура</a>
-            <a href={ ACCOMMODATION_URL } class:active={ url.startsWith(ACCOMMODATION_URL) } sveltekit:prefetch class="menu-item">Поселение</a>
-            <a href={ CONTACTS_URL } class:active={ url.startsWith(CONTACTS_URL) } sveltekit:prefetch class="menu-item">Контакты</a>
+            <a href={ BASE_URL } class:active={ URL === BASE_URL } sveltekit:prefetch class="menu-item">Общая информация</a>
+            <a href={ MAIN_URL } class:active={ URL.startsWith(MAIN_URL) } sveltekit:prefetch class="menu-item">Главная страница</a>
+            <a href={ PROGRAMS_URL } class:active={ URL.startsWith(PROGRAMS_URL) } sveltekit:prefetch class="menu-item">Образовательные программы</a>
+            <a href={ BACHELOR_URL } class:active={ URL.startsWith(BACHELOR_URL) } sveltekit:prefetch class="menu-item">Бакалавриат и специалитет</a>
+            <a href={ MASTER_URL } class:active={ URL.startsWith(MASTER_URL) } sveltekit:prefetch class="menu-item">Магистратура</a>
+            <a href={ ACCOMMODATION_URL } class:active={ URL.startsWith(ACCOMMODATION_URL) } sveltekit:prefetch class="menu-item">Поселение</a>
+            <a href={ CONTACTS_URL } class:active={ URL.startsWith(CONTACTS_URL) } sveltekit:prefetch class="menu-item">Контакты</a>
+            <a href={ POSTS_URL } class:active={ URL.startsWith(POSTS_URL) } sveltekit:prefetch class="menu-item">Публикации</a>
         </nav>
     </aside>
     <div class="panel-content">

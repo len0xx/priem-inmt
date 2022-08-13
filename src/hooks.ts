@@ -30,7 +30,7 @@ export const getSession: GetSession = async (event: RequestEvent & { locals: App
     event.locals.csrf = cookies.csrf
     event.locals.user = null
 
-    if (event.locals.token) {
+    if (event.locals.token && false) {
         try {
             const HOST = event.request.headers.get('host')
             const PROTOCOL = HOST.startsWith('localhost') ? 'http' : 'https'

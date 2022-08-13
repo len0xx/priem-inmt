@@ -189,7 +189,7 @@ export function sortByPrice(a: Program, b: Program): number {
     return 0
 }
 
-export const range = (start: number, end: number) => {
+export const range = (start: number, end: number): number[] => {
     const result = []
     for (let i = start; i <= end; i++) {
         result.push(i)

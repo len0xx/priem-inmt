@@ -30,3 +30,8 @@ export enum DegreeLevel {
     SPECIALIST = 'Специалитет',
     MASTER = 'Магистратура'
 }
+
+export enum Role {
+    User = 'user',
+    Admin = 'admin'
+}

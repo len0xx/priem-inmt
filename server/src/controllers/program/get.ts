@@ -16,3 +16,16 @@ export const get = async (req: Request, res: Response) => {
         return new HTTPResponse(res, code, message)
     }
 }
+
+export const getAll = async (_: Request, res: Response) => {
+    try {
+        const programs = await educationalProgramService.getAll()
+
+        return new HTTPResponse(res, HTTPStatus.SUCCESS, { programs })
+    }
+    catch (err) {
+        console.error(err)
+        const { code, message } = getErrorDetails(err)
+        return new HTTPResponse(res, code, message)
+    }
+}

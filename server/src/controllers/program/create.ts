@@ -20,7 +20,7 @@ export const create = async (req: Request, res: Response) => {
                 vacantSpots: {
                     budget: requestData.budget1,
                     contract: requestData.contract1
-                },
+                }
             }
         }
 
@@ -32,7 +32,7 @@ export const create = async (req: Request, res: Response) => {
                 vacantSpots: {
                     budget: requestData.budget2,
                     contract: requestData.contract2
-                },
+                }
             }
         }
 
@@ -44,7 +44,7 @@ export const create = async (req: Request, res: Response) => {
                 vacantSpots: {
                     budget: requestData.budget3,
                     contract: requestData.contract3
-                },
+                }
             }
         }
 
@@ -78,7 +78,7 @@ export const create = async (req: Request, res: Response) => {
             if (title !== undefined && result !== undefined) {
                 exams[i - 1] = {
                     title: title,
-                    result: result,
+                    result: result
                 }
             }
         }
@@ -91,7 +91,7 @@ export const create = async (req: Request, res: Response) => {
             teacher: teacher,
             exams: exams,
             text: text,
-            feedbacks: feedbacks,
+            feedbacks: feedbacks
         })
         return new HTTPResponse(res, HTTPStatus.CREATED, 'Образовательная программа успешно создана')
     }

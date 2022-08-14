@@ -5,7 +5,7 @@ import type { Request, Response } from 'express'
 
 export const readAll = async (_: Request, res: Response) => {
     try {
-        const posts = await postService.getAll()
+        const posts = await postService.get()
 
         return new HTTPResponse(res, HTTPStatus.CREATED, { posts })
     }
@@ -20,7 +20,7 @@ export const readOne = async (req: Request, res: Response) => {
     try {
         const id = +req.params.id
 
-        const post = await postService.get(id)
+        const post = await postService.getById(id)
 
         return new HTTPResponse(res, HTTPStatus.CREATED, { post })
     }

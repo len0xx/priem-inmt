@@ -22,7 +22,7 @@ export const update = async (req: Request, res: Response) => {
 
         const newData: PostI = { title, text, links }
 
-        await postService.update(id, newData)
+        await postService.updateById(id, newData)
 
         return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Публикация успешно обновлена')
     }

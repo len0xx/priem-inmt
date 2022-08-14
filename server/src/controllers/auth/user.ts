@@ -23,7 +23,7 @@ export const getInfo = async (req: Request, res: Response) => {
             return new HTTPResponse(res, HTTPStatus.UNAUTHORIZED, 'Некорректный id')
         }
 
-        const user = await userService.get(+decode.id)
+        const user = await userService.getById(+decode.id)
 
         return new HTTPResponse(res, HTTPStatus.SUCCESS, { user })
     }

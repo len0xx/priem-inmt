@@ -1,4 +1,5 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { DataTypes, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { Model } from 'sequelize'
 import sequelize from '../../db.js'
 
 class Post extends Model<InferAttributes<Post>, InferCreationAttributes<Post>> {

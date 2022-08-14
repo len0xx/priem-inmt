@@ -17,7 +17,7 @@ export const authorize = async (req: CustomRequest, _: Response, next: NextFunct
     if (req.cookies['token']) {
         const token = req.cookies['token']
         const decode = jwt.verify(token, process.env.SECRET) as Record<string, string>
-        const user = await userService.get(+decode.id)
+        const user = await userService.getById(+decode.id)
         req.user = user
     }
     next()

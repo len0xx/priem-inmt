@@ -7,7 +7,7 @@ export const del = async (req: Request, res: Response) => {
     try {
         const id = +req.params.id
 
-        await postService.delete(id)
+        await postService.deleteById(id)
 
         return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Публикация успешно удалена')
     }

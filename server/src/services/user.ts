@@ -1,26 +1,26 @@
+import BaseService from './base.js'
 import User, { UserI } from '../models/user.js'
 import { HTTPError, comparePasswords } from '../utilities.js'
 import dotenv from 'dotenv'
-import type { FindOptions, UpdateOptions, InferAttributes } from 'sequelize'
 import { HTTPStatus } from '../types/enums.js'
+import type { FindOptions } from 'sequelize'
 
 dotenv.config()
 
-class UserService {
-    model: typeof User
-
+class UserService extends BaseService<User, UserI> {
     constructor() {
+        super()
         this.model = User
     }
 
-    async get(id: number, fetchPassword = false) {
+    override async getById(id: number, fetchPassword = false) {
         const attributes = [ 'firstName', 'lastName', 'id', 'email', 'role' ]
         if (fetchPassword) attributes.push('password')
 
         return await this.model.findByPk(id, { attributes })
     }
 
-    async getByQuery(where: FindOptions<InferAttributes<User>>, fetchPassword = false) {
+    override async get(where: FindOptions, fetchPassword = false) {
         const attributes = [ 'firstName', 'lastName', 'id', 'email', 'role' ]
         if (fetchPassword) attributes.push('password')
 
@@ -28,21 +28,8 @@ class UserService {
         return result
     }
 
-    async update(data: Record<string, unknown>, where: UpdateOptions) {
-        return await this.model.update(data, where)
-    }
-
-    async getAll() {
-        return (await this.model.findAll())
-    }
-
-    async create(user: UserI) {
-        const result = await this.model.create(user)
-        return result.id
-    }
-
     async login(email: string, password: string, ip: string) {
-        const results = await this.getByQuery({ where: { email } }, true)
+        const results = await this.get({ where: { email } }, true)
         const user = results[0]
 
         if (!user)
@@ -57,7 +44,7 @@ class UserService {
             lastLoginIP: ip
         }
         try {
-            await this.update(newData, { where: { id: user.id } })
+            await this.update({ where: { id: user.id } }, newData)
         }
         catch (e) {
             console.error(e)
@@ -73,11 +60,11 @@ class UserService {
         if (!user.password)
             throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Пароль является обязательным для заполнения')
 
-        const sameEmailExists = (await this.getByQuery({ where: { email: user.email } }, true)[0]) as User
+        const sameEmailExists = (await this.get({ where: { email: user.email } }, true)[0]) as User
         if (sameEmailExists)
             throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Пользователь с таким Email уже зарегистрирован')
 
-        const newUserId = await this.create(user)
+        const newUserId = (await this.create(user)).id
         return newUserId
     }
 }

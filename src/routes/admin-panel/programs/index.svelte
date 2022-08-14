@@ -35,11 +35,13 @@
         { #if programsSpec.length }
             <Grid s={1} m={2} l={3}>
                 { #each programsSpec as program }
-                    <Card variant="grey" color="custom">
-                        <svelte:fragment slot="title"><a href="/admin-panel/programs/update/{ program.id }">{ program.title }</a></svelte:fragment>
-                        <svelte:fragment slot="left">{ program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.budget : 'NaN' } бюджет { program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : 'NaN' } контракт</svelte:fragment>
-                        <svelte:fragment slot="right">от { program.educationModes.fullTime ? program.educationModes.fullTime.price : 'NaN' } ₽</svelte:fragment>
-                    </Card>
+                    <a href="/admin-panel/programs/update/{ program.id }">
+                        <Card variant="grey" color="custom">
+                            <svelte:fragment slot="title">{ program.title }</svelte:fragment>
+                            <svelte:fragment slot="left">{ program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.budget : 'NaN' } бюджет { program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : 'NaN' } контракт</svelte:fragment>
+                            <svelte:fragment slot="right">от { program.educationModes.fullTime ? program.educationModes.fullTime.price : 'NaN' } ₽</svelte:fragment>
+                        </Card>
+                    </a>
                 { /each }
             </Grid>
         { :else }
@@ -49,11 +51,13 @@
         { #if programsBach.length }
             <Grid s={1} m={2} l={3}>
                 { #each programsBach as program }
-                    <Card variant="grey" color="custom">
-                        <svelte:fragment slot="title"><a href="/admin-panel/programs/update/{ program.id }">{ program.title }</a></svelte:fragment>
-                        <svelte:fragment slot="left">{ program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.budget : 'NaN' } бюджет { program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : 'NaN' } контракт</svelte:fragment>
-                        <svelte:fragment slot="right">от { program.educationModes.fullTime ? program.educationModes.fullTime.price : 'NaN' } ₽</svelte:fragment>
-                    </Card>
+                    <a href="/admin-panel/programs/update/{ program.id }">
+                        <Card variant="grey" color="custom">
+                            <svelte:fragment slot="title">{ program.title }</svelte:fragment>
+                            <svelte:fragment slot="left">{ program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.budget : 'NaN' } бюджет { program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : 'NaN' } контракт</svelte:fragment>
+                            <svelte:fragment slot="right">от { program.educationModes.fullTime ? program.educationModes.fullTime.price : 'NaN' } ₽</svelte:fragment>
+                        </Card>
+                    </a>
                 { /each }
             </Grid>
         { :else }
@@ -63,11 +67,13 @@
         { #if programsMast.length }
             <Grid s={1} m={2} l={3}>
                 { #each programsMast as program }
-                    <Card variant="grey" color="custom">
-                        <svelte:fragment slot="title"><a href="/admin-panel/programs/update/{ program.id }">{ program.title }</a></svelte:fragment>
-                        <svelte:fragment slot="left">{ program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.budget : 'NaN' } бюджет { program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : 'NaN' } контракт</svelte:fragment>
-                        <svelte:fragment slot="right">от { program.educationModes.fullTime ? program.educationModes.fullTime.price : 'NaN' } ₽</svelte:fragment>
-                    </Card>
+                    <a href="/admin-panel/programs/update/{ program.id }">
+                        <Card variant="grey" color="custom">
+                            <svelte:fragment slot="title">{ program.title }</svelte:fragment>
+                            <svelte:fragment slot="left">{ program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.budget : 'NaN' } бюджет { program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : 'NaN' } контракт</svelte:fragment>
+                            <svelte:fragment slot="right">от { program.educationModes.fullTime ? program.educationModes.fullTime.price : 'NaN' } ₽</svelte:fragment>
+                        </Card>
+                    </a>
                 { /each }
             </Grid>
         { :else }

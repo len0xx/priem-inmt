@@ -14,7 +14,7 @@
 
 <script lang="ts">
     import { AjaxForm } from '$components'
-    import { slide } from 'svelte/transition'
+    import { slide, blur } from 'svelte/transition'
     import { range } from '$lib/utilities'
     import type { PostI } from '../../../../types'
 
@@ -71,7 +71,7 @@
                 <div id="vs2f">
                     { #each range(1, links) as i }
                         { @const link = post.links[i - 1] }
-                        <div class="input-group">
+                        <div class="input-group" transition:slide|local={{ duration: 200 }}>
                             <span class="input-group-text">Ссылка</span>
                             <input type="text" aria-label="Текст ссылки" name="link_text{ i }" placeholder="Текст ссылки" class="form-control" value={ link ? link.text : '' }>
                             <input type="text" aria-label="URL" name="link_url{ i }" placeholder="URL" class="form-control" value={ link ? link.url : '' }>
@@ -79,10 +79,10 @@
                         <br />
                     { /each }
                     { #if links < 5 }
-                        <button type="button" class="btn btn-outline-primary" on:click={ addLink }>Добавить ссылку</button>
+                        <button transition:blur|local={{ duration: 200 }} type="button" class="btn btn-outline-primary" on:click={ addLink }>Добавить ссылку</button>
                     { /if }
                     { #if links > 1 }
-                        <button type="button" class="btn btn-outline-danger" on:click={ removeLink }>Убрать ссылку</button>
+                        <button transition:blur|local={{ duration: 200 }} type="button" class="btn btn-outline-danger" on:click={ removeLink }>Убрать ссылку</button>
                     { /if }
                 </div>
             </div>

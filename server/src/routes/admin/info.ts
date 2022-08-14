@@ -6,8 +6,12 @@ const router = Router() /* eslint-disable-line */
 
 router.post('/contacts', async (req: Request, res: Response) => {
     try {
-        if (contactInfoService.get()) await contactInfoService.update(req.body)
-        else await contactInfoService.create(req.body)
+        const { tel, email, directorateAddress, admissionsAddress, vkUrl, tgUrl } = req.body
+
+        const newData = { tel, email, directorateAddress, admissionsAddress, vkUrl, tgUrl }
+
+        if (contactInfoService.getById()) await contactInfoService.update({ where: { id: 1 } }, newData)
+        else await contactInfoService.create(newData)
 
         res.status(200).json({
             ok: true,

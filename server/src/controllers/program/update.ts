@@ -84,7 +84,7 @@ export const update = async (req: Request, res: Response) => {
             }
         }
 
-        await educationalProgramService.update(id,{
+        await educationalProgramService.updateById(id,{
             title: title,
             degree: degree,
             educationModes: educationModes,

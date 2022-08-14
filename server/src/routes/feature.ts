@@ -32,7 +32,7 @@ router.get('/:id', async (req: Request, res: Response) => {
     const id = +req.params.id
 
     try {
-        const feature = await featureService.get(id)
+        const feature = await featureService.getById(id)
 
         res.status(200).json({
             ok: true,

@@ -1,22 +1,10 @@
+import BaseService from './base.js'
 import Video, { VideoI } from '../models/Video.js'
 
-class VideoService {
-    model: typeof Video
-
+class VideoService extends BaseService<Video, VideoI> {
     constructor() {
+        super()
         this.model = Video
-    }
-
-    async get(id: number) {
-        return await this.model.findByPk(id)
-    }
-
-    async getAll() {
-        return await this.model.findAll()
-    }
-
-    async create(video: VideoI) {
-        return await this.model.create(video)
     }
 }
 

@@ -1,32 +1,10 @@
+import BaseService from './base.js'
 import EducationalProgram, { EducationalProgramI } from '../models/educationalProgram.js'
 
-class EducationalProgramService {
-    model: typeof EducationalProgram
-
+class EducationalProgramService extends BaseService<EducationalProgram, EducationalProgramI> {
     constructor() {
+        super()
         this.model = EducationalProgram
-    }
-
-    async get(id: number) {
-        return await this.model.findByPk(id)
-    }
-
-    async getAll() {
-        return await this.model.findAll()
-    }
-
-    async create(educationalProgram: EducationalProgramI) {
-        return await this.model.create(educationalProgram)
-    }
-
-    async update(id: number, educationalProgram: EducationalProgramI) {
-        const program = await this.model.findByPk(id)
-        return await program.update(educationalProgram)
-    }
-
-    async delete(id: number) {
-        const program = await this.model.findByPk(id)
-        return await program.destroy()
     }
 }
 

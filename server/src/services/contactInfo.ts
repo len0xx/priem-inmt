@@ -1,24 +1,14 @@
+import BaseService from './base.js'
 import ContactInfo, { ContactInfoI } from '../models/contactInfo.js'
 
-class ContactInfoService {
-    model: typeof ContactInfo
-
+class ContactInfoService extends BaseService<ContactInfo, ContactInfoI> {
     constructor() {
+        super()
         this.model = ContactInfo
     }
 
-    async get() {
-        return await this.model.findByPk(1)
-    }
-
-    async create(contactInfo: ContactInfoI) {
-        return await this.model.create(contactInfo)
-    }
-
-    async update(contactInfo: ContactInfoI) {
-        const data = await this.get()
-        data.set(contactInfo)
-        data.save()
+    async getById(id = 1) {
+        return await this.model.findByPk(id)
     }
 }
 

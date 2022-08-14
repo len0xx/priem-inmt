@@ -6,7 +6,7 @@ import type { Request, Response } from 'express'
 export const get = async (req: Request, res: Response) => {
     try {
         const id = +req.params.id
-        const program = await educationalProgramService.get(id)
+        const program = await educationalProgramService.getById(id)
 
         return new HTTPResponse(res, HTTPStatus.SUCCESS, { program })
     }
@@ -19,7 +19,7 @@ export const get = async (req: Request, res: Response) => {
 
 export const getAll = async (_: Request, res: Response) => {
     try {
-        const programs = await educationalProgramService.getAll()
+        const programs = await educationalProgramService.get()
 
         return new HTTPResponse(res, HTTPStatus.SUCCESS, { programs })
     }

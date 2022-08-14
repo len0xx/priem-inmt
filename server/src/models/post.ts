@@ -7,6 +7,8 @@ class Post extends Model<InferAttributes<Post>, InferCreationAttributes<Post>> {
     declare title: string
     declare text: string
     declare links: { text: string, url: string }[]
+    declare img?: string
+    declare colourfulBackground?: boolean
 }
 
 export type PostI = InferAttributes<Post>
@@ -23,6 +25,12 @@ Post.init({
     links: {
         type: DataTypes.JSON,
         allowNull: false
+    },
+    img: DataTypes.STRING,
+    colourfulBackground: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
     }
 },
 {

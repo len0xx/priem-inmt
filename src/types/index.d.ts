@@ -47,4 +47,6 @@ export interface PostI {
     title: string
     text: string
     links: { text: string, url: string }[]
+    img?: string
+    colourfulBackground?: boolean
 }

@@ -35,7 +35,10 @@ User.init(
             unique: true,
             validate: {
                 notNull: {
-                    msg: 'Email является обязательным для заполнения'
+                    msg: 'E-mail является обязательным для заполнения'
+                },
+                isEmail: {
+                    msg: 'Пожалуйста, введите корректный e-mail'
                 }
             }
         },

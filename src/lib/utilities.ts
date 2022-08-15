@@ -4,7 +4,7 @@ import type { RESTMethod, DefaultAJAXResponse } from './types'
 import type { Program } from './programs'
 
 // Create slug from the title
-export function formatSlug(input: string): string {
+export const formatSlug = (input: string): string => {
     const date = new Date()
     const tokens = input.trim()
         .toLocaleLowerCase()
@@ -26,7 +26,7 @@ export function formatSlug(input: string): string {
 export type OS = 'Mac OS' | 'Windows' | 'Linux' | 'Android' | 'iOS' | 'Other'
 
 // Detect user OS
-export function detectOS(): OS {
+export const detectOS = (): OS => {
     const userAgent = window.navigator.userAgent,
         platform = window.navigator.platform,
         macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
@@ -51,7 +51,7 @@ export function detectOS(): OS {
 }
 
 // Cut the long text into short version
-export function cutPostText(text: string): string {
+export const cutPostText = (text: string): string => {
     const maxTextLength = 100
     const maxWordsLength = 30
 
@@ -65,7 +65,7 @@ export function cutPostText(text: string): string {
 }
 
 // Create a plain JSON from FormData
-export function transformFormData(form: FormData): Record<string, unknown> {
+export const transformFormData = (form: FormData): Record<string, unknown> => {
     const object: Record<string, unknown> = {}
     form.forEach((value, key) => object[key] = value)
     return object
@@ -79,12 +79,12 @@ interface AJAXOptions {
 }
 
 // Функция для отправки AJAX запросов с клиента
-export function sendWindowAJAX(
+export const sendWindowAJAX = (
     url: string,
     options: AJAXOptions = { method: 'GET' },
     callbackSuccess?: (res: DefaultAJAXResponse) => void,
     callbackError?: (res: string) => void
-): void {
+) => {
     let finalData: Record<string, unknown> = {}
 
     if (options.data instanceof FormData) {
@@ -128,12 +128,12 @@ export function sendWindowAJAX(
 }
 
 // Функция для отправки AJAX запросов с сервера
-export async function sendNodeAJAX(
+export const sendNodeAJAX = async (
     url: string,
     method: RESTMethod,
     data?: Record<string, string>,
     headers?: Record<string, string>
-): Promise<Record<string, unknown>> {
+): Promise<Record<string, unknown>> => {
     if (!headers) headers = {}
     const response = await axios({ method, url, headers, data })
     return response.data
@@ -146,7 +146,7 @@ const doubleDigit = (num: number): string => num < 10 ? `0${num}` : num.toString
 
 export const formatDate = (date: Date): string => `${doubleDigit(date.getDate())}.${doubleDigit(date.getMonth() + 1)}.${date.getFullYear()}`
 
-export function encodeQuery(data: Record<string, string>): string {
+export const encodeQuery = (data: Record<string, string>): string => {
     delete data['page']
     const ret = []
     for (const d in data) {
@@ -156,25 +156,25 @@ export function encodeQuery(data: Record<string, string>): string {
     return ret.join('&')
 }
 
-export function sortByName(a: Program, b: Program): number {
+export const sortByName = (a: Program, b: Program): number => {
     if (a.title < b.title) return -1
     if (a.title > b.title) return 1
     return 0
 }
 
-export function countPlaces(places: string[][]): number {
+export const countPlaces = (places: string[][]): number => {
     let total = 0
     places.forEach(modePlaces => total += modePlaces.reduce((acc: number, cur: string) => acc + +cur, 0))
     return total
 }
 
-export function sortByPlaces(a: Program, b: Program): number {
+export const sortByPlaces = (a: Program, b: Program): number => {
     if (countPlaces(a.vacantSpots) > countPlaces(b.vacantSpots)) return -1
     if (countPlaces(a.vacantSpots) < countPlaces(b.vacantSpots)) return 1
     return 0
 }
 
-export function getPriceNumber(price: string): number {
+export const getPriceNumber = (price: string): number => {
     let nums = ''
     for (let i = 0; i < price.length; i++) {
         if (price[i].match(/\d/)) nums += price[i]
@@ -182,7 +182,7 @@ export function getPriceNumber(price: string): number {
     return +nums
 }
 
-export function sortByPrice(a: Program, b: Program): number {
+export const sortByPrice = (a: Program, b: Program): number => {
     if (getPriceNumber(a.price[0]) < getPriceNumber(b.price[0])) return -1
     if (getPriceNumber(a.price[0]) > getPriceNumber(b.price[0])) return 1
     return 0

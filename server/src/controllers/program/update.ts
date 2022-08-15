@@ -26,7 +26,7 @@ export const update = async (req: Request, res: Response) => {
         }
 
         if (mode2) {
-            educationModes['partTime'] = {
+            educationModes['partFullTime'] = {
                 price: requestData.price2,
                 duration: requestData.period2,
                 languages: requestData.language2,
@@ -38,7 +38,7 @@ export const update = async (req: Request, res: Response) => {
         }
 
         if (mode3) {
-            educationModes['partFullTime'] = {
+            educationModes['partTime'] = {
                 price: requestData.price3,
                 duration: requestData.period3,
                 languages: requestData.language3,

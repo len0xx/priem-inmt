@@ -18,7 +18,7 @@
     import { Grid, AjaxForm, RoundButton, TipTap } from '$lib/components'
     import { DegreeLevel } from '../../../../types/enums'
     import type { EducationalProgram } from '../../../../types'
-import { redirect } from '$lib/utilities'
+    import { redirect } from '$lib/utilities'
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000',
@@ -72,9 +72,6 @@ import { redirect } from '$lib/utilities'
     }
 
     const handleSuccess = () => {
-        /* eslint-disable no-alert */
-        // TODO: Заменить alert на более приятный интерфейс
-        alert('Программа обновлена успешно')
         redirect('/admin-panel/programs')
     }
 

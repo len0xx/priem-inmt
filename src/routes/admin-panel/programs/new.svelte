@@ -1,6 +1,7 @@
 <script lang="ts">
     import { imask } from 'svelte-imask'
     import { Grid, AjaxForm, RoundButton, TipTap } from '$components'
+    import { redirect } from '$lib/utilities'
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000'
@@ -45,9 +46,7 @@
     }
 
     const handleSuccess = () => {
-        /* eslint-disable no-alert */
-        // TODO: Заменить alert на более приятный интерфейс
-        alert('Программа создана успешно')
+        redirect('/admin-panel/programs')
     }
 
     const handleError = () => {

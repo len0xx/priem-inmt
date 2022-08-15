@@ -71,7 +71,7 @@ export function transformFormData(form: FormData): Record<string, unknown> {
     return object
 }
 
-type AJAXOptions = {
+interface AJAXOptions {
     method: RESTMethod,
     data?: FormData | Record<string, string> | null,
     csrfToken?: string,
@@ -133,7 +133,7 @@ export async function sendNodeAJAX(
     method: RESTMethod,
     data?: Record<string, string>,
     headers?: Record<string, string>
-): Promise<Record<string, string>> {
+): Promise<Record<string, unknown>> {
     if (!headers) headers = {}
     const response = await axios({ method, url, headers, data })
     return response.data

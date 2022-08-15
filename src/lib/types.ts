@@ -1,4 +1,4 @@
-export type RESTMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
+export type RESTMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD'
 
 export interface DefaultAJAXResponse {
     ok: boolean,

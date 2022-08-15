@@ -48,7 +48,7 @@ EducationalProgram.init(
             allowNull: false
         },
         degree: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(128),
             allowNull: false,
             validate: {
                 isIn: {

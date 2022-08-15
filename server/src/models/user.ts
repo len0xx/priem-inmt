@@ -19,7 +19,7 @@ export type UserI = InferAttributes<User, { omit: 'id' }>
 User.init(
     {
         firstName: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(40),
             allowNull: false,
             validate: {
                 // Пример валидации
@@ -28,7 +28,7 @@ User.init(
                 }
             }
         },
-        lastName: DataTypes.STRING,
+        lastName: DataTypes.STRING(40),
         email: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -83,7 +83,7 @@ User.init(
             }
         },
         role: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(20),
             allowNull: false,
             defaultValue: Role.User,
             validate: {
@@ -95,7 +95,7 @@ User.init(
             }
         },
         lastLoginIP: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(60),
             validate: {
                 isIP: {
                     msg: 'Введён некорректный IP адрес'
@@ -120,10 +120,3 @@ User.init(
 )
 
 export default User
-
-export interface PublicUser {
-    firstName: string,
-    lastName?: string,
-    email: string,
-    role: Role
-}

@@ -47,6 +47,10 @@ EducationalProgram.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
+                len: {
+                    args: [4, 256],
+                    msg: 'Поле "Название" должно иметь длину от 4 до 256 символов и является обязательным'
+                },
                 notNull: {
                     msg: 'Поле "Название" является обязательным для заполнения'
                 },

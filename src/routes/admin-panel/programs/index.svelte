@@ -3,7 +3,7 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
-        const res = await fetch('http://localhost:8080/api/program')
+        const res = await fetch('http://localhost:8080/api/admin/programs')
         const programsResult = (await res.json()).programs
 
         if (res.ok) {

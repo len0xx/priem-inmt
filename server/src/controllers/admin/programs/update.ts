@@ -1,8 +1,8 @@
-import educationalProgramService from '../../services/educationalProgram.js'
-import { getErrorDetails, HTTPResponse } from '../../utilities.js'
-import { HTTPStatus } from '../../types/enums.js'
+import educationalProgramService from '../../../services/educationalProgram.js'
+import { getErrorDetails, HTTPResponse } from '../../../utilities.js'
+import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
-import type { TeacherI, EducationModesI } from '../../models/educationalProgram'
+import type { TeacherI, EducationModesI } from '../../../models/educationalProgram'
 
 export const update = async (req: Request, res: Response) => {
     try {

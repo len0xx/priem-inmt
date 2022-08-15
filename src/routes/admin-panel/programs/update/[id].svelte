@@ -4,7 +4,7 @@
 
     export const load: Load = async ({ fetch, params }) => {
         const programId = params.id
-        const res = await fetch(`http://localhost:8080/api/program/${programId}`)
+        const res = await fetch(`http://localhost:8080/api/admin/programs/${programId}`)
         const programResult = (await res.json()).program
 
         if (res.ok) {
@@ -61,7 +61,7 @@
     let deleteError = false
 
     const removeProgram = async () => {
-        const res = await fetch(`http://localhost:8080/api/program/${program.id}`, { method: 'DELETE' })
+        const res = await fetch(`http://localhost:8080/api/admin/programs/${program.id}`, { method: 'DELETE' })
         if (res.ok) {
             redirect('/admin-panel/programs')
         } else {
@@ -98,7 +98,7 @@
         <h2>Редактирование образовательной программы</h2>
         <AjaxForm
             method="PATCH"
-            action="/api/program/{program.id}"
+            action="/api/admin/programs/{program.id}"
             noReset={false}
             on:success={handleSuccess}
             on:error={handleError}

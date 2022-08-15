@@ -65,7 +65,7 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2>Новая образовательная программа</h2>
-        <AjaxForm method="POST" action="/api/program" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
+        <AjaxForm method="POST" action="/api/admin/programs" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
             <h3>Общая информация</h3>
             <Grid m={2} ratio="2:1">
                 <div>

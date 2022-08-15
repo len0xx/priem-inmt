@@ -1,6 +1,6 @@
-import educationalProgramService from '../../services/educationalProgram.js'
-import { getErrorDetails, HTTPResponse } from '../../utilities.js'
-import { HTTPStatus } from '../../types/enums.js'
+import educationalProgramService from '../../../services/educationalProgram.js'
+import { getErrorDetails, HTTPResponse } from '../../../utilities.js'
+import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
 export const get = async (req: Request, res: Response) => {

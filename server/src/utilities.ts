@@ -1,7 +1,7 @@
-import type { CookieOptions, Response as ExpressResponse } from 'express'
 import { ValidationError } from 'sequelize'
-import type { HTTPErrorI } from './types'
 import bcrypt from 'bcrypt'
+import type { CookieOptions, Response as ExpressResponse, Request, NextFunction } from 'express'
+import type { HTTPErrorI } from './types'
 // import jwt from 'jsonwebtoken'
 
 export class HTTPError extends Error implements HTTPErrorI {
@@ -78,7 +78,7 @@ export class HTTPResponse {
                 this.json = { ok: true }
             }
         }
-        else this.json = { ok: !isStatusError(this.status), ...payload}
+        else this.json = { ok: !isStatusError(this.status), ...payload }
 
         this.parseCookies(handler)
         this.invoke(handler)
@@ -106,4 +106,31 @@ export class HTTPResponse {
 
 export const hashPassword = (password: string) => bcrypt.hashSync(password, 10)
 
-export const comparePasswords = (plain: string, hashed: string) => bcrypt.compareSync(plain, hashed)
+export const comparePasswords = bcrypt.compareSync
+
+export const generateFileName = (file: Express.Multer.File, extension: string) => file.fieldname + '-' + Date.now().toString() + '.' + extension
+
+export const errorHandler = <ErrorType extends Error>(err: ErrorType, _req: Request, res: ExpressResponse, next: NextFunction) => {
+    if (res.headersSent) {
+        next(err)
+        return
+    }
+
+    let code: number = err instanceof HTTPError ? err.code : 500
+    let errorText: string = err.message || err.toString()
+
+    return new HTTPResponse(res, code, errorText)
+}
+
+export const catchHTTPErrors = (action: (req: Request, res: ExpressResponse, next?: NextFunction) => Promise<HTTPResponse>) => {
+    return async (req: Request, res: ExpressResponse, next?: NextFunction) => {
+        try {
+            return await action(req, res, next)
+        }
+        catch (err) {
+            console.error(err)
+            const { code, message } = getErrorDetails(err)
+            return new HTTPResponse(res, code, message)
+        }
+    }
+}

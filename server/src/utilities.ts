@@ -2,6 +2,7 @@ import { ValidationError } from 'sequelize'
 import bcrypt from 'bcrypt'
 import type { CookieOptions, Response as ExpressResponse, Request, NextFunction } from 'express'
 import type { HTTPErrorI } from './types'
+import { HTTPStatus } from './types/enums.js'
 // import jwt from 'jsonwebtoken'
 
 export class HTTPError extends Error implements HTTPErrorI {
@@ -116,7 +117,7 @@ export const errorHandler = <ErrorType extends Error>(err: ErrorType, _req: Requ
         return
     }
 
-    let code: number = err instanceof HTTPError ? err.code : 500
+    let code: number = err instanceof HTTPError ? err.code : HTTPStatus.INTERNAL_ERROR
     let errorText: string = err.message || err.toString()
 
     return new HTTPResponse(res, code, errorText)

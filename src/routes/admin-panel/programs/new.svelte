@@ -50,9 +50,11 @@
     }
 
     let createError = false
+    let errorText = ''
 
-    const handleError = () => {
+    const handleError = (event: CustomEvent) => {
         createError = true
+        errorText = event.detail.error
     }
 </script>
 
@@ -295,6 +297,11 @@
             {#if createError}
                 <div class="alert alert-danger" role="alert">
                     Произошла ошибка во время создания программы
+                </div>
+            {/if}
+            {#if errorText}
+                <div class="alert alert-danger" role="alert">
+                    {errorText}
                 </div>
             {/if}
         </div>

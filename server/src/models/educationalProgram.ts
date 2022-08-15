@@ -45,7 +45,12 @@ EducationalProgram.init(
     {
         title: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: 'Поле "Название" является обязательным для заполнения'
+                },
+            },
         },
         degree: {
             type: DataTypes.STRING(128),

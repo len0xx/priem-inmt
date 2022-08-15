@@ -73,8 +73,11 @@
         redirect('/admin-panel/programs')
     }
 
-    const handleError = () => {
+    let errorText = ''
+
+    const handleError = (event: CustomEvent) => {
         updateError = true
+        errorText = event.detail.error
     }
 </script>
 
@@ -546,6 +549,11 @@
             {#if deleteError}
                 <div class="alert alert-danger" role="alert">
                     Произошла ошибка во время удаления программы
+                </div>
+            {/if}
+            {#if errorText}
+                <div class="alert alert-danger" role="alert">
+                    {errorText}
                 </div>
             {/if}
         </div>

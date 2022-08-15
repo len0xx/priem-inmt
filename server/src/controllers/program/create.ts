@@ -18,8 +18,8 @@ export const create = async (req: Request, res: Response) => {
                 duration: requestData.period1,
                 languages: requestData.language1,
                 vacantSpots: {
-                    budget: requestData.budget1,
-                    contract: requestData.contract1
+                    budget: +requestData.budget1,
+                    contract: +requestData.contract1
                 }
             }
         }
@@ -30,8 +30,8 @@ export const create = async (req: Request, res: Response) => {
                 duration: requestData.period2,
                 languages: requestData.language2,
                 vacantSpots: {
-                    budget: requestData.budget2,
-                    contract: requestData.contract2
+                    budget: +requestData.budget2,
+                    contract: +requestData.contract2
                 }
             }
         }
@@ -42,8 +42,8 @@ export const create = async (req: Request, res: Response) => {
                 duration: requestData.period3,
                 languages: requestData.language3,
                 vacantSpots: {
-                    budget: requestData.budget3,
-                    contract: requestData.contract3
+                    budget: +requestData.budget3,
+                    contract: +requestData.contract3
                 }
             }
         }

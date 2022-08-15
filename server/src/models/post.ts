@@ -1,9 +1,8 @@
-import { DataTypes, InferAttributes, InferCreationAttributes } from 'sequelize'
-import { Model } from 'sequelize'
+import { CreationOptional, Model, DataTypes, InferAttributes, InferCreationAttributes } from 'sequelize'
 import sequelize from '../../db.js'
 
-class Post extends Model<InferAttributes<Post>, InferCreationAttributes<Post>> {
-    declare id?: number
+class Post extends Model<InferAttributes<Post, { omit: 'id' }>, InferCreationAttributes<Post>> {
+    declare id: CreationOptional<number>
     declare title: string
     declare text: string
     declare links: { text: string, url: string }[]
@@ -11,7 +10,7 @@ class Post extends Model<InferAttributes<Post>, InferCreationAttributes<Post>> {
     declare colourfulBackground?: boolean
 }
 
-export type PostI = InferAttributes<Post>
+export type PostI = InferAttributes<Post, { omit: 'id' }>
 
 Post.init({
     title: {

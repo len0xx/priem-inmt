@@ -1,17 +1,17 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
 import sequelize from '../../db.js'
 import { hashPassword } from '../utilities.js'
 import { Role } from '../types/enums.js'
 
 class User extends Model<InferAttributes<User, { omit: 'id' }>, InferCreationAttributes<User>> {
-    declare id?: number
+    declare id: CreationOptional<number>
     declare firstName: string
-    declare lastName: string
+    declare lastName: string | null
     declare email: string
     declare password: string
-    declare role?: Role
-    declare lastLoginIP?: string
-    declare lastLoginDate?: Date
+    declare role?: CreationOptional<Role>
+    declare lastLoginIP?: CreationOptional<string>
+    declare lastLoginDate?: CreationOptional<Date>
 }
 
 export type UserI = InferAttributes<User, { omit: 'id' }>

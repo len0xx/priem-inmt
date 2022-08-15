@@ -1,4 +1,4 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
 import sequelize from '../../db.js'
 import { DegreeLevel } from '../types/enums.js'
 
@@ -25,8 +25,8 @@ export interface EducationModesI {
     fullTime?: EducationModeI
 }
 
-class EducationalProgram extends Model<InferAttributes<EducationalProgram>, InferCreationAttributes<EducationalProgram>> {
-    declare id?: number
+class EducationalProgram extends Model<InferAttributes<EducationalProgram, { omit: 'id' }>, InferCreationAttributes<EducationalProgram>> {
+    declare id: CreationOptional<number>
     declare title: string
     declare degree: DegreeLevel
     declare educationModes: EducationModesI
@@ -37,7 +37,7 @@ class EducationalProgram extends Model<InferAttributes<EducationalProgram>, Infe
     declare text: string
 }
 
-export type EducationalProgramI = InferAttributes<EducationalProgram>
+export type EducationalProgramI = InferAttributes<EducationalProgram, { omit: 'id' }>
 
 const degrees = [...Object.values(DegreeLevel).filter(k => typeof k === 'string')]
 

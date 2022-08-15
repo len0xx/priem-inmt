@@ -10,6 +10,7 @@ mkdir $dir
 mkdir $dir/build
 cp -r build/* $dir/build
 mkdir $dir/server
+mkdir $dir/server/static
 cp -r server/build/* $dir/server
 cp package*.json $dir
 cp .env $dir

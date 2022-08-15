@@ -1,5 +1,5 @@
 import { ajax } from 'jquery'
-import axios from 'axios'
+import axios, { type AxiosRequestConfig } from 'axios'
 import type { RESTMethod, DefaultAJAXResponse } from './types'
 import type { Program } from './programs'
 
@@ -76,6 +76,17 @@ interface AJAXOptions {
     data?: FormData | Record<string, string> | null,
     csrfToken?: string,
     headers?: JQuery.PlainObject<string> | null
+}
+
+interface BackendResponse extends Record<string, unknown> {
+    ok: boolean,
+    message?: string,
+    error?: string
+}
+
+export const sendFormPostRequest = async (url: string, data: FormData, config?: AxiosRequestConfig<FormData>) => {
+    const res = await axios.post<BackendResponse>(url, data, config)
+    return res.data
 }
 
 // Функция для отправки AJAX запросов с клиента

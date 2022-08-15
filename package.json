@@ -8,6 +8,7 @@
     "version": "1.1.5",
     "esModuleInterop": true,
     "type": "module",
+    "main": "server/server.ts",
     "scripts": {
         "dev": "vite dev --port 3000",
         "dev:host": "npm run dev -- --host",
@@ -70,6 +71,7 @@
         "@types/express": "^4.17.13",
         "@types/jquery": "^3.5.13",
         "@types/jsonwebtoken": "^8.5.8",
+        "@types/multer": "^1.4.7",
         "@types/node": "^14.11.1",
         "@typescript-eslint/eslint-plugin": "^5.18.0",
         "@typescript-eslint/parser": "^5.18.0",

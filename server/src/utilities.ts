@@ -117,8 +117,8 @@ export const errorHandler = <ErrorType extends Error>(err: ErrorType, _req: Requ
         return
     }
 
-    let code: number = err instanceof HTTPError ? err.code : HTTPStatus.INTERNAL_ERROR
-    let errorText: string = err.message || err.toString()
+    const code: number = err instanceof HTTPError ? err.code : HTTPStatus.INTERNAL_ERROR
+    const errorText: string = err.message || err.toString()
 
     return new HTTPResponse(res, code, errorText)
 }

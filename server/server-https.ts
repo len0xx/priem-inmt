@@ -4,7 +4,9 @@ import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import helmet from 'helmet'
 import express from 'express'
+import path from 'path'
 import db from './db.js'
+import { fileURLToPath } from 'url'
 import authRouter from './src/routes/auth.js'
 import { authorize, redirectLogout, requireAuthorization, requireUnauthorized } from './src/middlewares.js'
 
@@ -13,6 +15,8 @@ import { handler as SvelteKitHandler } from '../build/handler.js'
 // Импортируем переменные среды окружения
 dotenv.config()
 const { APP_PORT, APP_IP, NODE_ENV } = process.env
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const dev = NODE_ENV === 'development';
 
 // Подключаемся к БД
@@ -63,6 +67,9 @@ app.use('/admin-panel', requireAuthorization('redirect'))
 app.use('/admin-panel/*', requireAuthorization('redirect'))
 app.use('/admin-panel-auth/logout', redirectLogout)
 app.use('/admin-panel-auth/*', requireUnauthorized)
+
+// Даём доступ к статическим файлам
+app.use('/static', express.static(path.join(__dirname, 'static')))
 
 // Express routes
 app.use('/api/auth', authRouter)

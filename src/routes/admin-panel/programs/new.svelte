@@ -49,10 +49,10 @@
         redirect('/admin-panel/programs')
     }
 
+    let createError = false
+
     const handleError = () => {
-        /* eslint-disable no-alert */
-        // TODO: Заменить alert на более приятный интерфейс
-        alert('Произошла ошибка во время создания программы')
+        createError = true
     }
 </script>
 
@@ -291,5 +291,12 @@
                 <button class="btn btn-primary">Создать</button>
             </div>
         </AjaxForm>
+        <div class="alerts mt-4">
+            {#if createError}
+                <div class="alert alert-danger" role="alert">
+                    Произошла ошибка во время создания программы
+                </div>
+            {/if}
+        </div>
     </div>
 </section>

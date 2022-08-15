@@ -15,7 +15,8 @@
 
 <script lang="ts">
     import { imask } from 'svelte-imask'
-    import { Grid, AjaxForm, RoundButton, TipTap } from '$lib/components'
+    import { Grid, AjaxForm, RoundButton, TipTap, Modal } from '$lib/components'
+    import { modal } from '$lib/stores'
     import { DegreeLevel } from '../../../../types/enums'
     import type { EducationalProgram } from '../../../../types'
     import { redirect } from '$lib/utilities'
@@ -56,18 +57,15 @@
         examsCount --
     }
 
+    let updateError = false
+    let deleteError = false
+
     const removeProgram = async () => {
-        /* eslint-disable no-alert */
-        let isRemove = confirm('Подтвердите удаление образвательной программы')
-        if (isRemove) {
-            const res = await fetch(`http://localhost:8080/api/program/${program.id}`, { method: 'DELETE' })
-            if (res.ok) {
-                /* eslint-disable no-alert */
-                const redirectConfirm = confirm('Программа удалена')
-                if (redirectConfirm) {
-                    redirect('/admin-panel/programs')
-                }
-            }
+        const res = await fetch(`http://localhost:8080/api/program/${program.id}`, { method: 'DELETE' })
+        if (res.ok) {
+            redirect('/admin-panel/programs')
+        } else {
+            deleteError = true
         }
     }
 
@@ -76,15 +74,21 @@
     }
 
     const handleError = () => {
-        /* eslint-disable no-alert */
-        // TODO: Заменить alert на более приятный интерфейс
-        alert('Произошла ошибка во время обновления программы')
+        updateError = true
     }
 </script>
 
 <svelte:head>
     <title>Образовательные программы</title>
 </svelte:head>
+
+<Modal bind:this={ $modal } align="center" closable={true}>
+    <p class="mb-4">Подтвердите удаление образовательной программы</p>
+    <div class="buttons-row">
+        <button type="button" on:click={removeProgram} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={$modal.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -530,8 +534,20 @@
             <br />
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
-                <button type="button" on:click={removeProgram} class="btn btn-danger">Удалить</button>
+                <button type="button" on:click={$modal.open} class="btn btn-danger">Удалить</button>
             </div>
         </AjaxForm>
+        <div class="alerts mt-4">
+            {#if updateError}
+                <div class="alert alert-danger" role="alert">
+                    Произошла ошибка во время обновления программы
+                </div>
+            {/if}
+            {#if deleteError}
+                <div class="alert alert-danger" role="alert">
+                    Произошла ошибка во время удаления программы
+                </div>
+            {/if}
+        </div>
     </div>
 </section>

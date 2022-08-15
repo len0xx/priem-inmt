@@ -1,3 +1,19 @@
+<script lang="ts">
+    import { AjaxForm } from '$components'
+
+    let success = false
+    let errorText = ''
+
+    const handleSuccess = () => {
+        success = true
+    }
+
+    const handleError = (event: CustomEvent<{ error: string }>) => {
+        errorText = event.detail.error
+        console.log(errorText)
+    }
+</script>
+
 <svelte:head>
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
@@ -7,7 +23,12 @@
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <!-- <p>Добро пожаловать, { user ? user.fullname : 'undefined' }! <a href="/admin-panel/logout">Выйти</a></p> -->
         <h3>Контактные данные</h3>
-        <form action="/api/admin/info/contacts" method="POST">
+        <AjaxForm action="/api/admin/info/contacts" method="POST" on:success={handleSuccess} on:error={handleError}>
+            { #if success }
+                <p class="success">Контактные данные успешно изменены</p>
+            { :else if errorText }
+                <p class="error">{ errorText }</p>
+            {/if }
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Контактный номер телефона:</span><br />
@@ -41,7 +62,7 @@
             </div>
             <br />
             <button class="btn btn-primary">Сохранить</button>
-        </form>
+        </AjaxForm>
     </div>
 </section>
 

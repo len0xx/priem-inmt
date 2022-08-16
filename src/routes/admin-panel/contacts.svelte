@@ -16,6 +16,7 @@
     import { AjaxForm } from '$components'
     import type { ContactInfoI } from '../../types'
     import { imask } from 'svelte-imask'
+    import { slide } from 'svelte/transition'
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
@@ -46,9 +47,9 @@
         <!-- <p>Добро пожаловать, { user ? user.fullname : 'undefined' }! <a href="/admin-panel/logout">Выйти</a></p> -->
         <h3>Контактные данные</h3>
         { #if success }
-            <p class="success">Контактные данные успешно изменены</p>
+            <p transition:slide={{ duration: 200 }} class="success">Контактные данные успешно изменены</p>
         { :else if errorText }
-            <p class="error">{ errorText }</p>
+            <p transition:slide={{ duration: 200 }} class="error">{ errorText }</p>
         {/if }
         <AjaxForm
             action="/api/admin/info/contacts"

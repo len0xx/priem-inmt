@@ -1,4 +1,4 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes, STRING } from 'sequelize'
 import sequelize from '../../db.js'
 
 class ContactInfo extends Model<InferAttributes<ContactInfo>, InferCreationAttributes<ContactInfo>> {
@@ -13,14 +13,14 @@ class ContactInfo extends Model<InferAttributes<ContactInfo>, InferCreationAttri
 export type ContactInfoI = InferAttributes<ContactInfo>
 
 ContactInfo.init({
-    tel: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
+    tel: STRING,
     email: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
+            notNull: {
+                msg: 'Поле "E-mail" не должно быть пустым'
+            },
             notEmpty: {
                 msg: 'Поле "E-mail" не должно быть пустым'
             },
@@ -33,8 +33,11 @@ ContactInfo.init({
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
+            notNull: {
+                msg: 'Поле «Дирекция института» не должно быть пустым'
+            },
             notEmpty: {
-                msg: 'Поле "Дирекция института" не должно быть пустым'
+                msg: 'Поле «Дирекция института» не должно быть пустым'
             }
         }
     },
@@ -42,29 +45,16 @@ ContactInfo.init({
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
+            notNull: {
+                msg: 'Поле «Приемная комиссия» не должно быть пустым'
+            },
             notEmpty: {
-                msg: 'Поле "Приемная комиссия" не должно быть пустым'
+                msg: 'Поле «Приемная комиссия» не должно быть пустым'
             }
         }
     },
-    vkUrl: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            isUrl: {
-                msg: 'Пожалуйста, введите коректный URL в поле "Ссылка ВКонтакте"'
-            }
-        }
-    },
-    tgUrl: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            isUrl: {
-                msg: 'Пожалуйста, введите коректный URL в поле "Ссылка Телеграм"'
-            }
-        }
-    }
+    vkUrl: STRING,
+    tgUrl: STRING
 },
 {
     sequelize,

@@ -50,3 +50,12 @@ export interface PostI {
     img?: string
     colourfulBackground?: boolean
 }
+
+export interface ContactInfoI {
+    tel: string
+    email: string
+    directorateAddress: string
+    admissionsAddress: string
+    vkUrl: string
+    tgUrl: string
+}

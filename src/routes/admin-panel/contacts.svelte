@@ -15,6 +15,11 @@
 <script lang="ts">
     import { AjaxForm } from '$components'
     import type { ContactInfoI } from '../../types'
+    import { imask } from 'svelte-imask'
+
+    let phoneMask = {
+        mask: '+{7} (000) 000-00-00'
+    }
 
     let success = false
     let errorText = ''
@@ -55,32 +60,32 @@
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Контактный номер телефона:</span><br />
-                    <input class="form-control" type="tel" name="tel" id="tel" value={ contactInfo?.tel || null } />
+                    <input class="form-control" type="tel" name="tel" id="tel" use:imask={phoneMask} value={ contactInfo?.tel || '' } />
                 </label>
                 <label>
                     <span class="caption">Контактный адрес электронной почты:</span><br />
                     <input class="form-control" type="email" name="email" id="email"
-                        placeholder="contact@urfu.ru" value={ contactInfo?.email || null } />
+                        placeholder="contact@urfu.ru" value={ contactInfo?.email || '' } required />
                 </label>
                 <label>
                     <span class="caption">Дирекция института:</span><br />
                     <input class="form-control" type="text" name="directorateAddress" id="directorateAddress"
-                        placeholder="г. Екатеринбург, ул. Софьи Ковалевской, 5" value={ contactInfo?.directorateAddress || null } />
+                        placeholder="г. Екатеринбург, ул. Софьи Ковалевской, 5" value={ contactInfo?.directorateAddress || '' } required />
                 </label>
                 <label>
                     <span class="caption">Приёмная комиссия:</span><br />
                     <input class="form-control" type="text" name="admissionsAddress" id="admissionsAddress"
-                        placeholder="г. Екатеринбург, ул. Мира, 19" value={ contactInfo?.admissionsAddress || null } />
+                        placeholder="г. Екатеринбург, ул. Мира, 19" value={ contactInfo?.admissionsAddress || '' } required />
                 </label>
                 <label>
                     <span class="caption">Ссылка ВКонтакте:</span><br />
                     <input class="form-control" type="text" name="vkUrl" id="vkUrl"
-                        placeholder="https://vk.com/ural.federal.university" value={ contactInfo?.vkUrl || null } />
+                        placeholder="https://vk.com/ural.federal.university" value={ contactInfo?.vkUrl || '' } />
                 </label>
                 <label>
                     <span class="caption">Ссылка Telegram:</span><br />
                     <input class="form-control" type="text" name="tgUrl" id="tgUrl"
-                        placeholder="https://t.me/urfu" value={ contactInfo?.tgUrl || null } />
+                        placeholder="https://t.me/urfu" value={ contactInfo?.tgUrl || '' } />
                 </label>
             </div>
             <br />

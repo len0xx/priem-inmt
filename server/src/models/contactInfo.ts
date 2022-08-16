@@ -19,28 +19,58 @@ ContactInfo.init({
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: {
+                msg: 'Поле "E-mail" не должно быть пустым'
+            },
+            isEmail: {
+                msg: 'Пожалуйста, введите корректный e-mail'
+            }
+        }
     },
     directorateAddress: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: {
+                msg: 'Поле "Дирекция института" не должно быть пустым'
+            }
+        }
     },
     admissionsAddress: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: {
+                msg: 'Поле "Приемная комиссия" не должно быть пустым'
+            }
+        }
     },
     vkUrl: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isUrl: {
+                msg: 'Пожалуйста, введите коректный URL в поле "Ссылка ВКонтакте"'
+            }
+        }
     },
     tgUrl: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isUrl: {
+                msg: 'Пожалуйста, введите коректный URL в поле "Ссылка Телеграм"'
+            }
+        }
     }
 },
 {
     sequelize,
     modelName: 'ContactInfo'
 })
+
+// sequelize.sync()
 
 export default ContactInfo

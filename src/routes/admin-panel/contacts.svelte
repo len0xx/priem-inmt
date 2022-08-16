@@ -45,6 +45,11 @@
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <!-- <p>Добро пожаловать, { user ? user.fullname : 'undefined' }! <a href="/admin-panel/logout">Выйти</a></p> -->
         <h3>Контактные данные</h3>
+        { #if success }
+            <p class="success">Контактные данные успешно изменены</p>
+        { :else if errorText }
+            <p class="error">{ errorText }</p>
+        {/if }
         <AjaxForm
             action="/api/admin/info/contacts"
             method="POST"
@@ -52,11 +57,6 @@
             on:success={handleSuccess}
             on:error={handleError}
         >
-            { #if success }
-                <p class="success">Контактные данные успешно изменены</p>
-            { :else if errorText }
-                <p class="error">{ errorText }</p>
-            {/if }
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Контактный номер телефона:</span><br />

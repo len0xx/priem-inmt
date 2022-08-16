@@ -1,4 +1,4 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes, STRING } from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
 import sequelize from '../../db.js'
 
 class ContactInfo extends Model<InferAttributes<ContactInfo>, InferCreationAttributes<ContactInfo>> {
@@ -13,7 +13,9 @@ class ContactInfo extends Model<InferAttributes<ContactInfo>, InferCreationAttri
 export type ContactInfoI = InferAttributes<ContactInfo>
 
 ContactInfo.init({
-    tel: STRING,
+    tel: {
+        type: DataTypes.STRING,
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -53,8 +55,12 @@ ContactInfo.init({
             }
         }
     },
-    vkUrl: STRING,
-    tgUrl: STRING
+    vkUrl: {
+        type: DataTypes.STRING,
+    },
+    tgUrl: {
+        type: DataTypes.STRING,
+    }
 },
 {
     sequelize,

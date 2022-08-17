@@ -2,6 +2,7 @@ import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequ
 import sequelize from '../../db.js'
 
 class ContactInfo extends Model<InferAttributes<ContactInfo>, InferCreationAttributes<ContactInfo>> {
+    declare id: number
     declare tel: string
     declare email: string
     declare directorateAddress: string
@@ -13,6 +14,12 @@ class ContactInfo extends Model<InferAttributes<ContactInfo>, InferCreationAttri
 export type ContactInfoI = InferAttributes<ContactInfo>
 
 ContactInfo.init({
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        defaultValue: 1
+    },
     tel: {
         type: DataTypes.STRING,
     },

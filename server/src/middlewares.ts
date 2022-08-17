@@ -24,10 +24,10 @@ export const authorize = async (req: CustomRequest, _: Response, next: NextFunct
 }
 
 // Если пользователь не авторизован – показываем соответствующее сообщение об ошибке или перенаправляем его на страницу входа
-export const requireAuthorization = (response: 'redirect' | 'text' = 'text') => {
+export const requireAuthorization = (response: 'redirect' | 'json' = 'json') => {
     const requiredRole = dev ? Role.User : Role.Admin
-    const status = response == 'text' ? HTTPStatus.FORBIDDEN : HTTPStatus.MOVED
-    const payload = response == 'text' ? 'У вас нет доступа к этому ресурсу' : '/admin-panel-auth/login'
+    const status = response == 'json' ? HTTPStatus.FORBIDDEN : HTTPStatus.MOVED
+    const payload = response == 'json' ? 'У вас нет доступа к этому ресурсу' : '/admin-panel-auth/login'
 
     return (req: CustomRequest, res: Response, next: NextFunction) => {
         if (!(req.user && req.user instanceof User && req.user.role === requiredRole))

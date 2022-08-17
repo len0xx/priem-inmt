@@ -1,18 +1,19 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { CreationOptional, DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
 import sequelize from '../../db.js'
 
-class Feedback extends Model<InferAttributes<Feedback>, InferCreationAttributes<Feedback>> {
-    declare title: string
+class Feedback extends Model<InferAttributes<Feedback, { omit: 'id' }>, InferCreationAttributes<Feedback>> {
+    declare id: CreationOptional<number>
+    declare name: string
     declare description: string
     declare img: string
     declare text: string
 }
 
-export type FeedbackI = InferAttributes<Feedback>
+export type FeedbackI = InferAttributes<Feedback, { omit: 'id' }>
 
 Feedback.init(
     {
-        title: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {

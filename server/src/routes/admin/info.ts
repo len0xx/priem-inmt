@@ -1,8 +1,11 @@
 import { Router } from 'express'
-import { update } from '../../controllers/contactInfo/update.js'
+import { readAll } from '../../controllers/admin/contactInfo/read.js'
+import { update } from '../../controllers/admin/contactInfo/update.js'
+import { requireAuthorization } from '../../middlewares.js'
 
 const router = Router() /* eslint-disable-line */
 
-router.post('/contacts', update)
+router.get('/contacts', readAll)
+router.post('/contacts', requireAuthorization('text'), update)
 
 export default router

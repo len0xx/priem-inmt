@@ -2,6 +2,7 @@ import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequ
 import sequelize from '../../db.js'
 
 class ContactInfo extends Model<InferAttributes<ContactInfo>, InferCreationAttributes<ContactInfo>> {
+    declare id: number
     declare tel: string
     declare email: string
     declare directorateAddress: string
@@ -13,34 +14,66 @@ class ContactInfo extends Model<InferAttributes<ContactInfo>, InferCreationAttri
 export type ContactInfoI = InferAttributes<ContactInfo>
 
 ContactInfo.init({
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        defaultValue: 1
+    },
     tel: {
         type: DataTypes.STRING,
-        allowNull: false
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'Поле "E-mail" не должно быть пустым'
+            },
+            notEmpty: {
+                msg: 'Поле "E-mail" не должно быть пустым'
+            },
+            isEmail: {
+                msg: 'Пожалуйста, введите корректный e-mail'
+            }
+        }
     },
     directorateAddress: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'Поле «Дирекция института» не должно быть пустым'
+            },
+            notEmpty: {
+                msg: 'Поле «Дирекция института» не должно быть пустым'
+            }
+        }
     },
     admissionsAddress: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'Поле «Приемная комиссия» не должно быть пустым'
+            },
+            notEmpty: {
+                msg: 'Поле «Приемная комиссия» не должно быть пустым'
+            }
+        }
     },
     vkUrl: {
         type: DataTypes.STRING,
-        allowNull: false
     },
     tgUrl: {
         type: DataTypes.STRING,
-        allowNull: false
     }
 },
 {
     sequelize,
     modelName: 'ContactInfo'
 })
+
+// sequelize.sync()
 
 export default ContactInfo

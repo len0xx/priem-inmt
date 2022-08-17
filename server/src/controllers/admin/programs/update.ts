@@ -32,7 +32,7 @@ export const update = async (req: Request, res: Response) => {
                 languages: requestData.language2,
                 vacantSpots: {
                     budget: +requestData.budget2,
-                    contract: +requestData.contract2
+                    contract: +requestData.contract2,
                 }
             }
         }

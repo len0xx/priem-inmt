@@ -6,7 +6,8 @@ export interface TeacherI {
     name: string,
     caption: string,
     phone: string,
-    email: string
+    email: string,
+    photo?: string
 }
 
 export interface EducationModeI {
@@ -35,6 +36,7 @@ class EducationalProgram extends Model<InferAttributes<EducationalProgram, { omi
     declare feedbacks: { name: string, caption: string, text: string }[]
     declare exams: { title: string, result: string }[]
     declare text: string
+    declare partners?: string[]
 }
 
 export type EducationalProgramI = InferAttributes<EducationalProgram, { omit: 'id' }>
@@ -90,6 +92,10 @@ EducationalProgram.init(
         text: {
             type: DataTypes.TEXT,
             allowNull: false
+        },
+        partners: {
+            type: DataTypes.JSON,
+            allowNull: true
         }
     },
     {

@@ -52,10 +52,19 @@ export interface PostI {
 }
 
 export interface ContactInfoI {
+    id: number
     tel: string
     email: string
     directorateAddress: string
     admissionsAddress: string
     vkUrl: string
     tgUrl: string
+}
+
+export interface FeedbackI {
+    id?: number
+    name: string
+    description: string
+    img?: string
+    text: string
 }

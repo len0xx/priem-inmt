@@ -4,7 +4,7 @@ import User from './models/user.js'
 import userService from './services/user.js'
 import { HTTPResponse } from './utilities.js'
 import { Role, HTTPStatus } from './types/enums.js'
-import type { Response, NextFunction } from 'express'
+import type { Response, NextFunction, Request } from 'express'
 import type { CustomRequest } from './types'
 
 dotenv.config()
@@ -46,4 +46,4 @@ export const requireUnauthorized = (req: CustomRequest, res: Response, next: Nex
 }
 
 // Перенаправляем пользователя с /admin-panel-auth/logout на /api/auth/logout
-export const redirectLogout = (_: CustomRequest, res: Response) => new HTTPResponse(res, HTTPStatus.MOVED, '/api/auth/logout')
+export const redirectLogout = (_: Request, res: Response) => new HTTPResponse(res, HTTPStatus.MOVED, '/api/auth/logout')

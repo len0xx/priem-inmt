@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 import helmet from 'helmet'
 import express from 'express'
 import path from 'path'
-import db from './db.js'
+import { connectDB } from './db.js'
 import { fileURLToPath } from 'url'
 import authRouter from './src/routes/auth.js'
 import { authorize, redirectLogout, requireAuthorization, requireUnauthorized } from './src/middlewares.js'
@@ -14,24 +14,12 @@ import { handler as SvelteKitHandler } from '../build/handler.js'
 
 // Импортируем переменные среды окружения
 dotenv.config()
-const { APP_PORT, APP_IP, NODE_ENV } = process.env
+const { APP_PORT, APP_IP } = process.env
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const dev = NODE_ENV === 'development';
 
 // Подключаемся к БД
-(async () => {
-    try {
-        await db.authenticate()
-        db.sync({ alter: dev })
-        console.log('DB connected successfully')
-    }
-    catch (e) {
-        console.error('DB connection failed')
-        console.error(e)
-        process.exit(1)
-    }
-})()
+connectDB()
 
 // Создаём приложение Express
 const app = express()
@@ -83,4 +71,4 @@ const options = {
 }
 
 // Запускаем сервер с использование SSL сертификата
-https.createServer(options, app).listen(+APP_PORT, APP_IP, () => console.log('Server runs on ' + APP_IP + ':' + APP_PORT))
+https.createServer(options, app).listen(+APP_PORT, APP_IP, () => console.log('Server is running on ' + APP_IP + ':' + APP_PORT))

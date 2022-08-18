@@ -5,12 +5,15 @@ import express from 'express'
 import path from 'path'
 import { connectDB } from './db.js'
 import authRouter from './src/routes/auth.js'
+import dormitoryRouter from './src/routes/admin/dormitory.js'
 import feedbackRouter from './src/routes/admin/feedback.js'
 import infoRouter from './src/routes/admin/info.js'
 import postRouter from './src/routes/admin/post.js'
 import uploadRouter from './src/routes/upload.js'
 // import featureRouter from './src/routes/feature.js'
 import programRouter from './src/routes/admin/program.js'
+import responsibleRouter from './src/routes/admin/responsible.js'
+import questionRouter from './src/routes/admin/question.js'
 import { fileURLToPath } from 'url'
 import { authorize, redirectLogout, requireAuthorization, requireUnauthorized } from './src/middlewares.js'
 import { errorHandler } from './src/utilities.js'
@@ -66,10 +69,13 @@ app.use('/static', express.static(path.join(__dirname, 'static')))
 
 // Express routes
 app.use('/api/auth', authRouter)
+app.use('/api/admin/dormitory', dormitoryRouter)
 app.use('/api/admin/feedback', feedbackRouter)
 app.use('/api/admin/info', infoRouter)
 app.use('/api/admin/post', postRouter)
 app.use('/api/admin/programs', programRouter)
+app.use('/api/admin/responsible', responsibleRouter)
+app.use('/api/admin/question', questionRouter)
 app.use('/api/upload', uploadRouter)
 
 // Обработчик ошибок

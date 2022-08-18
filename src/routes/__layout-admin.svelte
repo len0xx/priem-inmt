@@ -14,9 +14,11 @@
     const MASTER_URL = BASE_URL + '/master'
     const ACCOMMODATION_URL = BASE_URL + '/accommodation'
     const CONTACTS_URL = BASE_URL + '/contacts'
+    const RESPONSIBLE_URL = BASE_URL + '/responsibles'
     const POSTS_URL = BASE_URL + '/posts'
     const FEEDBACKS_URL = BASE_URL + '/feedbacks'
-
+    const DORMITORIES_URL = BASE_URL + '/dormitories'
+    
     const TECH_SUPPORT_EMAIL = 'contact@len0xx.space'
 </script>
 
@@ -53,8 +55,10 @@
             <a href={ MASTER_URL } class:active={ URL.startsWith(MASTER_URL) } sveltekit:prefetch class="menu-item">Магистратура</a>
             <a href={ ACCOMMODATION_URL } class:active={ URL.startsWith(ACCOMMODATION_URL) } sveltekit:prefetch class="menu-item">Поселение</a>
             <a href={ CONTACTS_URL } class:active={ URL.startsWith(CONTACTS_URL) } sveltekit:prefetch class="menu-item">Контакты</a>
+            <a href={ RESPONSIBLE_URL } class:active={ URL.startsWith(RESPONSIBLE_URL) } sveltekit:prefetch class="menu-item">Ответственные лица</a>
             <a href={ POSTS_URL } class:active={ URL.startsWith(POSTS_URL) } sveltekit:prefetch class="menu-item">Публикации</a>
             <a href={ FEEDBACKS_URL } class:active={ URL.startsWith(FEEDBACKS_URL) } sveltekit:prefetch class="menu-item">Отзывы</a>
+            <a href={ DORMITORIES_URL } class:active={ URL.startsWith(DORMITORIES_URL) } sveltekit:prefetch class="menu-item">Общежития</a>
         </nav>
     </aside>
     <div class="panel-content">

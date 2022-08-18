@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-    import { AjaxForm, Graduate } from '$components'
+    import { AjaxForm } from '$components'
     import { slide } from 'svelte/transition'
     import { Grid } from '$components'
     import type { DormitoryI } from '../../../../types'

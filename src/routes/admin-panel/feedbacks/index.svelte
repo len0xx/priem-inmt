@@ -79,57 +79,59 @@
             <button class="btn btn-primary">Создать</button>
         </AjaxForm>
     </div>
-    <br />
-    <div class="white-block-wide">
-        <h3 class="no-top-margin">Существующие отзывы</h3>
-        <Grid m={3} s={1} alignItems="start">
-            <Grid m={1} alignItems="start">
-                { #each feedbacks.filter((_, i) => i % 3 == 0) as feedback }
-                    <Profile img={ feedback.img }>
-                        <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                        <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                        <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                    </Profile>
-                    <div>
-                        <a href="/admin-panel/feedbacks/update/{ feedback.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                        <AjaxForm className="d-inline" action="/api/admin/feedback/{ feedback.id }" method="DELETE" on:success={ handleSuccess } on:error={ handleError }>
-                            <button class="btn btn-outline-danger btn-sm">Удалить</button>
-                        </AjaxForm>
-                    </div>
-                { /each }
+    { #if feedbacks.length }
+        <br />
+        <div class="white-block-wide">
+            <h3 class="no-top-margin">Существующие отзывы</h3>
+            <Grid m={3} s={1} alignItems="start">
+                <Grid m={1} alignItems="start">
+                    { #each feedbacks.filter((_, i) => i % 3 == 0) as feedback }
+                        <Profile img={ feedback.img }>
+                            <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                            <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                            <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                        </Profile>
+                        <div>
+                            <a href="/admin-panel/feedbacks/update/{ feedback.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <AjaxForm className="d-inline" action="/api/admin/feedback/{ feedback.id }" method="DELETE" on:success={ handleSuccess } on:error={ handleError }>
+                                <button class="btn btn-outline-danger btn-sm">Удалить</button>
+                            </AjaxForm>
+                        </div>
+                    { /each }
+                </Grid>
+                <Grid m={1} alignItems="start">
+                    { #each feedbacks.filter((_, i) => i % 3 == 1) as feedback }
+                        <Profile img={ feedback.img }>
+                            <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                            <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                            <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                        </Profile>
+                        <div>
+                            <a href="/admin-panel/feedbacks/update/{ feedback.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <AjaxForm className="d-inline" action="/api/admin/feedback/{ feedback.id }" method="DELETE" on:success={ handleSuccess } on:error={ handleError }>
+                                <button class="btn btn-outline-danger btn-sm">Удалить</button>
+                            </AjaxForm>
+                        </div>
+                    { /each }
+                </Grid>
+                <Grid m={1} alignItems="start">
+                    { #each feedbacks.filter((_, i) => i % 3 == 2) as feedback }
+                        <Profile img={ feedback.img }>
+                            <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                            <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                            <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                        </Profile>
+                        <div>
+                            <a href="/admin-panel/feedbacks/update/{ feedback.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <AjaxForm className="d-inline" action="/api/admin/feedback/{ feedback.id }" method="DELETE" on:success={ handleSuccess } on:error={ handleError }>
+                                <button class="btn btn-outline-danger btn-sm">Удалить</button>
+                            </AjaxForm>
+                        </div>
+                    { /each }
+                </Grid>
             </Grid>
-            <Grid m={1} alignItems="start">
-                { #each feedbacks.filter((_, i) => i % 3 == 1) as feedback }
-                    <Profile img={ feedback.img }>
-                        <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                        <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                        <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                    </Profile>
-                    <div>
-                        <a href="/admin-panel/feedbacks/update/{ feedback.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                        <AjaxForm className="d-inline" action="/api/admin/feedback/{ feedback.id }" method="DELETE" on:success={ handleSuccess } on:error={ handleError }>
-                            <button class="btn btn-outline-danger btn-sm">Удалить</button>
-                        </AjaxForm>
-                    </div>
-                { /each }
-            </Grid>
-            <Grid m={1} alignItems="start">
-                { #each feedbacks.filter((_, i) => i % 3 == 2) as feedback }
-                    <Profile img={ feedback.img }>
-                        <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                        <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                        <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                    </Profile>
-                    <div>
-                        <a href="/admin-panel/feedbacks/update/{ feedback.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                        <AjaxForm className="d-inline" action="/api/admin/feedback/{ feedback.id }" method="DELETE" on:success={ handleSuccess } on:error={ handleError }>
-                            <button class="btn btn-outline-danger btn-sm">Удалить</button>
-                        </AjaxForm>
-                    </div>
-                { /each }
-            </Grid>
-        </Grid>
-    </div>
+        </div>
+    { /if }
 </section>
 <style>
     label {

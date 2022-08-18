@@ -73,16 +73,16 @@
             <button class="btn btn-primary">Создать</button>
         </AjaxForm>
     </div>
-    { #if dormitories }
-    <br />
-    <div class="white-block-wide">
-        <h3 class="no-top-margin">Существующие общежития</h3>
-        <Grid m={4} s={1}>
-            { #each dormitories as dormitory, i (i) }
-                <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address } />
-            { /each }
-        </Grid>
-    </div>
+    { #if dormitories.length }
+        <br />
+        <div class="white-block-wide">
+            <h3 class="no-top-margin">Существующие общежития</h3>
+            <Grid m={4} s={1}>
+                { #each dormitories as dormitory, i (i) }
+                    <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address } />
+                { /each }
+            </Grid>
+        </div>
     { /if }
 </section>
 <style>

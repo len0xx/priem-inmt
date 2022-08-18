@@ -13,25 +13,34 @@
 </script>
 
 <script lang="ts">
-    import { AjaxForm } from '$components'
-    import { slide } from 'svelte/transition'
+    import { AjaxForm, Modal } from '$components'
     import { Grid } from '$components'
+    import { modal } from '$lib/stores'
     import type { FeedbackI } from '../../../../types'
+    import { redirect } from '$lib/utilities'
 
     export let feedback: FeedbackI
 
-    let success = false
+    let updateError = false
+    let deleteError = false
     let errorText = ''
-    let successText = ''
 
-    const handleSuccess = (event: CustomEvent<{ message: string }>) => {
-        success = true
-        successText = event.detail.message
+    const handleSuccess = () => {
+        redirect('/admin-panel/dormitories')
     }
 
     const handleError = (event: CustomEvent<{ error: string }>) => {
-        success = false
+        updateError = true
         errorText = event.detail.error
+    }
+
+    const removefeedback = async () => {
+        const res = await fetch(`http://localhost:8080/api/admin/feedback/${feedback.id}`, { method: 'DELETE' })
+        if (res.ok) {
+            redirect('/admin-panel/feedbacks')
+        } else {
+            deleteError = true
+        }
     }
 </script>
 
@@ -39,16 +48,33 @@
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
 
+<Modal bind:this={ $modal } align="center" closable={true}>
+    <p class="mb-4">Подтвердите удаление отзыва</p>
+    <div class="buttons-row">
+        <button type="button" on:click={removefeedback} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={$modal.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Отзывы</h2>
         <h3>Редактировать отзыв</h3>
-        <AjaxForm action="/api/admin/feedback/{ feedback.id }" method="PATCH" on:success={ handleSuccess } on:error={ handleError } noReset={ true }>
-            { #if success }
-                <p transition:slide={{ duration: 200 }} class="success">{ successText }</p>
+        <AjaxForm action="/api/admin/feedback/{ feedback.id }" method="PATCH" on:success={ handleSuccess } on:error={ handleError } noReset={true}>
+            { #if updateError }
+                <div class="alert alert-danger">
+                    Произошла ошибка во&nbsp;время обновления
+                </div>
+            { /if }
+            { #if deleteError }
+                <div class="alert alert-danger">
+                    Произошла ошибка во&nbsp;время удаления
+                </div>
             { /if }
             { #if errorText }
-                <p transition:slide={{ duration: 200 }} class="error">{ errorText }</p>
+                <div class="alert alert-danger">
+                    { errorText }
+                </div>
             { /if }
             <Grid m={2} s={1}>
                 <div>
@@ -77,11 +103,13 @@
                 </div>
             </Grid>
             <br />
-            <button class="btn btn-primary">Сохранить</button>
+            <div class="buttons-row">
+                <button class="btn btn-primary">Сохранить</button>
+                <button type="button" class="btn btn-outline-danger" on:click={ $modal.open }>Удалить отзыв</button>
+            </div>
         </AjaxForm>
     </div>
 </section>
-
 <style>
     label {
         width: 100%;

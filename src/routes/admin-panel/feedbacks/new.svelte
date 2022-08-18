@@ -6,7 +6,7 @@
     let errorText = ''
 
     const handleSuccess = () => {
-        redirect('/admin-panel/dormitories')
+        redirect('/admin-panel/feedbacks')
     }
 
     const handleError = (event: CustomEvent<{ error: string }>) => {

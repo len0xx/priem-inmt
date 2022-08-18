@@ -23,7 +23,7 @@
         <h2 class="no-top-margin">Общежития</h2>
         <a href="/admin-panel/dormitories/new"><button type="button" class="btn btn-outline-primary">Создать новое общежитие</button></a>
         { #if dormitories.length }
-            <Grid className="mt-5" m={4} s={1} alignItems="stretch">
+            <Grid className="mt-5" m={4} s={1}>
                 { #each dormitories as dormitory, i (i) }
                     <div>
                         <a href="/admin-panel/dormitories/update/{ dormitory.id }">

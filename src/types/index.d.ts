@@ -51,6 +51,15 @@ export interface PostI {
     colourfulBackground?: boolean
 }
 
+export interface ResponsibleI {
+    id?: number
+    name: string
+    label: string
+    phone: string
+    email: string
+    photo?: string
+}
+
 export interface ContactInfoI {
     id: number
     tel: string

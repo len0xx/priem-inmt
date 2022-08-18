@@ -1,0 +1,23 @@
+import responsibleService from '../../../services/responsible.js'
+import { getErrorDetails, HTTPResponse } from '../../../utilities.js'
+import { HTTPStatus } from '../../../types/enums.js'
+import type { Request, Response } from 'express'
+
+export const create = async (req: Request, res: Response) => {
+    try {
+        const { name, label, phone, email } = req.body
+
+        await responsibleService.create({
+            name: name,
+            label: label,
+            phone: phone,
+            email: email
+        })
+        return new HTTPResponse(res, HTTPStatus.CREATED, 'Ответственное лицо успешно создано')
+    }
+    catch (err) {
+        console.error(err)
+        const { code, message } = getErrorDetails(err)
+        return new HTTPResponse(res, code, message)
+    }
+}

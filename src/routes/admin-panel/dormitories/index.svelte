@@ -42,7 +42,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Общежития</h2>
         <h3>Создать новое общежитие</h3>
-        <AjaxForm action="/api/admin/Dormitory" method="POST" on:success={ handleSuccess } on:error={ handleError }>
+        <AjaxForm action="/api/admin/dormitory" method="POST" on:success={ handleSuccess } on:error={ handleError }>
             { #if success }
                 <p transition:slide={{ duration: 200 }} class="success">{ successText }</p>
             { /if }

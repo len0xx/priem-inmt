@@ -79,7 +79,15 @@
             <h3 class="no-top-margin">Существующие общежития</h3>
             <Grid m={4} s={1}>
                 { #each dormitories as dormitory, i (i) }
+                <div>
                     <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address } />
+                    <div class="mt-3">
+                        <a href="/admin-panel/dormitories/update/{ dormitory.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                        <AjaxForm className="d-inline" action="/api/admin/dormitory/{ dormitory.id }" method="DELETE" on:success={ handleSuccess } on:error={ handleError }>
+                            <button class="btn btn-outline-danger btn-sm">Удалить</button>
+                        </AjaxForm>
+                    </div>
+                </div>
                 { /each }
             </Grid>
         </div>

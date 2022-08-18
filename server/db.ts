@@ -20,6 +20,7 @@ const CONFIG: ConnectionConfig = {
     options: {
         host: dev ? 'localhost' : DB_HOST,
         dialect: 'postgres',
+        logging: dev ? console.log : false,
         hooks: {
             beforeDefine: (_, model) => {
                 const prefix = dev ? 'dev_' : ''

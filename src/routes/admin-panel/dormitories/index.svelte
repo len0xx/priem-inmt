@@ -40,8 +40,8 @@
 
 <section class="main-content">
     <div class="white-block-wide">
-        <h2 class="no-top-margin">Отзывы</h2>
-        <h3>Создать новый отзыв</h3>
+        <h2 class="no-top-margin">Общежития</h2>
+        <h3>Создать новое общежитие</h3>
         <AjaxForm action="/api/admin/Dormitory" method="POST" on:success={ handleSuccess } on:error={ handleError }>
             { #if success }
                 <p transition:slide={{ duration: 200 }} class="success">{ successText }</p>
@@ -73,6 +73,7 @@
             <button class="btn btn-primary">Создать</button>
         </AjaxForm>
     </div>
+    { #if dormitories }
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Существующие общежития</h3>
@@ -82,6 +83,7 @@
             { /each }
         </Grid>
     </div>
+    { /if }
 </section>
 <style>
     label {

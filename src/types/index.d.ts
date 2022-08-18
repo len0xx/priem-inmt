@@ -68,3 +68,10 @@ export interface FeedbackI {
     img?: string
     text: string
 }
+
+export interface DormitoryI {
+    id?: number
+    img: string
+    title: string
+    address: string
+}

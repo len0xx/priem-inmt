@@ -7,7 +7,7 @@ import { requireAuthorization } from '../../middlewares.js'
 
 const router = Router() /* eslint-disable-line */
 
-router.post('/', requireAuthorization('text'), create)
+router.post('/', requireAuthorization('json'), create)
 
 router.get('/', readAll)
 

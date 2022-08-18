@@ -6,6 +6,6 @@ import { requireAuthorization } from '../../middlewares.js'
 const router = Router() /* eslint-disable-line */
 
 router.get('/contacts', readAll)
-router.post('/contacts', requireAuthorization('text'), update)
+router.post('/contacts', requireAuthorization('json'), update)
 
 export default router

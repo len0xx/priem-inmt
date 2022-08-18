@@ -5,6 +5,7 @@ class Question extends Model<InferAttributes<Question, { omit: 'id' }>, InferCre
     declare id: CreationOptional<number>
     declare text: string
     declare answer: string
+    // declare page: string
 }
 
 export type QuestionI = InferAttributes<Question, { omit: 'id' }>
@@ -19,6 +20,10 @@ Question.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        // page: {
+        //     type: DataTypes.STRING,
+        //     allowNull: false,
+        // }
     },
     {
         sequelize,

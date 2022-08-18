@@ -5,6 +5,7 @@ import express from 'express'
 import path from 'path'
 import { connectDB } from './db.js'
 import authRouter from './src/routes/auth.js'
+import feedbackRouter from './src/routes/admin/feedback.js'
 import infoRouter from './src/routes/admin/info.js'
 import postRouter from './src/routes/admin/post.js'
 import uploadRouter from './src/routes/upload.js'
@@ -65,6 +66,7 @@ app.use('/static', express.static(path.join(__dirname, 'static')))
 
 // Express routes
 app.use('/api/auth', authRouter)
+app.use('/api/admin/feedback', feedbackRouter)
 app.use('/api/admin/info', infoRouter)
 app.use('/api/admin/post', postRouter)
 app.use('/api/admin/programs', programRouter)

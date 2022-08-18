@@ -3,6 +3,26 @@ import EducationalProgram, { EducationalProgramI } from '../models/educationalPr
 import { HTTPError } from '../utilities.js'
 import { HTTPStatus, DegreeLevel } from '../types/enums.js'
 
+const validateModes = (mode) => {
+    const budgetSpots = mode[1].vacantSpots.budget
+    const contractSpots = mode[1].vacantSpots.contract
+    if (budgetSpots == undefined || contractSpots == undefined)
+        throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поля "Количество мест" являются обязательными')
+
+    if (isNaN(budgetSpots) || isNaN(contractSpots))
+        throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Количество мест" должно являться числовым')
+
+    if (!mode[1].price)
+        throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Стоимость обучения" является обязательным')
+
+    if (!mode[1].duration)
+        throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Срок обучения" является обязательным')
+
+    if (!mode[1].languages)
+        throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Язык освоения" является обязательным')
+
+}
+
 class EducationalProgramService extends BaseService<EducationalProgram, EducationalProgramI> {
     constructor() {
         super()
@@ -10,24 +30,6 @@ class EducationalProgramService extends BaseService<EducationalProgram, Educatio
     }
 
     override async create(educationalProgram: EducationalProgramI) {
-        const validateModes = (mode) => {
-            if (!mode[1].vacantSpots.budget || !mode[1].vacantSpots.contract)
-                throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поля "Количество мест" являются обязательными')
-
-            if (isNaN(mode[1].vacantSpots.budget) || isNaN(mode[1].vacantSpots.contract))
-                throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Количество мест" должно являться числовым')
-
-            if (!mode[1].price)
-                throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Стоимость обучения" является обязательным')
-
-            if (!mode[1].duration)
-                throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Срок обучения" является обязательным')
-
-            if (!mode[1].languages)
-                throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Язык освоения" является обязательным')
-
-        }
-
         const educationModes = educationalProgram.educationModes
         Object.entries(educationModes).map(mode => validateModes(mode))
 
@@ -59,24 +61,6 @@ class EducationalProgramService extends BaseService<EducationalProgram, Educatio
     }
 
     override async updateById(id: number, educationalProgram: EducationalProgramI) {
-        const validateModes = (mode) => {
-            if (!mode[1].vacantSpots.budget || !mode[1].vacantSpots.contract)
-                throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поля "Количество мест" являются обязательными')
-
-            if (isNaN(mode[1].vacantSpots.budget) || isNaN(mode[1].vacantSpots.contract))
-                throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Количество мест" должно являться числовым')
-
-            if (!mode[1].price)
-                throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Стоимость обучения" является обязательным')
-
-            if (!mode[1].duration)
-                throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Срок обучения" является обязательным')
-
-            if (!mode[1].languages)
-                throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Язык освоения" является обязательным')
-
-        }
-
         const educationModes = educationalProgram.educationModes
         Object.entries(educationModes).map(mode => validateModes(mode))
 

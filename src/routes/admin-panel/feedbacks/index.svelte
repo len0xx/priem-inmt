@@ -1,4 +1,4 @@
-<!-- <script lang="ts" context="module">
+<script lang="ts" context="module">
     import type { Load } from '@sveltejs/kit'
 
     export const load: Load = async ({ fetch }) => {
@@ -9,16 +9,15 @@
             return { props: { feedbacks } }
         }
     }
-</script> -->
+</script>
 
 <script lang="ts">
-    import { AjaxForm } from '$components'
+    import { AjaxForm, Profile } from '$components'
     import { slide } from 'svelte/transition'
-    // import { range } from '$lib/utilities'
     import { Grid } from '$components'
-    // import type { FeedbackI } from '../../../types'
+    import type { FeedbackI } from '../../../types'
 
-    // export let feedbacks: FeedbackI[]
+    export let feedbacks: FeedbackI[]
 
     let success = false
     let errorText = ''
@@ -50,11 +49,11 @@
             { #if errorText }
                 <p transition:slide={{ duration: 200 }} class="error">{ errorText }</p>
             { /if }
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} alignItems="stretch">
                 <div>
                     <label>
                         <span class="caption">Автор:</span><br />
-                        <input class="form-control" type="text" name="title" id="title" required />
+                        <input class="form-control" type="text" name="name" id="name" required />
                     </label>
                     <br />
                     <br />
@@ -66,7 +65,7 @@
                     <br />
                     <label>
                         <span class="caption">Изображение:</span><br />
-                        <input class="form-control" type="file" name="img" id="img" />
+                        <input class="form-control" type="text" name="img" id="img" /> <!-- TODO: file upload -->
                     </label>
                 </div>
                 <div>
@@ -80,24 +79,58 @@
             <button class="btn btn-primary">Создать</button>
         </AjaxForm>
     </div>
-    <!-- <br />
+    <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Существующие публикации</h3>
-        <Grid l={3} m={2} s={1}>
-            { #each posts as post, i (i) }
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">{ post.title }</h4>
-                        <p class="card-text">{ post.text }</p>
-                        <a href="/admin-panel/posts/update/{ post.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                        <button class="btn btn-outline-danger btn-sm">Удалить</button>
+        <h3 class="no-top-margin">Существующие отзывы</h3>
+        <Grid m={3} s={1} alignItems="start">
+            <Grid m={1} alignItems="start">
+                { #each feedbacks.filter((_, i) => i % 3 == 0) as feedback }
+                    <Profile img={ feedback.img }>
+                        <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                        <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                        <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                    </Profile>
+                    <div>
+                        <a href="/admin-panel/feedbacks/update/{ feedback.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                        <AjaxForm className="d-inline" action="/api/admin/feedback/{ feedback.id }" method="DELETE" on:success={ handleSuccess } on:error={ handleError }>
+                            <button class="btn btn-outline-danger btn-sm">Удалить</button>
+                        </AjaxForm>
                     </div>
-                </div>
-            { /each }
+                { /each }
+            </Grid>
+            <Grid m={1} alignItems="start">
+                { #each feedbacks.filter((_, i) => i % 3 == 1) as feedback }
+                    <Profile img={ feedback.img }>
+                        <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                        <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                        <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                    </Profile>
+                    <div>
+                        <a href="/admin-panel/feedbacks/update/{ feedback.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                        <AjaxForm className="d-inline" action="/api/admin/feedback/{ feedback.id }" method="DELETE" on:success={ handleSuccess } on:error={ handleError }>
+                            <button class="btn btn-outline-danger btn-sm">Удалить</button>
+                        </AjaxForm>
+                    </div>
+                { /each }
+            </Grid>
+            <Grid m={1} alignItems="start">
+                { #each feedbacks.filter((_, i) => i % 3 == 2) as feedback }
+                    <Profile img={ feedback.img }>
+                        <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                        <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                        <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                    </Profile>
+                    <div>
+                        <a href="/admin-panel/feedbacks/update/{ feedback.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                        <AjaxForm className="d-inline" action="/api/admin/feedback/{ feedback.id }" method="DELETE" on:success={ handleSuccess } on:error={ handleError }>
+                            <button class="btn btn-outline-danger btn-sm">Удалить</button>
+                        </AjaxForm>
+                    </div>
+                { /each }
+            </Grid>
         </Grid>
-    </div> -->
+    </div>
 </section>
-
 <style>
     label {
         width: 100%;

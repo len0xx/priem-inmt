@@ -4,7 +4,7 @@ import User from './models/user.js'
 import userService from './services/user.js'
 import { HTTPResponse } from './utilities.js'
 import { Role, HTTPStatus } from './types/enums.js'
-import type { Response, NextFunction } from 'express'
+import type { Response, NextFunction, Request } from 'express'
 import type { CustomRequest } from './types'
 
 dotenv.config()
@@ -24,10 +24,10 @@ export const authorize = async (req: CustomRequest, _: Response, next: NextFunct
 }
 
 // Если пользователь не авторизован – показываем соответствующее сообщение об ошибке или перенаправляем его на страницу входа
-export const requireAuthorization = (response: 'redirect' | 'text' = 'text') => {
+export const requireAuthorization = (response: 'redirect' | 'json' = 'json') => {
     const requiredRole = dev ? Role.User : Role.Admin
-    const status = response == 'text' ? HTTPStatus.FORBIDDEN : HTTPStatus.MOVED
-    const payload = response == 'text' ? 'У вас нет доступа к этому ресурсу' : '/admin-panel-auth/login'
+    const status = response == 'json' ? HTTPStatus.FORBIDDEN : HTTPStatus.MOVED
+    const payload = response == 'json' ? 'У вас нет доступа к этому ресурсу' : '/admin-panel-auth/login'
 
     return (req: CustomRequest, res: Response, next: NextFunction) => {
         if (!(req.user && req.user instanceof User && req.user.role === requiredRole))
@@ -46,4 +46,4 @@ export const requireUnauthorized = (req: CustomRequest, res: Response, next: Nex
 }
 
 // Перенаправляем пользователя с /admin-panel-auth/logout на /api/auth/logout
-export const redirectLogout = (_: CustomRequest, res: Response) => new HTTPResponse(res, HTTPStatus.MOVED, '/api/auth/logout')
+export const redirectLogout = (_: Request, res: Response) => new HTTPResponse(res, HTTPStatus.MOVED, '/api/auth/logout')

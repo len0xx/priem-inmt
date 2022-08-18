@@ -7,14 +7,14 @@ import { requireAuthorization } from '../../middlewares.js'
 
 const router = Router() // eslint-disable-line new-cap
 
-router.post('/', requireAuthorization('text'), create)
+router.post('/', requireAuthorization('json'), create)
 
 router.get('/', readAll)
 
 router.get('/:id', readOne)
 
-router.patch('/:id', requireAuthorization('text'), update)
+router.patch('/:id', requireAuthorization('json'), update)
 
-router.delete('/:id', requireAuthorization('text'), del)
+router.delete('/:id', requireAuthorization('json'), del)
 
 export default router

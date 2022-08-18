@@ -25,7 +25,9 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
-        <a href="/admin-panel/responsibles/new"><button type="button" class="btn btn-outline-primary">Создать новое ответственное лицо</button></a>
+        {#if responsibles.length < 10}
+            <a href="/admin-panel/responsibles/new"><button type="button" class="btn btn-outline-primary">Создать новое ответственное лицо</button></a>
+        {/if}
         <h3>Ответственные лица института { responsibles.length ? `(${responsibles.length})` : '' }</h3>
         { #if responsibles.length }
             <Grid s={1} m={2} l={3}>

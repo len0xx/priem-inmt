@@ -1,4 +1,4 @@
-import responsibleService from '../../../services/responsible.js'
+import questionSerivce from '../../../services/question.js'
 import { getErrorDetails, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
@@ -6,15 +6,13 @@ import type { Request, Response } from 'express'
 export const update = async (req: Request, res: Response) => {
     try {
         const id = +req.params.id
-        const { name, label, phone, email } = req.body
+        const { text, answer } = req.body
 
-        await responsibleService.updateById(id, {
-            name: name,
-            label: label,
-            phone: phone,
-            email: email
+        await questionSerivce.updateById(id, {
+            text: text,
+            answer: answer
         })
-        return new HTTPResponse(res, HTTPStatus.CREATED, 'Ответственное лицо успешно обновлено')
+        return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос и ответ FAQ успешно обновлен')
     }
     catch (err) {
         console.error(err)

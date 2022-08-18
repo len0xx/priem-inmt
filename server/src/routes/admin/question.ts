@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import { create } from '../../controllers/admin/responsible/create.js'
-import { update } from '../../controllers/admin/responsible/update.js'
-import { get, getAll } from '../../controllers/admin/responsible/get.js'
-import { del } from '../../controllers/admin/responsible/delete.js'
+import { create } from '../../controllers/admin/question/create.js'
+import { update } from '../../controllers/admin/question/update.js'
+import { get, getAll } from '../../controllers/admin/question/get.js'
+import { del } from '../../controllers/admin/question/delete.js'
 import { requireAuthorization } from '../../middlewares.js'
 
 const router = Router() // eslint-disable-line new-cap

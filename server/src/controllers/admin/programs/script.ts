@@ -5,9 +5,8 @@ import type { Request, Response } from 'express'
 import programs from './programs.js'
 import type { EducationModesI, TeacherI } from '../../../models/educationalProgram.js'
 
-export const script = async (req: Request, res: Response) => {
+export const script = async (_: Request, res: Response) => {
     try {
-        console.log(req)
         const uploadProgram = async (program) => {
             const educationModes: EducationModesI = {}
             const teacher: TeacherI = {

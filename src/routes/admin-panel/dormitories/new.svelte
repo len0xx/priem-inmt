@@ -34,7 +34,7 @@
                     { errorText }
                 </div>
             { /if }
-            <Grid m={2} s={1} alignItems="stretch">
+            <Grid m={2} s={1}>
                 <div>
                     <label>
                         <span class="caption">Название:</span><br />

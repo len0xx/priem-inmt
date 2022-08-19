@@ -14,7 +14,6 @@
 
 <script lang="ts">
     import { AjaxForm, Modal } from '$components'
-    import { Grid } from '$components'
     import { modal } from '$lib/stores'
     import type { OpportunityI } from '../../../../types'
     import { redirect } from '$lib/utilities'
@@ -58,7 +57,7 @@
 
 <section class="main-content">
     <div class="white-block-wide">
-        <h2 class="no-top-margin">Возможности</h2>
+        <h2 class="no-top-margin">Студенческие возможности</h2>
         <h3>Редактировать возможность</h3>
         <AjaxForm action="/api/admin/opportunity/{ opportunity.id }" method="PATCH" on:success={ handleSuccess } on:error={ handleError } noReset={true}>
             { #if updateError }

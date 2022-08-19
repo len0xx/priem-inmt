@@ -84,3 +84,9 @@ export interface DormitoryI {
     title: string
     address: string
 }
+
+export interface OpportunityI {
+    id: number
+    title: string
+    description: string
+}

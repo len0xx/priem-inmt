@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AjaxForm, Grid } from '$components'
+    import { AjaxForm } from '$components'
     import { redirect } from '$lib/utilities'
 
     let createError = false
@@ -34,18 +34,16 @@
                     { errorText }
                 </div>
             { /if }
-            <div>
-                <label>
-                    <span class="caption">Название:</span><br />
-                    <input class="form-control" type="text" name="title" id="title" required />
-                </label>
-                <br />
-                <br />
-                <label>
-                    <span class="caption">Адрес:</span><br />
-                    <input class="form-control" type="text" name="description" id="description" />
-                </label>
-            </div>
+            <label>
+                <span class="caption">Название:</span><br />
+                <input class="form-control" type="text" name="title" id="title" required />
+            </label>
+            <br />
+            <br />
+            <label>
+                <span class="caption">Описание:</span><br />
+                <input class="form-control" type="text" name="description" id="description" />
+            </label>
             <br />
             <button class="btn btn-primary">Создать</button>
         </AjaxForm>

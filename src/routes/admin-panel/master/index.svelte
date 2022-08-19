@@ -12,8 +12,8 @@
                 active++
                 countQuestions = active
                 return
-            }   
-            active++   
+            }
+            active++
         }
     }
 
@@ -25,13 +25,13 @@
                 active--
                 countQuestions = active
                 return
-            }   
-            active--   
+            }
+            active--
         }
     }
 
     const handleSuccess = () => {
-        console.log("Eah")
+        console.log('Eah')
     }
 
     let createError = false
@@ -51,7 +51,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <h3>Справочная информация FAQ</h3>
-        <AjaxForm method="POST" action="/api/admin/programs" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
+        <AjaxForm method="POST" action="/api/admin/question" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
             <Grid m={1}>
                 { #each activeQuestions as question, i }
                     { #if question }

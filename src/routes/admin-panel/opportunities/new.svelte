@@ -21,9 +21,9 @@
 
 <section class="main-content">
     <div class="white-block-wide">
-        <h2 class="no-top-margin">Возможности</h2>
+        <h2 class="no-top-margin">Студенческие возможности</h2>
         <h3>Создать новую возможность</h3>
-        <AjaxForm action="/api/admin/dormitory" method="POST" on:success={ handleSuccess } on:error={ handleError }>
+        <AjaxForm action="/api/admin/opportunity" method="POST" on:success={ handleSuccess } on:error={ handleError }>
             { #if createError }
                 <div class="alert alert-danger">
                     Произошла ошибка при&nbsp;создании возможности
@@ -44,6 +44,7 @@
                 <span class="caption">Описание:</span><br />
                 <input class="form-control" type="text" name="description" id="description" />
             </label>
+            <br />
             <br />
             <button class="btn btn-primary">Создать</button>
         </AjaxForm>

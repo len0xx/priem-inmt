@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts">
-    import { Grid } from '$components'
+    import { Grid, Icon, Text } from '$components'
     import type { OpportunityI } from '../../../types'
 
     export let opportunities: OpportunityI[]
@@ -20,14 +20,18 @@
 
 <section class="main-content">
     <div class="white-block-wide">
-        <h2 class="no-top-margin">Общежития</h2>
-        <a href="/admin-panel/opportunities/new"><button type="button" class="btn btn-outline-primary">Создать новое общежитие</button></a>
+        <h2 class="no-top-margin">Студенческие возможности</h2>
+        <a href="/admin-panel/opportunities/new"><button type="button" class="btn btn-outline-primary">Создать новую возможность</button></a>
         { #if opportunities.length }
             <Grid className="mt-5" m={4} s={1}>
                 { #each opportunities as opportunity, i (i) }
                     <div>
                         <a href="/admin-panel/opportunities/update/{ opportunity.id }">
-                            
+                            <div class="align-center" style:min-width="200px">
+                                <Icon name="blue-star" width={40} height={40} alt="star" />
+                                <Text className="semi-bold subtitle">{ opportunity.title }</Text>
+                                <Text className="semi-bold small" opacity={0.6}>{ opportunity.description }</Text>
+                            </div>
                         </a>
                     </div>
                 { /each }

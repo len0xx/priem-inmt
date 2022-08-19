@@ -13,9 +13,9 @@
 
 <script lang="ts">
     import { Grid } from '$components'
-    // import type { OpportunityI } from '../../../types'
+    import type { OpportunityI } from '../../../types'
 
-    export let opportunities
+    export let opportunities: OpportunityI[]
 </script>
 
 <section class="main-content">

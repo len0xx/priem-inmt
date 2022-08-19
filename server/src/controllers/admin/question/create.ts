@@ -3,20 +3,37 @@ import { getErrorDetails, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
-export const create = async (req: Request, res: Response) => {
+export const createBachelor = async (req: Request, res: Response) => {
     try {
-        const faqs = req.body
+        const { question, answer } = req.body
 
-        for (let i = 1; i <= Object.keys(faqs).length /2; i++) {
-            const text = faqs[`question${i}`]
-            const answer = faqs[`answer${i}`]
-            console.log(text, answer)
-            await questionSerivce.create({
-                text: text,
-                answer: answer,
-            })
-        }
+        const page = 'bachelor'
 
+        await questionSerivce.create({
+            text: question,
+            answer: answer,
+            page: page
+        })
+        return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос и ответ FAQ успешно создан')
+    }
+    catch (err) {
+        console.error(err)
+        const { code, message } = getErrorDetails(err)
+        return new HTTPResponse(res, code, message)
+    }
+}
+
+export const createMaster = async (req: Request, res: Response) => {
+    try {
+        const { question, answer } = req.body
+
+        const page = 'master'
+
+        await questionSerivce.create({
+            text: question,
+            answer: answer,
+            page: page
+        })
         return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос и ответ FAQ успешно создан')
     }
     catch (err) {

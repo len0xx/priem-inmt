@@ -60,6 +60,12 @@ export interface ResponsibleI {
     photo?: string
 }
 
+export interface QuestionI {
+    id?: number
+    text: string
+    answer: string
+}
+
 export interface ContactInfoI {
     id: number
     tel: string

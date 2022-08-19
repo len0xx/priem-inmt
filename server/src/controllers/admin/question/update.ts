@@ -6,10 +6,10 @@ import type { Request, Response } from 'express'
 export const update = async (req: Request, res: Response) => {
     try {
         const id = +req.params.id
-        const { text, answer } = req.body
+        const { question, answer } = req.body
 
         await questionSerivce.updateById(id, {
-            text: text,
+            text: question,
             answer: answer
         })
         return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос и ответ FAQ успешно обновлен')

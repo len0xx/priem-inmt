@@ -12,19 +12,19 @@
 </script>
 <script lang="ts">
     import { Grid, AjaxForm, Modal } from '$components'
-    import { modal } from '$lib/stores'
     import type { QuestionI } from '../../../types'
     import { redirect } from '$lib/utilities'
 
-
     export let questions: QuestionI[]
+
+    let modal: { open: () => void, close: () => void } = null
 
     let questionId: number
 
     const updateQuestionId = (id: number) => {
         console.log('click')
         questionId = id
-        $modal.open()
+        modal.open()
     }
 
     const removeQuestion = async () => {
@@ -51,11 +51,11 @@
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
 
-<Modal bind:this={ $modal } align="center" closable={true}>
+<Modal bind:this={ modal } align="center" closable={true}>
     <p class="mb-4">Подтвердите удаление вопроса FAQ</p>
     <div class="buttons-row">
         <button type="button" on:click={removeQuestion} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={$modal.close} class="btn btn-secondary">Отмена</button>
+        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 

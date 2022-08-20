@@ -15,10 +15,11 @@
 <script lang="ts">
     import { imask } from 'svelte-imask'
     import { Grid, AjaxForm, RoundButton, TipTap, Modal } from '$lib/components'
-    import { modal } from '$lib/stores'
     import { DegreeLevel } from '../../../../types/enums'
     import { redirect } from '$lib/utilities'
     import type { EducationalProgram } from '../../../../types'
+
+    let modal: { open: () => void, close: () => void } = null
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000',
@@ -66,7 +67,7 @@
         } else {
             deleteError = true
         }
-        $modal.close()
+        modal.close()
     }
 
     const handleSuccess = () => {
@@ -85,11 +86,11 @@
     <title>Образовательные программы</title>
 </svelte:head>
 
-<Modal bind:this={ $modal } align="center" closable={true}>
+<Modal bind:this={ modal } align="center" closable={true}>
     <p class="mb-4">Подтвердите удаление образовательной программы</p>
     <div class="buttons-row">
         <button type="button" on:click={removeProgram} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={$modal.close} class="btn btn-secondary">Отмена</button>
+        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -537,7 +538,7 @@
             <br />
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
-                <button type="button" on:click={$modal.open} class="btn btn-danger">Удалить</button>
+                <button type="button" on:click={modal.open} class="btn btn-danger">Удалить</button>
             </div>
         </AjaxForm>
         <div class="alerts mt-4">

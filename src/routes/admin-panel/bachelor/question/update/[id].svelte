@@ -47,7 +47,7 @@
                 </label>
                 <label>
                     <span class="answer">Ответ:</span><br />
-                    <input required class="form-control wide" type="text" name="answer" value={question.answer} />
+                    <textarea required class="form-control wide" type="text" name="answer" value={question.answer} />
                 </label>
             </Grid>
             <br />

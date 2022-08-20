@@ -59,12 +59,7 @@
         <div class="alerts mt-4">
             {#if createError}
                 <div class="alert alert-danger" role="alert">
-                    Произошла ошибка во время создания ответственного лица
-                </div>
-            {/if}
-            {#if errorText}
-                <div class="alert alert-danger" role="alert">
-                    {errorText}
+                    Произошла ошибка{errorText ? `: ${errorText}` : ''}
                 </div>
             {/if}
         </div>

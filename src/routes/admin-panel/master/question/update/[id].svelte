@@ -22,11 +22,11 @@
         redirect('/admin-panel/master')
     }
 
-    let createError = false
+    let updateError = false
     let errorText = ''
 
     const handleError = (event: CustomEvent) => {
-        createError = true
+        updateError = true
         errorText = event.detail.error
     }
 </script>
@@ -55,14 +55,9 @@
             <button class="btn btn-primary">Сохранить</button>
         </AjaxForm>
         <div class="alerts mt-4">
-            {#if createError}
+            {#if updateError}
                 <div class="alert alert-danger" role="alert">
-                    Произошла ошибка при обновлении вопроса
-                </div>
-            {/if}
-            {#if errorText}
-                <div class="alert alert-danger" role="alert">
-                    {errorText}
+                    Произошла ошибка{errorText ? `: ${errorText}` : ''}
                 </div>
             {/if}
         </div>

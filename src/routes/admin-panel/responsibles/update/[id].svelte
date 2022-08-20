@@ -98,17 +98,12 @@
         <div class="alerts mt-4">
             {#if updateError}
                 <div class="alert alert-danger" role="alert">
-                    Произошла ошибка во время обновления
+                    Произошла ошибка{errorText ? `: ${errorText}` : ''}
                 </div>
             {/if}
             {#if deleteError}
                 <div class="alert alert-danger" role="alert">
                     Произошла ошибка во время удаления
-                </div>
-            {/if}
-            {#if errorText}
-                <div class="alert alert-danger" role="alert">
-                    {errorText}
                 </div>
             {/if}
         </div>

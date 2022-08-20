@@ -14,12 +14,12 @@
 
 <script lang="ts">
     import { AjaxForm, Modal } from '$components'
-    import { modal } from '$lib/stores'
     import type { OpportunityI } from '../../../../types'
     import { redirect } from '$lib/utilities'
 
     export let opportunity: OpportunityI
 
+    let modal = null
     let updateError = false
     let deleteError = false
     let errorText = ''
@@ -47,11 +47,11 @@
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
 
-<Modal bind:this={ $modal } align="center" closable={true}>
+<Modal bind:this={ modal } align="center" closable={true}>
     <p class="mb-4">Подтвердите удаление возможности</p>
     <div class="buttons-row">
         <button type="button" on:click={removeOpportunity} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={$modal.close} class="btn btn-secondary">Отмена</button>
+        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -88,7 +88,7 @@
             <br />
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
-                <button type="button" class="btn btn-outline-danger" on:click={ $modal.open }>Удалить возможность</button>
+                <button type="button" class="btn btn-outline-danger" on:click={ modal.open }>Удалить возможность</button>
             </div>
         </AjaxForm>
     </div>

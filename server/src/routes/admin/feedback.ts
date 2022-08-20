@@ -13,8 +13,8 @@ router.get('/', readAll)
 
 router.get('/:id', readOne)
 
-router.patch('/:id', update)
+router.patch('/:id', requireAuthorization('json'), update)
 
-router.delete('/:id', del)
+router.delete('/:id', requireAuthorization('json'), del)
 
 export default router

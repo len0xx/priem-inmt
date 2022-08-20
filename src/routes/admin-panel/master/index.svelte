@@ -18,7 +18,6 @@
 
 
     export let questions: QuestionI[]
-    console.log(questions)
 
     let questionId: number
 

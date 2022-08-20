@@ -23,9 +23,22 @@ label + input[type="checkbox"] {
 }
 
 aside.left-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
     background-color: white;
     padding: 1em;
+    padding-top: 81px;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
+    height: 100%;
+    width: 300px;
+    overflow-y: auto;
+    z-index: 1;
+    transition: padding 0.2s ease-in-out;
+}
+
+aside.left-menu.full {
+    padding-top: 1em;
 }
 
 nav a.menu-item:not(:first-of-type) {

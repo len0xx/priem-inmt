@@ -1,6 +1,6 @@
 <script lang="ts">
     import { imask } from 'svelte-imask'
-    import { Grid, AjaxForm, RoundButton, TipTap } from '$components'
+    import { Grid, Form, RoundButton, TipTap } from '$components'
     import { redirect } from '$lib/utilities'
 
     let phoneMask = {
@@ -48,14 +48,6 @@
     const handleSuccess = () => {
         redirect('/admin-panel/programs')
     }
-
-    let createError = false
-    let errorText = ''
-
-    const handleError = (event: CustomEvent) => {
-        createError = true
-        errorText = event.detail.error
-    }
 </script>
 
 <svelte:head>
@@ -65,7 +57,7 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2>Новая образовательная программа</h2>
-        <AjaxForm method="POST" action="/api/admin/programs" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
+        <Form method="POST" action="/api/admin/programs" on:success={ handleSuccess }>
             <h3>Общая информация</h3>
             <Grid m={2} ratio="2:1">
                 <div>
@@ -292,13 +284,6 @@
             <div class="buttons-row">
                 <button class="btn btn-primary">Создать</button>
             </div>
-        </AjaxForm>
-        <div class="alerts mt-4">
-            {#if createError}
-                <div class="alert alert-danger" role="alert">
-                    Произошла ошибка{errorText ? `: ${errorText}` : ''}
-                </div>
-            {/if}
-        </div>
+        </Form>
     </div>
 </section>

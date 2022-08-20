@@ -9,6 +9,7 @@ import Document from './Document.svelte'
 import Expandable from './Expandable.svelte'
 import Filter from './Filter.svelte'
 import Footer from './Footer.svelte'
+import Form from './Form.svelte'
 import Graduate from './Graduate.svelte'
 import Grid from './Grid.svelte'
 import Header from './Header.svelte'
@@ -53,6 +54,7 @@ export {
     Expandable,
     Filter,
     Footer,
+    Form,
     Graduate,
     Grid,
     Header,

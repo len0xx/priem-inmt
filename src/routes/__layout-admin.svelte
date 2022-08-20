@@ -1,28 +1,28 @@
 <script lang="ts">
-    import { ScrollToTop, Header, Link } from "$components";
-    import { page } from "$app/stores";
+    import { ScrollToTop, Header, Link } from '$components'
+    import { page } from '$app/stores'
 
     // User authorization
-    import { session } from "$app/stores";
-    let user = $session.user;
+    import { session } from '$app/stores'
+    let user = $session.user
 
-    $: URL = $page.url.pathname;
-    const BASE_URL = "/admin-panel";
-    const MAIN_URL = BASE_URL + "/main";
-    const PROGRAMS_URL = BASE_URL + "/programs";
-    const BACHELOR_URL = BASE_URL + "/bachelor";
-    const MASTER_URL = BASE_URL + "/master";
-    const ACCOMMODATION_URL = BASE_URL + "/accommodation";
-    const CONTACTS_URL = BASE_URL + "/contacts";
-    const RESPONSIBLE_URL = BASE_URL + "/responsibles";
-    const POSTS_URL = BASE_URL + "/posts";
-    const FEEDBACKS_URL = BASE_URL + "/feedbacks";
-    const DORMITORIES_URL = BASE_URL + "/dormitories";
-    const OPPORTUNITIES_URL = BASE_URL + "/opportunities";
+    $: URL = $page.url.pathname
+    const BASE_URL = '/admin-panel'
+    const MAIN_URL = BASE_URL + '/main'
+    const PROGRAMS_URL = BASE_URL + '/programs'
+    const BACHELOR_URL = BASE_URL + '/bachelor'
+    const MASTER_URL = BASE_URL + '/master'
+    const ACCOMMODATION_URL = BASE_URL + '/accommodation'
+    const CONTACTS_URL = BASE_URL + '/contacts'
+    const RESPONSIBLE_URL = BASE_URL + '/responsibles'
+    const POSTS_URL = BASE_URL + '/posts'
+    const FEEDBACKS_URL = BASE_URL + '/feedbacks'
+    const DORMITORIES_URL = BASE_URL + '/dormitories'
+    const OPPORTUNITIES_URL = BASE_URL + '/opportunities'
 
-    const TECH_SUPPORT_EMAIL = "contact@len0xx.space";
+    const TECH_SUPPORT_EMAIL = 'contact@len0xx.space'
 
-    let fullAside = false;
+    let fullAside = false
     let prevScroll = 0
     let hideAfter = 90
     const scrollHandler = () => {

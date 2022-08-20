@@ -28,7 +28,7 @@ aside.left-menu {
     left: 0;
     background-color: white;
     padding: 1em;
-    padding-top: 81px;
+    padding-top: calc(81px + 1em);
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     height: 100%;
     width: 300px;

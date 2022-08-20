@@ -75,7 +75,7 @@
 
     let errorText = ''
 
-    const handleError = (event: CustomEvent) => {
+    const handleError = (event: CustomEvent<{ error: string }>) => {
         updateError = true
         errorText = event.detail.error
     }

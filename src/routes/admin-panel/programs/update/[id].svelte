@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-    // import { sendNodeAJAX } from '../../../shared/utilities'
     import type { Load } from '@sveltejs/kit'
 
     export const load: Load = async ({ fetch, params }) => {
@@ -18,8 +17,8 @@
     import { Grid, AjaxForm, RoundButton, TipTap, Modal } from '$lib/components'
     import { modal } from '$lib/stores'
     import { DegreeLevel } from '../../../../types/enums'
-    import type { EducationalProgram } from '../../../../types'
     import { redirect } from '$lib/utilities'
+    import type { EducationalProgram } from '../../../../types'
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000',
@@ -54,7 +53,7 @@
 
     const removeExam = () => {
         exams[examsCount - 1] = undefined
-        examsCount --
+        examsCount--
     }
 
     let updateError = false

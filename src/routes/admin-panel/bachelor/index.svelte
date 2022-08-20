@@ -2,7 +2,7 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
-        const res = await fetch('http://localhost:8080/api/admin/question/master/find')
+        const res = await fetch('http://localhost:8080/api/admin/question/bachelor/find')
         const questions = (await res.json()).questions
 
         if (res.ok) {
@@ -30,12 +30,12 @@
     const removeQuestion = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/question/${questionId}`, { method: 'DELETE' })
         if (res.ok) {
-            redirect('/admin-panel/master')
+            redirect('/admin-panel/bachelor')
         }
     }
 
     const handleSuccess = () => {
-        redirect('/admin-panel/master')
+        redirect('/admin-panel/bachelor')
     }
 
     let createError = false
@@ -63,7 +63,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <h3>Справочная информация FAQ</h3>
-        <AjaxForm method="POST" action="/api/admin/question/master" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
+        <AjaxForm method="POST" action="/api/admin/question/bachelor" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
             <Grid m={1}>
                 <label>
                     <span class="question">Вопрос:</span><br />
@@ -96,7 +96,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">{ question.text }</h4>
-                            <a href="/admin-panel/master/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <a href="/admin-panel/bachelor/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
                             <button type="button" on:click={() => updateQuestionId(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>
                     </div>

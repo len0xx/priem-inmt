@@ -1,0 +1,70 @@
+<script context="module" lang="ts">
+    import type { Load } from '@sveltejs/kit'
+    
+    export const load: Load = async ({ fetch, params }) => {
+        const questionId = params.id
+        const res = await fetch(`http://localhost:8080/api/admin/question/${questionId}`)
+        const question = (await res.json()).question
+
+        if (res.ok) {
+            return { props: { question } }
+        }
+    }
+</script>
+<script lang="ts">
+    import { Grid, AjaxForm } from '$components'
+    import type { QuestionI } from '../../../../../types'
+    import { redirect } from '$lib/utilities'
+
+    export let question: QuestionI
+
+    const handleSuccess = () => {
+        redirect('/admin-panel/master')
+    }
+
+    let createError = false
+    let errorText = ''
+
+    const handleError = (event: CustomEvent) => {
+        createError = true
+        errorText = event.detail.error
+    }
+</script>
+
+<svelte:head>
+    <title>ИНМТ – Панель администратора</title>
+</svelte:head>
+
+<section class="main-content">
+    <div class="white-block-wide">
+        <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
+        <h3>Редактирование вопроса FAQ</h3>
+        <AjaxForm method="PATCH" action="/api/admin/question/{ question.id }" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
+            <Grid m={1}>
+                <label>
+                    <span class="question">Вопрос:</span><br />
+                    <input required class="form-control wide" type="text" name="question" value={question.text} />
+                </label>
+                <label>
+                    <span class="answer">Ответ:</span><br />
+                    <input required class="form-control wide" type="text" name="answer" value={question.answer} />
+                </label>
+            </Grid>
+            <br />
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
+        </AjaxForm>
+        <div class="alerts mt-4">
+            {#if createError}
+                <div class="alert alert-danger" role="alert">
+                    Произошла ошибка при обновлении вопроса
+                </div>
+            {/if}
+            {#if errorText}
+                <div class="alert alert-danger" role="alert">
+                    {errorText}
+                </div>
+            {/if}
+        </div>
+    </div>
+</section>

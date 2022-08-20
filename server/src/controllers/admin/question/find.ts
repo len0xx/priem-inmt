@@ -3,12 +3,15 @@ import { getErrorDetails, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
-export const get = async (req: Request, res: Response) => {
+export const findBachelor = async (_: Request, res: Response) => {
     try {
-        const id = +req.params.id
-        const question = await questionSerivce.getById(id)
+        const questions = await questionSerivce.findAll({
+            where: {
+                page: 'bachelor'
+            }
+        })
 
-        return new HTTPResponse(res, HTTPStatus.SUCCESS, { question })
+        return new HTTPResponse(res, HTTPStatus.SUCCESS, { questions })
     }
     catch (err) {
         console.error(err)
@@ -17,9 +20,13 @@ export const get = async (req: Request, res: Response) => {
     }
 }
 
-export const getAll = async (_: Request, res: Response) => {
+export const findMaster = async (_: Request, res: Response) => {
     try {
-        const questions = await questionSerivce.get()
+        const questions = await questionSerivce.findAll({
+            where: {
+                page: 'master'
+            }
+        })
 
         return new HTTPResponse(res, HTTPStatus.SUCCESS, { questions })
     }

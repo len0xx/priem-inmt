@@ -67,6 +67,7 @@
         } else {
             deleteError = true
         }
+        $modal.close()
     }
 
     const handleSuccess = () => {

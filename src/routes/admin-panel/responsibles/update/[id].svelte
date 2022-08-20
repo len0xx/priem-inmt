@@ -15,7 +15,6 @@
 <script lang="ts">
     import { imask } from 'svelte-imask'
     import { Grid, AjaxForm, Modal} from '$components'
-    import { modal } from '$lib/stores'
     import { redirect } from '$lib/utilities'
     import type { ResponsibleI } from '../../../../types'
 
@@ -27,6 +26,7 @@
 
     let updateError = false
     let deleteError = false
+    let modal: { open: () => void, close: () => void } = null
 
     const removeResponsible = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/responsible/${responsible.id}`, { method: 'DELETE' })
@@ -35,6 +35,7 @@
         } else {
             deleteError = true
         }
+        modal.close()
     }
 
     const handleSuccess = () => {
@@ -53,11 +54,11 @@
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
 
-<Modal bind:this={ $modal } align="center" closable={true}>
+<Modal bind:this={ modal } align="center" closable={true}>
     <p class="mb-4">Подтвердите удаление ответственного лица</p>
     <div class="buttons-row">
         <button type="button" on:click={removeResponsible} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={$modal.close} class="btn btn-secondary">Отмена</button>
+        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -92,7 +93,7 @@
             </Grid>
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
-                <button type="button" on:click={$modal.open} class="btn btn-danger">Удалить</button>
+                <button type="button" on:click={modal.open} class="btn btn-danger">Удалить</button>
             </div>
         </AjaxForm>
         <div class="alerts mt-4">

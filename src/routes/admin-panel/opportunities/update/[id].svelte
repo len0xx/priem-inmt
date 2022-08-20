@@ -40,6 +40,7 @@
         } else {
             deleteError = true
         }
+        modal.close()
     }
 </script>
 

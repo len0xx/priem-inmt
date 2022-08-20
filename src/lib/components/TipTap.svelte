@@ -69,7 +69,7 @@
         margin: 10px 0;
         padding: 1em;
         border-radius: 4px;
-        border: 1px solid rgb(100, 130, 200);
+        border: 1px solid #ced4da;
         background: white;
     }
 

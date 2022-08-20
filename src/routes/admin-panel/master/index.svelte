@@ -12,8 +12,8 @@
                 active++
                 countQuestions = active
                 return
-            }   
-            active++   
+            }
+            active++
         }
     }
 
@@ -25,13 +25,13 @@
                 active--
                 countQuestions = active
                 return
-            }   
-            active--   
+            }
+            active--
         }
     }
 
     const handleSuccess = () => {
-        console.log("Eah")
+        console.log('Eah')
     }
 
     let createError = false

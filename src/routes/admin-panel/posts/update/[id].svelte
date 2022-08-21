@@ -13,30 +13,21 @@
 </script>
 
 <script lang="ts">
-    import { AjaxForm } from '$components'
+    import { Form } from '$components'
     import { slide, blur } from 'svelte/transition'
-    import { range } from '$lib/utilities'
+    import { range, redirect } from '$lib/utilities'
     import type { PostI } from '../../../../types'
 
     export let post: PostI
 
     let links = post.links.length
-    let success = false
-    let errorText = ''
-    let successText = ''
 
     const addLink = () => links++
 
     const removeLink = () => links--
 
-    const handleSuccess = (event: CustomEvent<{ message: string }>) => {
-        success = true
-        successText = event.detail.message
-    }
-
-    const handleError = (event: CustomEvent<{ error: string }>) => {
-        success = false
-        errorText = event.detail.error
+    const handleSuccess = () => {
+        redirect('/admin-panel/posts')
     }
 </script>
 
@@ -48,23 +39,17 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Публикации на главной странице</h2>
         <h3>Редактирование публикации</h3>
-        <AjaxForm action="/api/admin/post/{ post.id }" method="PATCH" on:success={ handleSuccess } on:error={ handleError } noReset={ true }>
-            { #if success }
-                <p transition:slide={{ duration: 200 }} class="success">{ successText }</p>
-            { /if }
-            { #if errorText }
-                <p transition:slide={{ duration: 200 }} class="error">{ errorText }</p>
-            { /if }
+        <Form action="/api/admin/post/{ post.id }" method="PATCH" on:success={ handleSuccess } reset={ false }>
             <div class="grid grid-2 m-grid-1">
                 <div>
                     <label>
-                        <span class="caption">Заголовок:</span><br />
+                        <span class="caption form-label">Заголовок:</span><br />
                         <input class="form-control" type="text" name="title" id="title" value={ post.title } />
                     </label>
                     <br />
                     <br />
                     <label>
-                        <span class="caption">Текст:</span><br />
+                        <span class="caption form-label">Текст:</span><br />
                         <textarea class="form-control" name="text" cols="30" rows="4">{ post.text }</textarea>
                     </label>
                 </div>
@@ -88,7 +73,7 @@
             </div>
             <br />
             <button class="btn btn-primary">Сохранить</button>
-        </AjaxForm>
+        </Form>
     </div>
     <br />
 </section>

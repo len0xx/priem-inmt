@@ -202,7 +202,7 @@
                             </div>
                             <div>
                                 <label for="result{ i + 1 }">Минимальный балл</label><br />
-                                <input class="form-control wide" type="text" name="result{ i + 1 }" required />
+                                <input class="form-control wide" type="number" name="result{ i + 1 }" required />
                             </div>
                         { /if }
                     { /each }

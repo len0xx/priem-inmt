@@ -398,7 +398,7 @@
                                 ><br />
                                 <input
                                     class="form-control wide"
-                                    type="text"
+                                    type="number"
                                     name="result{i + 1}"
                                     value={exam.result}
                                     required

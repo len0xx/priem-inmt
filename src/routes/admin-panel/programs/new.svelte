@@ -2,6 +2,7 @@
     import { imask } from 'svelte-imask'
     import { Grid, Form, RoundButton, TipTap } from '$components'
     import { redirect } from '$lib/utilities'
+    import { slide } from 'svelte/transition'
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000'
@@ -196,13 +197,15 @@
                 <Grid m={2}>
                     { #each activeExams as exam, i }
                         { #if exam }
-                            <div>
-                                <label for="exam{ i + 1 }">Название экзамена</label><br />
-                                <input class="form-control wide" type="text" name="exam{ i + 1 }" required />
-                            </div>
-                            <div>
-                                <label for="result{ i + 1 }">Минимальный балл</label><br />
-                                <input class="form-control wide" type="number" name="result{ i + 1 }" required />
+                            <div transition:slide|local={{ duration: 200 }}>
+                                <div>
+                                    <label for="exam{ i + 1 }">Название экзамена</label><br />
+                                    <input class="form-control wide" type="text" name="exam{ i + 1 }" required />
+                                </div>
+                                <div>
+                                    <label for="result{ i + 1 }">Минимальный балл</label><br />
+                                    <input class="form-control wide" type="number" name="result{ i + 1 }" required />
+                                </div>
                             </div>
                         { /if }
                     { /each }

@@ -12,17 +12,15 @@
 </script>
 <script lang="ts">
     import { Grid, Form, Modal } from '$components'
-    import type { QuestionI } from '../../../types'
     import { redirect } from '$lib/utilities'
+    import type { QuestionI } from '../../../types'
 
     export let questions: QuestionI[]
 
     let modal: { open: () => void, close: () => void } = null
-
     let questionId: number
 
     const updateQuestionId = (id: number) => {
-        console.log('click')
         questionId = id
         modal.open()
     }

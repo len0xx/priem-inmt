@@ -17,6 +17,7 @@
     import { Grid, AjaxForm, RoundButton, TipTap, Modal } from '$lib/components'
     import { DegreeLevel } from '../../../../types/enums'
     import { redirect } from '$lib/utilities'
+    import { slide } from 'svelte/transition'
     import type { EducationalProgram } from '../../../../types'
 
     let modal: { open: () => void, close: () => void } = null
@@ -377,32 +378,34 @@
             </Grid>
             {#if degree != DegreeLevel.MASTER}
                 <h3>Экзамены</h3>
-                <Grid m={2}>
+                <Grid m={1}>
                     {#each Object.values(exams) as exam, i}
                         {#if exams[i] != undefined}
-                            <div>
-                                <label for="exam{i + 1}"
-                                    >Название экзамена</label
-                                ><br />
-                                <input
-                                    class="form-control wide"
-                                    type="text"
-                                    name="exam{i + 1}"
-                                    value={exam.title}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label for="result{i + 1}"
-                                    >Минимальный балл</label
-                                ><br />
-                                <input
-                                    class="form-control wide"
-                                    type="number"
-                                    name="result{i + 1}"
-                                    value={exam.result}
-                                    required
-                                />
+                            <div transition:slide|local={{ duration: 200 }} class="grid grid-2 m-grid-1">
+                                <div>
+                                    <label for="exam{i + 1}"
+                                        >Название экзамена</label
+                                    ><br />
+                                    <input
+                                        class="form-control wide"
+                                        type="text"
+                                        name="exam{i + 1}"
+                                        value={exam.title}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label for="result{i + 1}"
+                                        >Минимальный балл</label
+                                    ><br />
+                                    <input
+                                        class="form-control wide"
+                                        type="number"
+                                        name="result{i + 1}"
+                                        value={exam.result}
+                                        required
+                                    />
+                                </div>
                             </div>
                         {/if}
                     {/each}

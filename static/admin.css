@@ -117,3 +117,7 @@ html body div.b24-widget-button-wrapper:not(.s) {
 .buttons-row button:not(:first-of-type) {
     margin-left: 1em;
 }
+
+.card .card-body h4.card-title {
+    margin-top: 0;
+}

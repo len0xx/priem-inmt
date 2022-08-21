@@ -12,31 +12,31 @@
 </script>
 
 <script lang="ts">
-    import { AjaxForm } from '$components'
+    import { Form, Modal, Grid } from '$components'
     import { slide, blur } from 'svelte/transition'
-    import { range } from '$lib/utilities'
-    import { Grid } from '$components'
+    import { range, redirect } from '$lib/utilities'
     import type { PostI } from '../../../types'
 
     export let posts: PostI[]
 
     let links = 1
-    let success = false
-    let errorText = ''
-    let successText = ''
+    let deleteId = 0
+    let modal: { open: () => void, close: () => void } = null
 
     const addLink = () => links++
 
     const removeLink = () => links--
 
-    const handleSuccess = (event: CustomEvent<{ message: string }>) => {
-        success = true
-        successText = event.detail.message
+    const handleSuccess = () => {
+        redirect('/admin-panel/posts')
     }
 
-    const handleError = (event: CustomEvent<{ error: string }>) => {
-        success = false
-        errorText = event.detail.error
+    const deletePost = async (id: number) => {
+        const res = await fetch(`http://localhost:8080/api/admin/post/${id}`, { method: 'DELETE' })
+        if (res.ok) {
+            redirect('/admin-panel/posts')
+        }
+        modal.close()
     }
 </script>
 
@@ -44,17 +44,19 @@
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
 
+<Modal bind:this={ modal } align="center" closable={true}>
+    <p class="mb-4">Подтвердите удаление публикации</p>
+    <div class="buttons-row">
+        <button type="button" on:click={ () => deletePost(deleteId) } class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={ modal.close } class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Публикации на главной странице</h2>
         <h3>Создать новую публикацию</h3>
-        <AjaxForm action="/api/admin/post" method="POST" on:success={ handleSuccess } on:error={ handleError }>
-            { #if success }
-                <p transition:slide={{ duration: 200 }} class="success">{ successText }</p>
-            { /if }
-            { #if errorText }
-                <p transition:slide={{ duration: 200 }} class="error">{ errorText }</p>
-            { /if }
+        <Form action="/api/admin/post" method="POST" on:success={ handleSuccess }>
             <div class="grid grid-2 m-grid-1">
                 <div>
                     <label>
@@ -87,7 +89,7 @@
             </div>
             <br />
             <button class="btn btn-primary">Создать</button>
-        </AjaxForm>
+        </Form>
     </div>
     <br />
     <div class="white-block-wide">
@@ -99,7 +101,7 @@
                         <h4 class="card-title">{ post.title }</h4>
                         <p class="card-text">{ post.text }</p>
                         <a href="/admin-panel/posts/update/{ post.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                        <button class="btn btn-outline-danger btn-sm">Удалить</button>
+                        <button class="btn btn-outline-danger btn-sm" on:click={ () => { deleteId = post.id; modal.open() } }>Удалить</button>
                     </div>
                 </div>
             { /each }

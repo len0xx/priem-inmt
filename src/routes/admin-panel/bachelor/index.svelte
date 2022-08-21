@@ -11,7 +11,7 @@
     }
 </script>
 <script lang="ts">
-    import { Grid, AjaxForm, Modal } from '$components'
+    import { Grid, Form, Modal } from '$components'
     import type { QuestionI } from '../../../types'
     import { redirect } from '$lib/utilities'
 
@@ -32,18 +32,11 @@
         if (res.ok) {
             redirect('/admin-panel/bachelor')
         }
+        modal.close()
     }
 
     const handleSuccess = () => {
         redirect('/admin-panel/bachelor')
-    }
-
-    let createError = false
-    let errorText = ''
-
-    const handleError = (event: CustomEvent) => {
-        createError = true
-        errorText = event.detail.error
     }
 </script>
 
@@ -63,7 +56,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <h3>Справочная информация FAQ</h3>
-        <AjaxForm method="POST" action="/api/admin/question/bachelor" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
+        <Form method="POST" action="/api/admin/question/bachelor" on:success={ handleSuccess }>
             <Grid m={1}>
                 <label>
                     <span class="question">Вопрос:</span><br />
@@ -74,25 +67,13 @@
                     <textarea required class="form-control wide" type="text" name="answer" />
                 </label>
             </Grid>
-            <br />
-            <br />
             <button class="btn btn-primary">Создать</button>
-        </AjaxForm>
-        <div class="alerts mt-4">
-            {#if createError}
-                <div class="alert alert-danger" role="alert">
-                    Произошла ошибка
-                </div>
-            {/if}
-            {#if errorText}
-                <div class="alert alert-danger" role="alert">
-                    {errorText}
-                </div>
-            {/if}
-        </div>
+        </Form>
+        <br />
+        <h3>Опубликованные ответы на вопросы</h3>
         <Grid m={2}>
             {#if questions.length}
-                { #each questions as question, i }
+                { #each questions as question, i (i) }
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">{ question.text }</h4>

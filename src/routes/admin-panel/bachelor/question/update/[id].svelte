@@ -11,8 +11,9 @@
         }
     }
 </script>
+
 <script lang="ts">
-    import { Grid, AjaxForm } from '$components'
+    import { Grid, Form } from '$components'
     import type { QuestionI } from '../../../../../types'
     import { redirect } from '$lib/utilities'
 
@@ -20,14 +21,6 @@
 
     const handleSuccess = () => {
         redirect('/admin-panel/bachelor')
-    }
-
-    let createError = false
-    let errorText = ''
-
-    const handleError = (event: CustomEvent) => {
-        createError = true
-        errorText = event.detail.error
     }
 </script>
 
@@ -39,7 +32,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <h3>Редактирование вопроса FAQ</h3>
-        <AjaxForm method="PATCH" action="/api/admin/question/{ question.id }" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
+        <Form method="PATCH" action="/api/admin/question/{ question.id }" on:success={ handleSuccess } >
             <Grid m={1}>
                 <label>
                     <span class="question">Вопрос:</span><br />
@@ -50,21 +43,7 @@
                     <textarea required class="form-control wide" type="text" name="answer" value={question.answer} />
                 </label>
             </Grid>
-            <br />
-            <br />
             <button class="btn btn-primary">Сохранить</button>
-        </AjaxForm>
-        <div class="alerts mt-4">
-            {#if createError}
-                <div class="alert alert-danger" role="alert">
-                    Произошла ошибка при обновлении вопроса
-                </div>
-            {/if}
-            {#if errorText}
-                <div class="alert alert-danger" role="alert">
-                    {errorText}
-                </div>
-            {/if}
-        </div>
+        </Form>
     </div>
 </section>

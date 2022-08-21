@@ -68,7 +68,7 @@
 <form {id} class={className} {action} {method} on:submit|preventDefault={handleSubmit}>
     <slot />
     { #if alerts && submitted }
-        <div class="alerts mt-4">
+        <div class="alerts mt-4" transition:blur|local={{ duration: 200 }}>
             { #if success }
                 <div transition:blur|local={{ duration: 200 }} class="alert alert-success mb-0" role="alert">
                     { successFinalText }

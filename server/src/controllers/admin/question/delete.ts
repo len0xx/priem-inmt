@@ -7,7 +7,7 @@ export const del = async (req: Request, res: Response) => {
     try {
         const id = +req.params.id
         await questionSerivce.deleteById(id)
-        return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Вопрос и ответ FAQ успешно удалён')
+        return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Вопрос на ответ успешно удалён')
     }
     catch (err) {
         console.error(err)

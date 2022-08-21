@@ -14,7 +14,7 @@ export const createBachelor = async (req: Request, res: Response) => {
             answer: answer,
             page: page
         })
-        return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос и ответ FAQ успешно создан')
+        return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос на ответ успешно создан')
     }
     catch (err) {
         console.error(err)
@@ -34,7 +34,7 @@ export const createMaster = async (req: Request, res: Response) => {
             answer: answer,
             page: page
         })
-        return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос и ответ FAQ успешно создан')
+        return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос на ответ успешно создан')
     }
     catch (err) {
         console.error(err)

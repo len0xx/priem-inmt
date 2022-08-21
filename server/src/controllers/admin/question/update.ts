@@ -12,7 +12,7 @@ export const update = async (req: Request, res: Response) => {
             text: question,
             answer: answer
         })
-        return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос и ответ FAQ успешно обновлен')
+        return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос на ответ успешно обновлён')
     }
     catch (err) {
         console.error(err)

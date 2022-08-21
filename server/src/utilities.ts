@@ -109,7 +109,7 @@ export const hashPassword = (password: string) => bcrypt.hashSync(password, 10)
 
 export const comparePasswords = bcrypt.compareSync
 
-export const generateFileName = (file: Express.Multer.File, extension: string) => file.fieldname + '-' + Date.now().toString() + '.' + extension
+export const generateFileName = (file: Express.Multer.File, extension: string | undefined) => file.fieldname + '-' + Date.now().toString() + (extension ? '.' + extension : '')
 
 export const errorHandler = <ErrorType extends Error>(err: ErrorType, _req: Request, res: ExpressResponse, next: NextFunction) => {
     if (res.headersSent) {
@@ -135,3 +135,5 @@ export const catchHTTPErrors = (action: (req: Request, res: ExpressResponse, nex
         }
     }
 }
+
+export const generateStaticFilePath = (filename: string) => `/static/${filename}`

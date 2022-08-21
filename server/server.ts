@@ -15,6 +15,7 @@ import opportunityRouter from './src/routes/admin/opportunity.js'
 import programRouter from './src/routes/admin/program.js'
 import responsibleRouter from './src/routes/admin/responsible.js'
 import questionRouter from './src/routes/admin/question.js'
+import documentsRouter from './src/routes/admin/documents.js'
 import { fileURLToPath } from 'url'
 import { authorize, redirectLogout, requireAuthorization, requireUnauthorized } from './src/middlewares.js'
 import { errorHandler } from './src/utilities.js'
@@ -33,6 +34,7 @@ connectDB()
 // Создаём приложение Express
 const app = express()
 app.disable('x-powered-by')
+app.set('dir', __dirname)
 
 // Поддержка Cookie и стандартных способов отправки форм
 app.use(cookieParser())
@@ -78,6 +80,7 @@ app.use('/api/admin/post', postRouter)
 app.use('/api/admin/programs', programRouter)
 app.use('/api/admin/responsible', responsibleRouter)
 app.use('/api/admin/question', questionRouter)
+app.use('/api/admin/documents', documentsRouter)
 app.use('/api/upload', uploadRouter)
 
 // Обработчик ошибок

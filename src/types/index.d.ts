@@ -7,6 +7,8 @@ export interface TeacherI {
     email: string
 }
 
+export type ContentType = 'multipart/form-data' | 'application/x-www-form-urlencoded' | 'text/plain'
+
 export interface EducationModeI {
     price: string
     duration: string
@@ -95,4 +97,20 @@ export interface OpportunityI {
     id: number
     title: string
     description: string
+}
+
+export type RESTMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD'
+
+export interface DefaultAJAXResponse {
+    ok: boolean,
+    response?: Record<string, unknown>,
+    message: string,
+    error?: string
+}
+
+export interface DocumentI {
+    id?: number
+    title: string
+    src: string
+    extension: string
 }

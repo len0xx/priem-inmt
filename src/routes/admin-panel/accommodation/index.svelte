@@ -176,16 +176,11 @@
                     </label>
                     <br />
                     <br />
-                    <label>
-                        <span class="caption">Текст ссылки:</span><br />
-                        <input class="form-control" type="text" name="linkText" id="linkText" value={ rentInfo?.linkText || '' } />
-                    </label>
-                    <br />
-                    <br />
-                    <label>
-                        <span class="caption">Адрес ссылки:</span><br />
-                        <input class="form-control" type="url" name="linkURL" id="linkURL" value={ rentInfo?.linkURL || '' } />
-                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">Ссылка</span>
+                        <input class="form-control" type="text" name="linkText" id="linkText" placeholder="Текст ссылки" aria-label="Текст ссылки" value={ rentInfo?.linkText || '' } />
+                        <input class="form-control" type="url" name="linkURL" id="linkURL" placeholder="Адрес ссылки" aria-label="Адрес ссылки" value={ rentInfo?.linkURL || '' } />
+                    </div>
                 </div>
             </div>
             <br />

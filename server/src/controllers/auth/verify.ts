@@ -6,7 +6,7 @@ import type { Request, Response } from 'express'
 
 dotenv.config()
 
-export const verify = async (req: Request, res: Response) => {
+export const verify = catchHTTPErrors(async (req: Request, res: Response) => {
     const token: string = req.body.token
 
     if (!token)
@@ -18,4 +18,4 @@ export const verify = async (req: Request, res: Response) => {
         return new HTTPResponse(res, HTTPStatus.SUCCESS, { id: decode.id, message: 'Verified successfully' })
 
     return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Verification failed')
-}
+})

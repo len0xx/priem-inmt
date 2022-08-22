@@ -1,7 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
     import { sendWindowAJAX } from '../utilities'
-    import type { RESTMethod } from '../types'
+    import type { RESTMethod } from '../../types'
 
     export let id: string = undefined
     export let action = ''

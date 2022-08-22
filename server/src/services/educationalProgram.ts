@@ -2,6 +2,7 @@ import BaseService from './base.js'
 import EducationalProgram, { EducationalProgramI } from '../models/educationalProgram.js'
 import { HTTPError } from '../utilities.js'
 import { HTTPStatus, DegreeLevel } from '../types/enums.js'
+import type { IndexesOptions } from 'sequelize'
 
 const validateModes = (mode) => {
     const budgetSpots = mode[1].vacantSpots.budget
@@ -89,6 +90,10 @@ class EducationalProgramService extends BaseService<EducationalProgram, Educatio
             throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Описание программы" является обязательным')
 
         return await this.update({ where: { id } }, educationalProgram)
+    }
+
+    async findAll(options: IndexesOptions) {
+        return await this.model.findAll(options)
     }
 }
 

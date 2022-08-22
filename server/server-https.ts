@@ -24,6 +24,7 @@ connectDB()
 // Создаём приложение Express
 const app = express()
 app.disable('x-powered-by')
+app.set('dir', __dirname)
 
 // Поддержка Cookie и стандартных способов отправки форм
 app.use(cookieParser())

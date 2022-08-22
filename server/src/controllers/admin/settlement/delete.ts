@@ -1,10 +1,10 @@
-import educationalProgramService from '../../../services/educationalProgram.js'
+import settlementResponsible from '../../../services/settlementResponsible.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
 export const del = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
-    await educationalProgramService.deleteById(id)
-    return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Образовательная программа успешно удалена')
+    await settlementResponsible.deleteById(id)
+    return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Ответственный за поселение успешно удален')
 })

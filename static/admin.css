@@ -13,6 +13,10 @@
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, .05);
 }
 
+label.wide {
+    width: 100%;
+}
+
 main {
     min-height: 100vh;
     background-color: #E9E9E9;
@@ -120,4 +124,12 @@ html body div.b24-widget-button-wrapper:not(.s) {
 
 .card .card-body h4.card-title {
     margin-top: 0;
+}
+
+.document-row {
+    display: grid;
+    position: relative;
+    grid-template-columns: 1fr 120px;
+    align-items: center;
+    gap: 2em;
 }

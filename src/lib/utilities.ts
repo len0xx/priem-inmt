@@ -1,6 +1,6 @@
 import { ajax } from 'jquery'
 import axios, { type AxiosRequestConfig } from 'axios'
-import type { RESTMethod, DefaultAJAXResponse } from './types'
+import type { RESTMethod, DefaultAJAXResponse, ContentType } from '../types'
 import type { Program } from './programs'
 
 // Create slug from the title
@@ -73,6 +73,7 @@ export const transformFormData = (form: FormData): Record<string, unknown> => {
 
 interface AJAXOptions {
     method: RESTMethod,
+    contentType?: ContentType,
     data?: FormData | Record<string, string> | null,
     csrfToken?: string,
     headers?: JQuery.PlainObject<string> | null
@@ -92,30 +93,31 @@ export const sendFormPostRequest = async (url: string, data: FormData, config?: 
 // Функция для отправки AJAX запросов с клиента
 export const sendWindowAJAX = (
     url: string,
-    options: AJAXOptions = { method: 'GET' },
+    options: AJAXOptions = { method: 'GET', contentType: 'application/x-www-form-urlencoded' },
     callbackSuccess?: (res: DefaultAJAXResponse) => void,
     callbackError?: (res: string) => void
 ) => {
-    let finalData: Record<string, unknown> = {}
+    let finalData: Record<string, unknown> | FormData
 
-    if (options.data instanceof FormData) {
+    if (!options.contentType) options.contentType = 'application/x-www-form-urlencoded'
+
+    if (options.data instanceof FormData && options.contentType === 'application/x-www-form-urlencoded') {
         finalData = transformFormData(options.data)
+        if (options.csrfToken) finalData.csrf = options.csrfToken
     }
-    else if (options.data) {
+    else if (options.data && options.data instanceof FormData) {
         finalData = options.data
+        if (options.csrfToken) finalData.set('csrf', options.csrfToken)
     }
-
-    if (!options.headers) options.headers = {}
-
-    if (options.csrfToken) finalData.csrf = options.csrfToken
 
     const request = ajax({
         url: url,
-        contentType: 'application/x-www-form-urlencoded',
+        contentType: options.contentType === 'multipart/form-data' ? false : options.contentType,
         headers: options.headers || {},
         type: options.method,
         data: finalData,
-        dataType: 'json'
+        dataType: 'json',
+        processData: options.contentType === 'multipart/form-data' ? false : true
     })
 
     request.done((res) => {

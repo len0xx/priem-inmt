@@ -5,17 +5,26 @@
         const res = await fetch('http://localhost:8080/api/admin/documents')
         const documents = (await res.json()).documents
 
-        if (res.ok) {
-            return { props: { documents } }
+        const settlementRes = await fetch('http://localhost:8080/api/admin/settlement/1')
+        const settlement = (await settlementRes.json()).responsible
+
+        if (res.ok && settlementRes.ok) {
+            return { props: { documents, settlement } }
         }
     }
 </script>
 
 <script lang="ts">
+    import { imask } from 'svelte-imask'
     import { Grid, Form, Modal, Document } from '$components'
-    import type { DocumentI } from '../../../types'
+    import type { DocumentI, SettlementI } from '../../../types'
 
     export let documents: DocumentI[] = []
+    export let settlement: SettlementI = null
+
+    let phoneMask = {
+        mask: '+{7}-(000)-000-0000'
+    }
 
     let deleteId = 0
     let modal: { open: () => void, close: () => void } = null
@@ -80,5 +89,53 @@
                 </div>
             { /each }
         { /if }
+        <br />
+        <h3>Ответственный за поселение</h3>
+        <Form 
+            action={settlement ? `/api/admin/settlement/${settlement.id}` : '/api/admin/settlement'} 
+            method={settlement ? 'PATCH' : 'POST'} 
+            reset={false}
+            on:success={ handleSuccess }
+        >
+            <Grid m={2}>
+                <div>
+                    <label for="name">ФИО</label>
+                    <input type="text" class="form-control wide" name="name" value={settlement.name} required />
+                </div>
+                <div>
+                    <label for="label">Подпись</label>
+                    <input type="text" class="form-control wide" name="label" value={settlement.label} required />
+                </div>
+            </Grid>
+            <br />
+            <Grid m={2}>
+                <div>
+                    <label for="address">Адрес</label>
+                    <input required class="form-control" type="text" value={settlement.address} name="address" />
+                </div>
+                <div>
+                    <label for="auditory">Аудитория</label>
+                    <input required class="form-control" type="text" value={settlement.auditory} name="auditory" />
+                </div>
+            </Grid>
+            <br />
+            <Grid m={2}>
+                <div>
+                    <label for="phone">Номер телефона</label>
+                    <input required class="form-control" type="text" value={settlement.phone} use:imask={ phoneMask } name="phone" />
+                </div>
+                <div>
+                    <label for="email">Адрес электронной почты</label>
+                    <input required class="form-control" type="email" value={settlement.email} name="email" />
+                </div>
+            </Grid>
+            <div class="buttons-row">
+                {#if settlement}
+                    <button class="btn btn-primary">Сохранить</button>
+                {:else}
+                    <button class="btn btn-primary">Создать</button>
+                {/if}
+            </div>
+        </Form>
     </div>
 </section>

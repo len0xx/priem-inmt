@@ -114,3 +114,13 @@ export interface DocumentI {
     src: string
     extension: string
 }
+
+export interface SettlementI {
+    id?: number
+    name: string
+    label: string
+    address: string
+    auditory: string
+    phone: string
+    email: string
+}

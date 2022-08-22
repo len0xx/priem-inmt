@@ -40,7 +40,7 @@
         top: 0;
         left: 0;
         background-position: center;
-        background-size: 100%;
+        background-size: cover;
         background-repeat: no-repeat;
         transition: 0.1s ease-in-out;
         transform: scale(1);

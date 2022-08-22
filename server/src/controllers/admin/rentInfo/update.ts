@@ -11,5 +11,5 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     if (await rentInfoService.getById(1)) await rentInfoService.update({ where: { id: 1 } }, newData)
     else await rentInfoService.create(newData)
 
-    return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Информация об&nbsp;альтернативном поселении успешно обновлена')
+    return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Информация об альтернативном поселении успешно обновлена')
 })

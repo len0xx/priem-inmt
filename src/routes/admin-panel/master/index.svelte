@@ -14,7 +14,7 @@
     }
 </script>
 <script lang="ts">
-    import { Card, Grid, AjaxForm, Modal } from '$components'
+    import { Card, Form, Grid, Modal } from '$components'
     import type { ProfessionI, QuestionI } from '../../../types'
     import { range, redirect } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
@@ -72,7 +72,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <h3>Справочная информация FAQ</h3>
-        <AjaxForm method="POST" action="/api/admin/question/master" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
+        <Form method="POST" action="/api/admin/question/master" reset={ true } on:success={ handleSuccess } on:error={ handleError }>
             <Grid m={1}>
                 <label>
                     <span class="question">Вопрос:</span><br />
@@ -86,7 +86,7 @@
             <br />
             <br />
             <button class="btn btn-primary">Создать</button>
-        </AjaxForm>
+        </Form>
         <div class="alerts mt-4">
             {#if createError}
                 <div class="alert alert-danger" role="alert">
@@ -111,7 +111,7 @@
         </Grid>
 
         <h3>Профессии</h3>
-        <AjaxForm action="/api/admin/profession" method="POST" on:success={ handleSuccess } on:error={ handleError }>
+        <Form action="/api/admin/profession" method="POST" reset={ false } on:success={ handleSuccess } on:error={ handleError }>
             { #if createError }
                 <div class="alert alert-danger">
                     Произошла ошибка при&nbsp;создании профессии
@@ -132,7 +132,7 @@
                     <br />
                     <label>
                         <span class="caption">Описание:</span><br />
-                        <input class="form-control" type="text" name="description" id="description" required />
+                        <textarea class="form-control no-margin" type="text" name="description" id="description" rows="4" required ></textarea>
                     </label>
                     <br />
                     <br />
@@ -161,7 +161,7 @@
             </Grid>
             <br />
             <button class="btn btn-primary">Создать</button>
-        </AjaxForm>
+        </Form>
         { #if professions.length }
             <Grid className="mt-5" m={3} s={1}>
                 { #each professions as profession, i (i) }

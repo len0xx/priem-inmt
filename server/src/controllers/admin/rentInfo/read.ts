@@ -1,9 +1,9 @@
-import contactInfoService from '../../../services/contactInfo.js'
+import rentInfoService from '../../../services/rentInfo.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
-export const readAll = catchHTTPErrors(async (_: Request, res: Response) => {
-    const contactInfo = await contactInfoService.getById()
-    return new HTTPResponse(res, HTTPStatus.SUCCESS, { contactInfo })
+export const read = catchHTTPErrors(async (_: Request, res: Response) => {
+    const rentInfo = await rentInfoService.getById()
+    return new HTTPResponse(res, HTTPStatus.SUCCESS, { rentInfo })
 })

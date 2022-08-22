@@ -99,6 +99,14 @@ export interface OpportunityI {
     description: string
 }
 
+export interface ProfessionI {
+    id: number
+    title: string
+    description: string
+    minsalary: number
+    duties: string[]
+}
+
 export type RESTMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD'
 
 export interface DefaultAJAXResponse {
@@ -113,6 +121,17 @@ export interface DocumentI {
     title: string
     src: string
     extension: string
+}
+
+export interface RentInfoI {
+    id: number
+    heading: string
+    subheading: string
+    text: string
+    tel1: string
+    tel2: string
+    linkText: string
+    linkURL: string
 }
 
 export interface SettlementI {

@@ -2,7 +2,7 @@
     import type { Load } from '@sveltejs/kit'
 
     export const load: Load = async ({ fetch }) => {
-        const res = await fetch('http://localhost:8080/api/admin/Opportunity')
+        const res = await fetch('http://localhost:8080/api/admin/opportunity')
         const opportunities = (await res.json()).opportunities
 
         if (res.ok) {

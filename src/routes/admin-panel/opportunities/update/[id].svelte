@@ -19,7 +19,7 @@
 
     export let opportunity: OpportunityI
 
-    let modal = null
+    let modal: { open: () => void, close: () => void } = null
     let updateError = false
     let deleteError = false
     let errorText = ''

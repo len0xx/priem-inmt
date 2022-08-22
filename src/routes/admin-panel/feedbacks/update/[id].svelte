@@ -20,7 +20,7 @@
 
     export let feedback: FeedbackI
 
-    let modal = null
+    let modal: { open: () => void, close: () => void } = null
     let updateError = false
     let deleteError = false
     let errorText = ''

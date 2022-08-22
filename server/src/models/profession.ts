@@ -3,17 +3,17 @@ import sequelize from '../../db.js'
 
 class Profession extends Model<InferAttributes<Profession, { omit: 'id' }>, InferCreationAttributes<Profession>> {
     declare id: CreationOptional<number>
-    declare name: string
+    declare title: string
     declare description: string
     declare minsalary: number
-    declare functions: string[]
+    declare duties: string[]
 }
 
 export type ProfessionI = InferAttributes<Profession, { omit: 'id' }>
 
 Profession.init(
     {
-        name: {
+        title: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
@@ -40,15 +40,15 @@ Profession.init(
         minsalary: {
             type: DataTypes.INTEGER
         },
-        functions: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
+        duties: {
+            type: DataTypes.JSON,
             allowNull: false,
             validate: {
                 notNull: {
-                    msg: 'Пожалуйста, добавьте хотя бы одну функцию'
+                    msg: 'Пожалуйста, добавьте хотя бы одну функцию специалиста'
                 },
                 notEmpty: {
-                    msg: 'Пожалуйста, добавьте хотя бы одну функцию'
+                    msg: 'Пожалуйста, добавьте хотя бы одну функцию специалиста'
                 }
             }
         }

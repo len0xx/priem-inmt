@@ -19,6 +19,10 @@ abstract class BaseService<ModelClass extends Model, ModelInterface extends Make
         return await this.model.create(entity)
     }
 
+    async count(options?: FindOptions) {
+        return await this.model.count(options)
+    }
+
     async delete(options: FindOptions<ModelClass & { id: number }>) {
         return await this.model.destroy(options)
     }

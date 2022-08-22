@@ -4,23 +4,28 @@
     export const load: Load = async ({ fetch }) => {
         const resDocuments = await fetch('http://localhost:8080/api/admin/documents')
         const resRentInfo = await fetch('http://localhost:8080/api/admin/rentInfo')
-
+        const settlementRes = await fetch('http://localhost:8080/api/admin/settlement/1')
+        
         const documents = (await resDocuments.json()).documents
         const rentInfo = (await resRentInfo.json()).rentInfo
+        const settlement = (await settlementRes.json()).responsible
 
-        if (resDocuments.ok && resRentInfo.ok) {
-            return { props: { documents, rentInfo } }
+
+        if (resDocuments.ok && resRentInfo.ok && settlementRes.ok ) {
+            return { props: { documents, rentInfo, settlement } }
         }
     }
 </script>
 
 <script lang="ts">
-    import { Grid, Form, Modal, Document } from '$components'
-    import type { DocumentI, RentInfoI } from '../../../types'
     import { imask } from 'svelte-imask'
+    import { Grid, Form, Modal, Document } from '$components'
+    import type { DocumentI, RentInfoI, SettlementI } from '../../../types'
 
     export let documents: DocumentI[] = []
     export let rentInfo: RentInfoI
+    export let settlement: SettlementI = null
+
 
     let deleteId = 0
     let modal: { open: () => void, close: () => void } = null
@@ -89,55 +94,6 @@
                 </div>
             { /each }
         { /if }
-        <h3>Альтернативное поселение</h3>
-        <Form action="/api/admin/rentInfo" method="POST" on:success={ handleSuccess } reset={ false }>
-            <div class="grid grid-2 m-grid-1">
-                <div>
-                    <label>
-                        <span class="caption">Заголовок:</span><br />
-                        <input class="form-control" type="text" name="heading" id="heading" value={ rentInfo?.heading || '' } required />
-                    </label>
-                    <br />
-                    <br />
-                    <label>
-                        <span class="caption">Подзаголовок:</span><br />
-                        <input class="form-control" type="text" name="subheading" id="subheading" value={ rentInfo?.subheading || '' } required />
-                    </label>
-                    <br />
-                    <br />
-                    <label>
-                        <span class="caption">Текст:</span><br />
-                        <textarea class="form-control" name="text" id="text" cols="30" rows="4" value={ rentInfo?.text || '' } required ></textarea>
-                    </label>
-                </div>
-                <div id="vs2f">
-                    <label>
-                        <span class="caption">Телефон 1:</span><br />
-                        <input class="form-control" type="text" name="tel1" id="tel1" use:imask={ phoneMask } value={ rentInfo?.tel1 || '' } required />
-                    </label>
-                    <br />
-                    <br />
-                    <label>
-                        <span class="caption">Телефон 2:</span><br />
-                        <input class="form-control" type="text" name="tel2" id="tel2" use:imask={ phoneMask } value={ rentInfo?.tel2 || '' } />
-                    </label>
-                    <br />
-                    <br />
-                    <label>
-                        <span class="caption">Текст ссылки:</span><br />
-                        <input class="form-control" type="text" name="linkText" id="linkText" value={ rentInfo?.linkText || '' } />
-                    </label>
-                    <br />
-                    <br />
-                    <label>
-                        <span class="caption">Адрес ссылки:</span><br />
-                        <input class="form-control" type="url" name="linkURL" id="linkURL" value={ rentInfo?.linkURL || '' } />
-                    </label>
-                </div>
-            </div>
-            <br />
-            <button class="btn btn-primary">Сохранить</button>
-        </Form>
     </div>
 </section>
 

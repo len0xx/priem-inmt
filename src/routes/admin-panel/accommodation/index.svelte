@@ -188,7 +188,13 @@
                 </div>
             </div>
             <br />
-            <button class="btn btn-primary">Сохранить</button>
+            <div class="buttons-row">
+                {#if rentInfo}
+                        <button class="btn btn-primary">Сохранить</button>
+                {:else}
+                        <button class="btn btn-primary">Создать</button>
+                {/if}
+            </div>
         </Form>
     </div>
 </section>

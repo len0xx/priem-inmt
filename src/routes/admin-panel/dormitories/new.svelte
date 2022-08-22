@@ -43,25 +43,19 @@
                 </div>
             { /if }
             <Grid m={2} s={1}>
-                <div>
-                    <label>
-                        <span class="caption">Название:</span><br />
-                        <input class="form-control" type="text" name="title" id="title" required />
-                    </label>
-                    <br />
-                    <br />
-                    <label>
-                        <span class="caption">Адрес:</span><br />
-                        <input class="form-control" type="text" name="address" id="address" />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <span class="caption">Изображение { fileId ? `(${ fileId })` : '' }:</span><br />
-                        <input type="hidden" name="img" value={ fileId }>
-                        <button type="button" class="btn btn-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
-                    </label>
-                </div>
+                <label>
+                    <span class="caption">Название:</span><br />
+                    <input class="form-control" type="text" name="title" id="title" required />
+                </label>
+                <label>
+                    <span class="caption">Адрес:</span><br />
+                    <input class="form-control" type="text" name="address" id="address" />
+                </label>
+                <label>
+                    <span class="caption">Изображение { fileId ? `(${ fileId })` : '' }:</span><br />
+                    <input type="hidden" name="img" value={ fileId }>
+                    <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                </label>
             </Grid>
             <br />
             <button class="btn btn-primary">Создать</button>

@@ -96,3 +96,11 @@ export interface OpportunityI {
     title: string
     description: string
 }
+
+export interface ProfessionI {
+    id: number
+    title: string
+    description: string
+    minsalary: number
+    duties: string[]
+}

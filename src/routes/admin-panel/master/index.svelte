@@ -166,7 +166,7 @@
             <Grid className="mt-5" m={3} s={1}>
                 { #each professions as profession, i (i) }
                     <div>
-                        <a href="/admin-panel/professions/update/{ profession.id }">
+                        <a href="/admin-panel/master/profession/update/{ profession.id }">
                             <Card>
                                 <span slot="title">{ profession.title }</span>
                             </Card>

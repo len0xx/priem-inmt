@@ -60,10 +60,11 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </AjaxForm>
-    </section>
+    </div>
+</section>
 
-    <style>
-        label {
-            width: 100%;
-        }
-    </style>
+<style>
+    label {
+        width: 100%;
+    }
+</style>

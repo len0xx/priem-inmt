@@ -5,10 +5,11 @@
     import type { DocumentI } from '../../types'
 
     export let modal: { open: () => void, close: () => void } = null
+    export let selected: number = null
     
     const dispatch = createEventDispatcher()
     const LIMIT = 9
-    let selectedFile: number = null
+    let selectedFile: number = selected
     let currentPage = 1
     let filesAmount = 0
     let pagesAmount = 1

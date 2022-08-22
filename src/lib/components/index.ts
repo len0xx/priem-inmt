@@ -7,6 +7,7 @@ import Carousel from './Carousel.svelte'
 import Divider from './Divider.svelte'
 import Document from './Document.svelte'
 import Expandable from './Expandable.svelte'
+import FileSelect from './FileSelect.svelte'
 import Filter from './Filter.svelte'
 import Footer from './Footer.svelte'
 import Form from './Form.svelte'
@@ -52,6 +53,7 @@ export {
     Divider,
     Document,
     Expandable,
+    FileSelect,
     Filter,
     Footer,
     Form,

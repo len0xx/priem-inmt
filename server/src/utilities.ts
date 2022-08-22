@@ -113,7 +113,7 @@ export const generateFileName = (file: Express.Multer.File, extension: string | 
     const hash = crypto.randomUUID().split('-')
     const salt = hash[0]
     const num = Math.floor((Math.random() * 100) / 7)
-    
+
     return file.fieldname + salt + num.toString() + (extension ? '.' + extension : '')
 }
 

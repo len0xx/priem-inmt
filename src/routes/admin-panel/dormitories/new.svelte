@@ -1,9 +1,11 @@
 <script lang="ts">
-    import { AjaxForm, Grid } from '$components'
+    import { AjaxForm, Grid, FileSelect } from '$components'
     import { redirect } from '$lib/utilities'
 
     let createError = false
     let errorText = ''
+    let fileId: number = null
+    let fileModal: { open: () => void, close: () => void } = null
 
     const handleSuccess = () => {
         redirect('/admin-panel/dormitories')
@@ -13,11 +15,17 @@
         createError = true
         errorText = event.detail.error
     }
+
+    const fileSelected = (event: CustomEvent<number>) => {
+        fileId = event.detail
+    }
 </script>
 
 <svelte:head>
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
+
+<FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -49,8 +57,9 @@
                 </div>
                 <div>
                     <label>
-                        <span class="caption">Изображение:</span><br />
-                        <input class="form-control" type="text" name="img" id="img" /> <!-- TODO: file upload -->
+                        <span class="caption">Изображение { fileId ? `(${ fileId })` : '' }:</span><br />
+                        <input type="hidden" name="img" value={ fileId }>
+                        <button type="button" class="btn btn-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     </label>
                 </div>
             </Grid>

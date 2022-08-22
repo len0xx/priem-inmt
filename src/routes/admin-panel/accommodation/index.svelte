@@ -103,33 +103,33 @@
             <Grid m={2}>
                 <div>
                     <label for="name">ФИО</label>
-                    <input type="text" class="form-control wide" name="name" value={settlement.name} required />
+                    <input type="text" class="form-control wide" name="name" value={settlement?.name || ''} required />
                 </div>
                 <div>
                     <label for="label">Подпись</label>
-                    <input type="text" class="form-control wide" name="label" value={settlement.label} required />
+                    <input type="text" class="form-control wide" name="label" value={settlement?.label || ''} required />
                 </div>
             </Grid>
             <br />
             <Grid m={2}>
                 <div>
                     <label for="address">Адрес</label>
-                    <input required class="form-control" type="text" value={settlement.address} name="address" />
+                    <input required class="form-control" type="text" value={settlement?.address || ''} name="address" />
                 </div>
                 <div>
                     <label for="auditory">Аудитория</label>
-                    <input required class="form-control" type="text" value={settlement.auditory} name="auditory" />
+                    <input required class="form-control" type="text" value={settlement?.auditory || ''} name="auditory" />
                 </div>
             </Grid>
             <br />
             <Grid m={2}>
                 <div>
                     <label for="phone">Номер телефона</label>
-                    <input required class="form-control" type="text" value={settlement.phone} use:imask={ phoneMask } name="phone" />
+                    <input required class="form-control" type="text" value={settlement?.phone || ''} use:imask={ phoneMask } name="phone" />
                 </div>
                 <div>
                     <label for="email">Адрес электронной почты</label>
-                    <input required class="form-control" type="email" value={settlement.email} name="email" />
+                    <input required class="form-control" type="email" value={settlement?.email || ''} name="email" />
                 </div>
             </Grid>
             <div class="buttons-row">
@@ -140,7 +140,7 @@
                 {/if}
             </div>
         </Form>
-
+        <br />
         <h3>Альтернативное поселение</h3>
         <Form action="/api/admin/rentInfo" method="POST" on:success={ handleSuccess } reset={ false }>
             <div class="grid grid-2 m-grid-1">

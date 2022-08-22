@@ -12,6 +12,7 @@ import postRouter from './src/routes/admin/post.js'
 import uploadRouter from './src/routes/upload.js'
 // import featureRouter from './src/routes/feature.js'
 import opportunityRouter from './src/routes/admin/opportunity.js'
+import professionRouter from './src/routes/admin/profession.js'
 import programRouter from './src/routes/admin/program.js'
 import responsibleRouter from './src/routes/admin/responsible.js'
 import questionRouter from './src/routes/admin/question.js'
@@ -75,6 +76,7 @@ app.use('/api/admin/feedback', feedbackRouter)
 app.use('/api/admin/info', infoRouter)
 app.use('/api/admin/opportunity', opportunityRouter)
 app.use('/api/admin/post', postRouter)
+app.use('/api/admin/profession', professionRouter)
 app.use('/api/admin/programs', programRouter)
 app.use('/api/admin/responsible', responsibleRouter)
 app.use('/api/admin/question', questionRouter)

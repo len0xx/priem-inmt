@@ -133,3 +133,13 @@ export interface RentInfoI {
     linkText: string
     linkURL: string
 }
+
+export interface SettlementI {
+    id?: number
+    name: string
+    label: string
+    address: string
+    auditory: string
+    phone: string
+    email: string
+}

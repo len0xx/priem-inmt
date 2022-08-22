@@ -5,7 +5,7 @@
         const resDocuments = await fetch('http://localhost:8080/api/admin/documents')
         const resRentInfo = await fetch('http://localhost:8080/api/admin/rentInfo')
         const settlementRes = await fetch('http://localhost:8080/api/admin/settlement/1')
-        
+    
         const documents = (await resDocuments.json()).documents
         const rentInfo = (await resRentInfo.json()).rentInfo
         const settlement = (await settlementRes.json()).responsible

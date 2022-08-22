@@ -17,11 +17,30 @@ export const get = async (req: Request, res: Response) => {
     }
 }
 
-export const getAll = async (_: Request, res: Response) => {
+export const getAll = async (req: Request, res: Response) => {
     try {
-        const programs = await educationalProgramService.get()
+        const degree = req.query.degree
 
-        return new HTTPResponse(res, HTTPStatus.SUCCESS, { programs })
+        const getProgramsWhereDegree = async (degree: string) => {
+            const programs = await educationalProgramService.findAll({
+                where: {
+                    degree: degree
+                }
+            })
+            return new HTTPResponse(res, HTTPStatus.SUCCESS, { programs })
+        }
+
+        if (degree === 'bachelor') {
+            getProgramsWhereDegree('Бакалавриат')
+        } else if (degree == 'specialist') {
+            getProgramsWhereDegree('Специалитет')
+        } else if (degree == 'master') {
+            getProgramsWhereDegree('Магистратура')
+        } else {
+            const programs = await educationalProgramService.get()
+            return new HTTPResponse(res, HTTPStatus.SUCCESS, { programs })
+        }
+
     }
     catch (err) {
         console.error(err)

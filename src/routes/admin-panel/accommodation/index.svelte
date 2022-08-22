@@ -18,8 +18,9 @@
 
 <script lang="ts">
     import { Grid, Form, Modal, Document } from '$components'
-    import type { DocumentI, RentInfoI, SettlementI } from '../../../types'
     import { imask } from 'svelte-imask'
+    import { slide } from 'svelte/transition'
+    import type { DocumentI, RentInfoI, SettlementI } from '../../../types'
 
     export let documents: DocumentI[] = []
     export let rentInfo: RentInfoI
@@ -86,7 +87,7 @@
                 { @const extensionLength = parts.length }
                 { @const extension = extensionLength > 1 ? parts[parts.length - 1] : '' }
 
-                <div class="document-row">
+                <div class="document-row" transition:slide|local={{ duration: 200 }}>
                     <Document filename={ document.title } { extension } link={ document.src } />
                     <button type="button" on:click={() => { deleteId = document.id; modal.open() } } class="btn btn-outline-danger btn-sm">Удалить</button>
                 </div>

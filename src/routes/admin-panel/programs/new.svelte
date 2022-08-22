@@ -194,10 +194,10 @@
             </Grid>
             { #if degree != 'Магистратура' }
                 <h3>Экзамены</h3>
-                <Grid m={2}>
+                <Grid m={1}>
                     { #each activeExams as exam, i }
                         { #if exam }
-                            <div transition:slide|local={{ duration: 200 }}>
+                            <div transition:slide|local={{ duration: 200 }} class="grid grid-2 m-grid-1">
                                 <div>
                                     <label for="exam{ i + 1 }">Название экзамена</label><br />
                                     <input class="form-control wide" type="text" name="exam{ i + 1 }" required />

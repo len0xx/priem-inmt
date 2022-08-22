@@ -3,8 +3,11 @@ import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
-export const readAll = catchHTTPErrors(async (_: Request, res: Response) => {
-    const documents = await documentService.get()
+export const readAll = catchHTTPErrors(async (req: Request, res: Response) => {
+    const type = req.query.type.toString()
+    const options = type ? { where: { type } } : {}
+
+    const documents = await documentService.get(options)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { documents })
 })
 

@@ -4,6 +4,8 @@ import sequelize from '../../db.js'
 class Document extends Model<InferAttributes<Document>, InferCreationAttributes<Document>> {
     declare title: string
     declare src: string
+    declare type: string
+    declare size: number
     declare extension: string
 }
 
@@ -32,6 +34,27 @@ Document.init(
                 },
                 notEmpty: {
                     msg: 'Ссылка на файл не может быть пустой'
+                }
+            }
+        },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: 'document',
+            validate: {
+                isIn: {
+                    args: [[ 'media', 'document' ]],
+                    msg: 'Тип документа может принимать одно из двух значений: media или document'
+                }
+            }
+        },
+        size: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0,
+            validate: {
+                isInt: {
+                    msg: 'Значение поля size должно быть числом'
                 }
             }
         },

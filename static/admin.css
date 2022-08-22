@@ -133,3 +133,7 @@ html body div.b24-widget-button-wrapper:not(.s) {
     align-items: center;
     gap: 2em;
 }
+
+.card img.card-img-top {
+    max-height: 145px;
+}

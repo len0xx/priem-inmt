@@ -2,7 +2,7 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
-        const resDocuments = await fetch('http://localhost:8080/api/admin/documents')
+        const resDocuments = await fetch('http://localhost:8080/api/admin/documents?type=document')
         const resRentInfo = await fetch('http://localhost:8080/api/admin/rentInfo')
         const settlementRes = await fetch('http://localhost:8080/api/admin/settlement/1')
     
@@ -63,7 +63,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Поселение</h2>
         <h3>Загрузка документов</h3>
-        <Form action="/api/admin/documents" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
+        <Form action="/api/admin/documents?type=document" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
             <label class="wide">
                 <span class="form-label">Название документа</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />

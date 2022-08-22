@@ -109,7 +109,13 @@ export const hashPassword = (password: string) => bcrypt.hashSync(password, 10)
 
 export const comparePasswords = bcrypt.compareSync
 
-export const generateFileName = (file: Express.Multer.File, extension: string | undefined) => file.fieldname + '-' + Date.now().toString() + (extension ? '.' + extension : '')
+export const generateFileName = (file: Express.Multer.File, extension: string | undefined) => {
+    const hash = crypto.randomUUID().split('-')
+    const salt = hash[0]
+    const num = Math.floor((Math.random() * 100) / 7)
+    
+    return file.fieldname + salt + num.toString() + (extension ? '.' + extension : '')
+}
 
 export const errorHandler = <ErrorType extends Error>(err: ErrorType, _req: Request, res: ExpressResponse, next: NextFunction) => {
     if (res.headersSent) {

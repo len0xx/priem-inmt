@@ -122,3 +122,14 @@ export interface DocumentI {
     src: string
     extension: string
 }
+
+export interface RentInfoI {
+    id: number
+    heading: string
+    subheading: string
+    text: string
+    tel1: string
+    tel2: string
+    linkText: string
+    linkURL: string
+}

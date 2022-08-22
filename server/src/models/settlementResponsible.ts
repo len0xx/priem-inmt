@@ -12,7 +12,7 @@ class SettlementResponsible extends Model<InferAttributes<SettlementResponsible,
     declare photo?: string
 }
 
-export type QuestionI = InferAttributes<SettlementResponsible, { omit: 'id' }>
+export type SettlementResponsibleI = InferAttributes<SettlementResponsible, { omit: 'id' }>
 
 SettlementResponsible.init(
     {

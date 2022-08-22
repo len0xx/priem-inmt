@@ -1,13 +1,12 @@
 <script context="module" lang="ts">
-    // import { sendNodeAJAX } from '../../../shared/utilities'
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
         const res = await fetch('http://localhost:8080/api/admin/info/contacts')
-        const contactsResult = (await res.json()).contactInfo
+        const contactInfo = (await res.json()).contactInfo
 
         if (res.ok) {
-            return { props: { contactInfo: contactsResult } }
+            return { props: { contactInfo } }
         }
     }
 </script>

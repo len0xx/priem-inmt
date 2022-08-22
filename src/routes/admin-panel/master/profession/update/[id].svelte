@@ -41,7 +41,7 @@
     const removeProfession = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/profession/${profession.id}`, { method: 'DELETE' })
         if (res.ok) {
-            redirect('/admin-panel/professions')
+            redirect('/admin-panel/master/')
         } else {
             deleteError = true
         }

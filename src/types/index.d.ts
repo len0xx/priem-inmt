@@ -151,3 +151,9 @@ export interface FamousI {
     graduateYear?: number
     photo: string
 }
+
+export interface TextI {
+    id: number
+    name: string
+    content: string
+}

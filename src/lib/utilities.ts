@@ -225,6 +225,5 @@ export const getSequentialPartialIndexes = <T>(arr: T[], size: number): number[]
 
 export const getBaseUrl = () : string => {
     const { APP_IP, APP_PORT, NODE_ENV } = process.env
-    console.log(NODE_ENV)
     return NODE_ENV === 'production' ? 'https://inmt-priem.urfu.ru' : `http://${APP_IP}:${APP_PORT}`
 }

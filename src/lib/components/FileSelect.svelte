@@ -27,7 +27,7 @@
     }
 
     const getFilesAmount = async (): Promise<number> => {
-        const res = await fetch(`http://localhost:8080/api/admin/media/count`)
+        const res = await fetch('http://localhost:8080/api/admin/media/count')
         const amount = (await res.json()).amount
 
         if (res.ok) {

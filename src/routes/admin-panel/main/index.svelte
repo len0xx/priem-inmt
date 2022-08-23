@@ -12,16 +12,45 @@
 </script>
 
 <script lang="ts">
-    import { Form } from '$components'
-    import type { FamousI } from '../../types'
+    import { Grid, Graduate, Form, Modal, RoundButton, FileSelect } from '$components'
+    import type { FamousI } from '../../../types'
 
     export let famousStudents: FamousI[] = []
-    console.log(famousStudents)
+
+    let fileModal: { open: () => void, close: () => void } = null
+    let fileId: number = null
+
+    let modal: { open: () => void, close: () => void } = null
+    let famousId: number
+
+    let famousExpanded = false
+
+    const removeFamous = async () => {
+        const res = await fetch(`http://localhost:8080/api/admin/famous/${famousId}`, { method: 'DELETE' })
+        if (res.ok) {
+            famousStudents = famousStudents.filter(student => student.id !== famousId)
+        }
+        modal.close()
+    }
+
+    const fileSelected = (event: CustomEvent<number>) => {
+        fileId = event.detail
+    }
 </script>
 
 <svelte:head>
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
+
+<FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
+
+<Modal bind:this={ modal } align="center" closable={true}>
+    <p class="mb-4">Подтвердите удаление известного выпускника</p>
+    <div class="buttons-row">
+        <button type="button" on:click={removeFamous} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -269,27 +298,46 @@
         <Form action="/api/admin/famous" method="POST">
             <div class="grid grid-2 m-grid-1">
                 <label>
-                    <span class="caption">Фотография</span><br />
-                    <input required class="form-control" type="file" name="photo" id="photo"
-                        accept="image/jpg,image/jpeg,image/png">
-                </label>
-                <label>
-                    <span class="caption">Имя</span><br />
-                    <input required class="form-control" type="text" name="name" id="name">
+                    <span class="caption">ФИО</span><br />
+                    <input required class="form-control" type="text" name="name">
                 </label>
                 <label>
                     <span class="caption">Год выпуска</span><br />
-                    <input required class="form-control" type="number" name="graduateYear" id="year">
+                    <input required class="form-control" type="number" name="graduateYear">
                 </label>
                 <label>
                     <span class="caption">Описание</span><br />
-                    <input required class="form-control" type="text" name="description" id="description">
+                    <input required class="form-control" type="text" name="description">
+                </label>
+                <label>
+                    <span class="caption">Фотография { fileId ? `(${ fileId })` : '' }:</span><br />
+                    <input type="hidden" name="photo" value={ fileId }>
+                    <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>
             </div>
             <br />
-            <button class="btn btn-primary">Сохранить</button>
-            <button class="btn btn-success">Добавить</button>
+            <button class="btn btn-primary">Создать</button>
         </Form>
+        <br />
+        {#if famousStudents.length}
+            <Grid m={4}>
+                {#each famousStudents as student, i (i)}
+                    {#if i < 8 || famousExpanded}
+                        <a href="/admin-panel/main/famous/update/{ student.id }">
+                            <Graduate name={ student.name } src={ student.photo } caption={ student.description } />
+                        </a>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !famousExpanded && famousStudents.length > 7}
+            <br />
+            <div class="align-center">
+                <RoundButton variant="plus" size="M" on:click={() => famousExpanded = true} />
+            </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет известных выпускников</p>
+        {/if}
     </div>
 </section>
 

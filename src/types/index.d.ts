@@ -149,5 +149,5 @@ export interface FamousI {
     name: string
     description: string
     graduateYear?: number
-    photo?: string
+    photo: string
 }

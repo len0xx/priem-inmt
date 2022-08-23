@@ -6,7 +6,7 @@ class Famous extends Model<InferAttributes<Famous, { omit: 'id' }>, InferCreatio
     declare name: string
     declare description: string
     declare graduateYear?: number
-    declare photo?: string
+    declare photo: string
 }
 
 export type FamousI = InferAttributes<Famous, { omit: 'id' }>
@@ -41,12 +41,20 @@ Famous.init(
         },
         photo: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: 'Поле "Фотография" является обязательным'
+                },
+                notEmpty: {
+                    msg: 'Поле "Фотография" является обязательным'
+                },
+            },
         }
     },
     {
         sequelize,
-        modelName: 'Responsible',
+        modelName: 'Famous',
     }
 )
 

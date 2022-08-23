@@ -12,12 +12,16 @@
 </script>
 
 <script lang="ts">
-    import { Form, Modal, Grid } from '$components'
+    import { Form, Modal, Grid, FileSelect } from '$components'
     import { slide, blur } from 'svelte/transition'
     import { range, redirect } from '$lib/utilities'
     import type { PostI } from '../../../types'
 
     export let posts: PostI[]
+
+    let fileModal: { open: () => void, close: () => void } = null
+    let fileId: number = null
+    let filePath: string = null
 
     let links = 1
     let deleteId = 0
@@ -38,11 +42,18 @@
         }
         modal.close()
     }
+
+    const fileSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        fileId = event.detail.id
+        filePath = event.detail.path
+    }
 </script>
 
 <svelte:head>
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
+
+<FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
 
 <Modal bind:this={ modal } align="center" closable={true}>
     <p class="mb-4">Подтвердите удаление публикации</p>
@@ -68,6 +79,16 @@
                     <label>
                         <span class="caption">Текст:</span><br />
                         <textarea class="form-control" name="text" cols="30" rows="4"></textarea>
+                    </label>
+                    <br />
+                    <label>
+                        <span class="caption">Изображение { fileId ? `(${ fileId })` : '' }:</span>
+                        {#if filePath}
+                            <br />
+                            <img width="150px" height="150px" src={filePath} class="img-fluid mt-3 mb-3" alt="Изображение">   
+                        {/if}                 
+                        <input type="hidden" name="img" value={ fileId }><br />
+                        <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     </label>
                 </div>
                 <div id="vs2f">
@@ -98,6 +119,9 @@
             { #each posts as post, i (i) }
                 <div class="card">
                     <div class="card-body">
+                        {#if post.img}
+                            <img src={post.img} class="img-fluid mb-3" alt="Изображение">                                              
+                        {/if}
                         <h4 class="card-title">{ post.title }</h4>
                         <p class="card-text">{ post.text }</p>
                         <a href="/admin-panel/posts/update/{ post.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>

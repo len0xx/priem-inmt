@@ -13,12 +13,16 @@
 </script>
 
 <script lang="ts">
-    import { Form } from '$components'
+    import { Form, FileSelect } from '$components'
     import { slide, blur } from 'svelte/transition'
     import { range, redirect } from '$lib/utilities'
     import type { PostI } from '../../../../types'
 
     export let post: PostI
+
+    let fileModal: { open: () => void, close: () => void } = null
+    let fileId: number = null
+    let filePath: string = null
 
     let links = post.links.length
 
@@ -29,11 +33,18 @@
     const handleSuccess = () => {
         redirect('/admin-panel/posts')
     }
+
+    const fileSelected = (event: CustomEvent<{ id: number, path: string }>) => {
+        fileId = event.detail.id
+        filePath = event.detail.path
+    }
 </script>
 
 <svelte:head>
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
+
+<FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -51,6 +62,13 @@
                     <label>
                         <span class="caption form-label">Текст:</span><br />
                         <textarea class="form-control" name="text" cols="30" rows="4">{ post.text }</textarea>
+                    </label>
+                    <br />
+                    <label>
+                        <span class="caption">Изображение { fileId ? `(${ fileId })` : '' }:</span><br />
+                        <img width="150px" height="150px" src={filePath ? filePath : post.img} class="img-fluid mt-3 mb-3" alt="Изображение">                   
+                        <input type="hidden" name="img" value={ fileId }><br />
+                        <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     </label>
                 </div>
                 <div id="vs2f">

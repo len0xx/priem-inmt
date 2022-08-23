@@ -1,4 +1,5 @@
 import postService from '../../../services/post.js'
+import documentService from '../../../services/document.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
@@ -6,7 +7,7 @@ import type { PostI } from '../../../models/post.js'
 
 export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
-    const { title, text } = req.body
+    const { img, title, text } = req.body
     const links: { text: string, url: string }[] = []
 
     for (let i = 1; i <= 5; i++) {
@@ -17,7 +18,13 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         }
     }
 
-    const newData: PostI = { title, text, links }
+    let imgURL = undefined
+    if (img) {
+        const file = await documentService.getById(+img)
+        imgURL = file.src
+    }
+
+    const newData: PostI = { title, text, links, img: imgURL }
     await postService.updateById(id, newData)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Публикация успешно обновлена')
 })

@@ -4,8 +4,10 @@
 
     let createError = false
     let errorText = ''
-    let fileId: number = null
+
     let fileModal: { open: () => void, close: () => void } = null
+    let fileId: number = null
+    let filePath: string = null
 
     const handleSuccess = () => {
         redirect('/admin-panel/dormitories')
@@ -16,8 +18,9 @@
         errorText = event.detail.error
     }
 
-    const fileSelected = (event: CustomEvent<{id: number}>) => {
+    const fileSelected = (event: CustomEvent<{id: number, path: string}>) => {
         fileId = event.detail.id
+        filePath = event.detail.path
     }
 </script>
 
@@ -52,7 +55,12 @@
                     <input class="form-control" type="text" name="address" id="address" />
                 </label>
                 <label>
-                    <span class="caption">Изображение { fileId ? `(${ fileId })` : '' }:</span><br />
+                    <span class="caption">Изображение { fileId ? `(${ fileId })` : '' }:</span>
+                    <br />
+                    {#if filePath}
+                        <img width="150px" height="150px" src={filePath} class="img-fluid mt-3 mb-3" alt="Изображение общежития">
+                        <br />
+                    {/if}
                     <input type="hidden" name="img" value={ fileId }>
                     <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>

@@ -1,10 +1,11 @@
 import postService from '../../../services/post.js'
+import documentService from '../../../services/document.js'
 import { catchHTTPErrors, HTTPError, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
-    const { title, text } = req.body
+    const { img, title, text } = req.body
 
     if (!title || !text)
         throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поля Название и Текст являются обязательными')
@@ -19,7 +20,13 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         }
     }
 
-    await postService.create({ title, text, links })
+    let imgURL = undefined
+    if (img) {
+        const file = await documentService.getById(+img)
+        imgURL = file.src
+    }
+
+    await postService.create({ title, text, links, img: imgURL })
 
     return new HTTPResponse(res, HTTPStatus.CREATED, 'Публикация успешно создана')
 })

@@ -143,3 +143,11 @@ export interface SettlementI {
     phone: string
     email: string
 }
+
+export interface FamousI {
+    id?: number
+    name: string
+    description: string
+    graduateYear?: number
+    photo?: string
+}

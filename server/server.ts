@@ -17,6 +17,7 @@ import programRouter from './src/routes/admin/program.js'
 import rentInfoRouter from './src/routes/admin/rentInfo.js'
 import responsibleRouter from './src/routes/admin/responsible.js'
 import settlementRouter from './src/routes/admin/settlement.js'
+import famousRouter from './src/routes/admin/famous.js'
 import questionRouter from './src/routes/admin/question.js'
 import documentsRouter from './src/routes/admin/documents.js'
 import { fileURLToPath } from 'url'
@@ -85,6 +86,7 @@ app.use('/api/admin/programs', programRouter)
 app.use('/api/admin/rentInfo', rentInfoRouter)
 app.use('/api/admin/responsible', responsibleRouter)
 app.use('/api/admin/settlement', settlementRouter)
+app.use('/api/admin/famous', famousRouter)
 app.use('/api/admin/question', questionRouter)
 app.use('/api/admin/documents', documentsRouter)
 app.use('/api/upload', uploadRouter)

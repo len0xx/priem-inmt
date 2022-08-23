@@ -1,3 +1,24 @@
+<script context="module" lang="ts">
+    import type { Load } from '@sveltejs/kit'
+    
+    export const load: Load = async ({ fetch }) => {
+        const resFamous = await fetch('http://localhost:8080/api/admin/famous')
+        const famousStudents = (await resFamous.json()).famousStudents
+
+        if (resFamous.ok ) {
+            return { props: { famousStudents } }
+        }
+    }
+</script>
+
+<script lang="ts">
+    import { Form } from '$components'
+    import type { FamousI } from '../../types'
+
+    export let famousStudents: FamousI[] = []
+    console.log(famousStudents)
+</script>
+
 <svelte:head>
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
@@ -245,7 +266,7 @@
         </form>
         <br />
         <h3>Известные выпускники</h3>
-        <form action="/api/admin/info/main" method="POST">
+        <Form action="/api/admin/famous" method="POST">
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Фотография</span><br />
@@ -258,7 +279,7 @@
                 </label>
                 <label>
                     <span class="caption">Год выпуска</span><br />
-                    <input required class="form-control" type="number" name="year" id="year">
+                    <input required class="form-control" type="number" name="graduateYear" id="year">
                 </label>
                 <label>
                     <span class="caption">Описание</span><br />
@@ -268,7 +289,7 @@
             <br />
             <button class="btn btn-primary">Сохранить</button>
             <button class="btn btn-success">Добавить</button>
-        </form>
+        </Form>
     </div>
 </section>
 

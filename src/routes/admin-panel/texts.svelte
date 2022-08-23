@@ -33,7 +33,7 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Текстовые элементы</h2>
-        <Form action="/api/admin/text" method="PATCH" on:success={ handleSuccess } on:error={ handleError }>
+        <Form action="/api/admin/text" method="PATCH" reset={false} on:success={ handleSuccess } on:error={ handleError }>
             { #if texts.length }
                 <Grid className="mt-5" m={1}>
                     { #each texts as text }

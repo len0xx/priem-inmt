@@ -1,9 +1,8 @@
 <script context="module" lang="ts">
     import type { Load } from '@sveltejs/kit'
-    import { getBaseUrl } from '$lib/utilities'
     
     export const load: Load = async ({ fetch }) => {
-        const res = await fetch(`${getBaseUrl()}/api/admin/info/contacts`)
+        const res = await fetch('http://localhost:8080/api/admin/info/contacts')
         const contactInfo = (await res.json()).contactInfo
 
         if (res.ok) {

@@ -2,9 +2,6 @@ import { ajax } from 'jquery'
 import axios, { type AxiosRequestConfig } from 'axios'
 import type { RESTMethod, DefaultAJAXResponse, ContentType } from '../types'
 import type { Program } from './programs'
-import * as dotenv from 'dotenv'
-
-dotenv.config()
 
 // Create slug from the title
 export const formatSlug = (input: string): string => {
@@ -221,9 +218,4 @@ export const getSequentialPartialIndexes = <T>(arr: T[], size: number): number[]
         i += size
     }
     return result
-}
-
-export const getBaseUrl = () : string => {
-    const { APP_IP, APP_PORT, NODE_ENV } = process.env
-    return NODE_ENV === 'production' ? 'https://inmt-priem.urfu.ru' : `http://${APP_IP}:${APP_PORT}`
 }

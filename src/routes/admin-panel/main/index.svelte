@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts">
-    import { Grid, Graduate, Form, Modal, RoundButton, FileSelect } from '$components'
+    import { Grid, Graduate, Form, RoundButton, FileSelect } from '$components'
     import type { FamousI } from '../../../types'
 
     export let famousStudents: FamousI[] = []
@@ -20,18 +20,7 @@
     let fileModal: { open: () => void, close: () => void } = null
     let fileId: number = null
 
-    let modal: { open: () => void, close: () => void } = null
-    let famousId: number
-
     let famousExpanded = false
-
-    const removeFamous = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/famous/${famousId}`, { method: 'DELETE' })
-        if (res.ok) {
-            famousStudents = famousStudents.filter(student => student.id !== famousId)
-        }
-        modal.close()
-    }
 
     const fileSelected = (event: CustomEvent<number>) => {
         fileId = event.detail
@@ -43,14 +32,6 @@
 </svelte:head>
 
 <FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
-
-<Modal bind:this={ modal } align="center" closable={true}>
-    <p class="mb-4">Подтвердите удаление известного выпускника</p>
-    <div class="buttons-row">
-        <button type="button" on:click={removeFamous} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
-    </div>
-</Modal>
 
 <section class="main-content">
     <div class="white-block-wide">

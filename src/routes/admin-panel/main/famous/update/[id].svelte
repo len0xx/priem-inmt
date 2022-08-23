@@ -13,16 +13,27 @@
 </script>
 
 <script lang="ts">
-    import { Grid, Form, FileSelect } from '$components'
+    import { Grid, Form, Modal, FileSelect } from '$components'
     import type { FamousI } from '../../../../../types'
+    import { redirect } from '$lib/utilities'
 
     export let famous: FamousI
 
     let fileModal: { open: () => void, close: () => void } = null
     let fileId: number = null
 
+    let modal: { open: () => void, close: () => void } = null
+
     const fileSelected = (event: CustomEvent<number>) => {
         fileId = event.detail
+    }
+
+    const removeFamous = async () => {
+        const res = await fetch(`http://localhost:8080/api/admin/famous/${famous.id}`, { method: 'DELETE' })
+        if (res.ok) {
+            redirect('/admin-panel/main')
+        }
+        modal.close()
     }
 </script>
 
@@ -31,6 +42,14 @@
 </svelte:head>
 
 <FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
+
+<Modal bind:this={ modal } align="center" closable={true}>
+    <p class="mb-4">Подтвердите удаление известного выпускника</p>
+    <div class="buttons-row">
+        <button type="button" on:click={removeFamous} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -57,7 +76,10 @@
                 </label>
             </Grid>
             <br />
-            <button class="btn btn-primary">Сохранить</button>
+            <div class="buttons-row">
+                <button class="btn btn-primary">Сохранить</button>
+                <button type="button" class="btn btn-outline-danger" on:click={ modal.open }>Удалить выпускника</button>
+            </div>            
         </Form>
     </div>
 </section>

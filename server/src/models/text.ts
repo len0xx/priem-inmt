@@ -14,7 +14,6 @@ Text.init(
         name: {
             type: DataTypes.STRING,
             allowNull: false,
-            primaryKey: true,
             unique: true
         },
         content: {

@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
     import type { Load } from '@sveltejs/kit'
-    import { getBaseUrl } from '$lib/utilities';
+    import { getBaseUrl } from '$lib/utilities'
     
     export const load: Load = async ({ fetch }) => {
         const res = await fetch(`${getBaseUrl()}/api/admin/info/contacts`)
@@ -13,28 +13,15 @@
 </script>
 
 <script lang="ts">
-    import { AjaxForm } from '$components'
+    import { Form } from '$components'
     import type { ContactInfoI } from '../../types'
     import { imask } from 'svelte-imask'
-    import { slide } from 'svelte/transition'
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
     }
 
-    let success = false
-    let errorText = ''
-
     export let contactInfo: ContactInfoI
-
-    const handleSuccess = () => {
-        success = true
-    }
-
-    const handleError = (event: CustomEvent<{ error: string }>) => {
-        errorText = event.detail.error
-        console.log(errorText)
-    }
 </script>
 
 <svelte:head>
@@ -44,19 +31,11 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
-        <!-- <p>Добро пожаловать, { user ? user.fullname : 'undefined' }! <a href="/admin-panel/logout">Выйти</a></p> -->
         <h3>Контактные данные</h3>
-        { #if success }
-            <p transition:slide={{ duration: 200 }} class="success">Контактные данные успешно изменены</p>
-        { :else if errorText }
-            <p transition:slide={{ duration: 200 }} class="error">{ errorText }</p>
-        {/if }
-        <AjaxForm
+        <Form
             action="/api/admin/info/contacts"
             method="POST"
-            noReset={true}
-            on:success={handleSuccess}
-            on:error={handleError}
+            reset={false}
         >
             <div class="grid grid-2 m-grid-1">
                 <label>
@@ -91,7 +70,7 @@
             </div>
             <br />
             <button class="btn btn-primary">Сохранить</button>
-        </AjaxForm>
+        </Form>
     </div>
 </section>
 

@@ -17,6 +17,7 @@ import rentInfoRouter from './src/routes/admin/rentInfo.js'
 import responsibleRouter from './src/routes/admin/responsible.js'
 import settlementRouter from './src/routes/admin/settlement.js'
 import famousRouter from './src/routes/admin/famous.js'
+import partnerRouter from './src/routes/admin/partner.js'
 import questionRouter from './src/routes/admin/question.js'
 import textRouter from './src/routes/admin/text.js'
 import documentsRouter from './src/routes/admin/documents.js'
@@ -89,6 +90,7 @@ app.use('/api/admin/responsible', responsibleRouter)
 app.use('/api/admin/settlement', settlementRouter)
 app.use('/api/admin/text', textRouter)
 app.use('/api/admin/famous', famousRouter)
+app.use('/api/admin/partner', partnerRouter)
 app.use('/api/admin/question', questionRouter)
 app.use('/api/admin/documents', documentsRouter)
 app.use('/api/admin/media', mediaRouter)

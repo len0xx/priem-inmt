@@ -157,3 +157,9 @@ export interface TextI {
     name: string
     content: string
 }
+
+export interface PartnerI {
+    id: number
+    name?: string
+    logo: string
+}

@@ -5,27 +5,52 @@
         const resFamous = await fetch('http://localhost:8080/api/admin/famous')
         const famousStudents = (await resFamous.json()).famousStudents
 
-        if (resFamous.ok ) {
-            return { props: { famousStudents } }
+        const resPartners = await fetch('http://localhost:8080/api/admin/partner')
+        const partners = (await resPartners.json()).partners
+
+        if (resFamous.ok && resPartners.ok) {
+            return { props: { famousStudents, partners } }
         }
     }
 </script>
 
 <script lang="ts">
-    import { Grid, Graduate, Form, RoundButton, FileSelect } from '$components'
-    import type { FamousI } from '../../../types'
+    import { Grid, Graduate, Modal, Form, RoundButton, FileSelect } from '$components'
+    import type { FamousI, PartnerI } from '../../../types'
 
     export let famousStudents: FamousI[] = []
+    export let partners: PartnerI[] = []
 
-    let fileModal: { open: () => void, close: () => void } = null
-    let fileId: number = null
-    let filePath: string = null
+    let famousImageModal: { open: () => void, close: () => void } = null
+    let famousImageId: number = null
+    let famousImagePath: string = null
+
+    let partnersImageModal: { open: () => void, close: () => void } = null
+    let partnersImageId: number = null
+    let partnersImagePath: string = null
+
+    let partnerModal: { open: () => void, close: () => void } = null
+    let partnerId: number = null
 
     let famousExpanded = false
+    let partnersExpanded = false
 
-    const fileSelected = (event: CustomEvent<{id: number, path: string}>) => {
-        fileId = event.detail.id
-        filePath = event.detail.path
+    const famousImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        famousImageId = event.detail.id
+        famousImagePath = event.detail.path
+    }
+
+    const partnersImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        partnersImageId = event.detail.id
+        partnersImagePath = event.detail.path
+    }
+
+    const removePartner = async () => {
+        const res = await fetch(`http://localhost:8080/api/admin/partner/${partnerId}`, { method: 'DELETE' })
+        if (res.ok) {
+            partners = partners.filter(partner => partner.id !== partnerId)
+        }
+        partnerModal.close()
     }
 </script>
 
@@ -33,7 +58,17 @@
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
 
-<FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
+<FileSelect bind:modal={ famousImageModal } on:save={ famousImageSelected } />
+
+<FileSelect bind:modal={ partnersImageModal } on:save={ partnersImageSelected } />
+
+<Modal bind:this={ partnerModal } align="center" closable={true}>
+    <p class="mb-4">Подтвердите удаление партнера института</p>
+    <div class="buttons-row">
+        <button type="button" on:click={removePartner} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={() => partnerModal.close()} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -186,18 +221,44 @@
         </form>
         <br />
         <h3>Партнеры</h3>
-        <form action="/api/admin/info/main" method="POST">
-            <div class="grid grid-2 m-grid-1">
-                <label>
-                    <span class="caption">Логотип</span><br />
-                    <input required class="form-control" type="file" name="logo" id="logo"
-                        accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/jpg,image/jpeg,image/png">
-                </label>
-            </div>
+        <Form action="/api/admin/partner" method="POST" redirect="/admin-panel/main">
+            <label>
+                <span class="caption">Выберите логотип партнера { famousImageId ? `(${ famousImageId })` : '' }:</span>
+                {#if partnersImagePath}
+                    <br />
+                    <img width="150px" height="150px" src={partnersImagePath} class="img-fluid mt-3 mb-3" alt="Логотип партнера">
+                    <br />
+                {/if}
+                <input type="hidden" name="logo" value={ partnersImageId }><br />
+                <button type="button" class="btn btn-outline-primary" on:click={ partnersImageModal.open }> { partnersImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+            </label>
             <br />
-            <button class="btn btn-primary">Сохранить</button>
-            <button class="btn btn-success">Добавить</button>
-        </form>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <br />
+        {#if partners.length}
+            <Grid m={5}>
+                {#each partners as partner, i (i)}
+                    {#if i < 10 || partnersExpanded}
+                        <div class="card">
+                            <img src={partner.logo} class="card-img-top" alt="Логотип партнера">
+                            <div class="card-body">
+                                <button type="button" class="btn btn-outline-danger" on:click={() => {partnerId = partner.id; partnerModal.open()} }>Удалить</button>
+                            </div>
+                        </div>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !partnersExpanded && partners.length > 10}
+            <br />
+            <div class="align-center">
+                <RoundButton variant="plus" size="M" on:click={() => partnersExpanded = true} />
+            </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет партнеров института</p>
+        {/if}
         <br />
         <h3>Изображения в&nbsp;карусели</h3>
         <form action="/api/admin/info/main" method="POST">
@@ -278,7 +339,7 @@
         </form>
         <br />
         <h3>Известные выпускники</h3>
-        <Form action="/api/admin/famous" method="POST">
+        <Form action="/api/admin/famous" method="POST" redirect="/admin-panel/main">
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">ФИО</span><br />
@@ -295,13 +356,13 @@
             </div>
             <br />
             <label>
-                <span class="caption">Фотография { fileId ? `(${ fileId })` : '' }:</span>
-                {#if filePath}
+                <span class="caption">Фотография { famousImageId ? `(${ famousImageId })` : '' }:</span>
+                {#if famousImagePath}
                     <br />
-                    <img width="150px" height="150px" src={filePath} class="img-fluid mt-3 mb-3" alt="Фотография известного выпускника">   
+                    <img width="150px" height="150px" src={famousImagePath} class="img-fluid mt-3 mb-3" alt="Фотография известного выпускника">   
                 {/if}
-                <input type="hidden" name="photo" value={ fileId }><br />
-                <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                <input type="hidden" name="photo" value={ famousImageId }><br />
+                <button type="button" class="btn btn-outline-primary" on:click={ famousImageModal.open }> { famousImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
             </label>
             <br />
             <br />
@@ -318,7 +379,7 @@
                     {/if}
                 {/each}
             </Grid>
-            {#if !famousExpanded && famousStudents.length > 7}
+            {#if !famousExpanded && famousStudents.length > 8}
             <br />
             <div class="align-center">
                 <RoundButton variant="plus" size="M" on:click={() => famousExpanded = true} />

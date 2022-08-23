@@ -133,3 +133,17 @@ html body div.b24-widget-button-wrapper:not(.s) {
     align-items: center;
     gap: 2em;
 }
+
+.card img.card-img-top {
+    max-height: 145px;
+}
+
+.kit-modal.file-select-modal {
+    width: min(1600px, 90vw) !important;
+}
+
+nav ul.pagination li {
+    margin: 0;
+    list-style-type: unset;
+    padding: 0;
+}

@@ -2,7 +2,7 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
-        const resDocuments = await fetch('http://localhost:8080/api/admin/documents')
+        const resDocuments = await fetch('http://localhost:8080/api/admin/documents?type=document')
         const resRentInfo = await fetch('http://localhost:8080/api/admin/rentInfo')
         const settlementRes = await fetch('http://localhost:8080/api/admin/settlement/1')
     
@@ -18,8 +18,9 @@
 
 <script lang="ts">
     import { Grid, Form, Modal, Document } from '$components'
-    import type { DocumentI, RentInfoI, SettlementI } from '../../../types'
     import { imask } from 'svelte-imask'
+    import { slide } from 'svelte/transition'
+    import type { DocumentI, RentInfoI, SettlementI } from '../../../types'
 
     export let documents: DocumentI[] = []
     export let rentInfo: RentInfoI
@@ -62,7 +63,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Поселение</h2>
         <h3>Загрузка документов</h3>
-        <Form action="/api/admin/documents" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
+        <Form action="/api/admin/documents?type=document" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
             <label class="wide">
                 <span class="form-label">Название документа</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />
@@ -86,7 +87,7 @@
                 { @const extensionLength = parts.length }
                 { @const extension = extensionLength > 1 ? parts[parts.length - 1] : '' }
 
-                <div class="document-row">
+                <div class="document-row" transition:slide|local={{ duration: 200 }}>
                     <Document filename={ document.title } { extension } link={ document.src } />
                     <button type="button" on:click={() => { deleteId = document.id; modal.open() } } class="btn btn-outline-danger btn-sm">Удалить</button>
                 </div>
@@ -175,16 +176,11 @@
                     </label>
                     <br />
                     <br />
-                    <label>
-                        <span class="caption">Текст ссылки:</span><br />
-                        <input class="form-control" type="text" name="linkText" id="linkText" value={ rentInfo?.linkText || '' } />
-                    </label>
-                    <br />
-                    <br />
-                    <label>
-                        <span class="caption">Адрес ссылки:</span><br />
-                        <input class="form-control" type="url" name="linkURL" id="linkURL" value={ rentInfo?.linkURL || '' } />
-                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">Ссылка</span>
+                        <input class="form-control" type="text" name="linkText" id="linkText" placeholder="Текст ссылки" aria-label="Текст ссылки" value={ rentInfo?.linkText || '' } />
+                        <input class="form-control" type="url" name="linkURL" id="linkURL" placeholder="Адрес ссылки" aria-label="Адрес ссылки" value={ rentInfo?.linkURL || '' } />
+                    </div>
                 </div>
             </div>
             <br />

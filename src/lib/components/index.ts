@@ -7,6 +7,7 @@ import Carousel from './Carousel.svelte'
 import Divider from './Divider.svelte'
 import Document from './Document.svelte'
 import Expandable from './Expandable.svelte'
+import FileSelect from './FileSelect.svelte'
 import Filter from './Filter.svelte'
 import Footer from './Footer.svelte'
 import Form from './Form.svelte'
@@ -29,8 +30,8 @@ import ProgramCard from './ProgramCard.svelte'
 import Progress from './Progress.svelte'
 import Rainbow from './Rainbow.svelte'
 import RoundButton from './RoundButton.svelte'
-import ScrollingPhoto from './ScrollingPhoto.svelte'
 import ScrollToTop from './ScrollToTop.svelte'
+import ScrollingPhoto from './ScrollingPhoto.svelte'
 import SelectButton from './SelectButton.svelte'
 import SideBar from './SideBar.svelte'
 import Slide from './Slide.svelte'
@@ -52,6 +53,7 @@ export {
     Divider,
     Document,
     Expandable,
+    FileSelect,
     Filter,
     Footer,
     Form,
@@ -74,8 +76,8 @@ export {
     Progress,
     Rainbow,
     RoundButton,
-    ScrollingPhoto,
     ScrollToTop,
+    ScrollingPhoto,
     SelectButton,
     SideBar,
     Slide,

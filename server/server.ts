@@ -9,7 +9,6 @@ import dormitoryRouter from './src/routes/admin/dormitory.js'
 import feedbackRouter from './src/routes/admin/feedback.js'
 import infoRouter from './src/routes/admin/info.js'
 import postRouter from './src/routes/admin/post.js'
-import uploadRouter from './src/routes/upload.js'
 // import featureRouter from './src/routes/feature.js'
 import opportunityRouter from './src/routes/admin/opportunity.js'
 import professionRouter from './src/routes/admin/profession.js'
@@ -20,6 +19,7 @@ import settlementRouter from './src/routes/admin/settlement.js'
 import famousRouter from './src/routes/admin/famous.js'
 import questionRouter from './src/routes/admin/question.js'
 import documentsRouter from './src/routes/admin/documents.js'
+import mediaRouter from './src/routes/admin/media.js'
 import { fileURLToPath } from 'url'
 import { authorize, redirectLogout, requireAuthorization, requireUnauthorized } from './src/middlewares.js'
 import { errorHandler } from './src/utilities.js'
@@ -89,7 +89,7 @@ app.use('/api/admin/settlement', settlementRouter)
 app.use('/api/admin/famous', famousRouter)
 app.use('/api/admin/question', questionRouter)
 app.use('/api/admin/documents', documentsRouter)
-app.use('/api/upload', uploadRouter)
+app.use('/api/admin/media', mediaRouter)
 
 // Обработчик ошибок
 app.use(errorHandler)

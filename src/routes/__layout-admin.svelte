@@ -19,6 +19,7 @@
     const FEEDBACKS_URL = BASE_URL + '/feedbacks'
     const DORMITORIES_URL = BASE_URL + '/dormitories'
     const OPPORTUNITIES_URL = BASE_URL + '/opportunities'
+    const FILES_URL = BASE_URL + '/media'
 
     const TECH_SUPPORT_EMAIL = 'contact@len0xx.space'
 
@@ -138,6 +139,12 @@
                 class:active={URL.startsWith(OPPORTUNITIES_URL)}
                 sveltekit:prefetch
                 class="menu-item">Возможности</a
+            >
+            <a
+                href={FILES_URL}
+                class:active={URL.startsWith(FILES_URL)}
+                sveltekit:prefetch
+                class="menu-item">Файлы</a
             >
         </nav>
     </aside>

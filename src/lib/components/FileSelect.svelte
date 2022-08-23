@@ -10,6 +10,7 @@
     const dispatch = createEventDispatcher()
     const LIMIT = 9
     let selectedFile: number = selected
+    let selectedPath: string
     let currentPage = 1
     let filesAmount = 0
     let pagesAmount = 1
@@ -37,12 +38,15 @@
         throw new Error('Could not fetch amount')
     }
 
-    const selectFile = (id: number) => selectedFile = id
+    const selectFile = (id: number, path: string) => {
+        selectedFile = id
+        selectedPath = path
+    }
 
     const isImage = (extension: string) => ['jpeg', 'jpg', 'png'].includes(extension)
 
     const saveChanges = () => {
-        dispatch('save', selectedFile)
+        dispatch('save', { id: selectedFile, path: selectedPath })
         modal.close()
     }
 
@@ -93,7 +97,7 @@
                                     <div class="card-body">
                                         <h4 class="card-title">{ file.title }</h4>
                                         <a href={ file.src } target="_BLANK" class="btn btn-outline-primary btn-sm mb-2">Открыть</a><br />
-                                        <button class="btn btn-sm mb-2 { selectedFile === file.id ? 'btn-primary' : 'btn-outline-primary' }" on:click={ () => selectFile(file.id) }>
+                                        <button class="btn btn-sm mb-2 { selectedFile === file.id ? 'btn-primary' : 'btn-outline-primary' }" on:click={ () => selectFile(file.id, file.src) }>
                                             { selectedFile === file.id ? 'Файл выбран' : 'Выбрать' }
                                         </button><br />
                                     </div>

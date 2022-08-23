@@ -16,8 +16,8 @@
         errorText = event.detail.error
     }
 
-    const fileSelected = (event: CustomEvent<number>) => {
-        fileId = event.detail
+    const fileSelected = (event: CustomEvent<{id: number}>) => {
+        fileId = event.detail.id
     }
 </script>
 

@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-    import { AjaxForm, Modal } from '$components'
+    import { AjaxForm, Modal, FileSelect } from '$components'
     import { Grid } from '$components'
     import type { DormitoryI } from '../../../../types'
     import { redirect } from '$lib/utilities'
@@ -21,6 +21,10 @@
     export let dormitory: DormitoryI
 
     let modal: { open: () => void, close: () => void } = null
+    let fileModal: { open: () => void, close: () => void } = null
+    let fileId: number = null
+    let filePath: string = null
+
     let updateError = false
     let deleteError = false
     let errorText = ''
@@ -43,11 +47,18 @@
         }
         modal.close()
     }
+
+    const fileSelected = (event: CustomEvent<{ id: number, path: string }>) => {
+        fileId = event.detail.id
+        filePath = event.detail.path
+    }
 </script>
 
 <svelte:head>
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
+
+<FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
 
 <Modal bind:this={ modal } align="center" closable={true}>
     <p class="mb-4">Подтвердите удаление общежития</p>
@@ -92,8 +103,10 @@
                 </div>
                 <div>
                     <label>
-                        <span class="caption">Изображение:</span><br />
-                        <input class="form-control" type="text" name="img" id="img" value={ dormitory.img } /> <!-- TODO: file upload -->
+                        <span class="caption">Изображение { fileId ? `(${ fileId })` : '' }:</span><br />
+                        <img width="150px" height="150px" src={filePath ? filePath : dormitory.img} class="img-fluid mt-3 mb-3" alt="Изображение общежития">                   
+                        <input type="hidden" name="img" value={ fileId }><br />
+                        <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать другой файл' } </button>
                     </label>
                 </div>
             </Grid>

@@ -21,11 +21,13 @@
 
     let fileModal: { open: () => void, close: () => void } = null
     let fileId: number = null
+    let filePath: string = null
 
     let modal: { open: () => void, close: () => void } = null
 
-    const fileSelected = (event: CustomEvent<number>) => {
-        fileId = event.detail
+    const fileSelected = (event: CustomEvent<{ id: number, path: string }>) => {
+        fileId = event.detail.id
+        filePath = event.detail.path
     }
 
     const removeFamous = async () => {
@@ -69,12 +71,14 @@
                     <span class="caption">Описание</span>
                     <input required class="form-control" type="text" name="description" value={famous.description}>
                 </label>
-                <label>
-                    <span class="caption">Изображение { fileId ? `(${ fileId })` : '' }:</span><br />
-                    <input type="hidden" name="photo" value={ fileId }>
-                    <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
-                </label>
             </Grid>
+            <br />
+            <label>
+                <span class="caption">Фотография { fileId ? `(${ fileId })` : '' }:</span><br />
+                <img width="150px" height="150px" src={filePath ? filePath : famous.photo} class="img-fluid mt-3 mb-3" alt="Фотография известного выпускника">                   
+                <input type="hidden" name="photo" value={ fileId }><br />
+                <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать другой файл' } </button>
+            </label>
             <br />
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>

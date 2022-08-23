@@ -16,30 +16,18 @@
     import type { TextI } from '../../types'
 
     export let texts: TextI[]
-
-    let createError = false
-    let errorText = ''
-
-    const handleSuccess = () => {
-        return
-    }
-
-    const handleError = (event: CustomEvent<{ error: string }>) => {
-        createError = true
-        errorText = event.detail.error
-    }
 </script>
 
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Текстовые элементы</h2>
-        <Form action="/api/admin/text" method="PATCH" reset={false} on:success={ handleSuccess } on:error={ handleError }>
+        <Form action="/api/admin/text" method="PATCH" reset={false}>
             { #if texts.length }
                 <Grid className="mt-5" m={1}>
                     { #each texts as text }
                         <label>
                             <span class="caption">{ text.name }</span><br />
-                            <input type="hidden" name="name" value={ text.name } required />
+                            <input type="hidden" name={`name${ text.id }`} value={ text.name } required />
                             <textarea class="form-control" type="text" name="content" id="content" value={ text.content } required ></textarea>
                         </label>
                     { /each }

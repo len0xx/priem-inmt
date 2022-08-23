@@ -7,7 +7,7 @@ class TextService extends BaseService<Text, TextI> {
         this.model = Text
     }
     async getByName(name: string) {
-        return await this.model.findByPk(name)
+        return await this.model.findOne({ where: { name }})
     }
 }
 

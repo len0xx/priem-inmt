@@ -97,8 +97,10 @@
         {:else}
             <p>Здесь ещё нет созданных вопросов</p>
         {/if}
-
-        <h3>Профессии</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Профессии</h3>
         <Form action="/api/admin/profession" method="POST" reset={ true } redirect="/admin-panel/master">
             <Grid m={2} s={1}>
                 <div>
@@ -155,8 +157,10 @@
         { :else }
             <p class="mt-3">Здесь еще нет профессий</p>
         { /if }
-
-        <h3>Отзывы</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Отзывы</h3>
         <Form action="/api/admin/feedback/?page=master" method="POST" redirect="/admin-panel/master">
             <Grid m={2} s={1}>
                 <div>
@@ -226,7 +230,10 @@
         { :else }
             <p class="mt-3">Здесь еще нет отзывов</p>
         { /if }
-        <h3>Перечисления</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Перечисления</h3>
         <Form action="/api/admin/feature?page=master" method="POST" redirect="/admin-panel/master">
             <div class="grid grid-2 m-grid-1">
                 <label>

@@ -129,8 +129,10 @@
             <br />
             <button class="btn btn-primary">Сохранить</button>
         </form>
-        <br />
-        <h3>Информация о поступлении</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Информация о поступлении</h3>
         <form action="/api/admin/info/main" method="POST">
             <label>
                 <span class="caption">Заголовок:</span><br />
@@ -186,8 +188,10 @@
             <br />
             <button class="btn btn-primary">Сохранить</button>
         </form>
-        <br />
-        <h3>Партнеры</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Партнеры</h3>
         <Form action="/api/admin/partner" method="POST" redirect="/admin-panel/main">
             <label>
                 <span class="caption">Выберите логотип партнера:</span>
@@ -226,8 +230,10 @@
         {:else}
             <p class="mt-3">Здесь еще нет партнеров института</p>
         {/if}
-        <br />
-        <h3>Изображения в&nbsp;карусели</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Изображения в&nbsp;карусели</h3>
         <Form action="/api/admin/carousel" method="POST" redirect="/admin-panel/main">
             <label>
                 <span class="caption">Выберите изображение:</span>
@@ -266,8 +272,10 @@
         {:else}
             <p class="mt-3">Здесь еще нет изображений в карусели</p>
         {/if}
-        <br />
-        <h3>Перечисления</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Перечисления</h3>
         <Form action="/api/admin/feature?page=main" method="POST" redirect="/admin-panel/main">
             <div class="grid grid-2 m-grid-1">
                 <label>
@@ -302,8 +310,10 @@
         {:else}
             <p class="mt-3">Здесь еще нет перечислений</p>
         {/if}
-        <br />
-        <h3>Известные выпускники</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Известные выпускники</h3>
         <Form action="/api/admin/graduate" method="POST" redirect="/admin-panel/main">
             <div class="grid grid-2 m-grid-1">
                 <label>

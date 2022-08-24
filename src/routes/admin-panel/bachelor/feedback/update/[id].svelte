@@ -22,14 +22,10 @@
 
     let modal: ModalComponent = null
 
-    const handleSuccess = () => {
-        redirect('/admin-panel/bachelor')
-    }
-
     const removefeedback = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/feedback/${feedback.id}`, { method: 'DELETE' })
         if (res.ok) {
-            redirect('/admin-panel/feedbacks')
+            redirect('/admin-panel/bachelor')
         }
         modal.close()
     }
@@ -51,7 +47,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Отзывы</h2>
         <h3>Редактировать отзыв</h3>
-        <Form action="/api/admin/feedback/{ feedback.id }" method="PATCH" on:success={ handleSuccess } reset={ false }>
+        <Form action="/api/admin/feedback/{ feedback.id }" method="PATCH" reset={ false } redirect="/admin-panel/bachelor">
             <Grid m={2} s={1}>
                 <div>
                     <label>

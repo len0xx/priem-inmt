@@ -11,19 +11,23 @@
         const resCarousel = await fetch('http://localhost:8080/api/admin/carousel')
         const carouselImages = (await resCarousel.json()).images
 
-        if (resGraduates.ok && resPartners.ok && resCarousel.ok) {
-            return { props: { graduates, partners, carouselImages } }
+        const resFeatures = await fetch('http://localhost:8080/api/admin/feature/?page=main')
+        const features = (await resFeatures.json()).features
+
+        if (resGraduates.ok && resPartners.ok && resCarousel.ok && resFeatures.ok) {
+            return { props: { graduates, partners, carouselImages, features } }
         }
     }
 </script>
 
 <script lang="ts">
-    import { Grid, Graduate, Modal, Form, RoundButton, FileSelect } from '$components'
-    import type { GraduateI, PartnerI, CarouselI, ModalComponent } from '../../../types'
+    import { Grid, Graduate, Benefit, Modal, Form, RoundButton, FileSelect } from '$components'
+    import type { GraduateI, PartnerI, CarouselI, ModalComponent, FeatureI } from '../../../types'
 
     export let graduates: GraduateI[] = []
     export let partners: PartnerI[] = []
     export let carouselImages: CarouselI[] = []
+    export let features: FeatureI[] = []
 
     let graduateImageModal: ModalComponent = null
     let graduateImageId: number = null
@@ -46,6 +50,7 @@
     let famousExpanded = false
     let partnersExpanded = false
     let carouselExpanded = false
+    let featuresExpanded = false
 
     const graduateImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
         graduateImageId = event.detail.id
@@ -285,10 +290,10 @@
                 {/each}
             </Grid>
             {#if !partnersExpanded && partners.length > 10}
-            <br />
-            <div class="align-center">
-                <RoundButton variant="plus" size="M" on:click={() => partnersExpanded = true} />
-            </div>
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => partnersExpanded = true} />
+                </div>
             {/if}
         {:else}
             <p class="mt-3">Здесь еще нет партнеров института</p>
@@ -325,10 +330,10 @@
                 {/each}
             </Grid>
             {#if !carouselExpanded && carouselImages.length > 6}
-            <br />
-            <div class="align-center">
-                <RoundButton variant="plus" size="M" on:click={() => carouselExpanded = true} />
-            </div>
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => carouselExpanded = true} />
+                </div>
             {/if}
         {:else}
             <p class="mt-3">Здесь еще нет изображений в карусели</p>
@@ -361,21 +366,40 @@
         </form>
         <br />
         <h3>Перечисления</h3>
-        <form action="/api/admin/info/main" method="POST">
+        <Form action="/api/admin/feature?page=main" method="POST" redirect="/admin-panel/main">
             <div class="grid grid-2 m-grid-1">
                 <label>
-                    <span class="caption">Число</span><br />
-                    <input required class="form-control" type="number" name="number" id="number">
+                    <span class="caption">Заголовок</span><br />
+                    <input required class="form-control" type="text" name="title">
                 </label>
                 <label>
                     <span class="caption">Описание</span><br />
-                    <input required class="form-control" type="text" name="caption" id="caption">
+                    <input required class="form-control" type="text" name="description">
                 </label>
             </div>
             <br />
-            <button class="btn btn-primary">Сохранить</button>
-            <button class="btn btn-success">Добавить</button>
-        </form>
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <br />
+        {#if features.length}
+            <Grid m={3}>
+                {#each features as feature, i (i)}
+                    {#if i < 6 || featuresExpanded}
+                        <a href="/admin-panel/main/feature/update/{ feature.id }">
+                            <Benefit num={feature.title} caption={feature.description} />
+                        </a>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !featuresExpanded && features.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
+                </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет перечислений</p>
+        {/if}
         <br />
         <h3>Специальности</h3>
         <form action="/api/admin/info/main" method="POST">
@@ -438,10 +462,10 @@
                 {/each}
             </Grid>
             {#if !famousExpanded && graduates.length > 8}
-            <br />
-            <div class="align-center">
-                <RoundButton variant="plus" size="M" on:click={() => famousExpanded = true} />
-            </div>
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => famousExpanded = true} />
+                </div>
             {/if}
         {:else}
             <p class="mt-3">Здесь еще нет известных выпускников</p>

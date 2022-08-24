@@ -13,7 +13,9 @@
 			"$lib/*": [
 				"src/lib/*"
 			]
-		}
+		},
+		"allowSyntheticDefaultImports": true,
+		"typeRoots": [ "./src/types", "./node_modules/@types" ]
 	},
 	"extends": "./.svelte-kit/tsconfig.json"
 }

@@ -3,6 +3,10 @@ import axios, { type AxiosRequestConfig } from 'axios'
 import type { RESTMethod, DefaultAJAXResponse, ContentType } from '../types'
 import type { Program } from './programs'
 
+export const DOMAIN_NAME = 'inmt-priem.urfu.ru'
+export const BASE_DOMAIN = 'https://' + DOMAIN_NAME
+export const DEV_DOMAIN = 'http://localhost:8080'
+
 // Create slug from the title
 export const formatSlug = (input: string): string => {
     const date = new Date()
@@ -220,6 +224,8 @@ export const getSequentialPartialIndexes = <T>(arr: T[], size: number): number[]
     return result
 }
 
-export const getBaseUrl = (mode: 'development' | 'production') : string => {
-    return mode === 'production' ? 'https://inmt-priem.urfu.ru' : 'http://localhost:8080'
-}
+type ApplicationMode = 'development' | 'production'
+
+export const getBaseUrl = (mode: ApplicationMode) => ((mode == 'production') ? BASE_DOMAIN : DEV_DOMAIN)
+
+export const apiRoute = (route: string) => `${getBaseUrl(import.meta.env.NODE_ENV)}/api/${route}`

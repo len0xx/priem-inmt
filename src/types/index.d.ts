@@ -1,5 +1,11 @@
 import type { DegreeLevel } from './enums'
 
+declare global {
+    interface ImportMetaEnv {
+        NODE_ENV: 'development' | 'production'
+    }
+}
+
 export interface ModalComponent {
     open: () => void,
     close: () => void,
@@ -86,7 +92,7 @@ export interface ContactInfoI {
 
 export interface FeedbackI {
     id: number
-    level: DegreeLevel
+    page: string
     name: string
     description: string
     img?: string

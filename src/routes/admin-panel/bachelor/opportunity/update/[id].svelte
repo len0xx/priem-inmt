@@ -13,32 +13,18 @@
 </script>
 
 <script lang="ts">
-    import { AjaxForm, Modal } from '$components'
+    import { Form, Modal } from '$components'
     import { redirect } from '$lib/utilities'
-    import type { OpportunityI, ModalComponent } from '../../../../types'
+    import type { OpportunityI, ModalComponent } from '../../../../../types'
 
     export let opportunity: OpportunityI
 
     let modal: ModalComponent = null
-    let updateError = false
-    let deleteError = false
-    let errorText = ''
-
-    const handleSuccess = () => {
-        redirect('/admin-panel/opportunities')
-    }
-
-    const handleError = (event: CustomEvent<{ error: string }>) => {
-        updateError = true
-        errorText = event.detail.error
-    }
 
     const removeOpportunity = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/opportunity/${opportunity.id}`, { method: 'DELETE' })
         if (res.ok) {
-            redirect('/admin-panel/opportunities')
-        } else {
-            deleteError = true
+            redirect('/admin-panel/bachelor')
         }
         modal.close()
     }
@@ -60,22 +46,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Студенческие возможности</h2>
         <h3>Редактировать возможность</h3>
-        <AjaxForm action="/api/admin/opportunity/{ opportunity.id }" method="PATCH" on:success={ handleSuccess } on:error={ handleError } noReset={true}>
-            { #if updateError }
-                <div class="alert alert-danger">
-                    Произошла ошибка во&nbsp;время обновления
-                </div>
-            { /if }
-            { #if deleteError }
-                <div class="alert alert-danger">
-                    Произошла ошибка во&nbsp;время удаления
-                </div>
-            { /if }
-            { #if errorText }
-                <div class="alert alert-danger">
-                    { errorText }
-                </div>
-            { /if }
+        <Form action="/api/admin/opportunity/{ opportunity.id }" method="PATCH" reset={ false } redirect="/admin-panel/bachelor">
             <label>
                 <span class="caption">Название:</span><br />
                 <input class="form-control" type="text" name="title" id="title" value={ opportunity.title } required />
@@ -91,7 +62,7 @@
                 <button class="btn btn-primary">Сохранить</button>
                 <button type="button" class="btn btn-outline-danger" on:click={ modal.open }>Удалить возможность</button>
             </div>
-        </AjaxForm>
+        </Form>
     </div>
 </section>
 <style>

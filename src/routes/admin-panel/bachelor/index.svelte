@@ -85,7 +85,7 @@
         {/if}
 
         <h3>Отзывы</h3>
-        <Form action="/api/admin/feedback/?page=bachelor" method="POST">
+        <Form action="/api/admin/feedback/?page=bachelor" method="POST" redirect="/admin-panel/bachelor">
             <Grid m={2} s={1}>
                 <div>
                     <label>

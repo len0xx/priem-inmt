@@ -2,25 +2,30 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
-        const resQuestions = await fetch('http://localhost:8080/api/admin/question/master/find')
+        const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/')
         const resProfessions = await fetch('http://localhost:8080/api/admin/profession/')
+        const resQuestions = await fetch('http://localhost:8080/api/admin/question/master/find')
 
-        const questions = (await resQuestions.json()).questions
+        const feedbacks = (await resFeedbacks.json()).feedbacks
         const professions = (await resProfessions.json()).professions
+        const questions = (await resQuestions.json()).questions
 
-        if (resQuestions.ok && resProfessions.ok) {
-            return { props: { questions, professions } }
+        if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok) {
+            return { props: { feedbacks, professions, questions } }
         }
     }
 </script>
 <script lang="ts">
-    import { Card, Form, Grid, Modal } from '$components'
-    import type { ProfessionI, QuestionI } from '../../../types'
+    import { Card, Form, Grid, Modal, Profile } from '$components'
+    import type { FeedbackI, ProfessionI, QuestionI } from '../../../types'
     import { range, redirect } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
 
+    export let feedbacks: FeedbackI[]
     export let professions: ProfessionI[]
     export let questions: QuestionI[]
+
+    const feedbacksMaster = feedbacks.filter(feedback => feedback.level === 'Магистратура')
 
     let modal: { open: () => void, close: () => void } = null
 
@@ -46,14 +51,6 @@
     const handleSuccess = () => {
         redirect('/admin-panel/master')
     }
-
-    let createError = false
-    let errorText = ''
-
-    const handleError = (event: CustomEvent) => {
-        createError = true
-        errorText = event.detail.error
-    }
 </script>
 
 <svelte:head>
@@ -72,7 +69,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <h3>Справочная информация FAQ</h3>
-        <Form method="POST" action="/api/admin/question/master" reset={ true } on:success={ handleSuccess } on:error={ handleError }>
+        <Form method="POST" action="/api/admin/question/master" reset={ true } on:success={ handleSuccess }>
             <Grid m={1}>
                 <label>
                     <span class="question">Вопрос:</span><br />
@@ -84,17 +81,9 @@
                 </label>
             </Grid>
             <br />
-            <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <div class="alerts mt-4">
-            {#if createError}
-                <div class="alert alert-danger" role="alert">
-                    Произошла ошибка{errorText ? `: ${errorText}` : ''}
-                </div>
-            {/if}
-        </div>
-        <Grid m={2}>
+        <Grid className="mt-5" m={2}>
             {#if questions.length}
                 { #each questions as question, i }
                     <div class="card">
@@ -106,22 +95,12 @@
                     </div>
                 { /each }
             {:else}
-                <p>Здесь ещё нет созданных вопросов</p>
+                <p class="mt-3">Здесь ещё нет созданных вопросов</p>
             {/if}
         </Grid>
 
         <h3>Профессии</h3>
-        <Form action="/api/admin/profession" method="POST" reset={ false } on:success={ handleSuccess } on:error={ handleError }>
-            { #if createError }
-                <div class="alert alert-danger">
-                    Произошла ошибка при&nbsp;создании профессии
-                </div>
-            { /if }
-            { #if errorText }
-                <div class="alert alert-danger">
-                    { errorText }
-                </div>
-            { /if }
+        <Form action="/api/admin/profession" method="POST" reset={ true } on:success={ handleSuccess }>
             <Grid m={2} s={1}>
                 <div>
                     <label>
@@ -167,7 +146,7 @@
                 { #each professions as profession, i (i) }
                     <div>
                         <a href="/admin-panel/master/profession/update/{ profession.id }">
-                            <Card>
+                            <Card variant="white">
                                 <span slot="title">{ profession.title }</span>
                             </Card>
                         </a>
@@ -176,6 +155,78 @@
             </Grid>
         { :else }
             <p class="mt-3">Здесь еще нет профессий</p>
+        { /if }
+
+        <h3>Отзывы</h3>
+        <Form action="/api/admin/feedback" method="POST">
+            <Grid m={2} s={1}>
+                <div>
+                    <label>
+                        <span class="caption">Автор:</span><br />
+                        <input class="form-control" type="text" name="name" id="name" required />
+                    </label>
+                    <br />
+                    <br />
+                    <label>
+                        <span class="caption">Описание:</span><br />
+                        <input class="form-control" type="text" name="description" id="description" />
+                    </label>
+                    <br />
+                    <br />
+                    <label>
+                        <span class="caption">Изображение:</span><br />
+                        <input class="form-control" type="text" name="img" id="img" /> <!-- TODO: file upload -->
+                    </label>
+                </div>
+                <div>
+                    <input type="hidden" name="level" value="Магистратура">
+                    <label>
+                        <span class="caption">Текст отзыва:</span><br />
+                        <textarea class="form-control" name="text" id="text" rows="4" required></textarea>
+                    </label>
+                </div>
+            </Grid>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        { #if feedbacksMaster.length }
+            <Grid className="mt-5" m={3} s={1} alignItems="start">
+                <Grid m={1} alignItems="start">
+                    { #each feedbacksMaster.filter((_, i) => i % 3 == 0) as feedback }
+                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
+                            <Profile img={ feedback.img }>
+                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                            </Profile>
+                        </a>
+                    { /each }
+                </Grid>
+                <Grid m={1} alignItems="start">
+                    { #each feedbacksMaster.filter((_, i) => i % 3 == 1) as feedback }
+                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
+                            <Profile img={ feedback.img }>
+                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                            </Profile>
+                        </a>
+                    { /each }
+                </Grid>
+                <Grid m={1} alignItems="start">
+                    { #each feedbacksMaster.filter((_, i) => i % 3 == 2) as feedback }
+                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
+                            <Profile img={ feedback.img }>
+                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                            </Profile>
+                        </a>
+                    { /each }
+                </Grid>
+            </Grid>
+        { :else }
+            <p class="mt-3">Здесь еще нет отзывов</p>
         { /if }
     </div>
 </section>

@@ -29,7 +29,7 @@
     export let contactInfo: ContactInfoI
     export let responsibles: ResponsibleI[]
 
-    let links = contactInfo.links.length
+    let links = contactInfo.links.length || 1
     const addLink = () => links++
     const removeLink = () => links--
 </script>
@@ -46,6 +46,7 @@
             action="/api/admin/info/contacts"
             method="POST"
             reset={false}
+            redirect="/admin-panel/contacts"
         >
             <Grid m={2} s={1}>
                 <div>

@@ -1,8 +1,10 @@
 import { CreationOptional, DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
 import sequelize from '../../db.js'
+import type { DegreeLevel } from '../types/enums.js'
 
 class Feedback extends Model<InferAttributes<Feedback, { omit: 'id' }>, InferCreationAttributes<Feedback>> {
     declare id: CreationOptional<number>
+    declare level: DegreeLevel
     declare name: string
     declare description: string
     declare img: string
@@ -13,6 +15,10 @@ export type FeedbackI = InferAttributes<Feedback, { omit: 'id' }>
 
 Feedback.init(
     {
+        level: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         name: {
             type: DataTypes.STRING,
             allowNull: false,

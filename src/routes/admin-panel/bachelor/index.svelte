@@ -4,27 +4,32 @@
     export const load: Load = async ({ fetch }) => {
         const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/')
         const resQuestions = await fetch('http://localhost:8080/api/admin/question/?page=bachelor')
+        const resFeatures = await fetch('http://localhost:8080/api/admin/feature/?page=bachelor')
     
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const questions = (await resQuestions.json()).questions
+        const features = (await resFeatures.json()).features
 
-        if (resFeedbacks.ok && resQuestions.ok) {
-            return { props: { feedbacks, questions } }
+        if (resFeedbacks.ok && resQuestions.ok && resFeatures.ok) {
+            return { props: { feedbacks, questions, features } }
         }
     }
 </script>
 <script lang="ts">
-    import { Grid, Form, Modal, Profile } from '$components'
+    import { Grid, Form, Modal, Profile, Benefit, RoundButton } from '$components'
     import { redirect } from '$lib/utilities'
-    import type { FeedbackI, QuestionI, ModalComponent } from '../../../types'
+    import type { FeatureI, FeedbackI, QuestionI, ModalComponent } from '../../../types'
 
-    export let questions: QuestionI[]
-    export let feedbacks: FeedbackI[]
+    export let questions: QuestionI[] = []
+    export let feedbacks: FeedbackI[] = []
+    export let features: FeatureI[] = []
 
     const feedbacksBachelor = feedbacks.filter(feedback => feedback.level === 'Бакалавриат' || feedback.level === 'Специалитет')
 
     let modal: ModalComponent = null
     let questionId: number
+
+    let featuresExpanded = false
 
     const updateQuestionId = (id: number) => {
         questionId = id
@@ -165,6 +170,41 @@
         { :else }
             <p class="mt-3">Здесь еще нет отзывов</p>
         { /if }
+        <h3>Перечисления</h3>
+        <Form action="/api/admin/feature?page=bachelor" method="POST" redirect="/admin-panel/bachelor">
+            <div class="grid grid-2 m-grid-1">
+                <label>
+                    <span class="caption">Заголовок</span><br />
+                    <input required class="form-control" type="text" name="title">
+                </label>
+                <label>
+                    <span class="caption">Описание</span><br />
+                    <input required class="form-control" type="text" name="description">
+                </label>
+            </div>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <br />
+        {#if features.length}
+            <Grid m={3}>
+                {#each features as feature, i (i)}
+                    {#if i < 6 || featuresExpanded}
+                        <a href="/admin-panel/bachelor/feature/update/{ feature.id }">
+                            <Benefit num={feature.title} caption={feature.description} />
+                        </a>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !featuresExpanded && features.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
+                </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет перечислений</p>
+        {/if}
     </div>
 </section>
 <style>

@@ -6,6 +6,7 @@ import type { Request, Response } from 'express'
 enum Page {
     Bachelor = 'bachelor',
     Master = 'master',
+    Main = 'main'
 }
 
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
@@ -13,7 +14,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
 
     const page = req.query.page
 
-    if (page === Page.Bachelor || page === Page.Master) {
+    if (page === Page.Bachelor || page === Page.Master || page === Page.Main) {
         await featureService.create({
             title: title,
             description: description,

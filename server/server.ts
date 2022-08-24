@@ -20,7 +20,7 @@ import graduateRouter from './src/routes/admin/graduate.js'
 import partnerRouter from './src/routes/admin/partner.js'
 import carouselRouter from './src/routes/admin/carousel.js'
 import questionRouter from './src/routes/admin/question.js'
-import featureRouter from './src/routes/admin/feature'
+import featureRouter from './src/routes/admin/feature.js'
 import textRouter from './src/routes/admin/text.js'
 import documentsRouter from './src/routes/admin/documents.js'
 import mediaRouter from './src/routes/admin/media.js'
@@ -95,7 +95,7 @@ app.use('/api/admin/graduate', graduateRouter)
 app.use('/api/admin/partner', partnerRouter)
 app.use('/api/admin/carousel', carouselRouter)
 app.use('/api/admin/question', questionRouter)
-app.use('/api/admin/feature', feedbackRouter)
+app.use('/api/admin/feature', featureRouter)
 app.use('/api/admin/documents', documentsRouter)
 app.use('/api/admin/media', mediaRouter)
 

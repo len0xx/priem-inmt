@@ -175,3 +175,9 @@ export interface CarouselI {
     id: number
     img: string
 }
+
+export interface FeatureI {
+    id: number
+    title: string
+    description: string
+}

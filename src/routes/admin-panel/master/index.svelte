@@ -5,25 +5,30 @@
         const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/')
         const resProfessions = await fetch('http://localhost:8080/api/admin/profession/')
         const resQuestions = await fetch('http://localhost:8080/api/admin/question/?page=master')
+        const resFeatures = await fetch('http://localhost:8080/api/admin/feature/?page=master')
 
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const professions = (await resProfessions.json()).professions
         const questions = (await resQuestions.json()).questions
+        const features = (await resFeatures.json()).features
 
-        if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok) {
-            return { props: { feedbacks, professions, questions } }
+        if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok && resFeatures.ok) {
+            return { props: { feedbacks, professions, questions, features } }
         }
     }
 </script>
 <script lang="ts">
-    import { Card, Form, Grid, Modal, Profile } from '$components'
+    import { Card, Form, Grid, Modal, Benefit, RoundButton, Profile } from '$components'
     import { range, redirect } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
-    import type { FeedbackI, ProfessionI, QuestionI, ModalComponent } from '../../../types'
+    import type { FeatureI, FeedbackI, ProfessionI, QuestionI, ModalComponent } from '../../../types'
 
-    export let feedbacks: FeedbackI[]
-    export let professions: ProfessionI[]
-    export let questions: QuestionI[]
+    export let feedbacks: FeedbackI[] = []
+    export let professions: ProfessionI[] = []
+    export let questions: QuestionI[] = []
+    export let features: FeatureI[] = []
+
+    let featuresExpanded = false
 
     const feedbacksMaster = feedbacks.filter(feedback => feedback.level === 'Магистратура')
 
@@ -225,6 +230,41 @@
         { :else }
             <p class="mt-3">Здесь еще нет отзывов</p>
         { /if }
+        <h3>Перечисления</h3>
+        <Form action="/api/admin/feature?page=master" method="POST" redirect="/admin-panel/master">
+            <div class="grid grid-2 m-grid-1">
+                <label>
+                    <span class="caption">Заголовок</span><br />
+                    <input required class="form-control" type="text" name="title">
+                </label>
+                <label>
+                    <span class="caption">Описание</span><br />
+                    <input required class="form-control" type="text" name="description">
+                </label>
+            </div>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <br />
+        {#if features.length}
+            <Grid m={3}>
+                {#each features as feature, i (i)}
+                    {#if i < 6 || featuresExpanded}
+                        <a href="/admin-panel/master/feature/update/{ feature.id }">
+                            <Benefit num={feature.title} caption={feature.description} />
+                        </a>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !featuresExpanded && features.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
+                </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет перечислений</p>
+        {/if}
     </div>
 </section>
 

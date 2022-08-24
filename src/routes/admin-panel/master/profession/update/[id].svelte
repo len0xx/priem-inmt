@@ -106,12 +106,12 @@
                     { #each range(1, duties) as i }
                         <div class="input-group" transition:slide|local={{ duration: 200 }}>
                             <span class="input-group-text">Функция</span>
-                            <input type="text" aria-label="" name="profession[duties]" class="form-control" value={ profession.duties[i] }>
+                            <input type="text" aria-label="" name="profession[duties]" class="form-control" value={ profession.duties[i - 1] }>
                         </div>
                         <br />
                     { /each }
                     { #if duties < 10 }
-                    <button transition:blur|local={{ duration: 200 }} type="button" class="btn btn-outline-primary btn-sm" on:click={ addDuty }>Добавить функцию</button> 
+                        <button transition:blur|local={{ duration: 200 }} type="button" class="btn btn-outline-primary btn-sm" on:click={ addDuty }>Добавить функцию</button> 
                     { /if }
                     { #if duties > 1 }
                         <button transition:blur|local={{ duration: 200 }} type="button" class="btn btn-outline-danger btn-sm" on:click={ removeDuty }>Убрать функцию</button>

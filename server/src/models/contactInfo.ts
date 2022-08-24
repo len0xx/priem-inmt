@@ -7,8 +7,7 @@ class ContactInfo extends Model<InferAttributes<ContactInfo>, InferCreationAttri
     declare email: string
     declare directorateAddress: string
     declare admissionsAddress: string
-    declare vkUrl: string
-    declare tgUrl: string
+    declare links: { text: string, url: string }[]
 }
 
 export type ContactInfoI = InferAttributes<ContactInfo>
@@ -62,11 +61,9 @@ ContactInfo.init({
             }
         }
     },
-    vkUrl: {
-        type: DataTypes.STRING,
-    },
-    tgUrl: {
-        type: DataTypes.STRING,
+    links: {
+        type: DataTypes.JSON,
+        allowNull: false
     }
 },
 {

@@ -97,6 +97,7 @@ export interface FeedbackI {
     description: string
     img?: string
     text: string
+    level: string
 }
 
 export interface DormitoryI {

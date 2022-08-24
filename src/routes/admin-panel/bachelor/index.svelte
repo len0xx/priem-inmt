@@ -135,7 +135,7 @@
             <Grid className="mt-5" m={3} s={1} alignItems="start">
                 <Grid m={1} alignItems="start">
                     { #each feedbacksBachelor.filter((_, i) => i % 3 == 0) as feedback }
-                        <a href="/admin-panel/feedbacks/update/{ feedback.id }">
+                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
                             <Profile img={ feedback.img }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                                 <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
@@ -146,7 +146,7 @@
                 </Grid>
                 <Grid m={1} alignItems="start">
                     { #each feedbacksBachelor.filter((_, i) => i % 3 == 1) as feedback }
-                        <a href="/admin-panel/feedbacks/update/{ feedback.id }">
+                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
                             <Profile img={ feedback.img }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                                 <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
@@ -157,7 +157,7 @@
                 </Grid>
                 <Grid m={1} alignItems="start">
                     { #each feedbacksBachelor.filter((_, i) => i % 3 == 2) as feedback }
-                        <a href="/admin-panel/feedbacks/update/{ feedback.id }">
+                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
                             <Profile img={ feedback.img }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                                 <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>

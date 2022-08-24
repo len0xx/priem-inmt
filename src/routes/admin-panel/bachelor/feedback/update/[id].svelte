@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-    import { AjaxForm, Modal } from '$components'
+    import { Form, Modal } from '$components'
     import { Grid } from '$components'
     import type { FeedbackI } from '../../../../../types'
     import { redirect } from '$lib/utilities'
@@ -21,25 +21,15 @@
     export let feedback: FeedbackI
 
     let modal: { open: () => void, close: () => void } = null
-    let updateError = false
-    let deleteError = false
-    let errorText = ''
 
     const handleSuccess = () => {
-        redirect('/admin-panel/dormitories')
-    }
-
-    const handleError = (event: CustomEvent<{ error: string }>) => {
-        updateError = true
-        errorText = event.detail.error
+        redirect('/admin-panel/bachelor')
     }
 
     const removefeedback = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/feedback/${feedback.id}`, { method: 'DELETE' })
         if (res.ok) {
             redirect('/admin-panel/feedbacks')
-        } else {
-            deleteError = true
         }
         modal.close()
     }
@@ -61,22 +51,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Отзывы</h2>
         <h3>Редактировать отзыв</h3>
-        <AjaxForm action="/api/admin/feedback/{ feedback.id }" method="PATCH" on:success={ handleSuccess } on:error={ handleError } noReset={true}>
-            { #if updateError }
-                <div class="alert alert-danger">
-                    Произошла ошибка во&nbsp;время обновления
-                </div>
-            { /if }
-            { #if deleteError }
-                <div class="alert alert-danger">
-                    Произошла ошибка во&nbsp;время удаления
-                </div>
-            { /if }
-            { #if errorText }
-                <div class="alert alert-danger">
-                    { errorText }
-                </div>
-            { /if }
+        <Form action="/api/admin/feedback/{ feedback.id }" method="PATCH" on:success={ handleSuccess } reset={ false }>
             <Grid m={2} s={1}>
                 <div>
                     <label>
@@ -98,17 +73,25 @@
                 </div>
                 <div>
                     <label>
+                        <span class="caption">Уровень образования:</span><br />
+                        <select class="form-control" name="level" id="level">
+                            <option selected={feedback.level === 'Бакалавриат'}>Бакалавриат</option>
+                            <option selected={feedback.level === 'Специалитет'}>Специалитет</option>
+                        </select>
+                    </label>
+                    <br />
+                    <br />
+                    <label>
                         <span class="caption">Текст отзыва:</span><br />
-                        <textarea class="form-control" name="text" id="text" rows="8" value={ feedback.text } required></textarea>
+                        <textarea class="form-control" name="text" id="text" rows="4" value={ feedback.text } required></textarea>
                     </label>
                 </div>
             </Grid>
-            <br />
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
                 <button type="button" class="btn btn-outline-danger" on:click={ modal.open }>Удалить отзыв</button>
             </div>
-        </AjaxForm>
+        </Form>
     </div>
 </section>
 <style>

@@ -72,7 +72,6 @@
                     </label>
                 </div>
                 <div>
-                    <input type="hidden" name="level" value="Магистратура">
                     <label>
                         <span class="caption">Текст отзыва:</span><br />
                         <textarea class="form-control" name="text" id="text" rows="4" value={ feedback.text } required></textarea>

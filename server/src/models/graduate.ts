@@ -1,7 +1,7 @@
 import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
 import sequelize from '../../db.js'
 
-class Famous extends Model<InferAttributes<Famous, { omit: 'id' }>, InferCreationAttributes<Famous>> {
+class Graduate extends Model<InferAttributes<Graduate, { omit: 'id' }>, InferCreationAttributes<Graduate>> {
     declare id: CreationOptional<number>
     declare name: string
     declare description: string
@@ -9,9 +9,9 @@ class Famous extends Model<InferAttributes<Famous, { omit: 'id' }>, InferCreatio
     declare photo: string
 }
 
-export type FamousI = InferAttributes<Famous, { omit: 'id' }>
+export type GraduateI = InferAttributes<Graduate, { omit: 'id' }>
 
-Famous.init(
+Graduate.init(
     {
         name: {
             type: DataTypes.STRING,
@@ -54,8 +54,8 @@ Famous.init(
     },
     {
         sequelize,
-        modelName: 'Famous',
+        modelName: 'Graduate',
     }
 )
 
-export default Famous
+export default Graduate

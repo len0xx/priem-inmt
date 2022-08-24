@@ -151,7 +151,7 @@ export interface SettlementI {
     email: string
 }
 
-export interface FamousI {
+export interface GraduateI {
     id?: number
     name: string
     description: string

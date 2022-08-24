@@ -73,15 +73,6 @@
                 </div>
                 <div>
                     <label>
-                        <span class="caption">Уровень образования:</span><br />
-                        <select class="form-control" name="level" id="level">
-                            <option selected={feedback.level === 'Бакалавриат'}>Бакалавриат</option>
-                            <option selected={feedback.level === 'Специалитет'}>Специалитет</option>
-                        </select>
-                    </label>
-                    <br />
-                    <br />
-                    <label>
                         <span class="caption">Текст отзыва:</span><br />
                         <textarea class="form-control" name="text" id="text" rows="4" value={ feedback.text } required></textarea>
                     </label>

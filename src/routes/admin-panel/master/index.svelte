@@ -2,7 +2,7 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
-        const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/')
+        const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/?page=master')
         const resProfessions = await fetch('http://localhost:8080/api/admin/profession/')
         const resQuestions = await fetch('http://localhost:8080/api/admin/question/?page=master')
 
@@ -153,7 +153,7 @@
         { /if }
 
         <h3>Отзывы</h3>
-        <Form action="/api/admin/feedback" method="POST">
+        <Form action="/api/admin/feedback/?page=master" method="POST">
             <Grid m={2} s={1}>
                 <div>
                     <label>

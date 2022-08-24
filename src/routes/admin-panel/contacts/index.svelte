@@ -112,7 +112,7 @@
         <h3>Опубликованные ответственные лица{ responsibles.length ? ` (${responsibles.length})` : '' }</h3>
             <Grid s={1} m={2} l={3}>
                 { #each responsibles as responsible }
-                    <a href="/admin-panel/responsibles/update/{ responsible.id }">
+                    <a href="/admin-panel/contacts/responsible/update/{ responsible.id }">
                         <Card variant="white" color="custom">
                             <svelte:fragment slot="title">{ responsible.name }</svelte:fragment>
                             <svelte:fragment slot="left">{ responsible.label ? responsible.label : '' }</svelte:fragment>

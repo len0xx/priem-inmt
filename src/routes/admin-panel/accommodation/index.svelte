@@ -20,7 +20,7 @@
     import { Grid, Form, Modal, Document } from '$components'
     import { imask } from 'svelte-imask'
     import { slide } from 'svelte/transition'
-    import type { DocumentI, RentInfoI, SettlementI } from '../../../types'
+    import type { DocumentI, RentInfoI, SettlementI, ModalComponent } from '../../../types'
 
     export let documents: DocumentI[] = []
     export let rentInfo: RentInfoI
@@ -31,7 +31,7 @@
     }
 
     let deleteId = 0
-    let modal: { open: () => void, close: () => void } = null
+    let modal: ModalComponent = null
 
     const deleteDocument = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/documents/${deleteId}`, { method: 'DELETE' })

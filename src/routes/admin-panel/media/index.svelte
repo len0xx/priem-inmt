@@ -14,13 +14,13 @@
 
 <script lang="ts">
     import { Form, Grid, Modal } from '$components'
-    import type { DocumentI } from '../../../types'
     import { blur } from 'svelte/transition'
+    import type { DocumentI, ModalComponent } from '../../../types'
 
     export let files: DocumentI[]
 
     let deleteId = 0
-    let modal: { open: () => void, close: () => void } = null
+    let modal: ModalComponent = null
 
     const handleSuccess = (event: CustomEvent) => {
         const doc = event.detail.document

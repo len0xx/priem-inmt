@@ -14,12 +14,12 @@
 
 <script lang="ts">
     import { AjaxForm, Modal } from '$components'
-    import type { OpportunityI } from '../../../../types'
     import { redirect } from '$lib/utilities'
+    import type { OpportunityI, ModalComponent } from '../../../../types'
 
     export let opportunity: OpportunityI
 
-    let modal: { open: () => void, close: () => void } = null
+    let modal: ModalComponent = null
     let updateError = false
     let deleteError = false
     let errorText = ''

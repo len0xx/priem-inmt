@@ -16,14 +16,14 @@
 <script lang="ts">
     import { Grid, Form, Modal, Profile } from '$components'
     import { redirect } from '$lib/utilities'
-    import type { FeedbackI, QuestionI } from '../../../types'
+    import type { FeedbackI, QuestionI, ModalComponent } from '../../../types'
 
     export let questions: QuestionI[]
     export let feedbacks: FeedbackI[]
 
     const feedbacksBachelor = feedbacks.filter(feedback => feedback.level === 'Бакалавриат' || feedback.level === 'Специалитет')
 
-    let modal: { open: () => void, close: () => void } = null
+    let modal: ModalComponent = null
     let questionId: number
 
     const updateQuestionId = (id: number) => {

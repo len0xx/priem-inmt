@@ -5,6 +5,7 @@ import type { Request, Response } from 'express'
 
 export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const texts = await textService.get()
+
     for (const text of texts) {
         const name = req.body[`name${text.id}`]
         const content = req.body.content

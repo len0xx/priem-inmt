@@ -14,13 +14,13 @@
 
 <script lang="ts">
     import { AjaxForm, Grid, Modal } from '$components'
-    import type { ProfessionI } from '../../../../../types'
     import { range, redirect } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
+    import type { ProfessionI, ModalComponent } from '../../../../../types'
 
     export let profession: ProfessionI
 
-    let modal: { open: () => void, close: () => void } = null
+    let modal: ModalComponent = null
     let updateError = false
     let deleteError = false
     let errorText = ''

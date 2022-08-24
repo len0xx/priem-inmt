@@ -15,13 +15,13 @@
 <script lang="ts">
     import { AjaxForm, Modal, FileSelect } from '$components'
     import { Grid } from '$components'
-    import type { DormitoryI } from '../../../../types'
     import { redirect } from '$lib/utilities'
+    import type { DormitoryI, ModalComponent } from '../../../../types'
 
     export let dormitory: DormitoryI
 
-    let modal: { open: () => void, close: () => void } = null
-    let fileModal: { open: () => void, close: () => void } = null
+    let modal: ModalComponent = null
+    let fileModal: ModalComponent = null
     let fileId: number = null
     let filePath: string = null
 

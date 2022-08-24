@@ -2,15 +2,15 @@
     import { createEventDispatcher, onMount } from 'svelte'
     import { blur } from 'svelte/transition'
     import { Modal, Grid } from '.'
-    import type { DocumentI } from '../../types'
+    import type { DocumentI, ModalComponent } from '../../types'
 
-    export let modal: { open: () => void, close: () => void } = null
+    export let modal: ModalComponent = null
     export let selected: number = null
     
     const dispatch = createEventDispatcher()
     const LIMIT = 9
-    let selectedFile: number = selected
-    let selectedPath: string
+    let selectedFile = selected
+    let selectedPath: string = null
     let currentPage = 1
     let filesAmount = 0
     let pagesAmount = 1
@@ -38,9 +38,9 @@
         throw new Error('Could not fetch amount')
     }
 
-    const selectFile = (id: number, path: string) => {
-        selectedFile = id
-        selectedPath = path
+    const selectFile = (file: DocumentI) => {
+        selectedFile = file.id
+        selectedPath = file.src
     }
 
     const isImage = (extension: string) => ['jpeg', 'jpg', 'png'].includes(extension)
@@ -80,7 +80,11 @@
 <Modal bind:this={ modal } className="file-select-modal">
     <h3 class="no-top-margin">Выбор файла</h3>
     { #await filesPromise }
-        Загрузка...
+        <div class="align-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Загрузка...</span>
+            </div>
+        </div>
     {:then files }
         { #if files && files.length }
             <Grid l={3} m={2} s={1}>
@@ -97,7 +101,7 @@
                                     <div class="card-body">
                                         <h4 class="card-title">{ file.title }</h4>
                                         <a href={ file.src } target="_BLANK" class="btn btn-outline-primary btn-sm mb-2">Открыть</a><br />
-                                        <button class="btn btn-sm mb-2 { selectedFile === file.id ? 'btn-primary' : 'btn-outline-primary' }" on:click={ () => selectFile(file.id, file.src) }>
+                                        <button class="btn btn-sm mb-2 { selectedFile === file.id ? 'btn-primary' : 'btn-outline-primary' }" on:click={ () => selectFile(file) }>
                                             { selectedFile === file.id ? 'Файл выбран' : 'Выбрать' }
                                         </button><br />
                                     </div>
@@ -113,9 +117,9 @@
     {/await }
     <br />
     { #if pagesAmount > 1 }
-        <nav aria-label="Page navigation">
+        <nav aria-label="Page navigation" class="align-center">
             <ul class="pagination">
-                <li class="page-item">
+                <li class="page-item" class:disabled={ currentPage === 1 }>
                     <span class="page-link" aria-label="Предыдущая страница" on:click={ prevPage }>
                         <span aria-hidden="true">&laquo;</span>
                     </span>
@@ -126,7 +130,7 @@
                         <li class="page-item" on:click={ () => selectPage(i) }><span class="page-link">{ i }</span></li>
                     { /if }
                 { /each }
-                <li class="page-item">
+                <li class="page-item" class:disabled={ currentPage === pagesAmount }>
                     <span class="page-link" aria-label="Следующая страница" on:click={ nextPage }>
                         <span aria-hidden="true">&raquo;</span>
                     </span>

@@ -15,12 +15,12 @@
 <script lang="ts">
     import { Form, Modal } from '$components'
     import { Grid } from '$components'
-    import type { FeedbackI } from '../../../../../types'
     import { redirect } from '$lib/utilities'
+    import type { FeedbackI, ModalComponent } from '../../../../../types'
 
     export let feedback: FeedbackI
 
-    let modal: { open: () => void, close: () => void } = null
+    let modal: ModalComponent = null
 
     const handleSuccess = () => {
         redirect('/admin-panel/bachelor')

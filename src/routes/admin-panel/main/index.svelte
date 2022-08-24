@@ -19,28 +19,28 @@
 
 <script lang="ts">
     import { Grid, Graduate, Modal, Form, RoundButton, FileSelect } from '$components'
-    import type { FamousI, PartnerI, CarouselI } from '../../../types'
+    import type { FamousI, PartnerI, CarouselI, ModalComponent } from '../../../types'
 
     export let famousStudents: FamousI[] = []
     export let partners: PartnerI[] = []
     export let carouselImages: CarouselI[] = []
 
-    let famousImageModal: { open: () => void, close: () => void } = null
+    let famousImageModal: ModalComponent = null
     let famousImageId: number = null
     let famousImagePath: string = null
 
-    let partnersImageModal: { open: () => void, close: () => void } = null
+    let partnersImageModal: ModalComponent = null
     let partnersImageId: number = null
     let partnersImagePath: string = null
 
-    let carouselImageModal: { open: () => void, close: () => void } = null
+    let carouselImageModal: ModalComponent = null
     let carouselImageId: number = null
     let carouselImagePath: string = null
 
-    let partnerModal: { open: () => void, close: () => void } = null
+    let partnerModal: ModalComponent = null
     let partnerId: number = null
 
-    let carouselModal: { open: () => void, close: () => void } = null
+    let carouselModal: ModalComponent = null
     let carouselId: number = null
 
     let famousExpanded = false
@@ -108,7 +108,6 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
-        <!-- <p>Добро пожаловать, { user ? user.fullname : 'undefined' }! <a href="/admin-panel/logout">Выйти</a></p> -->
         <h3>Основная информация о сайте</h3>
         <form action="/api/admin/info/main" method="POST">
             <label>

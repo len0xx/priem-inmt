@@ -77,10 +77,9 @@
         </Form>
         
 
-        <h3>Ответственные лица института{ responsibles.length ? ` (${responsibles.length})` : '' }</h3>
+        <h3>Ответственные лица института</h3>
         { #if responsibles.length < 10 }
         <Form method="POST" action="/api/admin/responsible" reset={ true } redirect="/admin-panel/contacts">
-            <h3>Создать ответственное лицо института</h3>
             <Grid m={2}>
                 <div>
                     <label for="name">ФИО ответственного лица</label><br />
@@ -110,6 +109,7 @@
         </Form>
         { /if }
         { #if responsibles.length }
+        <h3>Опубликованные ответственные лица{ responsibles.length ? ` (${responsibles.length})` : '' }</h3>
             <Grid s={1} m={2} l={3}>
                 { #each responsibles as responsible }
                     <a href="/admin-panel/responsibles/update/{ responsible.id }">

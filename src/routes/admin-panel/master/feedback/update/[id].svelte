@@ -23,7 +23,7 @@
     let modal: ModalComponent = null
 
     const handleSuccess = () => {
-        redirect('/admin-panel/bachelor')
+        redirect('/admin-panel/master')
     }
 
     const removefeedback = async () => {

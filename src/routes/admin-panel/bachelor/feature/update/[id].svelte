@@ -54,7 +54,7 @@
                 </label>
                 <label>
                     <span class="caption">Описание:</span>
-                    <input required class="form-control" type="number" name="description" value={feature.description}>
+                    <input required class="form-control" type="text" name="description" value={feature.description}>
                 </label>
             </Grid>
             <br />

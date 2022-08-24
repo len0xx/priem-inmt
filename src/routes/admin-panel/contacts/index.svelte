@@ -75,8 +75,10 @@
             <br />
             <button class="btn btn-primary">Сохранить</button>
         </Form>
-
-        <h3>Ответственные лица института</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Ответственные лица института</h3>
         { #if responsibles.length < 10 }
         <Form method="POST" action="/api/admin/responsible" reset={ true } redirect="/admin-panel/contacts">
             <Grid m={2}>

@@ -115,7 +115,10 @@
         { :else }
             <p class="mt-3">Здесь еще нет общежитий</p>
         { /if }
-        <h3>Загрузка документов</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Загрузка документов</h3>
         <Form action="/api/admin/documents?type=document" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
             <label class="wide">
                 <span class="form-label">Название документа</span>
@@ -146,8 +149,10 @@
                 </div>
             { /each }
         { /if }
-        <br />
-        <h3>Ответственный за поселение</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Ответственный за поселение</h3>
         <Form 
             action={settlement ? `/api/admin/settlement/${settlement.id}` : '/api/admin/settlement'} 
             method={settlement ? 'PATCH' : 'POST'} 
@@ -194,8 +199,10 @@
                 {/if}
             </div>
         </Form>
-        <br />
-        <h3>Альтернативное поселение</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Альтернативное поселение</h3>
         <Form action="/api/admin/rentInfo" method="POST" on:success={ handleSuccess } reset={ false }>
             <div class="grid grid-2 m-grid-1">
                 <div>
@@ -237,11 +244,7 @@
                 </div>
             </div>
             <div class="buttons-row">
-                {#if rentInfo}
-                        <button class="btn btn-primary">Сохранить</button>
-                {:else}
-                        <button class="btn btn-primary">Создать</button>
-                {/if}
+                <button class="btn btn-primary">Сохранить</button>
             </div>
         </Form>
     </div>

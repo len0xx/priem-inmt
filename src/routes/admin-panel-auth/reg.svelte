@@ -26,7 +26,6 @@
 
     const handleError = (event: CustomEvent<{ error: string }>) => {
         errorText = event.detail.error
-        console.log(errorText)
     }
 </script>
 

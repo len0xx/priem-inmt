@@ -7,7 +7,6 @@
         event.preventDefault()
         const data = new FormData(form)
         const response = await sendFormPostRequest('http://localhost:8080/api/upload', data)
-        console.log(response)
     }
 </script>
 

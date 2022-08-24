@@ -94,7 +94,7 @@
                             <div class="row g-0">
                                 { #if isImage(file.extension) }
                                     <div class="col-md-4">
-                                        <img src={ file.src } class="card-img-top" alt={ file.title }>
+                                        <div class="card-img" style:background-image="url({ file.src })"></div>
                                     </div>
                                 { /if }
                                 <div class="col-md-8">
@@ -140,6 +140,7 @@
     { /if }
     <div class="buttons-row">
         <button type="button" class="btn btn-primary" on:click={ saveChanges }>Сохранить</button>
+        <a href="/admin-panel/media" class="btn btn-success">Загрузить новый файл</a>
         <button type="button" class="btn btn-outline-secondary" on:click={ discard }>Отмена</button>
     </div>
 </Modal>

@@ -4,7 +4,6 @@
     export const load: Load = async ({ fetch }) => {
         const res = await fetch('http://localhost:8080/api/admin/media?type=media')
         const files = (await res.json()).documents
-        console.log(files)
 
         if (res.ok) {
             return { props: { files } }
@@ -25,7 +24,6 @@
     const handleSuccess = (event: CustomEvent) => {
         const doc = event.detail.document
         files = [ ...files, doc ]
-        console.log(event.detail)
     }
 
     const deleteDocument = async () => {
@@ -84,7 +82,7 @@
                             <div class="row g-0">
                                 { #if isImage(file.extension) }
                                     <div class="col-md-4">
-                                        <img src={ file.src } class="card-img-top" alt={ file.title }>
+                                        <div class="card-img" style:background-image="url({ file.src })"></div>
                                     </div>
                                 { /if }
                                 <div class="col-md-8">

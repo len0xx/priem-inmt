@@ -36,7 +36,6 @@
     let questionId: number
 
     const updateQuestionId = (id: number) => {
-        console.log('click')
         questionId = id
         modal.open()
     }

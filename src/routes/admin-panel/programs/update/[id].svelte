@@ -48,7 +48,6 @@
                 result: ''
             }
             examsCount++
-            console.log(exams)
             return
         }
     }

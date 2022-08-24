@@ -183,7 +183,6 @@
                     </div>
                 </div>
             </div>
-            <br />
             <div class="buttons-row">
                 {#if rentInfo}
                         <button class="btn btn-primary">Сохранить</button>

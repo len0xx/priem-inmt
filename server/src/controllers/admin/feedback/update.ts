@@ -6,8 +6,8 @@ import type { FeedbackI } from '../../../models/feedback.js'
 
 export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
-    const { name, description, img, text } = req.body
-    const newData: FeedbackI = { name, description, img, text }
+    const { level, name, description, img, text } = req.body
+    const newData: FeedbackI = { level, name, description, img, text }
     await feedbackService.updateById(id, newData)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Отзыв успешно обновлен')
 })

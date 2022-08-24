@@ -187,78 +187,6 @@
             <button class="btn btn-primary">Сохранить</button>
         </form>
         <br />
-        <h3>Контактные данные</h3>
-        <form action="/api/admin/info/main" method="POST">
-            <div class="grid grid-2 m-grid-1">
-                <label>
-                    <span class="caption">Контактный номер телефона:</span><br />
-                    <input class="form-control" type="tel" name="contact-phone" id="contact-phone" />
-                </label>
-                <label>
-                    <span class="caption">Контактный адрес электронной почты:</span><br />
-                    <input class="form-control" type="email" name="contact-email" id="contact-email"
-                        placeholder="contact@urfu.ru" />
-                </label>
-                <label>
-                    <span class="caption">Дирекция института:</span><br />
-                    <input class="form-control" type="text" name="direction" id="direction"
-                        placeholder="г. Екатеринбург, ул. Софьи Ковалевской, 5" />
-                </label>
-                <label>
-                    <span class="caption">Приёмная комиссия:</span><br />
-                    <input class="form-control" type="text" name="priem" id="priem"
-                        placeholder="г. Екатеринбург, ул. Мира, 19" />
-                </label>
-                <label>
-                    <span class="caption">Ссылка ВКонтакте:</span><br />
-                    <input class="form-control" type="text" name="vk" id="vk"
-                        placeholder="https://vk.com/ural.federal.university" />
-                </label>
-                <label>
-                    <span class="caption">Ссылка Telegram:</span><br />
-                    <input class="form-control" type="text" name="telegram" id="telegram"
-                        placeholder="https://t.me/urfu" />
-                </label>
-            </div>
-            <br />
-            <button class="btn btn-primary">Сохранить</button>
-        </form>
-        <br />
-        <h3>Часто задаваемые вопросы</h3>
-        <form action="/api/admin/info/main" method="POST">
-            <div class="grid grid-2 m-grid-1">
-                <label>
-                    <span class="caption">Вопрос</span><br />
-                    <input required class="form-control" type="text" name="question" id="question">
-                </label>
-                <label>
-                    <span class="caption">Ответ</span><br />
-                    <input required class="form-control" type="text" name="answer" id="answer">
-                </label>
-            </div>
-            <br />
-            <button class="btn btn-primary">Сохранить</button>
-            <button class="btn btn-success">Добавить</button>
-        </form>
-        <br />
-        <h3>Документы</h3>
-        <form action="/api/admin/info/main" method="POST">
-            <div class="grid grid-2 m-grid-1">
-                <label>
-                    <span class="caption">Документ</span><br />
-                    <input required class="form-control" type="file" name="doc" id="doc"
-                        accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/jpg,image/jpeg,image/png">
-                </label>
-                <label>
-                    <span class="caption">Название</span><br />
-                    <input required class="form-control" type="text" name="title" id="title">
-                </label>
-            </div>
-            <br />
-            <button class="btn btn-primary">Сохранить</button>
-            <button class="btn btn-success">Добавить</button>
-        </form>
-        <br />
         <h3>Партнеры</h3>
         <Form action="/api/admin/partner" method="POST" redirect="/admin-panel/main">
             <label>
@@ -339,32 +267,6 @@
             <p class="mt-3">Здесь еще нет изображений в карусели</p>
         {/if}
         <br />
-        <h3>Молодые специалисты</h3>
-        <form action="/api/admin/info/main" method="POST">
-            <div class="grid grid-2 m-grid-1">
-                <label>
-                    <span class="caption">Видео</span><br />
-                    <input required class="form-control" type="file" name="video" id="video"
-                        accept="video/mp4,video/quicktime">
-                </label>
-                <label>
-                    <span class="caption">Имя</span><br />
-                    <input required class="form-control" type="text" name="name" id="name">
-                </label>
-                <label>
-                    <span class="caption">Позиция</span><br />
-                    <input required class="form-control" type="text" name="position" id="position">
-                </label>
-                <label>
-                    <span class="caption">Подпись</span><br />
-                    <input required class="form-control" type="text" name="caption" id="caption">
-                </label>
-            </div>
-            <br />
-            <button class="btn btn-primary">Сохранить</button>
-            <button class="btn btn-success">Добавить</button>
-        </form>
-        <br />
         <h3>Перечисления</h3>
         <Form action="/api/admin/feature?page=main" method="POST" redirect="/admin-panel/main">
             <div class="grid grid-2 m-grid-1">
@@ -400,27 +302,6 @@
         {:else}
             <p class="mt-3">Здесь еще нет перечислений</p>
         {/if}
-        <br />
-        <h3>Специальности</h3>
-        <form action="/api/admin/info/main" method="POST">
-            <div class="grid grid-2 m-grid-1">
-                <label>
-                    <span class="caption">Название</span><br />
-                    <input required class="form-control" type="text" name="title" id="title">
-                </label>
-                <label>
-                    <span class="caption">Описание</span><br />
-                    <input required class="form-control" type="text" name="caption" id="caption">
-                </label>
-                <label>
-                    <span class="caption">Функции</span><br />
-                    <textarea required class="form-control" name="functions" id="functions"></textarea>
-                </label>
-            </div>
-            <br />
-            <button class="btn btn-primary">Сохранить</button>
-            <button class="btn btn-success">Добавить</button>
-        </form>
         <br />
         <h3>Известные выпускники</h3>
         <Form action="/api/admin/graduate" method="POST" redirect="/admin-panel/main">

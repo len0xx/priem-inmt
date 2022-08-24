@@ -86,8 +86,7 @@ export interface ContactInfoI {
     email: string
     directorateAddress: string
     admissionsAddress: string
-    vkUrl: string
-    tgUrl: string
+    links: { text: string, url: string }[]
 }
 
 export interface FeedbackI {

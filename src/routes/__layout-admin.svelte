@@ -14,7 +14,6 @@
     const MASTER_URL = BASE_URL + '/master'
     const ACCOMMODATION_URL = BASE_URL + '/accommodation'
     const CONTACTS_URL = BASE_URL + '/contacts'
-    const POSTS_URL = BASE_URL + '/posts'
     const FILES_URL = BASE_URL + '/media'
     const TEXTS_URL = BASE_URL + '/texts'
 
@@ -106,12 +105,6 @@
                 class:active={URL.startsWith(CONTACTS_URL)}
                 sveltekit:prefetch
                 class="menu-item">Контакты</a
-            >
-            <a
-                href={POSTS_URL}
-                class:active={URL.startsWith(POSTS_URL)}
-                sveltekit:prefetch
-                class="menu-item">Публикации</a
             >
             <a
                 href={FILES_URL}

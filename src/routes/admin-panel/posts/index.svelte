@@ -117,17 +117,19 @@
         <h3 class="no-top-margin">Существующие публикации</h3>
         <Grid l={3} m={2} s={1}>
             { #each posts as post, i (i) }
-                <div class="card">
-                    {#if post.img}
-                        <img src={post.img} class="img-fluid card-img-top" alt="Изображение">                                              
-                    {/if}
-                    <div class="card-body">
-                        <h4 class="card-title">{ post.title }</h4>
-                        <p class="card-text">{ post.text }</p>
-                        <a href="/admin-panel/posts/update/{ post.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                        <button class="btn btn-outline-danger btn-sm" on:click={ () => { deleteId = post.id; modal.open() } }>Удалить</button>
+                <span>
+                    <div class="card">
+                        {#if post.img}
+                            <img src={post.img} class="img-fluid card-img-top" alt="Изображение">                                              
+                        {/if}
+                        <div class="card-body">
+                            <h4 class="card-title">{ post.title }</h4>
+                            <p class="card-text">{ post.text }</p>
+                            <a href="/admin-panel/posts/update/{ post.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button class="btn btn-outline-danger btn-sm" on:click={ () => { deleteId = post.id; modal.open() } }>Удалить</button>
+                        </div>
                     </div>
-                </div>
+                </span>
             { /each }
         </Grid>
     </div>

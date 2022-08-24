@@ -6,7 +6,17 @@ import type { ProfessionI } from '../../../models/profession.js'
 
 export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
-    const { title, description, minsalary, duties } = req.body
+    const { title, description, minsalary } = req.body
+
+    const duties: string[] = []
+
+    for (let i = 1; i <= 10; i++) {
+        const duty = req.body[`duty${i}`]
+        if (duty !== undefined) {
+            duties.push(duty)
+        }
+    }
+
     const newData: ProfessionI = { title, description, minsalary, duties }
     await professionService.updateById(id, newData)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Профессия успешно обновлена')

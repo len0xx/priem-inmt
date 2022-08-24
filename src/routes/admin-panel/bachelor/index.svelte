@@ -2,7 +2,7 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
-        const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/')
+        const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/?page=bachelor')
         const resQuestions = await fetch('http://localhost:8080/api/admin/question/?page=bachelor')
     
         const feedbacks = (await resFeedbacks.json()).feedbacks

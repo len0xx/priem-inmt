@@ -92,7 +92,7 @@ export interface ContactInfoI {
 
 export interface FeedbackI {
     id: number
-    level: DegreeLevel
+    page: string
     name: string
     description: string
     img?: string

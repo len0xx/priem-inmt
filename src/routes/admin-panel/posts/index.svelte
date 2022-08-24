@@ -15,17 +15,17 @@
     import { Form, Modal, Grid, FileSelect } from '$components'
     import { slide, blur } from 'svelte/transition'
     import { range, redirect } from '$lib/utilities'
-    import type { PostI } from '../../../types'
+    import type { PostI, ModalComponent } from '../../../types'
 
     export let posts: PostI[]
 
-    let fileModal: { open: () => void, close: () => void } = null
+    let fileModal: ModalComponent = null
     let fileId: number = null
     let filePath: string = null
 
     let links = 1
     let deleteId = 0
-    let modal: { open: () => void, close: () => void } = null
+    let modal: ModalComponent = null
 
     const addLink = () => links++
 

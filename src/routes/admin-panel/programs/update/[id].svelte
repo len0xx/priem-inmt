@@ -18,9 +18,9 @@
     import { DegreeLevel } from '../../../../types/enums'
     import { redirect } from '$lib/utilities'
     import { slide } from 'svelte/transition'
-    import type { EducationalProgram } from '../../../../types'
+    import type { EducationalProgram, ModalComponent } from '../../../../types'
 
-    let modal: { open: () => void, close: () => void } = null
+    let modal: ModalComponent = null
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000',

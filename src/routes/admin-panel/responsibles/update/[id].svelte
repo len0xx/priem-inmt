@@ -16,7 +16,7 @@
     import { imask } from 'svelte-imask'
     import { Grid, AjaxForm, Modal} from '$components'
     import { redirect } from '$lib/utilities'
-    import type { ResponsibleI } from '../../../../types'
+    import type { ResponsibleI, ModalComponent } from '../../../../types'
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000'
@@ -26,7 +26,7 @@
 
     let updateError = false
     let deleteError = false
-    let modal: { open: () => void, close: () => void } = null
+    let modal: ModalComponent = null
 
     const removeResponsible = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/responsible/${responsible.id}`, { method: 'DELETE' })

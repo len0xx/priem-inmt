@@ -1,5 +1,11 @@
 import type { DegreeLevel } from './enums'
 
+export interface ModalComponent {
+    open: () => void,
+    close: () => void,
+    toggle: () => void
+}
+
 export interface TeacherI {
     name: string
     caption: string

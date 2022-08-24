@@ -2,9 +2,9 @@
     import { createEventDispatcher, onMount } from 'svelte'
     import { blur } from 'svelte/transition'
     import { Modal, Grid } from '.'
-    import type { DocumentI } from '../../types'
+    import type { DocumentI, ModalComponent } from '../../types'
 
-    export let modal: { open: () => void, close: () => void } = null
+    export let modal: ModalComponent = null
     export let selected: number = null
     
     const dispatch = createEventDispatcher()
@@ -80,7 +80,11 @@
 <Modal bind:this={ modal } className="file-select-modal">
     <h3 class="no-top-margin">Выбор файла</h3>
     { #await filesPromise }
-        Загрузка...
+        <div class="align-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Загрузка...</span>
+            </div>
+        </div>
     {:then files }
         { #if files && files.length }
             <Grid l={3} m={2} s={1}>

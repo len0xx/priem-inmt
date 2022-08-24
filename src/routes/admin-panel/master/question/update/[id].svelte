@@ -13,8 +13,8 @@
 </script>
 <script lang="ts">
     import { Grid, AjaxForm } from '$components'
-    import type { QuestionI } from '../../../../../types'
     import { redirect } from '$lib/utilities'
+    import type { QuestionI } from '../../../../../types'
 
     export let question: QuestionI
 

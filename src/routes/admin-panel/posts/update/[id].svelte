@@ -16,11 +16,11 @@
     import { Form, FileSelect } from '$components'
     import { slide, blur } from 'svelte/transition'
     import { range, redirect } from '$lib/utilities'
-    import type { PostI } from '../../../../types'
+    import type { PostI, ModalComponent } from '../../../../types'
 
     export let post: PostI
 
-    let fileModal: { open: () => void, close: () => void } = null
+    let fileModal: ModalComponent = null
     let fileId: number = null
     let filePath: string = null
 

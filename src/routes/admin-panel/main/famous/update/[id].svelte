@@ -14,16 +14,16 @@
 
 <script lang="ts">
     import { Grid, Form, Modal, FileSelect } from '$components'
-    import type { FamousI } from '../../../../../types'
     import { redirect } from '$lib/utilities'
+    import type { FamousI, ModalComponent } from '../../../../../types'
 
     export let famous: FamousI
 
-    let fileModal: { open: () => void, close: () => void } = null
+    let fileModal: ModalComponent = null
     let fileId: number = null
     let filePath: string = null
 
-    let modal: { open: () => void, close: () => void } = null
+    let modal: ModalComponent = null
 
     const fileSelected = (event: CustomEvent<{ id: number, path: string }>) => {
         fileId = event.detail.id

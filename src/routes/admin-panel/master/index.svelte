@@ -17,9 +17,9 @@
 </script>
 <script lang="ts">
     import { Card, Form, Grid, Modal, Profile } from '$components'
-    import type { FeedbackI, ProfessionI, QuestionI } from '../../../types'
     import { range, redirect } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
+    import type { FeedbackI, ProfessionI, QuestionI, ModalComponent } from '../../../types'
 
     export let feedbacks: FeedbackI[]
     export let professions: ProfessionI[]
@@ -27,7 +27,7 @@
 
     const feedbacksMaster = feedbacks.filter(feedback => feedback.level === 'Магистратура')
 
-    let modal: { open: () => void, close: () => void } = null
+    let modal: ModalComponent = null
 
     let duties = 1
     const addDuty = () => duties++

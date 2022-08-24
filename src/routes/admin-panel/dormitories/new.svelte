@@ -1,11 +1,12 @@
 <script lang="ts">
     import { AjaxForm, Grid, FileSelect } from '$components'
     import { redirect } from '$lib/utilities'
+    import type { ModalComponent } from '../../../types'
 
     let createError = false
     let errorText = ''
 
-    let fileModal: { open: () => void, close: () => void } = null
+    let fileModal: ModalComponent = null
     let fileId: number = null
     let filePath: string = null
 

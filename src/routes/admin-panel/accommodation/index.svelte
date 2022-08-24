@@ -61,7 +61,7 @@
 
 <section class="main-content">
     <div class="white-block-wide">
-        <h2 class="no-top-margin">Поселение</h2>
+        <h2 class="no-top-margin">Редактирование страницы поселения</h2>
         <h3>Загрузка документов</h3>
         <Form action="/api/admin/documents?type=document" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
             <label class="wide">

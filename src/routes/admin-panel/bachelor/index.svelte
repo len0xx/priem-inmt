@@ -62,7 +62,7 @@
 
 <section class="main-content">
     <div class="white-block-wide">
-        <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
+        <h2 class="no-top-margin">Редактирование страницы бакалавриата</h2>
         <h3>Справочная информация FAQ</h3>
         <Form method="POST" action="/api/admin/question/?page=bachelor" redirect="/admin-panel/bachelor">
             <Grid m={1}>

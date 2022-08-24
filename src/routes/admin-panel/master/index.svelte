@@ -65,7 +65,7 @@
 
 <section class="main-content">
     <div class="white-block-wide">
-        <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
+        <h2 class="no-top-margin">Редактирование страницы магистратуры</h2>
         <h3>Справочная информация FAQ</h3>
         <Form method="POST" action="/api/admin/question/?page=master" reset={ true } redirect="/admin-panel/master">
             <Grid m={1}>

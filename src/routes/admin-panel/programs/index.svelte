@@ -29,7 +29,7 @@
 
 <section class="main-content">
     <div class="white-block-wide">
-        <h2 class="no-top-margin">Опубликованные образовательные программы</h2>
+        <h2 class="no-top-margin">Образовательные программы</h2>
         <a href="/admin-panel/programs/new"><button type="button" class="btn btn-outline-primary">Создать новую программу</button></a>
         <h3>Специалитет { programsSpec.length ? `(${programsSpec.length})` : '' }</h3>
         { #if programsSpec.length }

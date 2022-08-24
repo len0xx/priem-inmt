@@ -13,7 +13,7 @@
         const features = (await resFeatures.json()).features
 
         if (resFeedbacks.ok && resQuestions.ok && resFeatures.ok && resOpportunities.ok) {
-            return { props: { feedbacks, questions, features, opportunities } 
+            return { props: { feedbacks, questions, features, opportunities } }
         }
     }
 </script>
@@ -27,7 +27,7 @@
     export let features: FeatureI[] = []
     export let opportunities: OpportunityI[] = []
 
-    const feedbacksBachelor = feedbacks.filter(feedback => feedback.level === 'Бакалавриат' || feedback.level === 'Специалитет')
+    // const feedbacksBachelor = feedbacks.filter(feedback => feedback.level === 'Бакалавриат' || feedback.level === 'Специалитет')
 
     let modal: ModalComponent = null
     let questionId: number

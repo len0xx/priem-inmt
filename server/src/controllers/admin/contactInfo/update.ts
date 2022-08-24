@@ -12,7 +12,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     for (let i = 1; i <= 5; i++) {
         const text = req.body[`link_text${i}`]
         const url = req.body[`link_url${i}`]
-        if (url !== undefined && text !== undefined) {
+        if (url && text) {
             links.push({ url, text })
         }
     }

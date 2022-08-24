@@ -40,7 +40,7 @@
 
 <section class="main-content">
     <div class="white-block-wide">
-        <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
+        <h2 class="no-top-margin">Редактирование страницы контактов</h2>
         <h3>Контактные данные</h3>
         <Form
             action="/api/admin/info/contacts"
@@ -98,7 +98,6 @@
             <br />
             <button class="btn btn-primary">Сохранить</button>
         </Form>
-        
 
         <h3>Ответственные лица института</h3>
         { #if responsibles.length < 10 }

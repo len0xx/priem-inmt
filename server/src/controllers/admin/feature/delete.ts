@@ -6,5 +6,5 @@ import type { Request, Response } from 'express'
 export const del = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
     await featureService.deleteById(id)
-    return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Особенность успешно удалена')
+    return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Перечисление успешно удалено')
 })

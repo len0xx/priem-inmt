@@ -112,7 +112,7 @@
 
 <section class="main-content">
     <div class="white-block-wide">
-        <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
+        <h2 class="no-top-margin">Редактирование главной страницы</h2>
         <h3>Основная информация о сайте</h3>
         <form action="/api/admin/info/main" method="POST">
             <label>

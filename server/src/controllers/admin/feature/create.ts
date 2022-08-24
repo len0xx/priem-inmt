@@ -20,7 +20,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
             description: description,
             page: page
         })
-        return new HTTPResponse(res, HTTPStatus.CREATED, 'Особенность успешно создана')
+        return new HTTPResponse(res, HTTPStatus.CREATED, 'Перечисление успешно создано')
     }
     return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Неправильный параметр запроса')
 })

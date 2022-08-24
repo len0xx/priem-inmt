@@ -43,7 +43,10 @@
                     <textarea required class="form-control wide" type="text" name="answer" value={question.answer} />
                 </label>
             </Grid>
-            <button class="btn btn-primary">Сохранить</button>
+            <div class="buttons-row">
+                <button class="btn btn-primary">Сохранить</button>
+                <button type="button" on:click|preventDefault={ () => window.history.back() } class="btn btn-outline-secondary">Вернуться назад</button>
+            </div>
         </Form>
     </div>
 </section>

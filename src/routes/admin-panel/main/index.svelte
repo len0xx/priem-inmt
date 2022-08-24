@@ -108,7 +108,6 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
-        <!-- <p>Добро пожаловать, { user ? user.fullname : 'undefined' }! <a href="/admin-panel/logout">Выйти</a></p> -->
         <h3>Основная информация о сайте</h3>
         <form action="/api/admin/info/main" method="POST">
             <label>

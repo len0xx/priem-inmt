@@ -6,6 +6,7 @@ class TextService extends BaseService<Text, TextI> {
         super()
         this.model = Text
     }
+
     async getByName(name: string) {
         return await this.model.findOne({ where: { name }})
     }

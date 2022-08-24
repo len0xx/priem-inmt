@@ -2,12 +2,13 @@ import documentService from '../../../services/document.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
+import type { WhereOptions } from 'sequelize/types/model.js'
 
 export const readAll = catchHTTPErrors(async (req: Request, res: Response) => {
     const type = req.query.type ? req.query.type.toString() : undefined
     const page = req.query.page ? +req.query.page : undefined
     const LIMIT = 9
-    const options: any = type ? { where: { type } } : {} /* eslint-disable  @typescript-eslint/no-explicit-any */
+    const options: WhereOptions = type ? { where: { type } } : {}
     if (page) {
         options.offset = LIMIT * (page - 1)
         options.limit = LIMIT

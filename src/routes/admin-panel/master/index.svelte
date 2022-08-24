@@ -25,8 +25,6 @@
     export let professions: ProfessionI[]
     export let questions: QuestionI[]
 
-    const feedbacksMaster = feedbacks.filter(feedback => feedback.level === 'Магистратура')
-
     let modal: ModalComponent = null
 
     let duties = 1
@@ -176,7 +174,6 @@
                     </label>
                 </div>
                 <div>
-                    <input type="hidden" name="level" value="Магистратура">
                     <label>
                         <span class="caption">Текст отзыва:</span><br />
                         <textarea class="form-control" name="text" id="text" rows="4" required></textarea>
@@ -186,10 +183,10 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        { #if feedbacksMaster.length }
+        { #if feedbacks.length }
             <Grid className="mt-5" m={3} s={1} alignItems="start">
                 <Grid m={1} alignItems="start">
-                    { #each feedbacksMaster.filter((_, i) => i % 3 == 0) as feedback }
+                    { #each feedbacks.filter((_, i) => i % 3 == 0) as feedback }
                         <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
                             <Profile img={ feedback.img }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
@@ -200,7 +197,7 @@
                     { /each }
                 </Grid>
                 <Grid m={1} alignItems="start">
-                    { #each feedbacksMaster.filter((_, i) => i % 3 == 1) as feedback }
+                    { #each feedbacks.filter((_, i) => i % 3 == 1) as feedback }
                         <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
                             <Profile img={ feedback.img }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
@@ -211,7 +208,7 @@
                     { /each }
                 </Grid>
                 <Grid m={1} alignItems="start">
-                    { #each feedbacksMaster.filter((_, i) => i % 3 == 2) as feedback }
+                    { #each feedbacks.filter((_, i) => i % 3 == 2) as feedback }
                         <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
                             <Profile img={ feedback.img }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>

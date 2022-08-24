@@ -541,6 +541,7 @@
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
                 <button type="button" on:click={modal.open} class="btn btn-danger">Удалить</button>
+                <button type="button" on:click|preventDefault={ () => window.history.back() } class="btn btn-outline-secondary">Вернуться назад</button>
             </div>
         </AjaxForm>
         <div class="alerts mt-4">

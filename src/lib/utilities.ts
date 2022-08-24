@@ -219,3 +219,7 @@ export const getSequentialPartialIndexes = <T>(arr: T[], size: number): number[]
     }
     return result
 }
+
+export const getBaseUrl = (mode: 'development' | 'production') : string => {
+    return mode === 'production' ? 'https://inmt-priem.urfu.ru' : 'http://localhost:8080'
+}

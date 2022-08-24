@@ -35,7 +35,7 @@
 </svelte:head>
 
 <Modal bind:this={ modal } align="center" closable={true}>
-    <p class="mb-4">Подтвердите удаление перечисления</p>
+    <p class="mb-4">Вы действительно хотите удалить этот объект?</p>
     <div class="buttons-row">
         <button type="button" on:click={removeFeature} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
@@ -53,8 +53,8 @@
                     <input required class="form-control" type="text" name="title" value={feature.title}>
                 </label>
                 <label>
-                    <span class="caption">Описание:</span>
-                    <input required class="form-control" type="number" name="description" value={feature.description}>
+                    <span class="caption">Подпись:</span>
+                    <input required class="form-control" type="text" name="description" value={feature.description}>
                 </label>
             </Grid>
             <br />

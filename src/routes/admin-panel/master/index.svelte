@@ -230,11 +230,11 @@
         <Form action="/api/admin/feature?page=master" method="POST" redirect="/admin-panel/master">
             <div class="grid grid-2 m-grid-1">
                 <label>
-                    <span class="caption">Заголовок</span><br />
+                    <span class="caption">Заголовок:</span><br />
                     <input required class="form-control" type="text" name="title">
                 </label>
                 <label>
-                    <span class="caption">Описание</span><br />
+                    <span class="caption">Подпись:</span><br />
                     <input required class="form-control" type="text" name="description">
                 </label>
             </div>

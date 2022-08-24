@@ -163,3 +163,8 @@ export interface PartnerI {
     name?: string
     logo: string
 }
+
+export interface CarouselI {
+    id: number
+    img: string
+}

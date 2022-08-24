@@ -8,18 +8,22 @@
         const resPartners = await fetch('http://localhost:8080/api/admin/partner')
         const partners = (await resPartners.json()).partners
 
-        if (resFamous.ok && resPartners.ok) {
-            return { props: { famousStudents, partners } }
+        const resCarousel = await fetch('http://localhost:8080/api/admin/carousel')
+        const carouselImages = (await resCarousel.json()).images
+
+        if (resFamous.ok && resPartners.ok && resCarousel.ok) {
+            return { props: { famousStudents, partners, carouselImages } }
         }
     }
 </script>
 
 <script lang="ts">
     import { Grid, Graduate, Modal, Form, RoundButton, FileSelect } from '$components'
-    import type { FamousI, PartnerI } from '../../../types'
+    import type { FamousI, PartnerI, CarouselI } from '../../../types'
 
     export let famousStudents: FamousI[] = []
     export let partners: PartnerI[] = []
+    export let carouselImages: CarouselI[] = []
 
     let famousImageModal: { open: () => void, close: () => void } = null
     let famousImageId: number = null
@@ -29,11 +33,19 @@
     let partnersImageId: number = null
     let partnersImagePath: string = null
 
+    let carouselImageModal: { open: () => void, close: () => void } = null
+    let carouselImageId: number = null
+    let carouselImagePath: string = null
+
     let partnerModal: { open: () => void, close: () => void } = null
     let partnerId: number = null
 
+    let carouselModal: { open: () => void, close: () => void } = null
+    let carouselId: number = null
+
     let famousExpanded = false
     let partnersExpanded = false
+    let carouselExpanded = false
 
     const famousImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
         famousImageId = event.detail.id
@@ -45,12 +57,25 @@
         partnersImagePath = event.detail.path
     }
 
+    const carouselImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        carouselImageId = event.detail.id
+        carouselImagePath = event.detail.path
+    }
+
     const removePartner = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/partner/${partnerId}`, { method: 'DELETE' })
         if (res.ok) {
             partners = partners.filter(partner => partner.id !== partnerId)
         }
         partnerModal.close()
+    }
+
+    const removeCarouselImage = async () => {
+        const res = await fetch(`http://localhost:8080/api/admin/carousel/${carouselId}`, { method: 'DELETE' })
+        if (res.ok) {
+            carouselImages = carouselImages.filter(image => image.id !== carouselId)
+        }
+        carouselModal.close()
     }
 </script>
 
@@ -62,11 +87,21 @@
 
 <FileSelect bind:modal={ partnersImageModal } on:save={ partnersImageSelected } />
 
+<FileSelect bind:modal={ carouselImageModal } on:save={ carouselImageSelected } />
+
 <Modal bind:this={ partnerModal } align="center" closable={true}>
     <p class="mb-4">Подтвердите удаление партнера института</p>
     <div class="buttons-row">
         <button type="button" on:click={removePartner} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={() => partnerModal.close()} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
+<Modal bind:this={ carouselModal } align="center" closable={true}>
+    <p class="mb-4">Подтвердите удаление изображения в карусели</p>
+    <div class="buttons-row">
+        <button type="button" on:click={removeCarouselImage} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={() => carouselModal.close()} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -242,7 +277,7 @@
                 {#each partners as partner, i (i)}
                     {#if i < 10 || partnersExpanded}
                         <div class="card">
-                            <img src={partner.logo} class="card-img-top" alt="Логотип партнера">
+                            <img src={partner.logo} class="img-fluid card-img-top" alt="Логотип партнера">
                             <div class="card-body">
                                 <button type="button" class="btn btn-outline-danger" on:click={() => {partnerId = partner.id; partnerModal.open()} }>Удалить</button>
                             </div>
@@ -261,7 +296,45 @@
         {/if}
         <br />
         <h3>Изображения в&nbsp;карусели</h3>
-        <form action="/api/admin/info/main" method="POST">
+        <Form action="/api/admin/carousel" method="POST" redirect="/admin-panel/main">
+            <label>
+                <span class="caption">Выберите изображение { carouselImageId ? `(${ carouselImageId })` : '' }:</span>
+                {#if carouselImagePath}
+                    <br />
+                    <img width="150px" height="150px" src={carouselImagePath} class="img-fluid mt-3 mb-3" alt="Изображение в карусели">
+                    <br />
+                {/if}
+                <input type="hidden" name="img" value={ carouselImageId }><br />
+                <button type="button" class="btn btn-outline-primary" on:click={ carouselImageModal.open }> { carouselImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+            </label>
+            <br />
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <br />
+        {#if carouselImages.length}
+            <Grid m={3}>
+                {#each carouselImages as image, i (i)}
+                    {#if i < 6 || carouselExpanded}
+                        <div class="card">
+                            <img src={image.img} class="img-fluid card-img-top" alt="Изображение в карусели">
+                            <div class="card-body">
+                                <button type="button" class="btn btn-outline-danger" on:click={() => {carouselId = image.id; carouselModal.open()} }>Удалить</button>
+                            </div>
+                        </div>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !carouselExpanded && carouselImages.length > 6}
+            <br />
+            <div class="align-center">
+                <RoundButton variant="plus" size="M" on:click={() => carouselExpanded = true} />
+            </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет изображений в карусели</p>
+        {/if}
+        <!-- <form action="/api/admin/info/main" method="POST">
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Изображение</span><br />
@@ -272,7 +345,7 @@
             <br />
             <button class="btn btn-primary">Сохранить</button>
             <button class="btn btn-success">Добавить</button>
-        </form>
+        </form> -->
         <br />
         <h3>Молодые специалисты</h3>
         <form action="/api/admin/info/main" method="POST">

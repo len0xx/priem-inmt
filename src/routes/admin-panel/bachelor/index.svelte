@@ -3,7 +3,7 @@
     
     export const load: Load = async ({ fetch }) => {
         const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/')
-        const resQuestions = await fetch('http://localhost:8080/api/admin/question/bachelor/find')
+        const resQuestions = await fetch('http://localhost:8080/api/admin/question/?page=bachelor')
     
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const questions = (await resQuestions.json()).questions
@@ -38,10 +38,6 @@
         }
         modal.close()
     }
-
-    const handleSuccess = () => {
-        redirect('/admin-panel/bachelor')
-    }
 </script>
 
 <svelte:head>
@@ -60,7 +56,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <h3>Справочная информация FAQ</h3>
-        <Form method="POST" action="/api/admin/question/bachelor" on:success={ handleSuccess }>
+        <Form method="POST" action="/api/admin/question/?page=bachelor" redirect="/admin-panel/bachelor">
             <Grid m={1}>
                 <label>
                     <span class="question">Вопрос:</span><br />
@@ -74,9 +70,8 @@
             <button class="btn btn-primary">Создать</button>
         </Form>
         <br />
-        <h3>Опубликованные ответы на вопросы</h3>
-        <Grid m={2}>
-            {#if questions.length}
+        {#if questions.length}
+            <Grid m={3}>
                 { #each questions as question, i (i) }
                     <div class="card">
                         <div class="card-body">
@@ -86,10 +81,10 @@
                         </div>
                     </div>
                 { /each }
-            {:else}
-                <p>Здесь ещё нет созданных вопросов</p>
-            {/if}
-        </Grid>
+            </Grid>
+        {:else}
+            <p>Здесь ещё нет созданных вопросов</p>
+        {/if}
 
         <h3>Отзывы</h3>
         <Form action="/api/admin/feedback" method="POST">

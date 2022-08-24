@@ -11,9 +11,7 @@ enum Page {
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { question, answer } = req.body
 
-    const page = req.query.page
-
-    console.log(page, Page.Bachelor)
+    const page = req.query.degree
 
     if (page === Page.Bachelor || page === Page.Master) {
         await questionSerivce.create({
@@ -21,9 +19,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
             answer: answer,
             page: page
         })
-        return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос и ответ успешно создан')
     }
-    return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Неправильный параметр запроса')
 
-
+    return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос и ответ успешно создан')
 })

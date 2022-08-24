@@ -82,7 +82,7 @@
                     </label>
                     <br />
                     <label>
-                        <span class="caption">Изображение { fileId ? `(${ fileId })` : '' }:</span>
+                        <span class="caption">Изображение:</span>
                         {#if filePath}
                             <br />
                             <img width="150px" height="150px" src={filePath} class="img-fluid mt-3 mb-3" alt="Изображение">   
@@ -118,10 +118,10 @@
         <Grid l={3} m={2} s={1}>
             { #each posts as post, i (i) }
                 <div class="card">
+                    {#if post.img}
+                        <img src={post.img} class="img-fluid card-img-top" alt="Изображение">                                              
+                    {/if}
                     <div class="card-body">
-                        {#if post.img}
-                            <img src={post.img} class="img-fluid mb-3" alt="Изображение">                                              
-                        {/if}
                         <h4 class="card-title">{ post.title }</h4>
                         <p class="card-text">{ post.text }</p>
                         <a href="/admin-panel/posts/update/{ post.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>

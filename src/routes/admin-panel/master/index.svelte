@@ -4,7 +4,7 @@
     export const load: Load = async ({ fetch }) => {
         const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/')
         const resProfessions = await fetch('http://localhost:8080/api/admin/profession/')
-        const resQuestions = await fetch('http://localhost:8080/api/admin/question/master/find')
+        const resQuestions = await fetch('http://localhost:8080/api/admin/question/?page=master')
 
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const professions = (await resProfessions.json()).professions
@@ -47,10 +47,6 @@
             redirect('/admin-panel/master')
         }
     }
-
-    const handleSuccess = () => {
-        redirect('/admin-panel/master')
-    }
 </script>
 
 <svelte:head>
@@ -69,7 +65,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <h3>Справочная информация FAQ</h3>
-        <Form method="POST" action="/api/admin/question/master" reset={ true } on:success={ handleSuccess }>
+        <Form method="POST" action="/api/admin/question/?page=master" reset={ true } redirect="/admin-panel/master">
             <Grid m={1}>
                 <label>
                     <span class="question">Вопрос:</span><br />
@@ -83,8 +79,9 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <Grid className="mt-5" m={2}>
-            {#if questions.length}
+        <br />
+        {#if questions.length}
+            <Grid m={3}>
                 { #each questions as question, i }
                     <div class="card">
                         <div class="card-body">
@@ -94,13 +91,13 @@
                         </div>
                     </div>
                 { /each }
-            {:else}
-                <p class="mt-3">Здесь ещё нет созданных вопросов</p>
-            {/if}
-        </Grid>
+            </Grid>
+        {:else}
+            <p>Здесь ещё нет созданных вопросов</p>
+        {/if}
 
         <h3>Профессии</h3>
-        <Form action="/api/admin/profession" method="POST" reset={ true } on:success={ handleSuccess }>
+        <Form action="/api/admin/profession" method="POST" reset={ true } redirect="/admin-panel/master">
             <Grid m={2} s={1}>
                 <div>
                     <label>

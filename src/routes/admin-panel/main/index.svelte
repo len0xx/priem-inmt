@@ -258,7 +258,7 @@
         <h3>Партнеры</h3>
         <Form action="/api/admin/partner" method="POST" redirect="/admin-panel/main">
             <label>
-                <span class="caption">Выберите логотип партнера { famousImageId ? `(${ famousImageId })` : '' }:</span>
+                <span class="caption">Выберите логотип партнера:</span>
                 {#if partnersImagePath}
                     <br />
                     <img width="150px" height="150px" src={partnersImagePath} class="img-fluid mt-3 mb-3" alt="Логотип партнера">
@@ -298,7 +298,7 @@
         <h3>Изображения в&nbsp;карусели</h3>
         <Form action="/api/admin/carousel" method="POST" redirect="/admin-panel/main">
             <label>
-                <span class="caption">Выберите изображение { carouselImageId ? `(${ carouselImageId })` : '' }:</span>
+                <span class="caption">Выберите изображение:</span>
                 {#if carouselImagePath}
                     <br />
                     <img width="150px" height="150px" src={carouselImagePath} class="img-fluid mt-3 mb-3" alt="Изображение в карусели">
@@ -426,19 +426,17 @@
                     <span class="caption">Описание</span><br />
                     <input required class="form-control" type="text" name="description">
                 </label>
+                <label>
+                    <span class="caption">Фотография:</span>
+                    <input type="hidden" name="photo" value={ famousImageId }><br />
+                    <button type="button" class="btn btn-outline-primary" on:click={ famousImageModal.open }> { famousImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                </label>
             </div>
             <br />
-            <label>
-                <span class="caption">Фотография { famousImageId ? `(${ famousImageId })` : '' }:</span>
-                {#if famousImagePath}
-                    <br />
-                    <img width="150px" height="150px" src={famousImagePath} class="img-fluid mt-3 mb-3" alt="Фотография известного выпускника">   
-                {/if}
-                <input type="hidden" name="photo" value={ famousImageId }><br />
-                <button type="button" class="btn btn-outline-primary" on:click={ famousImageModal.open }> { famousImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
-            </label>
-            <br />
-            <br />
+            {#if famousImagePath}
+                <p>Предпросмотр:</p>
+                <img width="150px" height="150px" src={famousImagePath} class="img-fluid mb-3" alt="Фотография известного выпускника"><br />   
+            {/if}
             <button class="btn btn-primary">Создать</button>
         </Form>
         <br />

@@ -74,7 +74,7 @@
             </Grid>
             <br />
             <label>
-                <span class="caption">Фотография { fileId ? `(${ fileId })` : '' }:</span><br />
+                <span class="caption">Фотография:</span><br />
                 <img width="150px" height="150px" src={filePath ? filePath : famous.photo} class="img-fluid mt-3 mb-3" alt="Фотография известного выпускника">                   
                 <input type="hidden" name="photo" value={ fileId }><br />
                 <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать другой файл' } </button>

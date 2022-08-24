@@ -29,7 +29,7 @@
     const removeResponsible = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/responsible/${responsible.id}`, { method: 'DELETE' })
         if (res.ok) {
-            redirect('/admin-panel/responsibles')
+            redirect('/admin-panel/contacts')
         }
         modal.close()
     }
@@ -50,7 +50,7 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
-        <Form method="PATCH" action="/api/admin/responsible/{responsible.id}" reset={ false }>
+        <Form method="PATCH" action="/api/admin/responsible/{responsible.id}" reset={ false } redirect="/admin-panel/contacts">
             <h3>Редактирование ответственного лица института</h3>
             <Grid m={2}>
                 <div>

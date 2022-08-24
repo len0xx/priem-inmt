@@ -35,7 +35,7 @@
 </svelte:head>
 
 <Modal bind:this={ modal } align="center" closable={true}>
-    <p class="mb-4">Подтвердите удаление возможности</p>
+    <p class="mb-4">Вы действительно хотите удалить эту возможность?</p>
     <div class="buttons-row">
         <button type="button" on:click={removeOpportunity} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>

@@ -95,7 +95,7 @@
 <FileSelect bind:modal={ carouselImageModal } on:save={ carouselImageSelected } />
 
 <Modal bind:this={ partnerModal } align="center" closable={true}>
-    <p class="mb-4">Подтвердите удаление партнера института</p>
+    <p class="mb-4">Вы действительно хотите удалить этого партнера института?</p>
     <div class="buttons-row">
         <button type="button" on:click={removePartner} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={() => partnerModal.close()} class="btn btn-secondary">Отмена</button>
@@ -103,7 +103,7 @@
 </Modal>
 
 <Modal bind:this={ carouselModal } align="center" closable={true}>
-    <p class="mb-4">Подтвердите удаление изображения в карусели</p>
+    <p class="mb-4">Вы действительно хотите удалить это изображение в карусели?</p>
     <div class="buttons-row">
         <button type="button" on:click={removeCarouselImage} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={() => carouselModal.close()} class="btn btn-secondary">Отмена</button>

@@ -46,7 +46,7 @@
 <FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
 
 <Modal bind:this={ modal } align="center" closable={true}>
-    <p class="mb-4">Подтвердите удаление известного выпускника</p>
+    <p class="mb-4">Вы действительно хотите удалить этого известного выпускника?</p>
     <div class="buttons-row">
         <button type="button" on:click={removeFamous} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>

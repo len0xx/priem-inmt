@@ -52,7 +52,7 @@
 </svelte:head>
 
 <Modal bind:this={ modal } align="center" closable={true}>
-    <p class="mb-4">Подтвердите удаление документа</p>
+    <p class="mb-4">Вы действительно хотите удалить этот документ?</p>
     <div class="buttons-row">
         <button type="button" on:click={ deleteDocument } class="btn btn-danger">Удалить</button>
         <button type="button" on:click={ modal.close } class="btn btn-secondary">Отмена</button>

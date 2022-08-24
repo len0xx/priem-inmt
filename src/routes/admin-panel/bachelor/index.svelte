@@ -3,23 +3,26 @@
     
     export const load: Load = async ({ fetch }) => {
         const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/?page=bachelor')
+        const resOpportunities = await fetch('http://localhost:8080/api/admin/opportunity')
         const resQuestions = await fetch('http://localhost:8080/api/admin/question/?page=bachelor')
     
         const feedbacks = (await resFeedbacks.json()).feedbacks
+        const opportunities = (await resOpportunities.json()).opportunities
         const questions = (await resQuestions.json()).questions
 
-        if (resFeedbacks.ok && resQuestions.ok) {
-            return { props: { feedbacks, questions } }
+        if (resFeedbacks.ok && resOpportunities.ok && resQuestions.ok) {
+            return { props: { feedbacks, opportunities, questions } }
         }
     }
 </script>
 <script lang="ts">
-    import { Grid, Form, Modal, Profile } from '$components'
+    import { Grid, Form, Icon, Modal, Profile, Text } from '$components'
     import { redirect } from '$lib/utilities'
-    import type { FeedbackI, QuestionI, ModalComponent } from '../../../types'
+    import type { FeedbackI, OpportunityI, QuestionI, ModalComponent } from '../../../types'
 
-    export let questions: QuestionI[]
     export let feedbacks: FeedbackI[]
+    export let opportunities: OpportunityI[]
+    export let questions: QuestionI[]
 
     let modal: ModalComponent = null
     let questionId: number
@@ -153,6 +156,25 @@
             </Grid>
         { :else }
             <p class="mt-3">Здесь еще нет отзывов</p>
+        { /if }
+
+        <h3>Студенческие возможности</h3>
+        { #if opportunities.length }
+            <Grid className="mt-5" m={4} s={1}>
+                { #each opportunities as opportunity, i (i) }
+                    <div>
+                        <a href="/admin-panel/opportunities/update/{ opportunity.id }">
+                            <div class="align-center" style:min-width="200px">
+                                <Icon name="blue-star" width={40} height={40} alt="star" />
+                                <Text className="semi-bold subtitle">{ opportunity.title }</Text>
+                                <Text className="semi-bold small" opacity={0.6}>{ opportunity.description }</Text>
+                            </div>
+                        </a>
+                    </div>
+                { /each }
+            </Grid>
+        { :else }
+            <p class="mt-3">Здесь еще нет возможностей</p>
         { /if }
     </div>
 </section>

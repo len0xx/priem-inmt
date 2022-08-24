@@ -4,7 +4,7 @@
     export const load: Load = async ({ fetch }) => {
         const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/')
         const resQuestions = await fetch('http://localhost:8080/api/admin/question/bachelor/find')
-        
+    
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const questions = (await resQuestions.json()).questions
 
@@ -21,7 +21,7 @@
     export let questions: QuestionI[]
     export let feedbacks: FeedbackI[]
 
-    const feedbacksBachelor = feedbacks.filter((feedback: FeedbackI) => { feedback.level === 'Бакалавриат' || feedback.level === 'Специалитет' })
+    const feedbacksBachelor = feedbacks.filter(feedback => feedback.level === 'Бакалавриат' || feedback.level === 'Специалитет')
 
     let modal: { open: () => void, close: () => void } = null
     let questionId: number
@@ -91,8 +91,46 @@
             {/if}
         </Grid>
 
-        <h2 class="no-top-margin">Отзывы</h2>
-        <a href="/admin-panel/feedbacks/new"><button type="button" class="btn btn-outline-primary">Создать новый отзыв</button></a>
+        <h3>Отзывы</h3>
+        <Form action="/api/admin/feedback" method="POST">
+            <Grid m={2} s={1}>
+                <div>
+                    <label>
+                        <span class="caption">Автор:</span><br />
+                        <input class="form-control" type="text" name="name" id="name" required />
+                    </label>
+                    <br />
+                    <br />
+                    <label>
+                        <span class="caption">Описание:</span><br />
+                        <input class="form-control" type="text" name="description" id="description" />
+                    </label>
+                    <br />
+                    <br />
+                    <label>
+                        <span class="caption">Изображение:</span><br />
+                        <input class="form-control" type="text" name="img" id="img" /> <!-- TODO: file upload -->
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <span class="caption">Уровень образования:</span><br />
+                        <select class="form-control" name="level" id="level">
+                            <option>Бакалавриат</option>
+                            <option>Специалитет</option>
+                        </select>
+                    </label>
+                    <br />
+                    <br />
+                    <label>
+                        <span class="caption">Текст отзыва:</span><br />
+                        <textarea class="form-control" name="text" id="text" rows="4" required></textarea>
+                    </label>
+                </div>
+            </Grid>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
         { #if feedbacksBachelor.length }
             <Grid className="mt-5" m={3} s={1} alignItems="start">
                 <Grid m={1} alignItems="start">
@@ -134,3 +172,8 @@
         { /if }
     </div>
 </section>
+<style>
+    label {
+        width: 100%;
+    }
+</style>

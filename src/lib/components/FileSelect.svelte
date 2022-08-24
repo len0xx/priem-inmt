@@ -81,7 +81,7 @@
     <h3 class="no-top-margin">Выбор файла</h3>
     { #await filesPromise }
         <div class="align-center">
-            <div class="spinner-border" role="status">
+            <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Загрузка...</span>
             </div>
         </div>
@@ -119,7 +119,7 @@
     { #if pagesAmount > 1 }
         <nav aria-label="Page navigation" class="align-center">
             <ul class="pagination">
-                <li class="page-item">
+                <li class="page-item" class:disabled={ currentPage === 1 }>
                     <span class="page-link" aria-label="Предыдущая страница" on:click={ prevPage }>
                         <span aria-hidden="true">&laquo;</span>
                     </span>
@@ -130,7 +130,7 @@
                         <li class="page-item" on:click={ () => selectPage(i) }><span class="page-link">{ i }</span></li>
                     { /if }
                 { /each }
-                <li class="page-item">
+                <li class="page-item" class:disabled={ currentPage === pagesAmount }>
                     <span class="page-link" aria-label="Следующая страница" on:click={ nextPage }>
                         <span aria-hidden="true">&raquo;</span>
                     </span>

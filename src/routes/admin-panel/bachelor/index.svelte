@@ -2,20 +2,26 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
-        const res = await fetch('http://localhost:8080/api/admin/question/bachelor/find')
-        const questions = (await res.json()).questions
+        const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/')
+        const resQuestions = await fetch('http://localhost:8080/api/admin/question/bachelor/find')
+        
+        const feedbacks = (await resFeedbacks.json()).feedbacks
+        const questions = (await resQuestions.json()).questions
 
-        if (res.ok) {
-            return { props: { questions } }
+        if (resFeedbacks.ok && resQuestions.ok) {
+            return { props: { feedbacks, questions } }
         }
     }
 </script>
 <script lang="ts">
-    import { Grid, Form, Modal } from '$components'
+    import { Grid, Form, Modal, Profile } from '$components'
     import { redirect } from '$lib/utilities'
-    import type { QuestionI } from '../../../types'
+    import type { FeedbackI, QuestionI } from '../../../types'
 
     export let questions: QuestionI[]
+    export let feedbacks: FeedbackI[]
+
+    const feedbacksBachelor = feedbacks.filter((feedback: FeedbackI) => { feedback.level === 'Бакалавриат' || feedback.level === 'Специалитет' })
 
     let modal: { open: () => void, close: () => void } = null
     let questionId: number
@@ -84,5 +90,47 @@
                 <p>Здесь ещё нет созданных вопросов</p>
             {/if}
         </Grid>
+
+        <h2 class="no-top-margin">Отзывы</h2>
+        <a href="/admin-panel/feedbacks/new"><button type="button" class="btn btn-outline-primary">Создать новый отзыв</button></a>
+        { #if feedbacksBachelor.length }
+            <Grid className="mt-5" m={3} s={1} alignItems="start">
+                <Grid m={1} alignItems="start">
+                    { #each feedbacksBachelor.filter((_, i) => i % 3 == 0) as feedback }
+                        <a href="/admin-panel/feedbacks/update/{ feedback.id }">
+                            <Profile img={ feedback.img }>
+                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                            </Profile>
+                        </a>
+                    { /each }
+                </Grid>
+                <Grid m={1} alignItems="start">
+                    { #each feedbacksBachelor.filter((_, i) => i % 3 == 1) as feedback }
+                        <a href="/admin-panel/feedbacks/update/{ feedback.id }">
+                            <Profile img={ feedback.img }>
+                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                            </Profile>
+                        </a>
+                    { /each }
+                </Grid>
+                <Grid m={1} alignItems="start">
+                    { #each feedbacksBachelor.filter((_, i) => i % 3 == 2) as feedback }
+                        <a href="/admin-panel/feedbacks/update/{ feedback.id }">
+                            <Profile img={ feedback.img }>
+                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                            </Profile>
+                        </a>
+                    { /each }
+                </Grid>
+            </Grid>
+        { :else }
+            <p class="mt-3">Здесь еще нет отзывов</p>
+        { /if }
     </div>
 </section>

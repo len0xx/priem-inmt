@@ -159,11 +159,26 @@
         { /if }
 
         <h3>Студенческие возможности</h3>
+        <Form action="/api/admin/opportunity" method="POST" redirect="/admin-panel/bachelor">
+            <label>
+                <span class="caption">Название:</span><br />
+                <input class="form-control" type="text" name="title" id="title" required />
+            </label>
+            <br />
+            <br />
+            <label>
+                <span class="caption">Описание:</span><br />
+                <input class="form-control" type="text" name="description" id="description" />
+            </label>
+            <br />
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
         { #if opportunities.length }
             <Grid className="mt-5" m={4} s={1}>
                 { #each opportunities as opportunity, i (i) }
                     <div>
-                        <a href="/admin-panel/opportunities/update/{ opportunity.id }">
+                        <a href="/admin-panel/bachelor/opportunity/update/{ opportunity.id }">
                             <div class="align-center" style:min-width="200px">
                                 <Icon name="blue-star" width={40} height={40} alt="star" />
                                 <Text className="semi-bold subtitle">{ opportunity.title }</Text>

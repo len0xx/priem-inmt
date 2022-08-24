@@ -16,9 +16,7 @@
     const CONTACTS_URL = BASE_URL + '/contacts'
     const RESPONSIBLE_URL = BASE_URL + '/responsibles'
     const POSTS_URL = BASE_URL + '/posts'
-    const FEEDBACKS_URL = BASE_URL + '/feedbacks'
     const DORMITORIES_URL = BASE_URL + '/dormitories'
-    const OPPORTUNITIES_URL = BASE_URL + '/opportunities'
     const FILES_URL = BASE_URL + '/media'
     const TEXTS_URL = BASE_URL + '/texts'
 
@@ -124,22 +122,10 @@
                 class="menu-item">Публикации</a
             >
             <a
-                href={FEEDBACKS_URL}
-                class:active={URL.startsWith(FEEDBACKS_URL)}
-                sveltekit:prefetch
-                class="menu-item">Отзывы</a
-            >
-            <a
                 href={DORMITORIES_URL}
                 class:active={URL.startsWith(DORMITORIES_URL)}
                 sveltekit:prefetch
                 class="menu-item">Общежития</a
-            >
-            <a
-                href={OPPORTUNITIES_URL}
-                class:active={URL.startsWith(OPPORTUNITIES_URL)}
-                sveltekit:prefetch
-                class="menu-item">Возможности</a
             >
             <a
                 href={FILES_URL}

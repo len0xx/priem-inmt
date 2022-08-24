@@ -2,29 +2,37 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
-        const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/')
+        const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/?page=bachelor')
+        const resOpportunities = await fetch('http://localhost:8080/api/admin/opportunity')
         const resQuestions = await fetch('http://localhost:8080/api/admin/question/?page=bachelor')
+        const resFeatures = await fetch('http://localhost:8080/api/admin/feature/?page=bachelor')
     
         const feedbacks = (await resFeedbacks.json()).feedbacks
+        const opportunities = (await resOpportunities.json()).opportunities
         const questions = (await resQuestions.json()).questions
+        const features = (await resFeatures.json()).features
 
-        if (resFeedbacks.ok && resQuestions.ok) {
-            return { props: { feedbacks, questions } }
+        if (resFeedbacks.ok && resQuestions.ok && resFeatures.ok && resOpportunities.ok) {
+            return { props: { feedbacks, questions, features, opportunities } 
         }
     }
 </script>
 <script lang="ts">
-    import { Grid, Form, Modal, Profile } from '$components'
+    import { Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton } from '$components'
     import { redirect } from '$lib/utilities'
-    import type { FeedbackI, QuestionI, ModalComponent } from '../../../types'
+    import type { FeatureI, OpportunityI, FeedbackI, QuestionI, ModalComponent } from '../../../types'
 
-    export let questions: QuestionI[]
-    export let feedbacks: FeedbackI[]
+    export let questions: QuestionI[] = []
+    export let feedbacks: FeedbackI[] = []
+    export let features: FeatureI[] = []
+    export let opportunities: OpportunityI[] = []
 
     const feedbacksBachelor = feedbacks.filter(feedback => feedback.level === 'Бакалавриат' || feedback.level === 'Специалитет')
 
     let modal: ModalComponent = null
     let questionId: number
+
+    let featuresExpanded = false
 
     const updateQuestionId = (id: number) => {
         questionId = id
@@ -87,7 +95,7 @@
         {/if}
 
         <h3>Отзывы</h3>
-        <Form action="/api/admin/feedback" method="POST">
+        <Form action="/api/admin/feedback/?page=bachelor" method="POST" redirect="/admin-panel/bachelor">
             <Grid m={2} s={1}>
                 <div>
                     <label>
@@ -109,15 +117,6 @@
                 </div>
                 <div>
                     <label>
-                        <span class="caption">Уровень образования:</span><br />
-                        <select class="form-control" name="level" id="level">
-                            <option>Бакалавриат</option>
-                            <option>Специалитет</option>
-                        </select>
-                    </label>
-                    <br />
-                    <br />
-                    <label>
                         <span class="caption">Текст отзыва:</span><br />
                         <textarea class="form-control" name="text" id="text" rows="4" required></textarea>
                     </label>
@@ -126,10 +125,10 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        { #if feedbacksBachelor.length }
+        { #if feedbacks.length }
             <Grid className="mt-5" m={3} s={1} alignItems="start">
                 <Grid m={1} alignItems="start">
-                    { #each feedbacksBachelor.filter((_, i) => i % 3 == 0) as feedback }
+                    { #each feedbacks.filter((_, i) => i % 3 == 0) as feedback }
                         <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
                             <Profile img={ feedback.img }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
@@ -140,7 +139,7 @@
                     { /each }
                 </Grid>
                 <Grid m={1} alignItems="start">
-                    { #each feedbacksBachelor.filter((_, i) => i % 3 == 1) as feedback }
+                    { #each feedbacks.filter((_, i) => i % 3 == 1) as feedback }
                         <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
                             <Profile img={ feedback.img }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
@@ -151,7 +150,7 @@
                     { /each }
                 </Grid>
                 <Grid m={1} alignItems="start">
-                    { #each feedbacksBachelor.filter((_, i) => i % 3 == 2) as feedback }
+                    { #each feedbacks.filter((_, i) => i % 3 == 2) as feedback }
                         <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
                             <Profile img={ feedback.img }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
@@ -165,6 +164,77 @@
         { :else }
             <p class="mt-3">Здесь еще нет отзывов</p>
         { /if }
+
+        <h3>Студенческие возможности</h3>
+        <Form action="/api/admin/opportunity" method="POST" redirect="/admin-panel/bachelor">
+            <label>
+                <span class="caption">Название:</span><br />
+                <input class="form-control" type="text" name="title" id="title" required />
+            </label>
+            <br />
+            <br />
+            <label>
+                <span class="caption">Описание:</span><br />
+                <input class="form-control" type="text" name="description" id="description" />
+            </label>
+            <br />
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        { #if opportunities.length }
+            <Grid className="mt-5" m={4} s={1}>
+                { #each opportunities as opportunity, i (i) }
+                    <div>
+                        <a href="/admin-panel/bachelor/opportunity/update/{ opportunity.id }">
+                            <div class="align-center" style:min-width="200px">
+                                <Icon name="blue-star" width={40} height={40} alt="star" />
+                                <Text className="semi-bold subtitle">{ opportunity.title }</Text>
+                                <Text className="semi-bold small" opacity={0.6}>{ opportunity.description }</Text>
+                            </div>
+                        </a>
+                    </div>
+                { /each }
+            </Grid>
+        { :else }
+            <p class="mt-3">Здесь еще нет возможностей</p>
+        { /if }
+
+        <h3>Перечисления</h3>
+        <Form action="/api/admin/feature?page=bachelor" method="POST" redirect="/admin-panel/bachelor">
+            <div class="grid grid-2 m-grid-1">
+                <label>
+                    <span class="caption">Заголовок</span><br />
+                    <input required class="form-control" type="text" name="title">
+                </label>
+                <label>
+                    <span class="caption">Описание</span><br />
+                    <input required class="form-control" type="text" name="description">
+                </label>
+            </div>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <br />
+        {#if features.length}
+            <Grid m={3}>
+                {#each features as feature, i (i)}
+                    {#if i < 6 || featuresExpanded}
+                        <a href="/admin-panel/bachelor/feature/update/{ feature.id }">
+                            <Benefit num={feature.title} caption={feature.description} />
+                        </a>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !featuresExpanded && features.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
+                </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет перечислений</p>
+        {/if}
+
     </div>
 </section>
 <style>

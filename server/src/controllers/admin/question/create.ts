@@ -24,6 +24,4 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос и ответ успешно создан')
     }
     return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Неправильный параметр запроса')
-
-
 })

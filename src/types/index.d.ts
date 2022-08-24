@@ -92,7 +92,7 @@ export interface ContactInfoI {
 
 export interface FeedbackI {
     id: number
-    level: DegreeLevel
+    page: string
     name: string
     description: string
     img?: string
@@ -180,4 +180,10 @@ export interface PartnerI {
 export interface CarouselI {
     id: number
     img: string
+}
+
+export interface FeatureI {
+    id: number
+    title: string
+    description: string
 }

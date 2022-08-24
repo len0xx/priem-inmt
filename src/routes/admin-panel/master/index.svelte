@@ -2,30 +2,33 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
-        const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/')
+        const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/?page=master')
         const resProfessions = await fetch('http://localhost:8080/api/admin/profession/')
         const resQuestions = await fetch('http://localhost:8080/api/admin/question/?page=master')
+        const resFeatures = await fetch('http://localhost:8080/api/admin/feature/?page=master')
 
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const professions = (await resProfessions.json()).professions
         const questions = (await resQuestions.json()).questions
+        const features = (await resFeatures.json()).features
 
-        if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok) {
-            return { props: { feedbacks, professions, questions } }
+        if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok && resFeatures.ok) {
+            return { props: { feedbacks, professions, questions, features } }
         }
     }
 </script>
 <script lang="ts">
-    import { Card, Form, Grid, Modal, Profile } from '$components'
+    import { Card, Form, Grid, Modal, Benefit, RoundButton, Profile } from '$components'
     import { range, redirect } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
-    import type { FeedbackI, ProfessionI, QuestionI, ModalComponent } from '../../../types'
+    import type { FeatureI, FeedbackI, ProfessionI, QuestionI, ModalComponent } from '../../../types'
 
-    export let feedbacks: FeedbackI[]
-    export let professions: ProfessionI[]
-    export let questions: QuestionI[]
+    export let feedbacks: FeedbackI[] = []
+    export let professions: ProfessionI[] = []
+    export let questions: QuestionI[] = []
+    export let features: FeatureI[] = []
 
-    const feedbacksMaster = feedbacks.filter(feedback => feedback.level === 'Магистратура')
+    let featuresExpanded = false
 
     let modal: ModalComponent = null
 
@@ -154,7 +157,7 @@
         { /if }
 
         <h3>Отзывы</h3>
-        <Form action="/api/admin/feedback" method="POST">
+        <Form action="/api/admin/feedback/?page=master" method="POST" redirect="/admin-panel/master">
             <Grid m={2} s={1}>
                 <div>
                     <label>
@@ -175,7 +178,6 @@
                     </label>
                 </div>
                 <div>
-                    <input type="hidden" name="level" value="Магистратура">
                     <label>
                         <span class="caption">Текст отзыва:</span><br />
                         <textarea class="form-control" name="text" id="text" rows="4" required></textarea>
@@ -185,11 +187,11 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        { #if feedbacksMaster.length }
+        { #if feedbacks.length }
             <Grid className="mt-5" m={3} s={1} alignItems="start">
                 <Grid m={1} alignItems="start">
-                    { #each feedbacksMaster.filter((_, i) => i % 3 == 0) as feedback }
-                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
+                    { #each feedbacks.filter((_, i) => i % 3 == 0) as feedback }
+                        <a href="/admin-panel/master/feedback/update/{ feedback.id }">
                             <Profile img={ feedback.img }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                                 <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
@@ -199,8 +201,8 @@
                     { /each }
                 </Grid>
                 <Grid m={1} alignItems="start">
-                    { #each feedbacksMaster.filter((_, i) => i % 3 == 1) as feedback }
-                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
+                    { #each feedbacks.filter((_, i) => i % 3 == 1) as feedback }
+                        <a href="/admin-panel/master/feedback/update/{ feedback.id }">
                             <Profile img={ feedback.img }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                                 <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
@@ -210,8 +212,8 @@
                     { /each }
                 </Grid>
                 <Grid m={1} alignItems="start">
-                    { #each feedbacksMaster.filter((_, i) => i % 3 == 2) as feedback }
-                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
+                    { #each feedbacks.filter((_, i) => i % 3 == 2) as feedback }
+                        <a href="/admin-panel/master/feedback/update/{ feedback.id }">
                             <Profile img={ feedback.img }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                                 <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
@@ -224,6 +226,41 @@
         { :else }
             <p class="mt-3">Здесь еще нет отзывов</p>
         { /if }
+        <h3>Перечисления</h3>
+        <Form action="/api/admin/feature?page=master" method="POST" redirect="/admin-panel/master">
+            <div class="grid grid-2 m-grid-1">
+                <label>
+                    <span class="caption">Заголовок</span><br />
+                    <input required class="form-control" type="text" name="title">
+                </label>
+                <label>
+                    <span class="caption">Описание</span><br />
+                    <input required class="form-control" type="text" name="description">
+                </label>
+            </div>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <br />
+        {#if features.length}
+            <Grid m={3}>
+                {#each features as feature, i (i)}
+                    {#if i < 6 || featuresExpanded}
+                        <a href="/admin-panel/master/feature/update/{ feature.id }">
+                            <Benefit num={feature.title} caption={feature.description} />
+                        </a>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !featuresExpanded && features.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
+                </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет перечислений</p>
+        {/if}
     </div>
 </section>
 

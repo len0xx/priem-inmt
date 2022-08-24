@@ -9,8 +9,8 @@
     
     const dispatch = createEventDispatcher()
     const LIMIT = 9
-    let selectedFile: number = selected
-    let selectedPath: string
+    let selectedFile = selected
+    let selectedPath: string = null
     let currentPage = 1
     let filesAmount = 0
     let pagesAmount = 1
@@ -117,7 +117,7 @@
     {/await }
     <br />
     { #if pagesAmount > 1 }
-        <nav aria-label="Page navigation">
+        <nav aria-label="Page navigation" class="align-center">
             <ul class="pagination">
                 <li class="page-item">
                     <span class="page-link" aria-label="Предыдущая страница" on:click={ prevPage }>

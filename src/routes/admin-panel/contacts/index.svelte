@@ -3,18 +3,21 @@
     import { apiRoute } from '$lib/utilities'
     
     export const load: Load = async ({ fetch }) => {
-        const res = await fetch(apiRoute('admin/info/contacts'))
-        const contactInfo = (await res.json()).contactInfo
+        const resContactInfo = await fetch(apiRoute('admin/info/contacts'))
+        const resResponsibles = await fetch(apiRoute('admin/responsible'))
 
-        if (res.ok) {
-            return { props: { contactInfo } }
+        const contactInfo = (await resContactInfo.json()).contactInfo
+        const responsibles = (await resResponsibles.json()).responsibles
+
+        if (resContactInfo.ok && resResponsibles.ok) {
+            return { props: { contactInfo, responsibles } }
         }
     }
 </script>
 
 <script lang="ts">
-    import { Form } from '$components'
-    import type { ContactInfoI } from '../../types'
+    import { Card, Form, Grid } from '$components'
+    import type { ContactInfoI, ResponsibleI } from '../../../types'
     import { imask } from 'svelte-imask'
 
     let phoneMask = {
@@ -22,6 +25,7 @@
     }
 
     export let contactInfo: ContactInfoI
+    export let responsibles: ResponsibleI[]
 </script>
 
 <svelte:head>
@@ -71,6 +75,54 @@
             <br />
             <button class="btn btn-primary">Сохранить</button>
         </Form>
+        
+
+        <h3>Ответственные лица института{ responsibles.length ? ` (${responsibles.length})` : '' }</h3>
+        { #if responsibles.length < 10 }
+        <Form method="POST" action="/api/admin/responsible" reset={ true } redirect="/admin-panel/contacts">
+            <h3>Создать ответственное лицо института</h3>
+            <Grid m={2}>
+                <div>
+                    <label for="name">ФИО ответственного лица</label><br />
+                    <input class="form-control wide" type="text" name="name" required />
+                </div>
+                <div>
+                    <label for="label">Подпись</label><br />
+                    <input class="form-control wide" type="text" name="label" required />
+                </div>
+                <div>
+                    <label for="phone">Номер телефона</label><br />
+                    <input
+                        class="form-control wide"
+                        type="text" 
+                        use:imask={ phoneMask }
+                        name="phone" required 
+                    />
+                </div>
+                <div>
+                    <label for="email">Адрес электронной почты</label><br />
+                    <input class="form-control wide" type="email" name="email" required />
+                </div>
+            </Grid>
+            <div class="buttons-row">
+                <button class="btn btn-primary">Создать</button>
+            </div>
+        </Form>
+        { /if }
+        { #if responsibles.length }
+            <Grid s={1} m={2} l={3}>
+                { #each responsibles as responsible }
+                    <a href="/admin-panel/responsibles/update/{ responsible.id }">
+                        <Card variant="white" color="custom">
+                            <svelte:fragment slot="title">{ responsible.name }</svelte:fragment>
+                            <svelte:fragment slot="left">{ responsible.label ? responsible.label : '' }</svelte:fragment>
+                        </Card>
+                    </a>
+                { /each }
+            </Grid>
+        { :else }
+            <p>Здесь ещё нет ответственных лиц</p>
+        { /if }
     </div>
 </section>
 

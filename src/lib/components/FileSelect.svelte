@@ -38,9 +38,9 @@
         throw new Error('Could not fetch amount')
     }
 
-    const selectFile = (id: number, path: string) => {
-        selectedFile = id
-        selectedPath = path
+    const selectFile = (file: DocumentI) => {
+        selectedFile = file.id
+        selectedPath = file.src
     }
 
     const isImage = (extension: string) => ['jpeg', 'jpg', 'png'].includes(extension)
@@ -101,7 +101,7 @@
                                     <div class="card-body">
                                         <h4 class="card-title">{ file.title }</h4>
                                         <a href={ file.src } target="_BLANK" class="btn btn-outline-primary btn-sm mb-2">Открыть</a><br />
-                                        <button class="btn btn-sm mb-2 { selectedFile === file.id ? 'btn-primary' : 'btn-outline-primary' }" on:click={ () => selectFile(file.id, file.src) }>
+                                        <button class="btn btn-sm mb-2 { selectedFile === file.id ? 'btn-primary' : 'btn-outline-primary' }" on:click={ () => selectFile(file) }>
                                             { selectedFile === file.id ? 'Файл выбран' : 'Выбрать' }
                                         </button><br />
                                     </div>

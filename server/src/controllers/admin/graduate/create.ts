@@ -1,11 +1,10 @@
-import famousService from '../../../services/famous.js'
+import graduateService from '../../../services/graduate.js'
 import documentService from '../../../services/document.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
-export const update = catchHTTPErrors(async (req: Request, res: Response) => {
-    const id = +req.params.id
+export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { name, description, graduateYear, photo } = req.body
 
     let photoURL = undefined
@@ -14,11 +13,11 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         photoURL = file.src
     }
 
-    await famousService.updateById(id, {
+    await graduateService.create({
         name: name,
         description: description,
         graduateYear: graduateYear,
         photo: photoURL
     })
-    return new HTTPResponse(res, HTTPStatus.CREATED, 'Известный выпускник успешно обновлен')
+    return new HTTPResponse(res, HTTPStatus.CREATED, 'Известный выпускник успешно создан')
 })

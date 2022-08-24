@@ -2,12 +2,12 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch, params }) => {
-        const famousId = params.id
-        const res = await fetch(`http://localhost:8080/api/admin/famous/${famousId}`)
-        const famous = (await res.json()).famous
+        const graduateId = params.id
+        const res = await fetch(`http://localhost:8080/api/admin/graduate/${graduateId}`)
+        const graduate = (await res.json()).graduate
 
         if (res.ok) {
-            return { props: { famous } }
+            return { props: { graduate } }
         }
     }
 </script>
@@ -15,9 +15,9 @@
 <script lang="ts">
     import { Grid, Form, Modal, FileSelect } from '$components'
     import { redirect } from '$lib/utilities'
-    import type { FamousI, ModalComponent } from '../../../../../types'
+    import type { GraduateI, ModalComponent } from '../../../../../types'
 
-    export let famous: FamousI
+    export let graduate: GraduateI
 
     let fileModal: ModalComponent = null
     let fileId: number = null
@@ -31,7 +31,7 @@
     }
 
     const removeFamous = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/famous/${famous.id}`, { method: 'DELETE' })
+        const res = await fetch(`http://localhost:8080/api/admin/famous/${graduate.id}`, { method: 'DELETE' })
         if (res.ok) {
             redirect('/admin-panel/main')
         }
@@ -57,28 +57,31 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <h3>Редактирование известного выпускника</h3>
-        <Form method="PATCH" action="/api/admin/famous/{ famous.id }" redirect="/admin-panel/main" >
+        <Form method="PATCH" action="/api/admin/graduate/{ graduate.id }" redirect="/admin-panel/main" >
             <Grid m={2}>
                 <label>
                     <span class="caption">ФИО</span>
-                    <input required class="form-control" type="text" name="name" value={famous.name}>
+                    <input required class="form-control" type="text" name="name" value={graduate.name}>
                 </label>
                 <label>
                     <span class="caption">Год выпуска</span>
-                    <input required class="form-control" type="number" name="graduateYear" value={famous.graduateYear}>
+                    <input required class="form-control" type="number" name="graduateYear" value={graduate.graduateYear}>
                 </label>
                 <label>
                     <span class="caption">Описание</span>
-                    <input required class="form-control" type="text" name="description" value={famous.description}>
+                    <input required class="form-control" type="text" name="description" value={graduate.description}>
+                </label>
+                <label>
+                    <span class="caption">Фотография:</span>
+                    <input type="hidden" name="photo" value={ fileId }><br />
+                    <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать другой файл' } </button>
                 </label>
             </Grid>
             <br />
-            <label>
-                <span class="caption">Фотография { fileId ? `(${ fileId })` : '' }:</span><br />
-                <img width="150px" height="150px" src={filePath ? filePath : famous.photo} class="img-fluid mt-3 mb-3" alt="Фотография известного выпускника">                   
-                <input type="hidden" name="photo" value={ fileId }><br />
-                <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать другой файл' } </button>
-            </label>
+            {#if filePath}
+                <p>Предпросмотр:</p>
+                <img width="150px" height="150px" src={filePath} class="img-fluid mb-3" alt="Фотография известного выпускника"><br />   
+            {/if}
             <br />
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>

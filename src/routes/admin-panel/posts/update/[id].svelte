@@ -65,7 +65,7 @@
                     </label>
                     <br />
                     <label>
-                        <span class="caption">Изображение { fileId ? `(${ fileId })` : '' }:</span><br />
+                        <span class="caption">Изображение:</span><br />
                         <img width="150px" height="150px" src={filePath ? filePath : post.img} class="img-fluid mt-3 mb-3" alt="Изображение">                   
                         <input type="hidden" name="img" value={ fileId }><br />
                         <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>

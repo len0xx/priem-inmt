@@ -4,6 +4,7 @@ import sequelize from '../../db.js'
 class Feature extends Model<InferAttributes<Feature>, InferCreationAttributes<Feature>> {
     declare title: string
     declare description: string
+    declare page: string
 }
 
 export type FeatureI = InferAttributes<Feature>
@@ -18,6 +19,10 @@ Feature.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        page: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
     },
     {
         sequelize,

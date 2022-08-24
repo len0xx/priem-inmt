@@ -56,7 +56,7 @@
                     <input class="form-control" type="text" name="address" id="address" />
                 </label>
                 <label>
-                    <span class="caption">Изображение { fileId ? `(${ fileId })` : '' }:</span>
+                    <span class="caption">Изображение:</span>
                     <br />
                     {#if filePath}
                         <img width="150px" height="150px" src={filePath} class="img-fluid mt-3 mb-3" alt="Изображение общежития">

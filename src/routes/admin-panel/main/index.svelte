@@ -2,8 +2,8 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
-        const resFamous = await fetch('http://localhost:8080/api/admin/famous')
-        const famousStudents = (await resFamous.json()).famousStudents
+        const resGraduates = await fetch('http://localhost:8080/api/admin/graduate')
+        const graduates = (await resGraduates.json()).graduates
 
         const resPartners = await fetch('http://localhost:8080/api/admin/partner')
         const partners = (await resPartners.json()).partners
@@ -11,23 +11,23 @@
         const resCarousel = await fetch('http://localhost:8080/api/admin/carousel')
         const carouselImages = (await resCarousel.json()).images
 
-        if (resFamous.ok && resPartners.ok && resCarousel.ok) {
-            return { props: { famousStudents, partners, carouselImages } }
+        if (resGraduates.ok && resPartners.ok && resCarousel.ok) {
+            return { props: { graduates, partners, carouselImages } }
         }
     }
 </script>
 
 <script lang="ts">
     import { Grid, Graduate, Modal, Form, RoundButton, FileSelect } from '$components'
-    import type { FamousI, PartnerI, CarouselI, ModalComponent } from '../../../types'
+    import type { GraduateI, PartnerI, CarouselI, ModalComponent } from '../../../types'
 
-    export let famousStudents: FamousI[] = []
+    export let graduates: GraduateI[] = []
     export let partners: PartnerI[] = []
     export let carouselImages: CarouselI[] = []
 
-    let famousImageModal: ModalComponent = null
-    let famousImageId: number = null
-    let famousImagePath: string = null
+    let graduateImageModal: ModalComponent = null
+    let graduateImageId: number = null
+    let graduateImagePath: string = null
 
     let partnersImageModal: ModalComponent = null
     let partnersImageId: number = null
@@ -47,9 +47,9 @@
     let partnersExpanded = false
     let carouselExpanded = false
 
-    const famousImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
-        famousImageId = event.detail.id
-        famousImagePath = event.detail.path
+    const graduateImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        graduateImageId = event.detail.id
+        graduateImagePath = event.detail.path
     }
 
     const partnersImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
@@ -83,7 +83,7 @@
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
 
-<FileSelect bind:modal={ famousImageModal } on:save={ famousImageSelected } />
+<FileSelect bind:modal={ graduateImageModal } on:save={ graduateImageSelected } />
 
 <FileSelect bind:modal={ partnersImageModal } on:save={ partnersImageSelected } />
 
@@ -257,7 +257,7 @@
         <h3>Партнеры</h3>
         <Form action="/api/admin/partner" method="POST" redirect="/admin-panel/main">
             <label>
-                <span class="caption">Выберите логотип партнера { famousImageId ? `(${ famousImageId })` : '' }:</span>
+                <span class="caption">Выберите логотип партнера:</span>
                 {#if partnersImagePath}
                     <br />
                     <img width="150px" height="150px" src={partnersImagePath} class="img-fluid mt-3 mb-3" alt="Логотип партнера">
@@ -297,7 +297,7 @@
         <h3>Изображения в&nbsp;карусели</h3>
         <Form action="/api/admin/carousel" method="POST" redirect="/admin-panel/main">
             <label>
-                <span class="caption">Выберите изображение { carouselImageId ? `(${ carouselImageId })` : '' }:</span>
+                <span class="caption">Выберите изображение:</span>
                 {#if carouselImagePath}
                     <br />
                     <img width="150px" height="150px" src={carouselImagePath} class="img-fluid mt-3 mb-3" alt="Изображение в карусели">
@@ -333,18 +333,6 @@
         {:else}
             <p class="mt-3">Здесь еще нет изображений в карусели</p>
         {/if}
-        <!-- <form action="/api/admin/info/main" method="POST">
-            <div class="grid grid-2 m-grid-1">
-                <label>
-                    <span class="caption">Изображение</span><br />
-                    <input required class="form-control" type="file" name="logo" id="logo"
-                        accept="image/jpg,image/jpeg,image/png,image/webp">
-                </label>
-            </div>
-            <br />
-            <button class="btn btn-primary">Сохранить</button>
-            <button class="btn btn-success">Добавить</button>
-        </form> -->
         <br />
         <h3>Молодые специалисты</h3>
         <form action="/api/admin/info/main" method="POST">
@@ -411,7 +399,7 @@
         </form>
         <br />
         <h3>Известные выпускники</h3>
-        <Form action="/api/admin/famous" method="POST" redirect="/admin-panel/main">
+        <Form action="/api/admin/graduate" method="POST" redirect="/admin-panel/main">
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">ФИО</span><br />
@@ -425,33 +413,31 @@
                     <span class="caption">Описание</span><br />
                     <input required class="form-control" type="text" name="description">
                 </label>
+                <label>
+                    <span class="caption">Фотография:</span>
+                    <input type="hidden" name="photo" value={ graduateImageId }><br />
+                    <button type="button" class="btn btn-outline-primary" on:click={ graduateImageModal.open }> { graduateImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                </label>
             </div>
             <br />
-            <label>
-                <span class="caption">Фотография { famousImageId ? `(${ famousImageId })` : '' }:</span>
-                {#if famousImagePath}
-                    <br />
-                    <img width="150px" height="150px" src={famousImagePath} class="img-fluid mt-3 mb-3" alt="Фотография известного выпускника">   
-                {/if}
-                <input type="hidden" name="photo" value={ famousImageId }><br />
-                <button type="button" class="btn btn-outline-primary" on:click={ famousImageModal.open }> { famousImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
-            </label>
-            <br />
-            <br />
+            {#if graduateImagePath}
+                <p>Предпросмотр:</p>
+                <img width="150px" height="150px" src={graduateImagePath} class="img-fluid mb-3" alt="Фотография известного выпускника"><br />   
+            {/if}
             <button class="btn btn-primary">Создать</button>
         </Form>
         <br />
-        {#if famousStudents.length}
+        {#if graduates.length}
             <Grid m={4}>
-                {#each famousStudents as student, i (i)}
+                {#each graduates as student, i (i)}
                     {#if i < 8 || famousExpanded}
-                        <a href="/admin-panel/main/famous/update/{ student.id }">
+                        <a href="/admin-panel/main/graduate/update/{ student.id }">
                             <Graduate name={ student.name } src={ student.photo } caption={ student.description } />
                         </a>
                     {/if}
                 {/each}
             </Grid>
-            {#if !famousExpanded && famousStudents.length > 8}
+            {#if !famousExpanded && graduates.length > 8}
             <br />
             <div class="align-center">
                 <RoundButton variant="plus" size="M" on:click={() => famousExpanded = true} />

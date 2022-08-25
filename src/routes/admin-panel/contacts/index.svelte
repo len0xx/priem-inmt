@@ -144,7 +144,7 @@
                     <div>
                         <label for="img">Фотография:</label>
                         <input type="hidden" name="img" value={ responsibleImageId }><br />
-                        <button type="button" class="btn btn-outline-primary" on:click={ responsibleImageModal.open }> { responsibleImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        <button type="button" class="btn btn-outline-success" on:click={ responsibleImageModal.open }> { responsibleImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     </div>
                 </Grid>
                 <br />

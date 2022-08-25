@@ -90,7 +90,7 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Редактирование страницы магистратуры</h2>
-        <h3>Справочная информация FAQ</h3>
+        <h3>Ответы на вопросы</h3>
         <Form method="POST" action="/api/admin/question/?page=master" reset={ true } redirect="/admin-panel/master">
             <Grid m={1}>
                 <label>
@@ -105,7 +105,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <h3>Существующая справочная информация</h3>
+        <h3>Опубликованные ответы на вопросы</h3>
         {#if questions.length}
             <Grid m={3}>
                 { #each questions as question, i }
@@ -166,7 +166,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <h3>Существующие профессии</h3>
+        <h3>Опубликованные профессии</h3>
         { #if professions.length }
             <Grid m={3} s={1}>
                 { #each professions as profession, i (i) }
@@ -216,7 +216,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <h3>Существующие отзывы</h3>
+        <h3>Опубликованные отзывы</h3>
         { #if feedbacks.length }
             <Grid className="mt-5" m={3} s={1} alignItems="start">
                 <Grid m={1} alignItems="start">
@@ -274,7 +274,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <h3>Существующие перечисления</h3>
+        <h3>Опубликованные перечисления</h3>
         {#if features.length}
             <Grid m={3}>
                 {#each features as feature, i (i)}

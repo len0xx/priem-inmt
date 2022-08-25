@@ -16,7 +16,7 @@
     import { imask } from 'svelte-imask'
     import { Grid, AjaxForm, RoundButton, TipTap, Modal } from '$lib/components'
     import { DegreeLevel } from '../../../../types/enums'
-    import { redirect } from '$lib/utilities'
+    import { range, redirect } from '$lib/utilities'
     import { slide } from 'svelte/transition'
     import type { EducationalProgram, ModalComponent } from '../../../../types'
 
@@ -29,9 +29,7 @@
     export let program: EducationalProgram
     let directions = (Object.values(program.directions)).join('\n')
 
-    let feedbacksExpanded = false
-    let feedbacks = program.feedbacks
-    let feedbacksCount = Object.keys(program.feedbacks).length
+    let feedbacksCount = Object.keys(program.feedbacks).length || 1
     let mode1 = Boolean(program.educationModes.fullTime)
     let mode2 = Boolean(program.educationModes.partFullTime)
     let mode3 = Boolean(program.educationModes.partTime)
@@ -476,15 +474,16 @@
             </Grid>
             <h3>Отзывы</h3>
             <Grid m={2} ratio="1:2">
-                {#each Object.values(feedbacks) as feedback, i}
+                {#each range(1, feedbacksCount) as i}
+                    { @const feedback = program.feedbacks ? program.feedbacks[i - 1] : null}
                     <div>
                         <div>
-                            <label for="feedback_name{i + 1}">ФИО</label><br />
+                            <label for="feedback_name{i}">ФИО</label><br />
                             <input
                                 class="form-control wide"
                                 type="text"
-                                name="feedback_name{i + 1}"
-                                value={feedback.name}
+                                name="feedback_name{i}"
+                                value={feedback?.name || null}
                             />
                         </div>
                         <div>
@@ -492,48 +491,23 @@
                             <input
                                 class="form-control wide"
                                 type="text"
-                                name="feedback_caption{i + 1}"
-                                value={feedback.caption}
+                                name="feedback_caption{i}"
+                                value={feedback?.caption || null}
                             />
                         </div>
                     </div>
                     <div>
                         <label for="feedback_text{i + 1}">Текст отзыва</label><br />
-                        <textarea class="form-control" name="feedback_text{i + 1}" cols="30" rows="10">{feedback.text}</textarea>
+                        <textarea class="form-control" name="feedback_text{i}" cols="30" rows="10">{feedback?.text || null}</textarea>
                     </div>
                 {/each}
             </Grid>
-            {#if feedbacksExpanded}
-                <Grid m={2} ratio="1:2">
-                    <div>
-                        <div>
-                            <label for="feedback_name2">ФИО</label><br />
-                            <input
-                                class="form-control wide"
-                                type="text"
-                                name="feedback_name2"
-                            />
-                        </div>
-                        <div>
-                            <label for="feedback_caption2">Подпись</label><br />
-                            <input
-                                class="form-control wide"
-                                type="text"
-                                name="feedback_caption2"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label for="feedback_text2">Текст отзыва</label><br />
-                        <textarea class="form-control" name="feedback_text2" cols="30" rows="10" />
-                    </div>
-                </Grid>
-            {:else if feedbacksCount < 2}
+            { #if feedbacksCount < 2}
                 <div class="align-center">
                     <RoundButton
                         variant="plus"
                         size="M"
-                        on:click={() => (feedbacksExpanded = true)}
+                        on:click={() => (feedbacksCount++)}
                     />
                 </div>
             {/if}

@@ -95,14 +95,14 @@
                         <br />
                     {/if}
                     <input type="hidden" name="img" value={ fileId }>
-                    <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>
             </Grid>
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
         { #if dormitories.length }
-            <h3>Существующие общежития</h3>
+            <h3>Опубликованные общежития</h3>
             <Grid className="mt-3 mb-2" m={4} s={1}>
                 { #each dormitories as dormitory, i (i) }
                     <div>
@@ -223,7 +223,7 @@
                         <textarea class="form-control" name="text" id="text" cols="30" rows="4" value={ rentInfo?.text || '' } required ></textarea>
                     </label>
                 </div>
-                <div id="vs2f">
+                <div>
                     <label>
                         <span class="caption">Телефон 1:</span><br />
                         <input class="form-control" type="text" name="tel1" id="tel1" use:imask={ phoneMask } value={ rentInfo?.tel1 || '' } required />

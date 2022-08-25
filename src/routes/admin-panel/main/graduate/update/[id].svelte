@@ -74,7 +74,7 @@
                 <label>
                     <span class="caption">Фотография:</span>
                     <input type="hidden" name="photo" value={ fileId }><br />
-                    <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>
             </Grid>
             <br />

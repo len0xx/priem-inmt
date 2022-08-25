@@ -25,7 +25,7 @@
     let modal: ModalComponent = null
 
     const importPrograms = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/programs/script`, { method: 'POST' })
+        const res = await fetch('http://localhost:8080/api/admin/programs/script', { method: 'POST' })
         if (res.ok) {
             redirect('/admin-panel/programs')
         }

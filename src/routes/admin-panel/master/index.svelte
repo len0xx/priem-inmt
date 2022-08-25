@@ -173,6 +173,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">{ profession.title }</h4>
+                            <p class="card-text">{ profession.description }</p>
                             <a href="/admin-panel/master/profession/update/{ profession.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
                             <button type="button" on:click={() => updateProfessionId(profession.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>

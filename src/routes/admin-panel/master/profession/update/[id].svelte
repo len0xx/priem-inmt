@@ -13,14 +13,13 @@
 </script>
 
 <script lang="ts">
-    import { AjaxForm, Grid, Modal } from '$components'
+    import { AjaxForm, Grid } from '$components'
     import { range, redirect } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
-    import type { ProfessionI, ModalComponent } from '../../../../../types'
+    import type { ProfessionI } from '../../../../../types'
 
     export let profession: ProfessionI
 
-    let modal: ModalComponent = null
     let updateError = false
     let deleteError = false
     let errorText = ''
@@ -37,29 +36,11 @@
         updateError = true
         errorText = event.detail.error
     }
-
-    const removeProfession = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/profession/${profession.id}`, { method: 'DELETE' })
-        if (res.ok) {
-            redirect('/admin-panel/master/')
-        } else {
-            deleteError = true
-        }
-        modal.close()
-    }
 </script>
 
 <svelte:head>
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
-
-<Modal bind:this={ modal } align="center" closable={true}>
-    <p class="mb-4">Вы действительно хотите удалить эту профессию?</p>
-    <div class="buttons-row">
-        <button type="button" on:click={removeProfession} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
-    </div>
-</Modal>
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -121,7 +102,6 @@
             <br />
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
-                <button type="button" class="btn btn-outline-danger" on:click={ modal.open }>Удалить профессию</button>
                 <button type="button" on:click|preventDefault={ () => window.history.back() } class="btn btn-outline-secondary">Вернуться назад</button>
             </div>
         </AjaxForm>

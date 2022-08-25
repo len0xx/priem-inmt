@@ -11,5 +11,5 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         text: question,
         answer: answer
     })
-    return new HTTPResponse(res, HTTPStatus.CREATED, 'Вопрос и ответ успешно обновлён')
+    return new HTTPResponse(res, HTTPStatus.CREATED, 'Ответ на вопрос успешно обновлён')
 })

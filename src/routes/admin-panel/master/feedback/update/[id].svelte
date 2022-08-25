@@ -1,9 +1,10 @@
 <script lang="ts" context="module">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
 
     export const load: Load = async ({ fetch, params }) => {
         const id = params.id
-        const res = await fetch(`http://localhost:8080/api/admin/feedback/${id}`)
+        const res = await fetch(apiRoute(`admin/feedback/${id}`))
         const feedback = (await res.json()).feedback
 
         if (res.ok) {
@@ -23,7 +24,7 @@
     let modal: ModalComponent = null
 
     const removefeedback = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/feedback/${feedback.id}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/feedback/${feedback.id}`), { method: 'DELETE' })
         if (res.ok) {
             redirect('/admin-panel/feedbacks')
         }

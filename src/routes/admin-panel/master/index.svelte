@@ -1,11 +1,12 @@
 <script context="module" lang="ts">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
     
     export const load: Load = async ({ fetch }) => {
-        const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/?page=master')
-        const resProfessions = await fetch('http://localhost:8080/api/admin/profession/')
-        const resQuestions = await fetch('http://localhost:8080/api/admin/question/?page=master')
-        const resFeatures = await fetch('http://localhost:8080/api/admin/feature/?page=master')
+        const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=master'))
+        const resProfessions = await fetch(apiRoute('admin/profession/'))
+        const resQuestions = await fetch(apiRoute('admin/question/?page=master'))
+        const resFeatures = await fetch(apiRoute('admin/feature/?page=master'))
 
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const professions = (await resProfessions.json()).professions
@@ -51,7 +52,7 @@
     }
 
     const removeQuestion = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/question/${questionId}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/question/${questionId}`), { method: 'DELETE' })
         if (res.ok) {
             questions = questions.filter(question => question.id !== questionId)
             questionModal.close()
@@ -59,7 +60,7 @@
     }
 
     const removeProfession = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/profession/${professonId}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/profession/${professonId}`), { method: 'DELETE' })
         if (res.ok) {
             professions = professions.filter(profession => profession.id !== professonId)
             professionModal.close()

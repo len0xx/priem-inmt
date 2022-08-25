@@ -1,9 +1,10 @@
 <script context="module" lang="ts">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
     
     export const load: Load = async ({ fetch, params }) => {
         const questionId = params.id
-        const res = await fetch(`http://localhost:8080/api/admin/question/${questionId}`)
+        const res = await fetch(apiRoute(`admin/question/${questionId}`))
         const question = (await res.json()).question
 
         if (res.ok) {

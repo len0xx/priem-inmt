@@ -102,7 +102,7 @@
             <button class="btn btn-primary">Создать</button>
         </Form>
         { #if dormitories.length }
-            <h3>Существующие общежития</h3>
+            <h3>Опубликованные общежития</h3>
             <Grid className="mt-3 mb-2" m={4} s={1}>
                 { #each dormitories as dormitory, i (i) }
                     <div>

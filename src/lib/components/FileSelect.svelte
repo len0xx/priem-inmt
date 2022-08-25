@@ -3,6 +3,7 @@
     import { blur } from 'svelte/transition'
     import { Modal, Grid } from '.'
     import type { DocumentI, ModalComponent } from '../../types'
+    import { apiRoute } from '$lib/utilities'
 
     export let modal: ModalComponent = null
     export let selected: number = null
@@ -17,7 +18,7 @@
     $: filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
 
     const getFiles = async (page: number): Promise<DocumentI[]> => {
-        const res = await fetch(`http://localhost:8080/api/admin/media?type=media&page=${page}`)
+        const res = await fetch(apiRoute(`admin/media?type=media&page=${page}`))
         const files = (await res.json()).documents
 
         if (res.ok) {
@@ -28,7 +29,7 @@
     }
 
     const getFilesAmount = async (): Promise<number> => {
-        const res = await fetch('http://localhost:8080/api/admin/media/count')
+        const res = await fetch(apiRoute('admin/media/count'))
         const amount = (await res.json()).amount
 
         if (res.ok) {

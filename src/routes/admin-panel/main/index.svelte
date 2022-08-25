@@ -320,7 +320,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <br />
+        <h3>Существующие партнеры</h3>
         {#if partners.length}
             <Grid m={5}>
                 {#each partners as partner, i (i)}
@@ -362,7 +362,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <br />
+        <h3>Существующие изображения</h3>
         {#if carouselImages.length}
             <Grid m={3}>
                 {#each carouselImages as image, i (i)}
@@ -403,7 +403,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <br />
+        <h3>Существующие перечисления</h3>
         {#if features.length}
             <Grid m={3}>
                 {#each features as feature, i (i)}
@@ -454,7 +454,7 @@
             {/if}
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <br />
+        <h3>Существующие известные выпускники</h3>
         {#if graduates.length}
             <Grid m={4}>
                 {#each graduates as student, i (i)}

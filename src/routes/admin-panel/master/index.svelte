@@ -81,7 +81,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <br />
+        <h3>Существующая справочная информация</h3>
         {#if questions.length}
             <Grid m={3}>
                 { #each questions as question, i }
@@ -142,6 +142,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
+        <h3>Существующие профессии</h3>
         { #if professions.length }
             <Grid className="mt-5" m={3} s={1}>
                 { #each professions as profession, i (i) }
@@ -191,6 +192,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
+        <h3>Существующие отзывы</h3>
         { #if feedbacks.length }
             <Grid className="mt-5" m={3} s={1} alignItems="start">
                 <Grid m={1} alignItems="start">
@@ -248,7 +250,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <br />
+        <h3>Существующие перечисления</h3>
         {#if features.length}
             <Grid m={3}>
                 {#each features as feature, i (i)}

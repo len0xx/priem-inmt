@@ -1,9 +1,10 @@
 <script context="module" lang="ts">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
     
     export const load: Load = async ({ fetch, params }) => {
         const featureId = params.id
-        const res = await fetch(`http://localhost:8080/api/admin/feature/${featureId}`)
+        const res = await fetch(apiRoute(`admin/feature/${featureId}`))
         const feature = (await res.json()).feature
 
         if (res.ok) {
@@ -22,7 +23,7 @@
     let modal: ModalComponent = null
 
     const removeFeature = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/feature/${feature.id}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/feature/${feature.id}`), { method: 'DELETE' })
         if (res.ok) {
             redirect('/admin-panel/main')
         }

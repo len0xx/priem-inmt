@@ -1,20 +1,21 @@
 <script context="module" lang="ts">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities.js'
     
     export const load: Load = async ({ fetch }) => {
-        const resGraduates = await fetch('http://localhost:8080/api/admin/graduate')
+        const resGraduates = await fetch(apiRoute('admin/graduate'))
         const graduates = (await resGraduates.json()).graduates
 
-        const resPartners = await fetch('http://localhost:8080/api/admin/partner')
+        const resPartners = await fetch(apiRoute('admin/partner'))
         const partners = (await resPartners.json()).partners
 
-        const resCarousel = await fetch('http://localhost:8080/api/admin/carousel')
+        const resCarousel = await fetch(apiRoute('admin/carousel'))
         const carouselImages = (await resCarousel.json()).images
 
-        const resFeatures = await fetch('http://localhost:8080/api/admin/feature/?page=main')
+        const resFeatures = await fetch(apiRoute('admin/feature/?page=main'))
         const features = (await resFeatures.json()).features
 
-        const resPosts = await fetch('http://localhost:8080/api/admin/post')
+        const resPosts = await fetch(apiRoute('admin/post'))
         const posts = (await resPosts.json()).posts
 
         if (resGraduates.ok && resPartners.ok && resCarousel.ok && resFeatures.ok && resPosts.ok) {
@@ -76,7 +77,7 @@
     }
 
     const deletePost = async (id: number) => {
-        const res = await fetch(`http://localhost:8080/api/admin/post/${id}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/post/${id}`), { method: 'DELETE' })
         if (res.ok) {
             redirect('/admin-panel/posts')
         }
@@ -105,7 +106,7 @@
     }
 
     const removePartner = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/partner/${partnerId}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/partner/${partnerId}`), { method: 'DELETE' })
         if (res.ok) {
             partners = partners.filter(partner => partner.id !== partnerId)
         }
@@ -113,7 +114,7 @@
     }
 
     const removeCarouselImage = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/carousel/${carouselId}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/carousel/${carouselId}`), { method: 'DELETE' })
         if (res.ok) {
             carouselImages = carouselImages.filter(image => image.id !== carouselId)
         }

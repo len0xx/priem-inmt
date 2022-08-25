@@ -201,7 +201,7 @@
                             <img width="150px" height="150px" src={filePath} class="img-fluid mt-3 mb-3" alt="Изображение">   
                         {/if}                 
                         <input type="hidden" name="img" value={ fileId }><br />
-                        <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     </label>
                 </div>
                 <div id="vs2f">
@@ -314,7 +314,7 @@
                     <br />
                 {/if}
                 <input type="hidden" name="logo" value={ partnersImageId }><br />
-                <button type="button" class="btn btn-outline-primary" on:click={ partnersImageModal.open }> { partnersImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                <button type="button" class="btn btn-outline-success" on:click={ partnersImageModal.open }> { partnersImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
             </label>
             <br />
             <br />
@@ -356,7 +356,7 @@
                     <br />
                 {/if}
                 <input type="hidden" name="img" value={ carouselImageId }><br />
-                <button type="button" class="btn btn-outline-primary" on:click={ carouselImageModal.open }> { carouselImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                <button type="button" class="btn btn-outline-success" on:click={ carouselImageModal.open }> { carouselImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
             </label>
             <br />
             <br />
@@ -444,7 +444,7 @@
                 <label>
                     <span class="caption">Фотография:</span>
                     <input type="hidden" name="photo" value={ graduateImageId }><br />
-                    <button type="button" class="btn btn-outline-primary" on:click={ graduateImageModal.open }> { graduateImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    <button type="button" class="btn btn-outline-success" on:click={ graduateImageModal.open }> { graduateImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>
             </div>
             <br />

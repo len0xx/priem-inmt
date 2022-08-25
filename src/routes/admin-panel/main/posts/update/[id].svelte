@@ -63,7 +63,7 @@
                     <label>
                         <span class="caption">Изображение:</span>
                         <input type="hidden" name="img" value={ fileId }><br />
-                        <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     </label>
                 </div>
                 <div id="vs2f">

@@ -53,7 +53,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Образовательные программы</h2>
         <a href="/admin-panel/programs/new" class="btn btn-outline-primary">Создать новую программу</a>
-        <button type="button" class="btn btn-outline-primary" on:click={ modal.open }>Импортировать образовательные программы из файла</button>
+        <button type="button" class="btn btn-outline-success" on:click={ modal.open }>Импортировать образовательные программы из файла</button>
         <h3>Специалитет { programsSpec.length ? `(${programsSpec.length})` : '' }</h3>
         { #if programsSpec.length }
             <Grid s={1} m={2} l={3}>

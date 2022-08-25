@@ -9,8 +9,11 @@
         const resPartners = await fetch(apiRoute('admin/partner'))
         const partners = (await resPartners.json()).partners
 
-        const resCarousel = await fetch(apiRoute('admin/carousel'))
+        const resCarousel = await fetch(apiRoute('admin/carousel/?name=about'))
         const carouselImages = (await resCarousel.json()).images
+
+        const resCarouselLife = await fetch(apiRoute('admin/carousel/?name=life'))
+        const carouselLifeImages = (await resCarouselLife.json()).images
 
         const resFeatures = await fetch(apiRoute('admin/feature/?page=main'))
         const features = (await resFeatures.json()).features
@@ -18,8 +21,8 @@
         const resPosts = await fetch(apiRoute('admin/post'))
         const posts = (await resPosts.json()).posts
 
-        if (resGraduates.ok && resPartners.ok && resCarousel.ok && resFeatures.ok && resPosts.ok) {
-            return { props: { graduates, partners, carouselImages, features, posts } }
+        if (resGraduates.ok && resPartners.ok && resCarousel.ok && resCarouselLife.ok && resFeatures.ok && resPosts.ok) {
+            return { props: { graduates, partners, carouselImages, carouselLifeImages, features, posts } }
         }
     }
 </script>
@@ -35,6 +38,7 @@
     export let graduates: GraduateI[] = []
     export let partners: PartnerI[] = []
     export let carouselImages: CarouselI[] = []
+    export let carouselLifeImages: CarouselI[] = []
     export let features: FeatureI[] = []
 
     let graduateImageModal: ModalComponent = null
@@ -58,12 +62,14 @@
     let famousExpanded = false
     let partnersExpanded = false
     let carouselExpanded = false
+    let carouselLifeExpanded = false
     let featuresExpanded = false
 
     let fileModal: ModalComponent = null
     let fileId: number = null
     let filePath: string = null
-
+    
+    let carouselName = 'about'
     let links = 1
     let deleteId = 0
     let modal: ModalComponent = null
@@ -117,6 +123,7 @@
         const res = await fetch(apiRoute(`admin/carousel/${carouselId}`), { method: 'DELETE' })
         if (res.ok) {
             carouselImages = carouselImages.filter(image => image.id !== carouselId)
+            carouselLifeImages = carouselLifeImages.filter(image => image.id !== carouselId)
         }
         carouselModal.close()
     }
@@ -349,21 +356,30 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Изображения в&nbsp;карусели</h3>
         <Form action="/api/admin/carousel" method="POST" redirect="/admin-panel/main">
-            <label>
-                <span class="caption">Добавить новое изображение:</span>
-                {#if carouselImagePath}
-                    <br />
-                    <img width="150px" height="150px" src={carouselImagePath} class="img-fluid mt-3 mb-3" alt="Изображение в карусели">
-                    <br />
-                {/if}
-                <input type="hidden" name="img" value={ carouselImageId }><br />
-                <button type="button" class="btn btn-outline-success" on:click={ carouselImageModal.open }> { carouselImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
-            </label>
+            <Grid m={2}>
+                <label>
+                    <span class="caption">Выберите карусель:</span>
+                    <select class="wide form-select" name="name" bind:value={ carouselName }>
+                        <option value="about">Об институте</option>
+                        <option value="life">Студенческая жизнь</option>
+                    </select>
+                </label>
+                <label>
+                    <span class="caption">Добавить новое изображение:</span>
+                    <input type="hidden" name="img" value={ carouselImageId }><br />
+                    <button type="button" class="btn btn-outline-success" on:click={ carouselImageModal.open }> { carouselImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                </label>
+            </Grid>
             <br />
-            <br />
+            {#if carouselImagePath}
+                <p>Предпросмотр:</p>
+                <img width="150px" height="150px" src={carouselImagePath} class="img-fluid" alt="Изображение в карусели">
+                <br />
+                <br />
+            {/if}
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <h3>Опубликованные изображения</h3>
+        <h3>Изображения в карусели "Об инстиуте":</h3>
         {#if carouselImages.length}
             <Grid m={3}>
                 {#each carouselImages as image, i (i)}
@@ -381,6 +397,29 @@
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => carouselExpanded = true} />
+                </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет изображений в карусели</p>
+        {/if}
+        <h3>Изображения в карусели "Студенческая жизнь":</h3>
+        {#if carouselLifeImages.length}
+            <Grid m={3}>
+                {#each carouselLifeImages as image, i (i)}
+                    {#if i < 6 || carouselLifeExpanded}
+                        <div class="card">
+                            <img src={image.img} class="img-fluid card-img-top" alt="Изображение в карусели">
+                            <div class="card-body">
+                                <button type="button" class="btn btn-outline-danger" on:click={() => {carouselId = image.id; carouselModal.open()} }>Удалить</button>
+                            </div>
+                        </div>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !carouselLifeExpanded && carouselLifeImages.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => carouselLifeExpanded = true} />
                 </div>
             {/if}
         {:else}

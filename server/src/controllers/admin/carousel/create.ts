@@ -4,17 +4,26 @@ import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
+enum Name {
+    About = 'about',
+    Life = 'life',
+}
+
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
-    const { img } = req.body
+    const { img, name } = req.body
 
-    let imgURL = undefined
-    if (img) {
-        const file = await documentService.getById(+img)
-        imgURL = file.src
+    if (name === Name.About || name === Name.Life) {
+        let imgURL = undefined
+        if (img) {
+            const file = await documentService.getById(+img)
+            imgURL = file.src
+        }
+
+        await carouselService.create({
+            img: imgURL,
+            name: name
+        })
+        return new HTTPResponse(res, HTTPStatus.CREATED, 'Изображение в карусели успешно создано')
     }
-
-    await carouselService.create({
-        img: imgURL
-    })
-    return new HTTPResponse(res, HTTPStatus.CREATED, 'Изображение в карусели успешно создано')
+    return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Неправильный параметр запроса')
 })

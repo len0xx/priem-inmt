@@ -13,8 +13,6 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
 
     const page = req.query.page
 
-    console.log(page, Page.Bachelor)
-
     if (page === Page.Bachelor || page === Page.Master) {
         await questionSerivce.create({
             text: question,

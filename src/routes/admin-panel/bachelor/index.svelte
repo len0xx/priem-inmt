@@ -43,7 +43,6 @@
         const res = await fetch(apiRoute(`admin/question/${questionId}`), { method: 'DELETE' })
         if (res.ok) {
             questions = questions.filter(question => question.id !== questionId)
-            modal.close()
         }
         modal.close()
     }

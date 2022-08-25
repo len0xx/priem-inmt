@@ -28,7 +28,7 @@
     const removeDormitory = async () => {
         const res = await fetch(apiRoute(`admin/dormitory/${dormitory.id}`), { method: 'DELETE' })
         if (res.ok) {
-            redirect('/admin-panel/dormitories')
+            redirect('/admin-panel/accommodation')
         }
         modal.close()
     }
@@ -57,7 +57,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Общежития</h2>
         <h3>Редактировать общежитие</h3>
-        <Form action="/api/admin/dormitory/{ dormitory.id }" method="PATCH" reset={false} redirect="/admin-panel/dormitories">
+        <Form action="/api/admin/dormitory/{ dormitory.id }" method="PATCH" reset={false} redirect="/admin-panel/accommodation">
             <Grid m={2} s={1}>
                 <div>
                     <label>

@@ -3,25 +3,29 @@
     import { apiRoute } from '$lib/utilities'
     
     export const load: Load = async ({ fetch }) => {
+        const resDocuments = await fetch(apiRoute('admin/documents?type=document'))
         const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
         const resOpportunities = await fetch(apiRoute('admin/opportunity'))
         const resQuestions = await fetch(apiRoute('admin/question/?page=bachelor'))
         const resFeatures = await fetch(apiRoute('admin/feature/?page=bachelor'))
     
+        const documents = (await resDocuments.json()).documents
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const opportunities = (await resOpportunities.json()).opportunities
         const questions = (await resQuestions.json()).questions
         const features = (await resFeatures.json()).features
 
-        if (resFeedbacks.ok && resQuestions.ok && resFeatures.ok && resOpportunities.ok) {
-            return { props: { feedbacks, questions, features, opportunities } }
+        if (resDocuments.ok && resFeedbacks.ok && resQuestions.ok && resFeatures.ok && resOpportunities.ok) {
+            return { props: { documents, feedbacks, questions, features, opportunities } }
         }
     }
 </script>
 <script lang="ts">
-    import { Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton } from '$components'
-    import type { FeatureI, OpportunityI, FeedbackI, QuestionI, ModalComponent } from '../../../types'
+    import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton } from '$components'
+    import type { DocumentI, FeatureI, OpportunityI, FeedbackI, QuestionI, ModalComponent } from '../../../types'
+    import { slide } from 'svelte/transition'
 
+    export let documents: DocumentI[] = []
     export let questions: QuestionI[] = []
     export let feedbacks: FeedbackI[] = []
     export let features: FeatureI[] = []
@@ -29,23 +33,38 @@
 
     // const feedbacksBachelor = feedbacks.filter(feedback => feedback.level === 'Бакалавриат' || feedback.level === 'Специалитет')
 
-    let modal: ModalComponent = null
+    let modalQuestion: ModalComponent = null
+    let modalDocument: ModalComponent = null
     let questionId: number
+    let documentId: number
 
     let featuresExpanded = false
 
     const updateQuestionId = (id: number) => {
         questionId = id
-        modal.open()
+        modalQuestion.open()
     }
 
     const removeQuestion = async () => {
         const res = await fetch(apiRoute(`admin/question/${questionId}`), { method: 'DELETE' })
         if (res.ok) {
             questions = questions.filter(question => question.id !== questionId)
-            modal.close()
+            modalQuestion.close()
         }
-        modal.close()
+        modalQuestion.close()
+    }
+
+    const deleteDocument = async () => {
+        const res = await fetch(apiRoute(`admin/documents/${documentId}`), { method: 'DELETE' })
+        if (res.ok) {
+            documents = documents.filter(doc => doc.id !== documentId)
+        }
+        modalDocument.close()
+    }
+
+    const handleSuccess = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
+        const doc = event.detail.document
+        documents = [ ...documents, doc ]
     }
 </script>
 
@@ -53,11 +72,18 @@
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
 
-<Modal bind:this={ modal } align="center" closable={true}>
+<Modal bind:this={ modalDocument } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить этот документ?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={deleteDocument} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modalDocument.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+<Modal bind:this={ modalQuestion } align="center" closable={true}>
     <p class="mb-4">Вы действительно хотите удалить этот вопрос FAQ?</p>
     <div class="buttons-row">
         <button type="button" on:click={removeQuestion} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
+        <button type="button" on:click={modalQuestion.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -243,6 +269,40 @@
         {:else}
             <p class="mt-3">Здесь еще нет перечислений</p>
         {/if}
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Загрузка документов</h3>
+        <Form action="/api/admin/documents?type=document" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
+            <label class="wide">
+                <span class="form-label">Название документа</span>
+                <input type="text" class="form-control wide" placeholder="Название" name="title" required />
+            </label>
+            <br />
+            <br />
+            <Grid m={3}>
+                <label>
+                    <span class="caption">Документ</span><br />
+                    <input required class="form-control" type="file" name="file" id="file" />
+                </label>
+            </Grid>
+            <div class="buttons-row">
+                <button class="btn btn-primary">Отправить</button>
+            </div>
+        </Form>
+        { #if documents.length }
+            <h3>Загруженные документы</h3>
+            { #each documents as document, i (i) }
+                { @const parts = document.src.split('.') }
+                { @const extensionLength = parts.length }
+                { @const extension = extensionLength > 1 ? parts[parts.length - 1] : '' }
+
+                <div class="document-row" transition:slide|local={{ duration: 200 }}>
+                    <Document filename={ document.title } { extension } link={ document.src } />
+                    <button type="button" on:click={() => { documentId = document.id; modalDocument.open() } } class="btn btn-outline-danger btn-sm">Удалить</button>
+                </div>
+            { /each }
+        { /if }
     </div>
 </section>
 <style>

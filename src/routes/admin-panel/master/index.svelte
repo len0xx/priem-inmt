@@ -30,6 +30,8 @@
     export let features: FeatureI[] = []
 
     let featuresExpanded = false
+    let questionsExpanded = false
+    let professionsExpanded = false
 
     let questionModal: ModalComponent = null
     let professionModal: ModalComponent = null
@@ -109,18 +111,26 @@
         <h3>Опубликованные ответы на вопросы</h3>
         {#if questions.length}
             <Grid m={3}>
-                { #each questions as question, i }
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">{ question.text }</h4>
-                            <a href="/admin-panel/master/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                            <button type="button" on:click={() => updateQuestionId(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                {#each questions as question, i (i)}
+                    {#if i < 6 || questionsExpanded}
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">{ question.text }</h4>
+                                <a href="/admin-panel/master/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                                <button type="button" on:click={() => updateQuestionId(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                            </div>
                         </div>
-                    </div>
-                { /each }
+                    {/if}
+                {/each}
             </Grid>
+            {#if !questionsExpanded && questions.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => questionsExpanded = true} />
+                </div>
+            {/if}
         {:else}
-            <p>Здесь ещё нет созданных вопросов</p>
+            <p class="mt-3">Здесь еще нет созданных вопросов</p>
         {/if}
     </div>
     <br />
@@ -168,22 +178,30 @@
             <button class="btn btn-primary">Создать</button>
         </Form>
         <h3>Опубликованные профессии</h3>
-        { #if professions.length }
+        {#if professions.length}
             <Grid m={3} s={1}>
-                { #each professions as profession, i (i) }
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">{ profession.title }</h4>
-                            <p class="card-text">{ profession.description }</p>
-                            <a href="/admin-panel/master/profession/update/{ profession.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                            <button type="button" on:click={() => updateProfessionId(profession.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                {#each professions as profession, i (i)}
+                    {#if i < 6 || professionsExpanded}
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">{ profession.title }</h4>
+                                <p class="card-text">{ profession.description }</p>
+                                <a href="/admin-panel/master/profession/update/{ profession.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                                <button type="button" on:click={() => updateProfessionId(profession.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                            </div>
                         </div>
-                    </div>
-                { /each }
+                    {/if}
+                {/each}
             </Grid>
-        { :else }
+            {#if !professionsExpanded && professions.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => professionsExpanded = true} />
+                </div>
+            {/if}
+        {:else}
             <p class="mt-3">Здесь еще нет профессий</p>
-        { /if }
+        {/if}
     </div>
     <br />
     <div class="white-block-wide">
@@ -282,7 +300,11 @@
                 {#each features as feature, i (i)}
                     {#if i < 6 || featuresExpanded}
                         <a href="/admin-panel/master/feature/update/{ feature.id }">
-                            <Benefit num={feature.title} caption={feature.description} />
+                            <div class="card">
+                                <div class="card-body">
+                                    <Benefit num={feature.title} caption={feature.description} />
+                                </div>
+                            </div>
                         </a>
                     {/if}
                 {/each}

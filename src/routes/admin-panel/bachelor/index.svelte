@@ -37,6 +37,9 @@
     let documentId: number
 
     let featuresExpanded = false
+    let questionsExpanded = false
+    let opportunitiesExpanded = false
+    let documentsExpanded = false
 
     const updateQuestionId = (id: number) => {
         questionId = id
@@ -105,18 +108,26 @@
         <h3>Опубликованные ответы на вопросы</h3>
         {#if questions.length}
             <Grid m={3}>
-                { #each questions as question, i (i) }
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">{ question.text }</h4>
-                            <a href="/admin-panel/bachelor/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                            <button type="button" on:click={() => updateQuestionId(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                {#each questions as question, i (i)}
+                    {#if i < 6 || questionsExpanded}
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">{ question.text }</h4>
+                                <a href="/admin-panel/bachelor/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                                <button type="button" on:click={() => updateQuestionId(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                            </div>
                         </div>
-                    </div>
-                { /each }
+                    {/if}
+                {/each}
             </Grid>
+            {#if !questionsExpanded && questions.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => questionsExpanded = true} />
+                </div>
+            {/if}
         {:else}
-            <p class="mt-3">Здесь ещё нет созданных вопросов</p>
+            <p class="mt-3">Здесь еще нет созданных вопросов</p>
         {/if}
     </div>
     <br />
@@ -212,23 +223,33 @@
             <button class="btn btn-primary">Создать</button>
         </Form>
         <h3>Опубликованные возможности</h3>
-        { #if opportunities.length }
-            <Grid className="mt-5" m={4} s={1}>
-                { #each opportunities as opportunity, i (i) }
-                    <div>
+        {#if opportunities.length}
+            <Grid m={4} s={1}>
+                {#each opportunities as opportunity, i (i)}
+                    {#if i < 8 || opportunitiesExpanded}
                         <a href="/admin-panel/bachelor/opportunity/update/{ opportunity.id }">
-                            <div class="align-center" style:min-width="200px">
-                                <Icon name="blue-star" width={40} height={40} alt="star" />
-                                <Text className="semi-bold subtitle">{ opportunity.title }</Text>
-                                <Text className="semi-bold small" opacity={0.6}>{ opportunity.description }</Text>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="align-center" style:min-width="200px">
+                                        <Icon name="blue-star" width={40} height={40} alt="star" />
+                                        <Text className="semi-bold subtitle">{ opportunity.title }</Text>
+                                        <Text className="semi-bold small" opacity={0.6}>{ opportunity.description }</Text>
+                                    </div>
+                                </div>
                             </div>
                         </a>
-                    </div>
-                { /each }
+                    {/if}
+                {/each}
             </Grid>
-        { :else }
+            {#if !opportunitiesExpanded && opportunities.length > 8}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => opportunitiesExpanded = true} />
+                </div>
+            {/if}
+        {:else}
             <p class="mt-3">Здесь еще нет возможностей</p>
-        { /if }
+        {/if}
     </div>
     <br />
     <div class="white-block-wide">
@@ -288,19 +309,29 @@
                 <button class="btn btn-primary">Отправить</button>
             </div>
         </Form>
-        { #if documents.length }
-            <h3>Загруженные документы</h3>
-            { #each documents as document, i (i) }
-                { @const parts = document.src.split('.') }
-                { @const extensionLength = parts.length }
-                { @const extension = extensionLength > 1 ? parts[parts.length - 1] : '' }
+        <h3>Загруженные документы</h3>
+        {#if documents.length}
+            {#each documents as document, i (i)}
+                {#if i < 5 || documentsExpanded}
+                    { @const parts = document.src.split('.') }
+                    { @const extensionLength = parts.length }
+                    { @const extension = extensionLength > 1 ? parts[parts.length - 1] : '' }
 
-                <div class="document-row" transition:slide|local={{ duration: 200 }}>
-                    <Document filename={ document.title } { extension } link={ document.src } />
-                    <button type="button" on:click={() => { documentId = document.id; modalDocument.open() } } class="btn btn-outline-danger btn-sm">Удалить</button>
+                    <div class="document-row" transition:slide|local={{ duration: 200 }}>
+                        <Document filename={ document.title } { extension } link={ document.src } />
+                        <button type="button" on:click={() => { documentId = document.id; modalDocument.open() } } class="btn btn-outline-danger btn-sm">Удалить</button>
+                    </div>
+                {/if}
+            {/each}
+            {#if !documentsExpanded && documents.length > 5}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => documentsExpanded = true} />
                 </div>
-            { /each }
-        { /if }
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет документов</p>
+        {/if}
     </div>
 </section>
 <style>

@@ -30,7 +30,7 @@
 <script lang="ts">
     import { Grid, Graduate, Benefit, Modal, Form, RoundButton, FileSelect } from '$components'
     import { slide, blur } from 'svelte/transition'
-    import { range, redirect } from '$lib/utilities.js'
+    import { range } from '$lib/utilities.js'
     import type { GraduateI, PartnerI, PostI, CarouselI, ModalComponent, FeatureI } from '../../../types'
 
     export let posts: PostI[]
@@ -64,6 +64,7 @@
     let carouselExpanded = false
     let carouselLifeExpanded = false
     let featuresExpanded = false
+    let postsExpanded = false
 
     let fileModal: ModalComponent = null
     let fileId: number = null
@@ -77,14 +78,10 @@
 
     const removeLink = () => links--
 
-    const handleSuccess = () => {
-        redirect('/admin-panel/posts')
-    }
-
     const deletePost = async (id: number) => {
         const res = await fetch(apiRoute(`admin/post/${id}`), { method: 'DELETE' })
         if (res.ok) {
-            redirect('/admin-panel/posts')
+            posts = posts.filter(post => post.id !== id)
         }
         modal.close()
     }
@@ -187,7 +184,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Публикации</h3>
-        <Form action="/api/admin/post" method="POST" on:success={ handleSuccess }>
+        <Form action="/api/admin/post" method="POST" redirect="/admin-panel/main">
             <div class="grid grid-2 m-grid-1">
                 <div>
                     <label>
@@ -232,9 +229,10 @@
             <button class="btn btn-primary">Создать</button>
         </Form>
         <h3>Опубликованные публикации</h3>
-        <Grid l={3} m={2} s={1}>
-            { #each posts as post, i (i) }
-                <span>
+        {#if posts.length}
+            <Grid l={3} m={2} s={1}>
+                {#each posts as post, i (i)}
+                    {#if i < 6 || postsExpanded}
                     <div class="card">
                         {#if post.img}
                             <img src={post.img} class="img-fluid card-img-top" alt="Изображение">                                              
@@ -246,9 +244,18 @@
                             <button class="btn btn-outline-danger btn-sm" on:click={ () => { deleteId = post.id; modal.open() } }>Удалить</button>
                         </div>
                     </div>
-                </span>
-            { /each }
-        </Grid>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !postsExpanded && posts.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => postsExpanded = true} />
+                </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет публикаций</p>
+        {/if}
     </div>
     <br />
     <div class="white-block-wide">

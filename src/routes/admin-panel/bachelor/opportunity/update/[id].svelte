@@ -1,9 +1,10 @@
 <script lang="ts" context="module">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
 
     export const load: Load = async ({ fetch, params }) => {
         const id = params.id
-        const res = await fetch(`http://localhost:8080/api/admin/opportunity/${id}`)
+        const res = await fetch(apiRoute(`admin/opportunity/${id}`))
         const opportunity = (await res.json()).opportunity
 
         if (res.ok) {
@@ -22,7 +23,7 @@
     let modal: ModalComponent = null
 
     const removeOpportunity = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/opportunity/${opportunity.id}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/opportunity/${opportunity.id}`), { method: 'DELETE' })
         if (res.ok) {
             redirect('/admin-panel/bachelor')
         }

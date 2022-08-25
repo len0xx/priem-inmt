@@ -60,7 +60,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         const name = requestData[`feedback_name${i}`]
         const caption = requestData[`feedback_caption${i}`]
         const text = requestData[`feedback_text${i}`]
-        if (name !== undefined && caption !== undefined && text !== undefined) {
+        if (name && caption && text) {
             feedbacks[i - 1] = {
                 name: name,
                 caption: caption,

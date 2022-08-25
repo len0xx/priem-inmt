@@ -118,63 +118,63 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Ответственные лица института</h3>
         { #if responsibles.length < 10 }
-        <Form method="POST" action="/api/admin/responsible" reset={ true } redirect="/admin-panel/contacts">
-            <Grid m={2}>
-                <div>
-                    <label for="name">ФИО ответственного лица</label><br />
-                    <input class="form-control wide" type="text" name="name" required />
-                </div>
-                <div>
-                    <label for="label">Подпись</label><br />
-                    <input class="form-control wide" type="text" name="label" required />
-                </div>
-                <div>
-                    <label for="phone">Номер телефона</label><br />
-                    <input
-                        class="form-control wide"
-                        type="text" 
-                        use:imask={ phoneMask }
-                        name="phone" required 
-                    />
-                </div>
-                <div>
-                    <label for="email">Адрес электронной почты</label><br />
-                    <input class="form-control wide" type="email" name="email" required />
-                </div>
-                <div>
-                    <label for="img">Фотография:</label>
-                    <input type="hidden" name="img" value={ responsibleImageId }><br />
-                    <button type="button" class="btn btn-outline-primary" on:click={ responsibleImageModal.open }> { responsibleImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
-                </div>
-            </Grid>
-            <br />
-            {#if responsibleImagePath}
-                <p>Предпросмотр:</p>
-                <img width="150px" height="150px" src={responsibleImagePath} class="img-fluid" alt="Фотография ответственного лица"><br />   
-            {/if}
-            <button class="btn btn-primary">Создать</button>
-        </Form>
+            <Form method="POST" action="/api/admin/responsible" reset={ true } redirect="/admin-panel/contacts">
+                <Grid m={2}>
+                    <div>
+                        <label for="name">ФИО ответственного лица</label><br />
+                        <input class="form-control wide" type="text" name="name" required />
+                    </div>
+                    <div>
+                        <label for="label">Подпись</label><br />
+                        <input class="form-control wide" type="text" name="label" required />
+                    </div>
+                    <div>
+                        <label for="phone">Номер телефона</label><br />
+                        <input
+                            class="form-control wide"
+                            type="text" 
+                            use:imask={ phoneMask }
+                            name="phone" required 
+                        />
+                    </div>
+                    <div>
+                        <label for="email">Адрес электронной почты</label><br />
+                        <input class="form-control wide" type="email" name="email" required />
+                    </div>
+                    <div>
+                        <label for="img">Фотография:</label>
+                        <input type="hidden" name="img" value={ responsibleImageId }><br />
+                        <button type="button" class="btn btn-outline-success" on:click={ responsibleImageModal.open }> { responsibleImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    </div>
+                </Grid>
+                <br />
+                {#if responsibleImagePath}
+                    <p>Предпросмотр:</p>
+                    <img width="150px" height="150px" src={responsibleImagePath} class="img-fluid" alt="Фотография ответственного лица"><br />   
+                {/if}
+                <button class="btn btn-primary">Создать</button>
+            </Form>
         { /if }
         <h4>Созданные ответственные лица</h4>
         {#if responsibles.length}
-        <Grid m={4}>
-            {#each responsibles as responsible, i (i)}
-                {#if i < 8 || responsiblesExpanded}
-                    <a href="/admin-panel/contacts/responsible/update/{ responsible.id }">
-                        <Graduate name={ responsible.name } src={ responsible.img } caption={ responsible.label } />
-                    </a>
-                {/if}
-            {/each}
-        </Grid>
-        {#if !responsiblesExpanded && responsibles.length > 8}
-            <br />
-            <div class="align-center">
-                <RoundButton variant="plus" size="M" on:click={() => responsiblesExpanded = true} />
-            </div>
+            <Grid m={4}>
+                {#each responsibles as responsible, i (i)}
+                    {#if i < 8 || responsiblesExpanded}
+                        <a href="/admin-panel/contacts/responsible/update/{ responsible.id }">
+                            <Graduate name={ responsible.name } src={ responsible.img } caption={ responsible.label } />
+                        </a>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !responsiblesExpanded && responsibles.length > 8}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => responsiblesExpanded = true} />
+                </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет известных выпускников</p>
         {/if}
-    {:else}
-        <p class="mt-3">Здесь еще нет известных выпускников</p>
-    {/if}
     </div>
 </section>
 

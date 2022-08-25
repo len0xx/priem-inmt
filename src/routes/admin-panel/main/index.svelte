@@ -201,7 +201,7 @@
                             <img width="150px" height="150px" src={filePath} class="img-fluid mt-3 mb-3" alt="Изображение">   
                         {/if}                 
                         <input type="hidden" name="img" value={ fileId }><br />
-                        <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     </label>
                 </div>
                 <div id="vs2f">
@@ -224,7 +224,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <h3>Существующие публикации</h3>
+        <h3>Опубликованные публикации</h3>
         <Grid l={3} m={2} s={1}>
             { #each posts as post, i (i) }
                 <span>
@@ -314,13 +314,13 @@
                     <br />
                 {/if}
                 <input type="hidden" name="logo" value={ partnersImageId }><br />
-                <button type="button" class="btn btn-outline-primary" on:click={ partnersImageModal.open }> { partnersImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                <button type="button" class="btn btn-outline-success" on:click={ partnersImageModal.open }> { partnersImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
             </label>
             <br />
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <br />
+        <h3>Опубликованные партнеры</h3>
         {#if partners.length}
             <Grid m={5}>
                 {#each partners as partner, i (i)}
@@ -356,13 +356,13 @@
                     <br />
                 {/if}
                 <input type="hidden" name="img" value={ carouselImageId }><br />
-                <button type="button" class="btn btn-outline-primary" on:click={ carouselImageModal.open }> { carouselImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                <button type="button" class="btn btn-outline-success" on:click={ carouselImageModal.open }> { carouselImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
             </label>
             <br />
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <br />
+        <h3>Опубликованные изображения</h3>
         {#if carouselImages.length}
             <Grid m={3}>
                 {#each carouselImages as image, i (i)}
@@ -403,7 +403,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <br />
+        <h3>Опубликованные перечисления</h3>
         {#if features.length}
             <Grid m={3}>
                 {#each features as feature, i (i)}
@@ -444,7 +444,7 @@
                 <label>
                     <span class="caption">Фотография:</span>
                     <input type="hidden" name="photo" value={ graduateImageId }><br />
-                    <button type="button" class="btn btn-outline-primary" on:click={ graduateImageModal.open }> { graduateImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    <button type="button" class="btn btn-outline-success" on:click={ graduateImageModal.open }> { graduateImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>
             </div>
             <br />
@@ -454,7 +454,7 @@
             {/if}
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <br />
+        <h3>Опубликованные известные выпускники</h3>
         {#if graduates.length}
             <Grid m={4}>
                 {#each graduates as student, i (i)}

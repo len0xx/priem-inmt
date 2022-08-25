@@ -13,24 +13,47 @@
 </script>
 
 <script lang="ts">
-    import { Grid, Card } from '$components'
-    import type { EducationalProgram } from '../../../types'
+    import { Grid, Card, Modal } from '$components'
+    import type { EducationalProgram, ModalComponent } from '../../../types'
+    import { redirect } from '$lib/utilities'
 
     export let programs: EducationalProgram[]
 
     const programsSpec = programs.filter(program => program.degree == 'Специалитет')
     const programsBach = programs.filter(program => program.degree == 'Бакалавриат')
     const programsMast = programs.filter(program => program.degree == 'Магистратура')
+    let modal: ModalComponent = null
+
+    const importPrograms = async () => {
+        const res = await fetch(`http://localhost:8080/api/admin/programs/script`, { method: 'POST' })
+        if (res.ok) {
+            redirect('/admin-panel/programs')
+        }
+
+        modal.close()
+    }
 </script>
 
 <svelte:head>
     <title>Образовательные программы</title>
 </svelte:head>
 
+<Modal bind:this={ modal } align="center" closable={true}>
+    <p class="mb-4">
+        Вы уверены, что хотите произвести импорт программ из файла? <br />
+        После этого действия будет создано более 30 образовательных программ. Удалить их можно будет только вручную
+    </p>
+    <div class="buttons-row">
+        <button type="button" on:click={ importPrograms } class="btn btn-success">Произвести импорт</button>
+        <button type="button" on:click={ modal.close } class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Образовательные программы</h2>
-        <a href="/admin-panel/programs/new"><button type="button" class="btn btn-outline-primary">Создать новую программу</button></a>
+        <a href="/admin-panel/programs/new" class="btn btn-outline-primary">Создать новую программу</a>
+        <button type="button" class="btn btn-outline-success" on:click={ modal.open }>Импортировать образовательные программы из файла</button>
         <h3>Специалитет { programsSpec.length ? `(${programsSpec.length})` : '' }</h3>
         { #if programsSpec.length }
             <Grid s={1} m={2} l={3}>

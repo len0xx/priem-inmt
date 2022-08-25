@@ -63,7 +63,7 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Редактирование страницы бакалавриата</h2>
-        <h3>Справочная информация FAQ</h3>
+        <h3>Ответы на вопросы</h3>
         <Form method="POST" action="/api/admin/question/?page=bachelor" redirect="/admin-panel/bachelor">
             <Grid m={1}>
                 <label>
@@ -77,7 +77,7 @@
             </Grid>
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <br />
+        <h3>Опубликованные ответы на вопросы</h3>
         {#if questions.length}
             <Grid m={3}>
                 { #each questions as question, i (i) }
@@ -127,6 +127,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
+        <h3>Опубликованные отзывы</h3>
         { #if feedbacks.length }
             <Grid className="mt-5" m={3} s={1} alignItems="start">
                 <Grid m={1} alignItems="start">
@@ -185,6 +186,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
+        <h3>Опубликованные возможности</h3>
         { #if opportunities.length }
             <Grid className="mt-5" m={4} s={1}>
                 { #each opportunities as opportunity, i (i) }
@@ -220,7 +222,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <br />
+        <h3>Опубликованные перечисления</h3>
         {#if features.length}
             <Grid m={3}>
                 {#each features as feature, i (i)}

@@ -3,7 +3,7 @@
     import { apiRoute } from '$lib/utilities'
     
     export const load: Load = async ({ fetch }) => {
-        const resDocuments = await fetch(apiRoute('admin/documents?type=document'))
+        const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor'))
         const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
         const resOpportunities = await fetch(apiRoute('admin/opportunity'))
         const resQuestions = await fetch(apiRoute('admin/question/?page=bachelor'))
@@ -30,8 +30,6 @@
     export let feedbacks: FeedbackI[] = []
     export let features: FeatureI[] = []
     export let opportunities: OpportunityI[] = []
-
-    // const feedbacksBachelor = feedbacks.filter(feedback => feedback.level === 'Бакалавриат' || feedback.level === 'Специалитет')
 
     let modalQuestion: ModalComponent = null
     let modalDocument: ModalComponent = null
@@ -78,6 +76,7 @@
         <button type="button" on:click={modalDocument.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
+
 <Modal bind:this={ modalQuestion } align="center" closable={true}>
     <p class="mb-4">Вы действительно хотите удалить этот вопрос FAQ?</p>
     <div class="buttons-row">
@@ -272,7 +271,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Загрузка документов</h3>
-        <Form action="/api/admin/documents?type=document" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
+        <Form action="/api/admin/documents?type=docBachelor" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
             <label class="wide">
                 <span class="form-label">Название документа</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />

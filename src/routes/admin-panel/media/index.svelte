@@ -1,8 +1,9 @@
 <script lang="ts" context="module">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
 
     export const load: Load = async ({ fetch }) => {
-        const res = await fetch('http://localhost:8080/api/admin/media?type=media')
+        const res = await fetch(apiRoute('admin/media?type=media'))
         const files = (await res.json()).documents
 
         if (res.ok) {
@@ -27,7 +28,7 @@
     }
 
     const deleteDocument = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/media/${deleteId}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/media/${deleteId}`), { method: 'DELETE' })
         if (res.ok) {
             files = files.filter(doc => doc.id !== deleteId)
         }

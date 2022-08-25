@@ -142,7 +142,7 @@
 </Modal>
 
 <Modal bind:this={ partnerModal } align="center" closable={true}>
-    <p class="mb-4">Вы действительно хотите удалить этого партнера института?</p>
+    <p class="mb-4">Вы действительно хотите удалить этот логотип партнёра?</p>
     <div class="buttons-row">
         <button type="button" on:click={removePartner} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={() => partnerModal.close()} class="btn btn-secondary">Отмена</button>
@@ -307,7 +307,7 @@
         <h3 class="no-top-margin">Партнеры</h3>
         <Form action="/api/admin/partner" method="POST" redirect="/admin-panel/main">
             <label>
-                <span class="caption">Выберите логотип партнера:</span>
+                <span class="caption">Добавить новый логотип партнёра:</span>
                 {#if partnersImagePath}
                     <br />
                     <img width="150px" height="150px" src={partnersImagePath} class="img-fluid mt-3 mb-3" alt="Логотип партнера">
@@ -349,7 +349,7 @@
         <h3 class="no-top-margin">Изображения в&nbsp;карусели</h3>
         <Form action="/api/admin/carousel" method="POST" redirect="/admin-panel/main">
             <label>
-                <span class="caption">Выберите изображение:</span>
+                <span class="caption">Добавить новое изображение:</span>
                 {#if carouselImagePath}
                     <br />
                     <img width="150px" height="150px" src={carouselImagePath} class="img-fluid mt-3 mb-3" alt="Изображение в карусели">

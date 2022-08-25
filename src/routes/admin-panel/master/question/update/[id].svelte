@@ -51,8 +51,10 @@
                 </label>
             </Grid>
             <br />
-            <br />
-            <button class="btn btn-primary">Сохранить</button>
+            <div class="buttons-row">
+                <button class="btn btn-primary">Сохранить</button>
+                <button type="button" on:click|preventDefault={ () => window.history.back() } class="btn btn-outline-secondary">Вернуться назад</button>
+            </div>
         </AjaxForm>
         <div class="alerts mt-4">
             {#if updateError}

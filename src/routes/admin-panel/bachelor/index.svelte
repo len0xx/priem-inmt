@@ -62,7 +62,7 @@
 
 <section class="main-content">
     <div class="white-block-wide">
-        <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
+        <h2 class="no-top-margin">Редактирование страницы бакалавриата</h2>
         <h3>Справочная информация FAQ</h3>
         <Form method="POST" action="/api/admin/question/?page=bachelor" redirect="/admin-panel/bachelor">
             <Grid m={1}>
@@ -93,8 +93,10 @@
         {:else}
             <p class="mt-3">Здесь ещё нет созданных вопросов</p>
         {/if}
-
-        <h3>Отзывы</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Отзывы</h3>
         <Form action="/api/admin/feedback/?page=bachelor" method="POST" redirect="/admin-panel/bachelor">
             <Grid m={2} s={1}>
                 <div>
@@ -164,8 +166,10 @@
         { :else }
             <p class="mt-3">Здесь еще нет отзывов</p>
         { /if }
-
-        <h3>Студенческие возможности</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Студенческие возможности</h3>
         <Form action="/api/admin/opportunity" method="POST" redirect="/admin-panel/bachelor">
             <label>
                 <span class="caption">Название:</span><br />
@@ -198,8 +202,10 @@
         { :else }
             <p class="mt-3">Здесь еще нет возможностей</p>
         { /if }
-
-        <h3>Перечисления</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Перечисления</h3>
         <Form action="/api/admin/feature?page=bachelor" method="POST" redirect="/admin-panel/bachelor">
             <div class="grid grid-2 m-grid-1">
                 <label>
@@ -234,7 +240,6 @@
         {:else}
             <p class="mt-3">Здесь еще нет перечислений</p>
         {/if}
-
     </div>
 </section>
 <style>

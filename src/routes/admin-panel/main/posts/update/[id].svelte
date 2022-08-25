@@ -16,7 +16,7 @@
     import { Form, FileSelect } from '$components'
     import { slide, blur } from 'svelte/transition'
     import { range, redirect } from '$lib/utilities'
-    import type { PostI, ModalComponent } from '../../../../types'
+    import type { PostI, ModalComponent } from '../../../../../types'
 
     export let post: PostI
 
@@ -90,7 +90,10 @@
                 </div>
             </div>
             <br />
-            <button class="btn btn-primary">Сохранить</button>
+            <div class="buttons-row">
+                <button class="btn btn-primary">Сохранить</button>
+                <button type="button" on:click|preventDefault={ () => window.history.back() } class="btn btn-outline-secondary">Вернуться назад</button>
+            </div>
         </Form>
     </div>
     <br />

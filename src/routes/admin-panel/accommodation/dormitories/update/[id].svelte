@@ -16,7 +16,7 @@
     import { AjaxForm, Modal, FileSelect } from '$components'
     import { Grid } from '$components'
     import { redirect } from '$lib/utilities'
-    import type { DormitoryI, ModalComponent } from '../../../../types'
+    import type { DormitoryI, ModalComponent } from '../../../../../types'
 
     export let dormitory: DormitoryI
 
@@ -114,6 +114,7 @@
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
                 <button type="button" class="btn btn-outline-danger" on:click={ modal.open }>Удалить общежитие</button>
+                <a href="/admin-panel/accommodation" class="btn btn-outline-secondary">Вернуться назад</a>
             </div>
         </AjaxForm>
     </div>

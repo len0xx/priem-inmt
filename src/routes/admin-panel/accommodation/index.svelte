@@ -2,29 +2,41 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
-        const resDocuments = await fetch('http://localhost:8080/api/admin/documents?type=document')
-        const resRentInfo = await fetch('http://localhost:8080/api/admin/rentInfo')
+        const documentsRes = await fetch('http://localhost:8080/api/admin/documents?type=document')
+        const rentInfoRes = await fetch('http://localhost:8080/api/admin/rentInfo')
         const settlementRes = await fetch('http://localhost:8080/api/admin/settlement/1')
+        const dormsRes = await fetch('http://localhost:8080/api/admin/dormitory')
     
-        const documents = (await resDocuments.json()).documents
-        const rentInfo = (await resRentInfo.json()).rentInfo
+        const documents = (await documentsRes.json()).documents
+        const rentInfo = (await rentInfoRes.json()).rentInfo
         const settlement = (await settlementRes.json()).responsible
+        const dormitories = (await dormsRes.json()).dormitories
 
-        if (resDocuments.ok && resRentInfo.ok && settlementRes.ok ) {
-            return { props: { documents, rentInfo, settlement } }
+        if (documentsRes.ok && rentInfoRes.ok && settlementRes.ok ) {
+            return { props: { documents, rentInfo, settlement, dormitories } }
         }
     }
 </script>
 
 <script lang="ts">
-    import { Grid, Form, Modal, Document } from '$components'
+    import { Grid, Graduate, Form, Modal, Document, FileSelect } from '$components'
     import { imask } from 'svelte-imask'
     import { slide } from 'svelte/transition'
-    import type { DocumentI, RentInfoI, SettlementI, ModalComponent } from '../../../types'
+    import type { DocumentI, DormitoryI, RentInfoI, SettlementI, ModalComponent } from '../../../types'
 
+    export let dormitories: DormitoryI[] = []
     export let documents: DocumentI[] = []
     export let rentInfo: RentInfoI
     export let settlement: SettlementI = null
+
+    let fileModal: ModalComponent = null
+    let fileId: number = null
+    let filePath: string = null
+
+    const fileSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        fileId = event.detail.id
+        filePath = event.detail.path
+    }
 
     let phoneMask = {
         mask: '+{7} (000) 000-00-00'
@@ -51,6 +63,8 @@
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
 
+<FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
+
 <Modal bind:this={ modal } align="center" closable={true}>
     <p class="mb-4">Вы действительно хотите удалить этот документ?</p>
     <div class="buttons-row">
@@ -61,8 +75,50 @@
 
 <section class="main-content">
     <div class="white-block-wide">
-        <h2 class="no-top-margin">Поселение</h2>
-        <h3>Загрузка документов</h3>
+        <h2 class="no-top-margin">Редактирование страницы поселения</h2>
+        <h3>Общежития</h3>
+        <Form action="/api/admin/dormitory" method="POST" redirect="/admin-panel/accommodation">
+            <Grid m={2} s={1}>
+                <label>
+                    <span class="caption">Название:</span><br />
+                    <input class="form-control" type="text" name="title" id="title" required />
+                </label>
+                <label>
+                    <span class="caption">Адрес:</span><br />
+                    <input class="form-control" type="text" name="address" id="address" />
+                </label>
+                <label>
+                    <span class="caption">Изображение:</span>
+                    <br />
+                    {#if filePath}
+                        <img width="150px" height="150px" src={filePath} class="img-fluid mt-3 mb-3" alt="Изображение общежития">
+                        <br />
+                    {/if}
+                    <input type="hidden" name="img" value={ fileId }>
+                    <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                </label>
+            </Grid>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        { #if dormitories.length }
+            <h3>Существующие общежития</h3>
+            <Grid className="mt-3 mb-2" m={4} s={1}>
+                { #each dormitories as dormitory, i (i) }
+                    <div>
+                        <a href="/admin-panel/accommodation/dormitories/update/{ dormitory.id }">
+                            <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address } />
+                        </a>
+                    </div>
+                { /each }
+            </Grid>
+        { :else }
+            <p class="mt-3">Здесь еще нет общежитий</p>
+        { /if }
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Загрузка документов</h3>
         <Form action="/api/admin/documents?type=document" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
             <label class="wide">
                 <span class="form-label">Название документа</span>
@@ -93,8 +149,10 @@
                 </div>
             { /each }
         { /if }
-        <br />
-        <h3>Ответственный за поселение</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Ответственный за поселение</h3>
         <Form 
             action={settlement ? `/api/admin/settlement/${settlement.id}` : '/api/admin/settlement'} 
             method={settlement ? 'PATCH' : 'POST'} 
@@ -141,8 +199,10 @@
                 {/if}
             </div>
         </Form>
-        <br />
-        <h3>Альтернативное поселение</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Альтернативное поселение</h3>
         <Form action="/api/admin/rentInfo" method="POST" on:success={ handleSuccess } reset={ false }>
             <div class="grid grid-2 m-grid-1">
                 <div>
@@ -184,11 +244,7 @@
                 </div>
             </div>
             <div class="buttons-row">
-                {#if rentInfo}
-                        <button class="btn btn-primary">Сохранить</button>
-                {:else}
-                        <button class="btn btn-primary">Создать</button>
-                {/if}
+                <button class="btn btn-primary">Сохранить</button>
             </div>
         </Form>
     </div>

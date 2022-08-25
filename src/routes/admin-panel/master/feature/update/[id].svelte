@@ -35,7 +35,7 @@
 </svelte:head>
 
 <Modal bind:this={ modal } align="center" closable={true}>
-    <p class="mb-4">Вы действительно хотите удалить этот перечисление?</p>
+    <p class="mb-4">Вы действительно хотите удалить это перечисление?</p>
     <div class="buttons-row">
         <button type="button" on:click={removeFeature} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
@@ -61,6 +61,7 @@
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
                 <button type="button" class="btn btn-outline-danger" on:click={ modal.open }>Удалить перечисление</button>
+                <button type="button" on:click|preventDefault={ () => window.history.back() } class="btn btn-outline-secondary">Вернуться назад</button>
             </div>            
         </Form>
     </div>

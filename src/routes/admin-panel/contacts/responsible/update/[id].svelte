@@ -14,7 +14,7 @@
 
 <script lang="ts">
     import { imask } from 'svelte-imask'
-    import { Form, Grid, Modal} from '$components'
+    import { Form, Grid, Modal, FileSelect} from '$components'
     import { redirect } from '$lib/utilities'
     import type { ResponsibleI, ModalComponent } from '../../../../../types'
 
@@ -26,6 +26,10 @@
 
     let modal: ModalComponent = null
 
+    let responsibleImageModal: ModalComponent = null
+    let responsibleImageId: number = null
+    let responsibleImagePath: string = null
+
     const removeResponsible = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/responsible/${responsible.id}`, { method: 'DELETE' })
         if (res.ok) {
@@ -33,11 +37,18 @@
         }
         modal.close()
     }
+
+    const responsibleImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        responsibleImageId = event.detail.id
+        responsibleImagePath = event.detail.path
+    }
 </script>
 
 <svelte:head>
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
+
+<FileSelect bind:modal={ responsibleImageModal } on:save={ responsibleImageSelected } />
 
 <Modal bind:this={ modal } align="center" closable={true}>
     <p class="mb-4">Вы действительно хотите удалить это ответственное лицо?</p>
@@ -75,7 +86,20 @@
                     <label for="email">Адрес электронной почты</label><br />
                     <input class="form-control wide" type="email" name="email" value={responsible.email} required />
                 </div>
+                <div>
+                    <label for="img">Фотография:</label>
+                    <input type="hidden" name="img" value={ responsibleImageId }><br />
+                    <button type="button" class="btn btn-outline-primary" on:click={ responsibleImageModal.open }> { responsibleImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                </div>
             </Grid>
+            <br />
+            {#if responsibleImagePath}
+                <p>Предпросмотр:</p>
+                <img width="150px" height="150px" src={responsibleImagePath} class="img-fluid" alt="Фотография ответственного лица"><br />   
+            {:else}
+                <p>Предпросмотр:</p>
+                <img width="150px" height="150px" src={responsible.img} class="img-fluid mb-3" alt="Фотография ответственного лица"><br />
+            {/if}
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
                 <button type="button" on:click={ modal.open } class="btn btn-danger">Удалить</button>

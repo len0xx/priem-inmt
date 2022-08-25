@@ -11,6 +11,6 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         title: title,
         description: description
     })
-    
+
     return new HTTPResponse(res, HTTPStatus.CREATED, 'Перечисление успешно обновлено')
 })

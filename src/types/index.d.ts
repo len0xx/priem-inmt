@@ -71,7 +71,7 @@ export interface ResponsibleI {
     label: string
     phone: string
     email: string
-    photo?: string
+    img: string
 }
 
 export interface QuestionI {

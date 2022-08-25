@@ -1,18 +1,19 @@
 <script context="module" lang="ts">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
     
     export const load: Load = async ({ fetch }) => {
-        const documentsRes = await fetch('http://localhost:8080/api/admin/documents?type=document')
-        const rentInfoRes = await fetch('http://localhost:8080/api/admin/rentInfo')
-        const settlementRes = await fetch('http://localhost:8080/api/admin/settlement/1')
-        const dormsRes = await fetch('http://localhost:8080/api/admin/dormitory')
+        const documentsRes = await fetch(apiRoute('admin/documents?type=document'))
+        const rentInfoRes = await fetch(apiRoute('admin/rentInfo'))
+        const settlementRes = await fetch(apiRoute('admin/settlement/1'))
+        const dormsRes = await fetch(apiRoute('admin/dormitory'))
     
         const documents = (await documentsRes.json()).documents
         const rentInfo = (await rentInfoRes.json()).rentInfo
         const settlement = (await settlementRes.json()).responsible
         const dormitories = (await dormsRes.json()).dormitories
 
-        if (documentsRes.ok && rentInfoRes.ok && settlementRes.ok ) {
+        if (documentsRes.ok && rentInfoRes.ok && settlementRes.ok) {
             return { props: { documents, rentInfo, settlement, dormitories } }
         }
     }
@@ -26,7 +27,7 @@
 
     export let dormitories: DormitoryI[] = []
     export let documents: DocumentI[] = []
-    export let rentInfo: RentInfoI
+    export let rentInfo: RentInfoI = null
     export let settlement: SettlementI = null
 
     let fileModal: ModalComponent = null
@@ -46,7 +47,7 @@
     let modal: ModalComponent = null
 
     const deleteDocument = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/documents/${deleteId}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/documents/${deleteId}`), { method: 'DELETE' })
         if (res.ok) {
             documents = documents.filter(doc => doc.id !== deleteId)
         }

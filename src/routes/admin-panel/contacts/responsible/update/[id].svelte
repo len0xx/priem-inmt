@@ -1,9 +1,10 @@
 <script context="module" lang="ts">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
 
     export const load: Load = async ({ fetch, params }) => {
         const responsibleId = params.id
-        const res = await fetch(`http://localhost:8080/api/admin/responsible/${responsibleId}`)
+        const res = await fetch(apiRoute(`admin/responsible/${responsibleId}`))
         const responsible = (await res.json()).responsible
 
         if (res.ok) {
@@ -31,7 +32,7 @@
     let responsibleImagePath: string = null
 
     const removeResponsible = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/responsible/${responsible.id}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/responsible/${responsible.id}`), { method: 'DELETE' })
         if (res.ok) {
             redirect('/admin-panel/contacts')
         }

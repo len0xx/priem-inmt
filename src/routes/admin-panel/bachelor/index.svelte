@@ -1,11 +1,12 @@
 <script context="module" lang="ts">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
     
     export const load: Load = async ({ fetch }) => {
-        const resFeedbacks = await fetch('http://localhost:8080/api/admin/feedback/?page=bachelor')
-        const resOpportunities = await fetch('http://localhost:8080/api/admin/opportunity')
-        const resQuestions = await fetch('http://localhost:8080/api/admin/question/?page=bachelor')
-        const resFeatures = await fetch('http://localhost:8080/api/admin/feature/?page=bachelor')
+        const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
+        const resOpportunities = await fetch(apiRoute('admin/opportunity'))
+        const resQuestions = await fetch(apiRoute('admin/question/?page=bachelor'))
+        const resFeatures = await fetch(apiRoute('admin/feature/?page=bachelor'))
     
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const opportunities = (await resOpportunities.json()).opportunities
@@ -39,7 +40,7 @@
     }
 
     const removeQuestion = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/question/${questionId}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/question/${questionId}`), { method: 'DELETE' })
         if (res.ok) {
             questions = questions.filter(question => question.id !== questionId)
             modal.close()

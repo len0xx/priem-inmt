@@ -1,9 +1,10 @@
 <script lang="ts" context="module">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
 
     export const load: Load = async ({ fetch, params }) => {
         const id = params.id
-        const res = await fetch(`http://localhost:8080/api/admin/dormitory/${id}`)
+        const res = await fetch(apiRoute(`admin/dormitory/${id}`))
         const dormitory = (await res.json()).dormitory
 
         if (res.ok) {
@@ -13,8 +14,7 @@
 </script>
 
 <script lang="ts">
-    import { AjaxForm, Modal, FileSelect } from '$components'
-    import { Grid } from '$components'
+    import { Form, FileSelect, Grid, Modal} from '$components'
     import { redirect } from '$lib/utilities'
     import type { DormitoryI, ModalComponent } from '../../../../../types'
 
@@ -25,25 +25,10 @@
     let fileId: number = null
     let filePath: string = null
 
-    let updateError = false
-    let deleteError = false
-    let errorText = ''
-
-    const handleSuccess = () => {
-        redirect('/admin-panel/dormitories')
-    }
-
-    const handleError = (event: CustomEvent<{ error: string }>) => {
-        updateError = true
-        errorText = event.detail.error
-    }
-
     const removeDormitory = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/dormitory/${dormitory.id}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/dormitory/${dormitory.id}`), { method: 'DELETE' })
         if (res.ok) {
-            redirect('/admin-panel/dormitories')
-        } else {
-            deleteError = true
+            redirect('/admin-panel/accommodation')
         }
         modal.close()
     }
@@ -72,22 +57,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Общежития</h2>
         <h3>Редактировать общежитие</h3>
-        <AjaxForm action="/api/admin/dormitory/{ dormitory.id }" method="PATCH" on:success={ handleSuccess } on:error={ handleError } noReset={true}>
-            { #if updateError }
-                <div class="alert alert-danger">
-                    Произошла ошибка во&nbsp;время обновления
-                </div>
-            { /if }
-            { #if deleteError }
-                <div class="alert alert-danger">
-                    Произошла ошибка во&nbsp;время удаления
-                </div>
-            { /if }
-            { #if errorText }
-                <div class="alert alert-danger">
-                    { errorText }
-                </div>
-            { /if }
+        <Form action="/api/admin/dormitory/{ dormitory.id }" method="PATCH" reset={false} redirect="/admin-panel/accommodation">
             <Grid m={2} s={1}>
                 <div>
                     <label>
@@ -116,7 +86,7 @@
                 <button type="button" class="btn btn-outline-danger" on:click={ modal.open }>Удалить общежитие</button>
                 <a href="/admin-panel/accommodation" class="btn btn-outline-secondary">Вернуться назад</a>
             </div>
-        </AjaxForm>
+        </Form>
     </div>
 </section>
 <style>

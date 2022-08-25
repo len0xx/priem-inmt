@@ -3,7 +3,7 @@
     import { apiRoute } from '$lib/utilities'
     
     export const load: Load = async ({ fetch }) => {
-        const documentsRes = await fetch(apiRoute('admin/documents?type=document'))
+        const documentsRes = await fetch(apiRoute('admin/documents?type=docAccommodation'))
         const rentInfoRes = await fetch(apiRoute('admin/rentInfo'))
         const settlementRes = await fetch(apiRoute('admin/settlement/1'))
         const dormsRes = await fetch(apiRoute('admin/dormitory'))
@@ -120,7 +120,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Загрузка документов</h3>
-        <Form action="/api/admin/documents?type=document" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
+        <Form action="/api/admin/documents?type=docAccommodation" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
             <label class="wide">
                 <span class="form-label">Название документа</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />

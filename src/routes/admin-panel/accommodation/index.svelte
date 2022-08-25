@@ -20,7 +20,7 @@
 </script>
 
 <script lang="ts">
-    import { Grid, Graduate, Form, Modal, Document, FileSelect } from '$components'
+    import { Grid, Graduate, Form, Modal, Document, FileSelect, RoundButton } from '$components'
     import { imask } from 'svelte-imask'
     import { slide } from 'svelte/transition'
     import type { DocumentI, DormitoryI, RentInfoI, SettlementI, ModalComponent } from '../../../types'
@@ -33,6 +33,8 @@
     let fileModal: ModalComponent = null
     let fileId: number = null
     let filePath: string = null
+
+    let dormitoriesExpanded = false
 
     const fileSelected = (event: CustomEvent<{id: number, path: string}>) => {
         fileId = event.detail.id
@@ -102,20 +104,28 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        { #if dormitories.length }
-            <h3>Опубликованные общежития</h3>
-            <Grid className="mt-3 mb-2" m={4} s={1}>
-                { #each dormitories as dormitory, i (i) }
-                    <div>
-                        <a href="/admin-panel/accommodation/dormitories/update/{ dormitory.id }">
-                            <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address } />
-                        </a>
-                    </div>
-                { /each }
+        <h3>Опубликованные общежития</h3>
+        {#if dormitories.length}
+            <Grid m={4} s={1}>
+                {#each dormitories as dormitory, i (i)}
+                    {#if i < 8 || dormitoriesExpanded}
+                        <div>
+                            <a href="/admin-panel/accommodation/dormitories/update/{ dormitory.id }">
+                                <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address } />
+                            </a>
+                        </div>
+                    {/if}
+                {/each}
             </Grid>
-        { :else }
+            {#if !dormitoriesExpanded && dormitories.length > 8}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => dormitoriesExpanded = true} />
+                </div>
+            {/if}
+        {:else}
             <p class="mt-3">Здесь еще нет общежитий</p>
-        { /if }
+        {/if}
     </div>
     <br />
     <div class="white-block-wide">

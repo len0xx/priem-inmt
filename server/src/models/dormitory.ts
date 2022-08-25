@@ -13,6 +13,14 @@ Dormitory.init({
     img: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'Поле "Изображение" является обязательным'
+            },
+            notEmpty: {
+                msg: 'Поле "Изображение" является обязательным'
+            },
+        },
     },
     title: {
         type: DataTypes.STRING,

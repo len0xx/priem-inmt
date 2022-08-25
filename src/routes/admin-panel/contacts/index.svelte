@@ -16,8 +16,8 @@
 </script>
 
 <script lang="ts">
-    import { Card, Form, Grid } from '$components'
-    import type { ContactInfoI, ResponsibleI } from '../../../types'
+    import { Form, Grid, Graduate, FileSelect, RoundButton } from '$components'
+    import type { ContactInfoI, ResponsibleI, ModalComponent } from '../../../types'
     import { imask } from 'svelte-imask'
     import { slide, blur } from 'svelte/transition'
     import { range } from '$lib/utilities'
@@ -26,17 +26,31 @@
         mask: '+{7} (000) 000-00-00'
     }
 
-    export let contactInfo: ContactInfoI
+    export let contactInfo: ContactInfoI = null
     export let responsibles: ResponsibleI[]
 
-    let links = contactInfo.links.length || 1
+    let responsibleImageModal: ModalComponent = null
+    let responsibleImageId: number = null
+    let responsibleImagePath: string = null
+
+    let responsiblesExpanded = false
+
+    let links = contactInfo ? contactInfo.links.length : 1
     const addLink = () => links++
     const removeLink = () => links--
+    
+
+    const responsibleImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        responsibleImageId = event.detail.id
+        responsibleImagePath = event.detail.path
+    }
 </script>
 
 <svelte:head>
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
+
+<FileSelect bind:modal={ responsibleImageModal } on:save={ responsibleImageSelected } />
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -78,7 +92,7 @@
                 </div>
                 <div id="vs2f">
                     { #each range(1, links) as i }
-                        { @const link = contactInfo.links[i - 1] }
+                        { @const link = contactInfo ? contactInfo.links[i - 1] : null}
                         <div class="input-group" transition:slide|local={{ duration: 200 }}>
                             <span class="input-group-text">Ссылка</span>
                             <input type="text" aria-label="Текст ссылки" name="link_text{ i }" placeholder="Текст ссылки" class="form-control" value={ link?.text || null }>
@@ -127,27 +141,40 @@
                     <label for="email">Адрес электронной почты</label><br />
                     <input class="form-control wide" type="email" name="email" required />
                 </div>
+                <div>
+                    <label for="img">Фотография:</label>
+                    <input type="hidden" name="img" value={ responsibleImageId }><br />
+                    <button type="button" class="btn btn-outline-primary" on:click={ responsibleImageModal.open }> { responsibleImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                </div>
             </Grid>
-            <div class="buttons-row">
-                <button class="btn btn-primary">Создать</button>
-            </div>
+            <br />
+            {#if responsibleImagePath}
+                <p>Предпросмотр:</p>
+                <img width="150px" height="150px" src={responsibleImagePath} class="img-fluid" alt="Фотография ответственного лица"><br />   
+            {/if}
+            <button class="btn btn-primary">Создать</button>
         </Form>
         { /if }
-        { #if responsibles.length }
-        <h3>Опубликованные ответственные лица{ responsibles.length ? ` (${responsibles.length})` : '' }</h3>
-            <Grid s={1} m={2} l={3}>
-                { #each responsibles as responsible }
+        <h4>Созданные ответственные лица</h4>
+        {#if responsibles.length}
+        <Grid m={4}>
+            {#each responsibles as responsible, i (i)}
+                {#if i < 8 || responsiblesExpanded}
                     <a href="/admin-panel/contacts/responsible/update/{ responsible.id }">
-                        <Card variant="white" color="custom">
-                            <svelte:fragment slot="title">{ responsible.name }</svelte:fragment>
-                            <svelte:fragment slot="left">{ responsible.label ? responsible.label : '' }</svelte:fragment>
-                        </Card>
+                        <Graduate name={ responsible.name } src={ responsible.img } caption={ responsible.label } />
                     </a>
-                { /each }
-            </Grid>
-        { :else }
-            <p class="mt-3">Здесь ещё нет ответственных лиц</p>
-        { /if }
+                {/if}
+            {/each}
+        </Grid>
+        {#if !responsiblesExpanded && responsibles.length > 8}
+            <br />
+            <div class="align-center">
+                <RoundButton variant="plus" size="M" on:click={() => responsiblesExpanded = true} />
+            </div>
+        {/if}
+    {:else}
+        <p class="mt-3">Здесь еще нет известных выпускников</p>
+    {/if}
     </div>
 </section>
 

@@ -235,7 +235,7 @@
                         <div class="card-body">
                             <h4 class="card-title">{ post.title }</h4> 
                             <p class="card-text">{ post.text }</p>
-                            <a href="/admin-panel/posts/update/{ post.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <a href="/admin-panel/main/posts/update/{ post.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
                             <button class="btn btn-outline-danger btn-sm" on:click={ () => { deleteId = post.id; modal.open() } }>Удалить</button>
                         </div>
                     </div>

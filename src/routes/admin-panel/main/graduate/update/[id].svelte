@@ -74,13 +74,16 @@
                 <label>
                     <span class="caption">Фотография:</span>
                     <input type="hidden" name="photo" value={ fileId }><br />
-                    <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать другой файл' } </button>
+                    <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>
             </Grid>
             <br />
             {#if filePath}
                 <p>Предпросмотр:</p>
-                <img width="150px" height="150px" src={filePath} class="img-fluid mb-3" alt="Фотография известного выпускника"><br />   
+                <img width="150px" height="150px" src={filePath} class="img-fluid mb-3" alt="Фотография известного выпускника"><br />
+            {:else}
+                <p>Предпросмотр:</p>
+                <img width="150px" height="150px" src={graduate.photo} class="img-fluid mb-3" alt="Фотография известного выпускника"><br />
             {/if}
             <br />
             <div class="buttons-row">

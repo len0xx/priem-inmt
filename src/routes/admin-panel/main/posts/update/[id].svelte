@@ -15,7 +15,7 @@
 <script lang="ts">
     import { Form, FileSelect } from '$components'
     import { slide, blur } from 'svelte/transition'
-    import { range, redirect } from '$lib/utilities'
+    import { range } from '$lib/utilities'
     import type { PostI, ModalComponent } from '../../../../../types'
 
     export let post: PostI
@@ -29,10 +29,6 @@
     const addLink = () => links++
 
     const removeLink = () => links--
-
-    const handleSuccess = () => {
-        redirect('/admin-panel/posts')
-    }
 
     const fileSelected = (event: CustomEvent<{ id: number, path: string }>) => {
         fileId = event.detail.id
@@ -50,7 +46,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Публикации на главной странице</h2>
         <h3>Редактирование публикации</h3>
-        <Form action="/api/admin/post/{ post.id }" method="PATCH" on:success={ handleSuccess } reset={ false }>
+        <Form action="/api/admin/post/{ post.id }" method="PATCH" reset={ false } redirect="/admin-panel/main">
             <div class="grid grid-2 m-grid-1">
                 <div>
                     <label>
@@ -65,8 +61,7 @@
                     </label>
                     <br />
                     <label>
-                        <span class="caption">Изображение:</span><br />
-                        <img width="150px" height="150px" src={filePath ? filePath : post.img} class="img-fluid mt-3 mb-3" alt="Изображение">                   
+                        <span class="caption">Изображение:</span>
                         <input type="hidden" name="img" value={ fileId }><br />
                         <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     </label>
@@ -89,6 +84,14 @@
                     { /if }
                 </div>
             </div>
+            <br />
+            {#if filePath}
+                <p>Предпросмотр:</p>
+                <img width="150px" height="150px" src={filePath} class="img-fluid mb-3" alt="Изображение"><br />
+            {:else}
+                <p>Предпросмотр:</p>
+                <img width="150px" height="150px" src={post.img} class="img-fluid mb-3" alt="Изображение"><br />
+            {/if}
             <br />
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>

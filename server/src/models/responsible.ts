@@ -7,7 +7,7 @@ class Responsible extends Model<InferAttributes<Responsible, { omit: 'id' }>, In
     declare label: string
     declare phone: string
     declare email: string
-    declare photo?: string
+    declare img: string
 }
 
 export type ResponsibleI = InferAttributes<Responsible, { omit: 'id' }>
@@ -54,9 +54,17 @@ Responsible.init(
                 },
             },
         },
-        photo: {
+        img: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: 'Поле "Изображение" является обязательным'
+                },
+                notEmpty: {
+                    msg: 'Поле "Изображение" является обязательным'
+                },
+            },
         }
     },
     {

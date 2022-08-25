@@ -55,16 +55,16 @@
         const res = await fetch(apiRoute(`admin/question/${questionId}`), { method: 'DELETE' })
         if (res.ok) {
             questions = questions.filter(question => question.id !== questionId)
-            questionModal.close()
         }
+        questionModal.close()
     }
 
     const removeProfession = async () => {
         const res = await fetch(apiRoute(`admin/profession/${professonId}`), { method: 'DELETE' })
         if (res.ok) {
             professions = professions.filter(profession => profession.id !== professonId)
-            professionModal.close()
         }
+        professionModal.close()
     }
 </script>
 

@@ -1,9 +1,10 @@
 <script context="module" lang="ts">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
 
     export const load: Load = async ({ fetch, params }) => {
         const programId = params.id
-        const res = await fetch(`http://localhost:8080/api/admin/programs/${programId}`)
+        const res = await fetch(apiRoute(`admin/programs/${programId}`))
         const programResult = (await res.json()).program
 
         if (res.ok) {
@@ -59,7 +60,7 @@
     let deleteError = false
 
     const removeProgram = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/programs/${program.id}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/programs/${program.id}`), { method: 'DELETE' })
         if (res.ok) {
             redirect('/admin-panel/programs')
         } else {

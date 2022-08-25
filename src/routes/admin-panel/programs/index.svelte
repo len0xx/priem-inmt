@@ -1,9 +1,10 @@
 <script context="module" lang="ts">
     // import { sendNodeAJAX } from '../../../shared/utilities'
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
     
     export const load: Load = async ({ fetch }) => {
-        const res = await fetch('http://localhost:8080/api/admin/programs')
+        const res = await fetch(apiRoute('admin/programs'))
         const programsResult = (await res.json()).programs
 
         if (res.ok) {
@@ -25,7 +26,7 @@
     let modal: ModalComponent = null
 
     const importPrograms = async () => {
-        const res = await fetch('http://localhost:8080/api/admin/programs/script', { method: 'POST' })
+        const res = await fetch(apiRoute('admin/programs/script'), { method: 'POST' })
         if (res.ok) {
             redirect('/admin-panel/programs')
         }

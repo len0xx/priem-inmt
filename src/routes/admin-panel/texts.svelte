@@ -1,8 +1,9 @@
 <script lang="ts" context="module">
     import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
 
     export const load: Load = async ({ fetch }) => {
-        const res = await fetch('http://localhost:8080/api/admin/text')
+        const res = await fetch(apiRoute('admin/text'))
         const texts = (await res.json()).texts
 
         if (res.ok) {

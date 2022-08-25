@@ -14,8 +14,7 @@
 </script>
 
 <script lang="ts">
-    import { Form, Modal, FileSelect } from '$components'
-    import { Grid } from '$components'
+    import { Form, FileSelect, Grid, Modal} from '$components'
     import { redirect } from '$lib/utilities'
     import type { DormitoryI, ModalComponent } from '../../../../../types'
 

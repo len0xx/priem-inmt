@@ -10,7 +10,9 @@ enum Name {
 }
 
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
-    const { img, name } = req.body
+    const { img } = req.body
+
+    const name = req.query.name
 
     if (name === Name.About || name === Name.Life) {
         let imgURL = undefined

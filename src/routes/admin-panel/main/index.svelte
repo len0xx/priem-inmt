@@ -69,7 +69,6 @@
     let fileId: number = null
     let filePath: string = null
     
-    let carouselName = 'about'
     let links = 1
     let deleteId = 0
     let modal: ModalComponent = null
@@ -354,32 +353,24 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Изображения в&nbsp;карусели</h3>
-        <Form action="/api/admin/carousel" method="POST" redirect="/admin-panel/main">
+        <h3 class="no-top-margin">Изображения в карусели "Об инстиуте"</h3>
+        <Form action="/api/admin/carousel/?name=about" method="POST" redirect="/admin-panel/main">
             <Grid m={2}>
                 <label>
-                    <span class="caption">Выберите карусель:</span>
-                    <select class="wide form-select" name="name" bind:value={ carouselName }>
-                        <option value="about">Об институте</option>
-                        <option value="life">Студенческая жизнь</option>
-                    </select>
-                </label>
-                <label>
                     <span class="caption">Добавить новое изображение:</span>
+                    {#if carouselImagePath}
+                        <br />
+                        <img width="150px" height="150px" src={carouselImagePath} class="img-fluid mt-3" alt="Изображение в карусели">
+                        <br />
+                    {/if}
                     <input type="hidden" name="img" value={ carouselImageId }><br />
                     <button type="button" class="btn btn-outline-success" on:click={ carouselImageModal.open }> { carouselImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>
             </Grid>
             <br />
-            {#if carouselImagePath}
-                <p>Предпросмотр:</p>
-                <img width="150px" height="150px" src={carouselImagePath} class="img-fluid" alt="Изображение в карусели">
-                <br />
-                <br />
-            {/if}
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <h3>Изображения в карусели "Об инстиуте":</h3>
+        <h3>Существующие изображения:</h3>
         {#if carouselImages.length}
             <Grid m={3}>
                 {#each carouselImages as image, i (i)}
@@ -402,7 +393,27 @@
         {:else}
             <p class="mt-3">Здесь еще нет изображений в карусели</p>
         {/if}
-        <h3>Изображения в карусели "Студенческая жизнь":</h3>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Изображения в карусели "Студенческая жизнь"</h3>
+        <Form action="/api/admin/carousel/?name=life" method="POST" redirect="/admin-panel/main">
+            <Grid m={2}>
+                <label>
+                    <span class="caption">Добавить новое изображение:</span>
+                    {#if carouselImagePath}
+                        <br />
+                        <img width="150px" height="150px" src={carouselImagePath} class="img-fluid mt-3" alt="Изображение в карусели">
+                        <br />
+                    {/if}
+                    <input type="hidden" name="img" value={ carouselImageId }><br />
+                    <button type="button" class="btn btn-outline-success" on:click={ carouselImageModal.open }> { carouselImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                </label>
+            </Grid>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <h3>Существующие изображения:</h3>
         {#if carouselLifeImages.length}
             <Grid m={3}>
                 {#each carouselLifeImages as image, i (i)}

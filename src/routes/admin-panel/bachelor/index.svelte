@@ -19,7 +19,6 @@
 </script>
 <script lang="ts">
     import { Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton } from '$components'
-    import { redirect } from '$lib/utilities'
     import type { FeatureI, OpportunityI, FeedbackI, QuestionI, ModalComponent } from '../../../types'
 
     export let questions: QuestionI[] = []
@@ -42,7 +41,8 @@
     const removeQuestion = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/question/${questionId}`, { method: 'DELETE' })
         if (res.ok) {
-            redirect('/admin-panel/bachelor')
+            questions = questions.filter(question => question.id !== questionId)
+            modal.close()
         }
         modal.close()
     }

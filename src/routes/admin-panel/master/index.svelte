@@ -18,8 +18,8 @@
     }
 </script>
 <script lang="ts">
-    import { Card, Form, Grid, Modal, Benefit, RoundButton, Profile } from '$components'
-    import { range, redirect } from '$lib/utilities'
+    import { Form, Grid, Modal, Benefit, RoundButton, Profile } from '$components'
+    import { range } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
     import type { FeatureI, FeedbackI, ProfessionI, QuestionI, ModalComponent } from '../../../types'
 
@@ -30,23 +30,39 @@
 
     let featuresExpanded = false
 
-    let modal: ModalComponent = null
+    let questionModal: ModalComponent = null
+    let professionModal: ModalComponent = null
 
     let duties = 1
     const addDuty = () => duties++
     const removeDuty = () => duties--
 
     let questionId: number
+    let professonId: number
 
     const updateQuestionId = (id: number) => {
         questionId = id
-        modal.open()
+        questionModal.open()
+    }
+
+    const updateProfessionId = (id: number) => {
+        professonId = id
+        professionModal.open()
     }
 
     const removeQuestion = async () => {
         const res = await fetch(`http://localhost:8080/api/admin/question/${questionId}`, { method: 'DELETE' })
         if (res.ok) {
-            redirect('/admin-panel/master')
+            questions = questions.filter(question => question.id !== questionId)
+            questionModal.close()
+        }
+    }
+
+    const removeProfession = async () => {
+        const res = await fetch(`http://localhost:8080/api/admin/profession/${professonId}`, { method: 'DELETE' })
+        if (res.ok) {
+            professions = professions.filter(profession => profession.id !== professonId)
+            professionModal.close()
         }
     }
 </script>
@@ -55,11 +71,19 @@
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
 
-<Modal bind:this={ modal } align="center" closable={true}>
+<Modal bind:this={ questionModal } align="center" closable={true}>
     <p class="mb-4">Вы действительно хотите удалить этот вопрос FAQ?</p>
     <div class="buttons-row">
         <button type="button" on:click={removeQuestion} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
+        <button type="button" on:click={questionModal.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
+<Modal bind:this={ professionModal } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить эту профессию?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={removeProfession} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={questionModal.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -144,14 +168,14 @@
         </Form>
         <h3>Опубликованные профессии</h3>
         { #if professions.length }
-            <Grid className="mt-5" m={3} s={1}>
+            <Grid m={3} s={1}>
                 { #each professions as profession, i (i) }
-                    <div>
-                        <a href="/admin-panel/master/profession/update/{ profession.id }">
-                            <Card variant="white">
-                                <span slot="title">{ profession.title }</span>
-                            </Card>
-                        </a>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">{ profession.title }</h4>
+                            <a href="/admin-panel/master/profession/update/{ profession.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateProfessionId(profession.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                        </div>
                     </div>
                 { /each }
             </Grid>

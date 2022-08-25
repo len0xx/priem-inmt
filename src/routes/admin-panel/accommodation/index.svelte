@@ -47,7 +47,7 @@
     let modal: ModalComponent = null
 
     const deleteDocument = async () => {
-        const res = await fetch(`http://localhost:8080/api/admin/documents/${deleteId}`, { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/documents/${deleteId}`), { method: 'DELETE' })
         if (res.ok) {
             documents = documents.filter(doc => doc.id !== deleteId)
         }

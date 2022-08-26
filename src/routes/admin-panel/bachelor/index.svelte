@@ -40,6 +40,7 @@
     let questionsExpanded = false
     let opportunitiesExpanded = false
     let documentsExpanded = false
+    let feedbacksExpanded = false
 
     const updateQuestionId = (id: number) => {
         questionId = id
@@ -164,21 +165,29 @@
             <button class="btn btn-primary">Создать</button>
         </Form>
         <h3>Опубликованные отзывы</h3>
-        { #if feedbacks.length }
+        {#if feedbacks.length}
             <Grid className="mt-5" m={3} s={1} alignItems="start">
-                { #each feedbacks as feedback }
-                    <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
-                        <Profile img={ feedback.img }>
-                            <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                            <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                            <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                        </Profile>
-                    </a>
-                { /each }
+                {#each feedbacks as feedback, i (i)}
+                    {#if i < 6 || feedbacksExpanded}
+                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
+                            <Profile img={ feedback.img }>
+                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                            </Profile>
+                        </a>
+                    {/if}
+                {/each}
             </Grid>
-        { :else }
+            {#if !feedbacksExpanded && feedbacks.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => feedbacksExpanded = true} />
+                </div>
+            {/if}
+        {:else}
             <p class="mt-3">Здесь еще нет отзывов</p>
-        { /if }
+        {/if}
     </div>
     <br />
     <div class="white-block-wide">

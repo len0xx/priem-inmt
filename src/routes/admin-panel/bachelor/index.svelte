@@ -92,43 +92,91 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Редактирование страницы бакалавриата</h2>
-        <h3>Ответы на вопросы</h3>
-        <Form method="POST" action="/api/admin/question/?page=bachelor" redirect="/admin-panel/bachelor">
-            <Grid m={1}>
+        <h3 class="no-top-margin">Перечисления</h3>
+        <Form action="/api/admin/feature?page=bachelor" method="POST" redirect="/admin-panel/bachelor">
+            <div class="grid grid-2 m-grid-1">
                 <label>
-                    <span class="question">Вопрос:</span><br />
-                    <input required class="form-control wide" type="text" name="question" />
+                    <span class="caption">Заголовок:</span><br />
+                    <input required class="form-control" type="text" name="title">
                 </label>
                 <label>
-                    <span class="answer">Ответ:</span><br />
-                    <textarea required class="form-control wide" type="text" name="answer" />
+                    <span class="caption">Подпись:</span><br />
+                    <input required class="form-control" type="text" name="description">
                 </label>
-            </Grid>
+            </div>
+            <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <h3>Опубликованные ответы на вопросы</h3>
-        {#if questions.length}
+        <h3>Опубликованные перечисления</h3>
+        {#if features.length}
             <Grid m={3}>
-                {#each questions as question, i (i)}
-                    {#if i < 6 || questionsExpanded}
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">{ question.text }</h4>
-                                <a href="/admin-panel/bachelor/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                                <button type="button" on:click={() => updateQuestionId(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                {#each features as feature, i (i)}
+                    {#if i < 6 || featuresExpanded}
+                        <a href="/admin-panel/bachelor/feature/update/{ feature.id }">
+                            <div class="card">
+                                <div class="card-body">
+                                    <Benefit num={feature.title} caption={feature.description} />
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     {/if}
                 {/each}
             </Grid>
-            {#if !questionsExpanded && questions.length > 6}
+            {#if !featuresExpanded && features.length > 6}
                 <br />
                 <div class="align-center">
-                    <RoundButton variant="plus" size="M" on:click={() => questionsExpanded = true} />
+                    <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
                 </div>
             {/if}
         {:else}
-            <p class="mt-3">Здесь еще нет созданных вопросов</p>
+            <p class="mt-3">Здесь еще нет перечислений</p>
+        {/if}
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Студенческие возможности</h3>
+        <Form action="/api/admin/opportunity" method="POST" redirect="/admin-panel/bachelor">
+            <label>
+                <span class="caption">Название:</span><br />
+                <input class="form-control" type="text" name="title" id="title" required />
+            </label>
+            <br />
+            <br />
+            <label>
+                <span class="caption">Описание:</span><br />
+                <input class="form-control" type="text" name="description" id="description" />
+            </label>
+            <br />
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <h3>Опубликованные возможности</h3>
+        {#if opportunities.length}
+            <Grid m={4} s={1}>
+                {#each opportunities as opportunity, i (i)}
+                    {#if i < 8 || opportunitiesExpanded}
+                        <a href="/admin-panel/bachelor/opportunity/update/{ opportunity.id }">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="align-center" style:min-width="200px">
+                                        <Icon name="blue-star" width={40} height={40} alt="star" />
+                                        <Text className="semi-bold subtitle">{ opportunity.title }</Text>
+                                        <Text className="semi-bold small" opacity={0.6}>{ opportunity.description }</Text>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !opportunitiesExpanded && opportunities.length > 8}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => opportunitiesExpanded = true} />
+                </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет возможностей</p>
         {/if}
     </div>
     <br />
@@ -187,95 +235,6 @@
             {/if}
         {:else}
             <p class="mt-3">Здесь еще нет отзывов</p>
-        {/if}
-    </div>
-    <br />
-    <div class="white-block-wide">
-        <h3 class="no-top-margin">Студенческие возможности</h3>
-        <Form action="/api/admin/opportunity" method="POST" redirect="/admin-panel/bachelor">
-            <label>
-                <span class="caption">Название:</span><br />
-                <input class="form-control" type="text" name="title" id="title" required />
-            </label>
-            <br />
-            <br />
-            <label>
-                <span class="caption">Описание:</span><br />
-                <input class="form-control" type="text" name="description" id="description" />
-            </label>
-            <br />
-            <br />
-            <button class="btn btn-primary">Создать</button>
-        </Form>
-        <h3>Опубликованные возможности</h3>
-        {#if opportunities.length}
-            <Grid m={4} s={1}>
-                {#each opportunities as opportunity, i (i)}
-                    {#if i < 8 || opportunitiesExpanded}
-                        <a href="/admin-panel/bachelor/opportunity/update/{ opportunity.id }">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="align-center" style:min-width="200px">
-                                        <Icon name="blue-star" width={40} height={40} alt="star" />
-                                        <Text className="semi-bold subtitle">{ opportunity.title }</Text>
-                                        <Text className="semi-bold small" opacity={0.6}>{ opportunity.description }</Text>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    {/if}
-                {/each}
-            </Grid>
-            {#if !opportunitiesExpanded && opportunities.length > 8}
-                <br />
-                <div class="align-center">
-                    <RoundButton variant="plus" size="M" on:click={() => opportunitiesExpanded = true} />
-                </div>
-            {/if}
-        {:else}
-            <p class="mt-3">Здесь еще нет возможностей</p>
-        {/if}
-    </div>
-    <br />
-    <div class="white-block-wide">
-        <h3 class="no-top-margin">Перечисления</h3>
-        <Form action="/api/admin/feature?page=bachelor" method="POST" redirect="/admin-panel/bachelor">
-            <div class="grid grid-2 m-grid-1">
-                <label>
-                    <span class="caption">Заголовок:</span><br />
-                    <input required class="form-control" type="text" name="title">
-                </label>
-                <label>
-                    <span class="caption">Подпись:</span><br />
-                    <input required class="form-control" type="text" name="description">
-                </label>
-            </div>
-            <br />
-            <button class="btn btn-primary">Создать</button>
-        </Form>
-        <h3>Опубликованные перечисления</h3>
-        {#if features.length}
-            <Grid m={3}>
-                {#each features as feature, i (i)}
-                    {#if i < 6 || featuresExpanded}
-                        <a href="/admin-panel/bachelor/feature/update/{ feature.id }">
-                            <div class="card">
-                                <div class="card-body">
-                                    <Benefit num={feature.title} caption={feature.description} />
-                                </div>
-                            </div>
-                        </a>
-                    {/if}
-                {/each}
-            </Grid>
-            {#if !featuresExpanded && features.length > 6}
-                <br />
-                <div class="align-center">
-                    <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
-                </div>
-            {/if}
-        {:else}
-            <p class="mt-3">Здесь еще нет перечислений</p>
         {/if}
     </div>
     <br />

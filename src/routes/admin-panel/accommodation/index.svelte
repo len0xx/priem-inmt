@@ -129,40 +129,6 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Загрузка документов</h3>
-        <Form action="/api/admin/documents?type=docAccommodation" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
-            <label class="wide">
-                <span class="form-label">Название документа</span>
-                <input type="text" class="form-control wide" placeholder="Название" name="title" required />
-            </label>
-            <br />
-            <br />
-            <Grid m={3}>
-                <label>
-                    <span class="caption">Документ</span><br />
-                    <input required class="form-control" type="file" name="file" id="file" />
-                </label>
-            </Grid>
-            <div class="buttons-row">
-                <button class="btn btn-primary">Отправить</button>
-            </div>
-        </Form>
-        { #if documents.length }
-            <h3>Загруженные документы</h3>
-            { #each documents as document, i (i) }
-                { @const parts = document.src.split('.') }
-                { @const extensionLength = parts.length }
-                { @const extension = extensionLength > 1 ? parts[parts.length - 1] : '' }
-
-                <div class="document-row" transition:slide|local={{ duration: 200 }}>
-                    <Document filename={ document.title } { extension } link={ document.src } />
-                    <button type="button" on:click={() => { deleteId = document.id; modal.open() } } class="btn btn-outline-danger btn-sm">Удалить</button>
-                </div>
-            { /each }
-        { /if }
-    </div>
-    <br />
-    <div class="white-block-wide">
         <h3 class="no-top-margin">Ответственный за поселение</h3>
         <Form 
             action={settlement ? `/api/admin/settlement/${settlement.id}` : '/api/admin/settlement'} 
@@ -258,6 +224,40 @@
                 <button class="btn btn-primary">Сохранить</button>
             </div>
         </Form>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Загрузка документов</h3>
+        <Form action="/api/admin/documents?type=docAccommodation" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
+            <label class="wide">
+                <span class="form-label">Название документа</span>
+                <input type="text" class="form-control wide" placeholder="Название" name="title" required />
+            </label>
+            <br />
+            <br />
+            <Grid m={3}>
+                <label>
+                    <span class="caption">Документ</span><br />
+                    <input required class="form-control" type="file" name="file" id="file" />
+                </label>
+            </Grid>
+            <div class="buttons-row">
+                <button class="btn btn-primary">Отправить</button>
+            </div>
+        </Form>
+        { #if documents.length }
+            <h3>Загруженные документы</h3>
+            { #each documents as document, i (i) }
+                { @const parts = document.src.split('.') }
+                { @const extensionLength = parts.length }
+                { @const extension = extensionLength > 1 ? parts[parts.length - 1] : '' }
+
+                <div class="document-row" transition:slide|local={{ duration: 200 }}>
+                    <Document filename={ document.title } { extension } link={ document.src } />
+                    <button type="button" on:click={() => { deleteId = document.id; modal.open() } } class="btn btn-outline-danger btn-sm">Удалить</button>
+                </div>
+            { /each }
+        { /if }
     </div>
 </section>
 

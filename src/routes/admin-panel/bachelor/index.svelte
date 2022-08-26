@@ -34,6 +34,9 @@
     let modalFeature: ModalComponent = null
     let featureId:number
 
+    let modalOpportunity: ModalComponent = null
+    let opportunityId:number
+
     let feedbackImageModal: ModalComponent = null
     let feedbackImageId: number = null
     let feedbackImagePath: string = null
@@ -53,6 +56,11 @@
         modalFeature.open()
     }
 
+    const updateOpportunityId = (id: number) => {
+        opportunityId = id
+        modalOpportunity.open()
+    }
+
     const deleteDocument = async () => {
         const res = await fetch(apiRoute(`admin/documents/${documentId}`), { method: 'DELETE' })
         if (res.ok) {
@@ -67,6 +75,14 @@
             features = features.filter(feature => feature.id !== featureId)
         }
         modalFeature.close()
+    }
+
+    const deleteOpportunity = async () => {
+        const res = await fetch(apiRoute(`admin/opportunity/${opportunityId}`), { method: 'DELETE' })
+        if (res.ok) {
+            opportunities = opportunities.filter(opportunity => opportunity.id !== opportunityId)
+        }
+        modalOpportunity.close()
     }
 
     const handleSuccess = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
@@ -94,6 +110,14 @@
     <div class="buttons-row">
         <button type="button" on:click={deleteFeature} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modalFeature.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
+<Modal bind:this={ modalOpportunity } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить эту возможность?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={deleteOpportunity} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modalOpportunity.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -163,17 +187,18 @@
             <Grid m={4} s={1}>
                 {#each opportunities as opportunity, i (i)}
                     {#if i < 8 || opportunitiesExpanded}
-                        <a href="/admin-panel/bachelor/opportunity/update/{ opportunity.id }">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="align-center" style:min-width="200px">
-                                        <Icon name="blue-star" width={40} height={40} alt="star" />
-                                        <Text className="semi-bold subtitle">{ opportunity.title }</Text>
-                                        <Text className="semi-bold small" opacity={0.6}>{ opportunity.description }</Text>
-                                    </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="align-center" style:min-width="200px">
+                                    <Icon name="blue-star" width={40} height={40} alt="star" />
+                                    <Text className="semi-bold subtitle">{ opportunity.title }</Text>
+                                    <Text className="semi-bold small" opacity={0.6}>{ opportunity.description }</Text>
                                 </div>
+                                <br />
+                                <a href="/admin-panel/bachelor/opportunity/update/{ opportunity.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                                <button type="button" on:click={() => updateOpportunityId(opportunity.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </div>
-                        </a>
+                        </div>
                     {/if}
                 {/each}
             </Grid>

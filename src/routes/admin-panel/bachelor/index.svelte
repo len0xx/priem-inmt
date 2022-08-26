@@ -250,7 +250,11 @@
                 {#each features as feature, i (i)}
                     {#if i < 6 || featuresExpanded}
                         <a href="/admin-panel/bachelor/feature/update/{ feature.id }">
-                            <Benefit num={feature.title} caption={feature.description} />
+                            <div class="card">
+                                <div class="card-body">
+                                    <Benefit num={feature.title} caption={feature.description} />
+                                </div>
+                            </div>
                         </a>
                     {/if}
                 {/each}

@@ -167,3 +167,51 @@ nav ul.pagination li {
 #vs2f {
     padding-top: 24px;
 }
+
+.mobile-open {
+    left: 0 !important;
+}
+
+@media screen and (max-width: 768px) {
+    .white-block-wide {
+        max-width: 100%;
+    }
+
+    aside.left-menu {
+        width: 100%;
+        left: 100%;
+        padding-top: 4em;
+        transition: left 0.3s ease-in-out;
+        z-index: 100;
+    }
+
+    aside.left-menu.full {
+        padding-top: 4em;
+    }
+    
+    section.main-content {
+        padding: 0;
+    }
+
+    .admin-header-layout {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .left-menu-close {
+        display: block;
+        position: absolute;
+        top: 1em;
+        right: 1em;
+        width: 36px;
+        height: 36px;
+    }
+
+    .left-menu-user {
+        font-size: 1.5em;
+        margin-bottom: 2em;
+    }
+
+    .left-menu-nav {
+        font-size: 1.5em;
+    }
+}

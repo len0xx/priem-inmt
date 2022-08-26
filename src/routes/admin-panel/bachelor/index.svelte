@@ -171,6 +171,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <Benefit num={feature.title} caption={feature.description} />
+                                <br />
                                 <a href="/admin-panel/bachelor/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
                                 <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </div>

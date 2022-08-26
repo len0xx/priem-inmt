@@ -235,7 +235,7 @@
                     {#if i < 6 || postsExpanded}
                     <div class="card">
                         {#if post.img}
-                            <img src={post.img} class="img-fluid card-img-top" alt="Изображение">                                              
+                            <div class="card-img wide-card-img" style:background-image="url({ post.img })"></div>
                         {/if}
                         <div class="card-body">
                             <h4 class="card-title">{ post.title }</h4> 
@@ -345,7 +345,7 @@
                 {#each partners as partner, i (i)}
                     {#if i < 10 || partnersExpanded}
                         <div class="card">
-                            <img src={partner.logo} class="img-fluid card-img-top" alt="Логотип партнера">
+                            <div class="card-img medium-card-img contain-img" style:background-image="url({ partner.logo })"></div>
                             <div class="card-body">
                                 <button type="button" class="btn btn-outline-danger" on:click={() => {partnerId = partner.id; partnerModal.open()} }>Удалить</button>
                             </div>
@@ -365,7 +365,7 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Изображения в карусели "Об инстиуте"</h3>
+        <h3 class="no-top-margin">Изображения в карусели "Об институте"</h3>
         <Form action="/api/admin/carousel/?name=about" method="POST" redirect="/admin-panel/main">
             <Grid m={2}>
                 <label>
@@ -388,7 +388,7 @@
                 {#each carouselImages as image, i (i)}
                     {#if i < 6 || carouselExpanded}
                         <div class="card">
-                            <img src={image.img} class="img-fluid card-img-top" alt="Изображение в карусели">
+                            <div class="card-img wide-card-img" style:background-image="url({ image.img })"></div>
                             <div class="card-body">
                                 <button type="button" class="btn btn-outline-danger" on:click={() => {carouselId = image.id; carouselModal.open()} }>Удалить</button>
                             </div>
@@ -431,7 +431,7 @@
                 {#each carouselLifeImages as image, i (i)}
                     {#if i < 6 || carouselLifeExpanded}
                         <div class="card">
-                            <img src={image.img} class="img-fluid card-img-top" alt="Изображение в карусели">
+                            <div class="card-img wide-card-img" style:background-image="url({ image.img })"></div>
                             <div class="card-body">
                                 <button type="button" class="btn btn-outline-danger" on:click={() => {carouselId = image.id; carouselModal.open()} }>Удалить</button>
                             </div>

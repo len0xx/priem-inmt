@@ -19,7 +19,7 @@
     }
 </script>
 <script lang="ts">
-    import { Form, Grid, Modal, Benefit, RoundButton, Profile } from '$components'
+    import { Form, Grid, Modal, Benefit, RoundButton, Profile, FileSelect } from '$components'
     import { range } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
     import type { FeatureI, FeedbackI, ProfessionI, QuestionI, ModalComponent } from '../../../types'
@@ -37,6 +37,10 @@
     let questionModal: ModalComponent = null
     let professionModal: ModalComponent = null
 
+    let feedbackImageModal: ModalComponent = null
+    let feedbackImageId: number = null
+    let feedbackImagePath: string = null
+
     let duties = 1
     const addDuty = () => duties++
     const removeDuty = () => duties--
@@ -52,6 +56,11 @@
     const updateProfessionId = (id: number) => {
         professonId = id
         professionModal.open()
+    }
+
+    const feedbackImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        feedbackImageId = event.detail.id
+        feedbackImagePath = event.detail.path
     }
 
     const removeQuestion = async () => {
@@ -74,6 +83,8 @@
 <svelte:head>
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
+
+<FileSelect bind:modal={ feedbackImageModal } on:save={ feedbackImageSelected } />
 
 <Modal bind:this={ questionModal } align="center" closable={true}>
     <p class="mb-4">Вы действительно хотите удалить этот ответ на вопрос?</p>
@@ -223,8 +234,14 @@
                     <br />
                     <br />
                     <label>
-                        <span class="caption">Изображение:</span><br />
-                        <input class="form-control" type="text" name="img" id="img" /> <!-- TODO: file upload -->
+                        <span class="caption">Добавить новое изображение:</span>
+                        {#if feedbackImagePath}
+                            <br />
+                            <img width="150px" height="150px" src={feedbackImagePath} class="img-fluid mt-3" alt="Изображение">
+                            <br />
+                        {/if}
+                        <input type="hidden" name="img" value={ feedbackImageId }><br />
+                        <button type="button" class="btn btn-outline-success" on:click={ feedbackImageModal.open }> { feedbackImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     </label>
                 </div>
                 <div>

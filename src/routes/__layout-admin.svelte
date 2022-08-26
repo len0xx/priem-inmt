@@ -15,7 +15,7 @@
     const ACCOMMODATION_URL = BASE_URL + '/accommodation'
     const CONTACTS_URL = BASE_URL + '/contacts'
     const FILES_URL = BASE_URL + '/media'
-    const TEXTS_URL = BASE_URL + '/texts'
+    // const TEXTS_URL = BASE_URL + '/texts'
 
     const TECH_SUPPORT_EMAIL = 'contact@len0xx.space'
 

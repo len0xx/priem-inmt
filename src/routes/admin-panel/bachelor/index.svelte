@@ -6,53 +6,43 @@
         const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor'))
         const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
         const resOpportunities = await fetch(apiRoute('admin/opportunity'))
-        const resQuestions = await fetch(apiRoute('admin/question/?page=bachelor'))
         const resFeatures = await fetch(apiRoute('admin/feature/?page=bachelor'))
     
         const documents = (await resDocuments.json()).documents
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const opportunities = (await resOpportunities.json()).opportunities
-        const questions = (await resQuestions.json()).questions
         const features = (await resFeatures.json()).features
 
-        if (resDocuments.ok && resFeedbacks.ok && resQuestions.ok && resFeatures.ok && resOpportunities.ok) {
-            return { props: { documents, feedbacks, questions, features, opportunities } }
+        if (resDocuments.ok && resFeedbacks.ok && resFeatures.ok && resOpportunities.ok) {
+            return { props: { documents, feedbacks, features, opportunities } }
         }
     }
 </script>
 <script lang="ts">
-    import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton } from '$components'
-    import type { DocumentI, FeatureI, OpportunityI, FeedbackI, QuestionI, ModalComponent } from '../../../types'
+    import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton, FileSelect } from '$components'
+    import type { DocumentI, FeatureI, OpportunityI, FeedbackI, ModalComponent } from '../../../types'
     import { slide } from 'svelte/transition'
 
     export let documents: DocumentI[] = []
-    export let questions: QuestionI[] = []
     export let feedbacks: FeedbackI[] = []
     export let features: FeatureI[] = []
     export let opportunities: OpportunityI[] = []
 
-    let modalQuestion: ModalComponent = null
     let modalDocument: ModalComponent = null
-    let questionId: number
     let documentId: number
 
+    let feedbackImageModal: ModalComponent = null
+    let feedbackImageId: number = null
+    let feedbackImagePath: string = null
+
     let featuresExpanded = false
-    let questionsExpanded = false
     let opportunitiesExpanded = false
     let documentsExpanded = false
     let feedbacksExpanded = false
 
-    const updateQuestionId = (id: number) => {
-        questionId = id
-        modalQuestion.open()
-    }
-
-    const removeQuestion = async () => {
-        const res = await fetch(apiRoute(`admin/question/${questionId}`), { method: 'DELETE' })
-        if (res.ok) {
-            questions = questions.filter(question => question.id !== questionId)
-        }
-        modalQuestion.close()
+    const feedbackImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        feedbackImageId = event.detail.id
+        feedbackImagePath = event.detail.path
     }
 
     const deleteDocument = async () => {
@@ -73,19 +63,13 @@
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
 
+<FileSelect bind:modal={ feedbackImageModal } on:save={ feedbackImageSelected } />
+
 <Modal bind:this={ modalDocument } align="center" closable={true}>
     <p class="mb-4">Вы действительно хотите удалить этот документ?</p>
     <div class="buttons-row">
         <button type="button" on:click={deleteDocument} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modalDocument.close} class="btn btn-secondary">Отмена</button>
-    </div>
-</Modal>
-
-<Modal bind:this={ modalQuestion } align="center" closable={true}>
-    <p class="mb-4">Вы действительно хотите удалить этот вопрос FAQ?</p>
-    <div class="buttons-row">
-        <button type="button" on:click={removeQuestion} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={modalQuestion.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -198,8 +182,14 @@
                     <br />
                     <br />
                     <label>
-                        <span class="caption">Изображение:</span><br />
-                        <input class="form-control" type="text" name="img" id="img" /> <!-- TODO: file upload -->
+                        <span class="caption">Добавить новое изображение:</span>
+                        {#if feedbackImagePath}
+                            <br />
+                            <img width="150px" height="150px" src={feedbackImagePath} class="img-fluid mt-3" alt="Изображение">
+                            <br />
+                        {/if}
+                        <input type="hidden" name="img" value={ feedbackImageId }><br />
+                        <button type="button" class="btn btn-outline-success" on:click={ feedbackImageModal.open }> { feedbackImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     </label>
                 </div>
                 <div>

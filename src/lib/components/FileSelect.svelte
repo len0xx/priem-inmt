@@ -10,34 +10,32 @@
     
     const dispatch = createEventDispatcher()
     const LIMIT = 9
+    let currentPage = 1
+    let pagesAmount = 1
+    let filesAmount = 0
+    let uploadForm = false
     let selectedFile = selected
     let selectedPath: string = null
-    let currentPage = 1
-    let filesAmount = 0
-    let pagesAmount = 1
-    let uploadForm = false
     $: filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
 
     const getFiles = async (page: number): Promise<DocumentI[]> => {
         const res = await fetch(apiRoute(`admin/media?type=media&page=${page}`))
         const files = (await res.json()).documents
 
-        if (res.ok) {
+        if (res.ok)
             return files
-        }
     
-        throw new Error('Could not fetch files')
+        throw new Error('Не удалось загрузить файлы')
     }
 
     const getFilesAmount = async (): Promise<number> => {
-        const res = await fetch(apiRoute('admin/media/count'))
+        const res = await fetch(apiRoute('admin/media/count?type=media'))
         const amount = (await res.json()).amount
 
-        if (res.ok) {
+        if (res.ok)
             return amount
-        }
     
-        throw new Error('Could not fetch amount')
+        throw new Error('Не удалось загрузить количество файлов')
     }
 
     const selectFile = (file: DocumentI) => {
@@ -73,8 +71,10 @@
         }
     }
 
-    const handleSuccess = () => {
+    const handleSuccess = async () => {
         filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
+        filesAmount = await getFilesAmount()
+        pagesAmount = Math.ceil(filesAmount / LIMIT)
     }
 
     onMount(async () => {

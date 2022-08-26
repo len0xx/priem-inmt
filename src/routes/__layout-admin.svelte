@@ -84,13 +84,13 @@
             {/if}
         </div>
         <nav class="left-menu-nav">
-            <a
+            <!-- <a
                 href={BASE_URL}
                 class:active={URL === BASE_URL}
                 sveltekit:prefetch
                 class="menu-item"
                 on:click={() => openAside = false}>Общая информация</a
-            >
+            > -->
             <a
                 href={MAIN_URL}
                 class:active={URL.startsWith(MAIN_URL)}
@@ -140,13 +140,13 @@
                 class="menu-item"
                 on:click={() => openAside = false}>Файлы</a
             >
-            <a
+            <!-- <a
                 href={TEXTS_URL}
                 class:active={URL.startsWith(TEXTS_URL)}
                 sveltekit:prefetch
                 class="menu-item"
                 on:click={() => openAside = false}>Текстовые элементы</a
-            >
+            > -->
         </nav>
     </aside>
     <div class="panel-content">

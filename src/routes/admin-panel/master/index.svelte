@@ -303,7 +303,7 @@
                     {#if i < 6 || questionsExpanded}
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">{ question.text }</h4>
+                                <h4 class="card-title">{ question.text }</h4><br />
                                 <a href="/admin-panel/master/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
                                 <button type="button" on:click={() => updateQuestionId(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </div>

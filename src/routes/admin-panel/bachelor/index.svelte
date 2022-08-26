@@ -30,6 +30,9 @@
 
     let modalDocument: ModalComponent = null
     let documentId: number
+    
+    let modalFeature: ModalComponent = null
+    let featureId:number
 
     let feedbackImageModal: ModalComponent = null
     let feedbackImageId: number = null
@@ -45,12 +48,25 @@
         feedbackImagePath = event.detail.path
     }
 
+    const updateFeatureId = (id: number) => {
+        featureId = id
+        modalFeature.open()
+    }
+
     const deleteDocument = async () => {
         const res = await fetch(apiRoute(`admin/documents/${documentId}`), { method: 'DELETE' })
         if (res.ok) {
             documents = documents.filter(doc => doc.id !== documentId)
         }
         modalDocument.close()
+    }
+
+    const deleteFeature = async () => {
+        const res = await fetch(apiRoute(`admin/feature/${featureId}`), { method: 'DELETE' })
+        if (res.ok) {
+            features = features.filter(feature => feature.id !== featureId)
+        }
+        modalFeature.close()
     }
 
     const handleSuccess = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
@@ -70,6 +86,14 @@
     <div class="buttons-row">
         <button type="button" on:click={deleteDocument} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modalDocument.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
+<Modal bind:this={ modalFeature } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить это перечисление?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={deleteFeature} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modalFeature.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -96,13 +120,13 @@
             <Grid m={3}>
                 {#each features as feature, i (i)}
                     {#if i < 6 || featuresExpanded}
-                        <a href="/admin-panel/bachelor/feature/update/{ feature.id }">
-                            <div class="card">
-                                <div class="card-body">
-                                    <Benefit num={feature.title} caption={feature.description} />
-                                </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <Benefit num={feature.title} caption={feature.description} />
+                                <a href="/admin-panel/bachelor/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                                <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </div>
-                        </a>
+                        </div>
                     {/if}
                 {/each}
             </Grid>

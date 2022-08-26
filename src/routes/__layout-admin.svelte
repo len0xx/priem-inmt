@@ -64,12 +64,12 @@
 
     <aside class="left-menu {fullAside ? 'full' : ''}">
         <nav>
-            <a
+            <!-- <a
                 href={BASE_URL}
                 class:active={URL === BASE_URL}
                 sveltekit:prefetch
                 class="menu-item">Общая информация</a
-            >
+            > -->
             <a
                 href={MAIN_URL}
                 class:active={URL.startsWith(MAIN_URL)}

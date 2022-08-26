@@ -22,7 +22,7 @@ Question.init(
             }
         },
         answer: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
             validate: {
                 notEmpty: {

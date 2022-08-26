@@ -377,7 +377,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <h3>Существующие изображения:</h3>
+        <h3>Опубликованные изображения:</h3>
         {#if carouselImages.length}
             <Grid m={3}>
                 {#each carouselImages as image, i (i)}
@@ -420,7 +420,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <h3>Существующие изображения:</h3>
+        <h3>Опубликованные изображения:</h3>
         {#if carouselLifeImages.length}
             <Grid m={3}>
                 {#each carouselLifeImages as image, i (i)}

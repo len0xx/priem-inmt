@@ -166,39 +166,15 @@
         <h3>Опубликованные отзывы</h3>
         { #if feedbacks.length }
             <Grid className="mt-5" m={3} s={1} alignItems="start">
-                <Grid m={1} alignItems="start">
-                    { #each feedbacks.filter((_, i) => i % 3 == 0) as feedback }
-                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
-                            <Profile img={ feedback.img }>
-                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                            </Profile>
-                        </a>
-                    { /each }
-                </Grid>
-                <Grid m={1} alignItems="start">
-                    { #each feedbacks.filter((_, i) => i % 3 == 1) as feedback }
-                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
-                            <Profile img={ feedback.img }>
-                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                            </Profile>
-                        </a>
-                    { /each }
-                </Grid>
-                <Grid m={1} alignItems="start">
-                    { #each feedbacks.filter((_, i) => i % 3 == 2) as feedback }
-                        <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
-                            <Profile img={ feedback.img }>
-                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                            </Profile>
-                        </a>
-                    { /each }
-                </Grid>
+                { #each feedbacks as feedback }
+                    <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }">
+                        <Profile img={ feedback.img }>
+                            <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                            <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                            <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                        </Profile>
+                    </a>
+                { /each }
             </Grid>
         { :else }
             <p class="mt-3">Здесь еще нет отзывов</p>

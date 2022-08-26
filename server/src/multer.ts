@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
 const fileSizeMB = (megabytes: number) => megabytes * 1024 * 1024
 
 const createFileFilter = (extensions: string[]): ((req: Request, file: Express.Multer.File, callback: multer.FileFilterCallback) => void) => {
-    return (_, file, cb) => {
+    return (_req, file, cb) => {
         const filetypes = new RegExp(`${ extensions.map(item => item.toLowerCase()).join('|') }`)
         const mimetype = filetypes.test(file.mimetype)
         const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
@@ -47,11 +47,11 @@ const createFileFilter = (extensions: string[]): ((req: Request, file: Express.M
 export const uploadImage = multer({
     storage: storage,
     limits: { fileSize: fileSizeMB(10) },
-    fileFilter: createFileFilter(['JPEG', 'JPG', 'PNG'])
+    fileFilter: createFileFilter(['JPEG', 'JPG', 'PNG', 'SVG'])
 })
 
 export const uploadDocument = multer({
     storage: storage,
     limits: { fileSize: fileSizeMB(4) },
-    fileFilter: createFileFilter(['PDF', 'DOC', 'DOCX', 'XLS', 'XLSX', 'JPG', 'JPEG', 'PNG'])
+    fileFilter: createFileFilter(['PDF', 'DOC', 'DOCX', 'XLS', 'XLSX', 'JPG', 'JPEG', 'PNG', 'SVG'])
 })

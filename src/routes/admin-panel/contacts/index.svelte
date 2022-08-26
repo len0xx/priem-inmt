@@ -150,7 +150,8 @@
                 <br />
                 {#if responsibleImagePath}
                     <p>Предпросмотр:</p>
-                    <img width="150px" height="150px" src={responsibleImagePath} class="img-fluid" alt="Фотография ответственного лица"><br />   
+                    <img width="150px" height="150px" src={responsibleImagePath} class="img-fluid" alt="Фотография ответственного лица"><br />
+                    <br />
                 {/if}
                 <button class="btn btn-primary">Создать</button>
             </Form>

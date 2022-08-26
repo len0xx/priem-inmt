@@ -15,7 +15,6 @@
 
 <script lang="ts">
     import { Form } from '$components'
-    import { redirect } from '$lib/utilities'
     import type { OpportunityI } from '../../../../../types'
 
     export let opportunity: OpportunityI

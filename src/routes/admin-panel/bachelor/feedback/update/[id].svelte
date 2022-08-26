@@ -14,14 +14,11 @@
 </script>
 
 <script lang="ts">
-    import { Form, Modal, FileSelect } from '$components'
+    import { Form, FileSelect } from '$components'
     import { Grid } from '$components'
-    import { redirect } from '$lib/utilities'
     import type { FeedbackI, ModalComponent } from '../../../../../types'
 
     export let feedback: FeedbackI
-
-    let modal: ModalComponent = null
     
     let imageModal: ModalComponent = null
     let imageId: number = null
@@ -31,14 +28,6 @@
         imageId = event.detail.id
         imagePath = event.detail.path
     }
-
-    const removefeedback = async () => {
-        const res = await fetch(apiRoute(`admin/feedback/${feedback.id}`), { method: 'DELETE' })
-        if (res.ok) {
-            redirect('/admin-panel/bachelor')
-        }
-        modal.close()
-    }
 </script>
 
 <svelte:head>
@@ -46,14 +35,6 @@
 </svelte:head>
 
 <FileSelect bind:modal={ imageModal } on:save={ imageSelected } />
-
-<Modal bind:this={ modal } align="center" closable={true}>
-    <p class="mb-4">Вы действительно хотите удалить этот отзыв?</p>
-    <div class="buttons-row">
-        <button type="button" on:click={removefeedback} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
-    </div>
-</Modal>
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -98,7 +79,6 @@
             </Grid>
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
-                <button type="button" class="btn btn-outline-danger" on:click={ modal.open }>Удалить отзыв</button>
                 <button type="button" on:click|preventDefault={ () => window.history.back() } class="btn btn-outline-secondary">Вернуться назад</button>
             </div>
         </Form>

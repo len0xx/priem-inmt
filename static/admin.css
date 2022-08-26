@@ -215,3 +215,7 @@ nav ul.pagination li {
         font-size: 1.5em;
     }
 }
+
+ul.pagination li.page-item {
+    cursor: pointer;
+}

@@ -260,6 +260,11 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Информация о поступлении</h3>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Бюджет/Контракт</label>
+        </div>
+        <br />
         <form action="/api/admin/info/main" method="POST">
             <label>
                 <span class="caption">Заголовок:</span><br />
@@ -269,22 +274,22 @@
             <h4>Сроки подачи документов</h4>
             <div class="grid grid-2 m-grid-1">
                 <label>
-                    <span class="caption">[Бюджет] Очная форма обучения:</span><br />
+                    <span class="caption">Очная форма обучения:</span><br />
                     <input class="form-control" type="text" name="caption" id="caption"
                         placeholder="20.06 - 08.08" />
                 </label>
                 <label>
-                    <span class="caption">[Бюджет] Очно-заочная и заочная формы обучения:</span><br />
+                    <span class="caption">Очно-заочная и заочная формы обучения:</span><br />
                     <input class="form-control" type="text" name="caption" id="caption"
                         placeholder="20.06 - 08.08" />
                 </label>
                 <label>
-                    <span class="caption">[Бюджет] Очная форма обучения:</span><br />
+                    <span class="caption">Очная форма обучения:</span><br />
                     <input class="form-control" type="text" name="caption" id="caption"
                         placeholder="20.06 - 08.08" />
                 </label>
                 <label>
-                    <span class="caption">[Бюджет] Очно-заочная и заочная формы обучения:</span><br />
+                    <span class="caption">Очно-заочная и заочная формы обучения:</span><br />
                     <input class="form-control" type="text" name="caption" id="caption"
                         placeholder="20.06 - 08.08" />
                 </label>
@@ -292,22 +297,22 @@
             <h4>Период сдачи вступительных испытаний</h4>
             <div class="grid grid-2 m-grid-1">
                 <label>
-                    <span class="caption">[Контракт] Очная форма обучения:</span><br />
+                    <span class="caption">Очная форма обучения:</span><br />
                     <input class="form-control" type="text" name="caption" id="caption"
                         placeholder="20.06 - 08.08" />
                 </label>
                 <label>
-                    <span class="caption">[Контракт] Очно-заочная и заочная формы обучения:</span><br />
+                    <span class="caption">Очно-заочная и заочная формы обучения:</span><br />
                     <input class="form-control" type="text" name="caption" id="caption"
                         placeholder="20.06 - 08.08" />
                 </label>
                 <label>
-                    <span class="caption">[Контракт] Очная форма обучения:</span><br />
+                    <span class="caption">Очная форма обучения:</span><br />
                     <input class="form-control" type="text" name="caption" id="caption"
                         placeholder="20.06 - 08.08" />
                 </label>
                 <label>
-                    <span class="caption">[Контракт] Очно-заочная и заочная формы обучения:</span><br />
+                    <span class="caption">Очно-заочная и заочная формы обучения:</span><br />
                     <input class="form-control" type="text" name="caption" id="caption"
                         placeholder="20.06 - 08.08" />
                 </label>

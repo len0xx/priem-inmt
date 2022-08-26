@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ScrollToTop, Header, Link } from '$components'
+    import { Icon, ScrollToTop, Header, Link } from '$components'
     import { page } from '$app/stores'
 
     // User authorization
@@ -34,6 +34,9 @@
         }
         prevScroll = currentScroll
     }
+
+    let openAside = false
+
 </script>
 
 <svelte:head>
@@ -45,7 +48,7 @@
 <main>
     <Header hideOnScrollDown={true} showOnScrollUp={true} hideAfter={90}>
         <div class="content">
-            <div class="admin-header-layout">
+            <div class="admin-header-layout mobile-hide">
                 <a href="/">
                     <img src="/img/urfu-logo-colourful.svg" alt="УрФУ" />
                 </a>
@@ -57,66 +60,92 @@
                     {/if}
                 </div>
             </div>
+            <div class="admin-header-layout pc-hide">
+                <a href="/">
+                    <img src="/img/urfu-logo-colourful.svg" alt="УрФУ" />
+                </a>
+                <div class="pc-hide align-right">
+                    <Icon name="menu-icon-gray-fill" className="menu-button" width={52} height={52} alt="Кнопка открытия меню" on:click={() => openAside = true }/>
+                </div>
+            </div>
         </div>
     </Header>
 
     <ScrollToTop />
 
-    <aside class="left-menu {fullAside ? 'full' : ''}">
-        <nav>
+    <aside class="left-menu {fullAside ? 'full' : ''} {openAside ? 'mobile-open' : ''}">
+        <div class="left-menu-close close-btn pc-hide">
+            <Icon name="small-close-icon" width={36} height={36} alt="Кнопка закрытия окна" on:click={() => openAside = false} />      
+        </div>
+        <div class="left-menu-user align-left pc-hide"> 
+            {#if user}          
+                <p>Добро пожаловать, {user.firstName}</p>
+                <a class="btn btn-outline-danger" href="/admin-panel-auth/logout">Выйти</a>
+            {/if}
+        </div>
+        <nav class="left-menu-nav">
             <a
                 href={BASE_URL}
                 class:active={URL === BASE_URL}
                 sveltekit:prefetch
-                class="menu-item">Общая информация</a
+                class="menu-item"
+                on:click={() => openAside = false}>Общая информация</a
             >
             <a
                 href={MAIN_URL}
                 class:active={URL.startsWith(MAIN_URL)}
                 sveltekit:prefetch
-                class="menu-item">Главная страница</a
+                class="menu-item"
+                on:click={() => openAside = false}>Главная страница</a
             >
             <a
                 href={PROGRAMS_URL}
                 class:active={URL.startsWith(PROGRAMS_URL)}
                 sveltekit:prefetch
-                class="menu-item">Образовательные программы</a
+                class="menu-item"
+                on:click={() => openAside = false}>Образовательные программы</a
             >
             <a
                 href={BACHELOR_URL}
                 class:active={URL.startsWith(BACHELOR_URL)}
                 sveltekit:prefetch
-                class="menu-item">Бакалавриат и специалитет</a
+                class="menu-item"
+                on:click={() => openAside = false}>Бакалавриат и специалитет</a
             >
             <a
                 href={MASTER_URL}
                 class:active={URL.startsWith(MASTER_URL)}
                 sveltekit:prefetch
-                class="menu-item">Магистратура</a
+                class="menu-item"
+                on:click={() => openAside = false}>Магистратура</a
             >
             <a
                 href={ACCOMMODATION_URL}
                 class:active={URL.startsWith(ACCOMMODATION_URL)}
                 sveltekit:prefetch
-                class="menu-item">Поселение</a
+                class="menu-item"
+                on:click={() => openAside = false}>Поселение</a
             >
             <a
                 href={CONTACTS_URL}
                 class:active={URL.startsWith(CONTACTS_URL)}
                 sveltekit:prefetch
-                class="menu-item">Контакты</a
+                class="menu-item"
+                on:click={() => openAside = false}>Контакты</a
             >
             <a
                 href={FILES_URL}
                 class:active={URL.startsWith(FILES_URL)}
                 sveltekit:prefetch
-                class="menu-item">Файлы</a
+                class="menu-item"
+                on:click={() => openAside = false}>Файлы</a
             >
             <a
                 href={TEXTS_URL}
                 class:active={URL.startsWith(TEXTS_URL)}
                 sveltekit:prefetch
-                class="menu-item">Текстовые элементы</a
+                class="menu-item"
+                on:click={() => openAside = false}>Текстовые элементы</a
             >
         </nav>
     </aside>
@@ -152,5 +181,15 @@
         display: block;
         position: relative;
         width: calc(100vw - 300px);
+    }
+
+    @media screen and (max-width: 768px) {
+        main {
+            margin-left: 0;
+        }
+
+        .panel-content {
+            width: 100%;
+        }
     }
 </style>

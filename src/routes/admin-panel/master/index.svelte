@@ -281,7 +281,7 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3>Ответы на вопросы</h3>
+        <h3 class="no-top-margin">Ответы на вопросы</h3>
         <Form method="POST" action="/api/admin/question/?page=master" reset={ true } redirect="/admin-panel/master">
             <Grid m={1}>
                 <label>

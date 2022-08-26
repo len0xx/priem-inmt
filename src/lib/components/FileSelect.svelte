@@ -1,9 +1,9 @@
 <script lang="ts">
     import { createEventDispatcher, onMount } from 'svelte'
-    import { blur } from 'svelte/transition'
-    import { Modal, Grid } from '.'
-    import type { DocumentI, ModalComponent } from '../../types'
+    import { blur, slide } from 'svelte/transition'
+    import { Modal, Grid, Form } from '.'
     import { apiRoute } from '$lib/utilities'
+    import type { DocumentI, ModalComponent } from '../../types'
 
     export let modal: ModalComponent = null
     export let selected: number = null
@@ -15,6 +15,7 @@
     let currentPage = 1
     let filesAmount = 0
     let pagesAmount = 1
+    let uploadForm = false
     $: filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
 
     const getFiles = async (page: number): Promise<DocumentI[]> => {
@@ -72,6 +73,10 @@
         }
     }
 
+    const handleSuccess = () => {
+        filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
+    }
+
     onMount(async () => {
         filesAmount = await getFilesAmount()
         pagesAmount = Math.ceil(filesAmount / LIMIT)
@@ -113,7 +118,7 @@
                 { /each }
             </Grid>
         { :else }
-            Файлы не найдены
+            <p>Файлы не найдены</p>
         { /if }
     {/await }
     <br />
@@ -139,9 +144,31 @@
             </ul>
         </nav>
     { /if }
+    { #if uploadForm }
+        <div transition:slide={{ duration: 200 }}>
+            <Form action="/api/admin/documents?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
+                <Grid m={3} s={1} alignItems="end">
+                    <label class="wide">
+                        <span class="form-label">Название нового файла</span>
+                        <input type="text" class="form-control wide" placeholder="Название" name="title" required />
+                    </label>
+                    <label>
+                        <span class="caption">Файл</span><br />
+                        <input required class="form-control" type="file" name="file" id="file" />
+                    </label>
+                    <div>
+                        <button class="btn btn-primary">Загрузить</button>
+                    </div>
+                </Grid>
+            </Form>
+            <br />
+        </div>
+    { /if }
     <div class="buttons-row">
         <button type="button" class="btn btn-primary" on:click={ saveChanges }>Сохранить</button>
-        <a href="/admin-panel/media" class="btn btn-success">Загрузить новый файл</a>
+        <button type="button" class="btn btn-outline-success" on:click={ () => uploadForm = !uploadForm }>
+            { uploadForm ? 'Скрыть форму загрузки' : 'Загрузить новый файл' }
+        </button>
         <button type="button" class="btn btn-outline-secondary" on:click={ discard }>Отмена</button>
     </div>
 </Modal>

@@ -35,6 +35,17 @@ abstract class BaseService<ModelClass extends Model, ModelInterface extends Make
         return await this.model.update(entity, options)
     }
 
+    async createOrUpdate(options: UpdateOptions<ModelClass & { id: number }>, entity: UpdateFields<ModelClass> | ModelInterface) {
+        const count = await this.count(options)
+        
+        if (count) {
+            return await this.update(options, entity)
+        }
+        else {
+            return await this.create(entity as ModelInterface)
+        }
+    }
+
     async updateById(id: WhereAttributeHashValue<Attributes<ModelClass>['id']>, entity: UpdateFields<ModelClass>) {
         return await this.update({ where: { id } }, entity)
     }

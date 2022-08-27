@@ -26,7 +26,11 @@ export interface EducationModesI {
     fullTime?: EducationModeI
 }
 
-class EducationalProgram extends Model<InferAttributes<EducationalProgram, { omit: 'id' }>, InferCreationAttributes<EducationalProgram>> {
+class EducationalProgram
+extends Model<
+    InferAttributes<EducationalProgram, { omit: 'id' }>,
+    InferCreationAttributes<EducationalProgram>
+> {
     declare id: CreationOptional<number>
     declare title: string
     declare degree: DegreeLevel

@@ -166,7 +166,7 @@
     { /if }
     <div class="buttons-row">
         <button type="button" class="btn btn-primary" on:click={ saveChanges }>Сохранить</button>
-        <button type="button" class="btn btn-outline-success" on:click={ () => uploadForm = !uploadForm }>
+        <button type="button" class="btn btn-outline-success" class:btn-outline-success={ !uploadForm } class:btn-outline-secondary={ uploadForm } on:click={ () => uploadForm = !uploadForm }>
             { uploadForm ? 'Скрыть форму загрузки' : 'Загрузить новый файл' }
         </button>
         <button type="button" class="btn btn-outline-secondary" on:click={ discard }>Отмена</button>

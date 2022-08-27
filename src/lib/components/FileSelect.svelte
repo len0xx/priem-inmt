@@ -21,21 +21,12 @@
     const getFiles = async (page: number): Promise<DocumentI[]> => {
         const res = await fetch(apiRoute(`admin/media?type=media&page=${page}`))
         const files = (await res.json()).documents
+        filesAmount = (await res.json()).amount
 
         if (res.ok)
             return files
     
         throw new Error('Не удалось загрузить файлы')
-    }
-
-    const getFilesAmount = async (): Promise<number> => {
-        const res = await fetch(apiRoute('admin/media/count?type=media'))
-        const amount = (await res.json()).amount
-
-        if (res.ok)
-            return amount
-    
-        throw new Error('Не удалось загрузить количество файлов')
     }
 
     const selectFile = (file: DocumentI) => {
@@ -73,12 +64,10 @@
 
     const handleSuccess = async () => {
         filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
-        filesAmount = await getFilesAmount()
         pagesAmount = Math.ceil(filesAmount / LIMIT)
     }
 
     onMount(async () => {
-        filesAmount = await getFilesAmount()
         pagesAmount = Math.ceil(filesAmount / LIMIT)
     })
 </script>

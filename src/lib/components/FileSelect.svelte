@@ -20,8 +20,9 @@
 
     const getFiles = async (page: number): Promise<DocumentI[]> => {
         const res = await fetch(apiRoute(`admin/media?type=media&page=${page}`))
-        const files = (await res.json()).documents
-        filesAmount = (await res.json()).amount
+        const json = await res.json()
+        const files = json.documents
+        filesAmount = json.amount
 
         if (res.ok)
             return files

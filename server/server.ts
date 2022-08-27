@@ -21,7 +21,7 @@ import partnerRouter from './src/routes/admin/partner.js'
 import carouselRouter from './src/routes/admin/carousel.js'
 import questionRouter from './src/routes/admin/question.js'
 import featureRouter from './src/routes/admin/feature.js'
-import textRouter from './src/routes/admin/text.js'
+import textinfoRouter from './src/routes/admin/textinfo.js'
 import documentsRouter from './src/routes/admin/documents.js'
 import mediaRouter from './src/routes/admin/media.js'
 import { fileURLToPath } from 'url'
@@ -90,7 +90,7 @@ app.use('/api/admin/programs', programRouter)
 app.use('/api/admin/rentInfo', rentInfoRouter)
 app.use('/api/admin/responsible', responsibleRouter)
 app.use('/api/admin/settlement', settlementRouter)
-app.use('/api/admin/text', textRouter)
+app.use('/api/admin/textinfo', textinfoRouter)
 app.use('/api/admin/graduate', graduateRouter)
 app.use('/api/admin/partner', partnerRouter)
 app.use('/api/admin/carousel', carouselRouter)

@@ -27,7 +27,7 @@ export interface EducationModesI {
 }
 
 class EducationalProgram
-extends Model<
+    extends Model<
     InferAttributes<EducationalProgram, { omit: 'id' }>,
     InferCreationAttributes<EducationalProgram>
 > {

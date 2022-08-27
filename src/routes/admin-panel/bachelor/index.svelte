@@ -7,14 +7,16 @@
         const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
         const resOpportunities = await fetch(apiRoute('admin/opportunity'))
         const resFeatures = await fetch(apiRoute('admin/feature/?page=bachelor'))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor'))
     
         const documents = (await resDocuments.json()).documents
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const opportunities = (await resOpportunities.json()).opportunities
         const features = (await resFeatures.json()).features
+        const info = (await resInfo.json()).info
 
-        if (resDocuments.ok && resFeedbacks.ok && resFeatures.ok && resOpportunities.ok) {
-            return { props: { documents, feedbacks, features, opportunities } }
+        if (resDocuments.ok && resFeedbacks.ok && resFeatures.ok && resOpportunities.ok && resInfo.ok) {
+            return { props: { documents, feedbacks, features, opportunities, pageInfo: info } }
         }
     }
 </script>
@@ -23,6 +25,7 @@
     import type { DocumentI, FeatureI, OpportunityI, FeedbackI, ModalComponent } from '../../../types'
     import { slide } from 'svelte/transition'
 
+    export let pageInfo: Record<string, string> = {}
     export let documents: DocumentI[] = []
     export let feedbacks: FeedbackI[] = []
     export let features: FeatureI[] = []
@@ -148,6 +151,32 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Редактирование страницы бакалавриата</h2>
+        <h3>Информация в промо-блоке</h3>
+        <Form action="/api/admin/textinfo?page=bachelor" method="PATCH" reset={ false }>
+            <div class="grid grid-2 m-grid-1">
+                <div class="grid grid-1">
+                    <label>
+                        <span class="caption">Заголовок:</span><br />
+                        <input required class="form-control" type="text" name="bachelorTitle" value={ pageInfo.bachelorTitle || '' }>
+                    </label>
+                    <label>
+                        <span class="caption">Подзаголовок:</span><br />
+                        <input required class="form-control" type="text" name="bachelorSubtitle" value={ pageInfo.bachelorSubtitle || '' }>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <span class="caption">Сопровождающий текст:</span>
+                        <textarea class="form-control" name="bachelorText" value={ pageInfo.bachelorText || '' }></textarea>
+                    </label>
+                </div>
+            </div>
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
+        </Form>
+    </div>
+    <br />
+    <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
         <Form action="/api/admin/feature?page=bachelor" method="POST" redirect="/admin-panel/bachelor">
             <div class="grid grid-2 m-grid-1">
@@ -164,7 +193,7 @@
             <button class="btn btn-primary">Создать</button>
         </Form>
         <h3>Опубликованные перечисления</h3>
-        {#if features.length}
+        { #if features.length }
             <Grid m={3}>
                 {#each features as feature, i (i)}
                     {#if i < 6 || featuresExpanded}

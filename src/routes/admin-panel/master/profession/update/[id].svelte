@@ -65,7 +65,7 @@
                     { #each range(1, duties) as i }
                         <div class="input-group" transition:slide|local={{ duration: 200 }}>
                             <span class="input-group-text">Функция</span>
-                            <input type="text" aria-label="" name="duty{i}" class="form-control" value={ profession.duties[i - 1] }>
+                            <input type="text" aria-label="" name="duty{i}" class="form-control" value={ profession.duties[i - 1] || ''}>
                         </div>
                         <br />
                     { /each }

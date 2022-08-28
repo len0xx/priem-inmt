@@ -123,6 +123,17 @@
         }
         carouselModal.close()
     }
+
+    const resetFiles = () => {
+        fileId = null
+        filePath = null
+    }
+
+    const showNewPost = (event: CustomEvent<{ message: string, post: PostI }>) => {
+        const newPost = event.detail.post
+        posts = [ ...posts, newPost ]
+        resetFiles()
+    }
 </script>
 
 <svelte:head>
@@ -184,7 +195,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Публикации</h3>
-        <Form action="/api/admin/post" method="POST" redirect="/admin-panel/main">
+        <Form action="/api/admin/post" method="POST" on:success={ showNewPost }>
             <div class="grid grid-2 m-grid-1">
                 <div>
                     <label>
@@ -231,9 +242,8 @@
         <h3>Опубликованные публикации</h3>
         {#if posts.length}
             <Grid l={3} m={2} s={1}>
-                {#each posts as post, i (i)}
-                    {#if i < 6 || postsExpanded}
-                    <div class="card">
+                {#each posts.filter((_, i) => i < 6 || postsExpanded) as post, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
                         {#if post.img}
                             <div class="card-img wide-card-img" style:background-image="url({ post.img })"></div>
                         {/if}
@@ -244,7 +254,6 @@
                             <button class="btn btn-outline-danger btn-sm" on:click={ () => { deleteId = post.id; modal.open() } }>Удалить</button>
                         </div>
                     </div>
-                    {/if}
                 {/each}
             </Grid>
             {#if !postsExpanded && posts.length > 6}

@@ -26,7 +26,12 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         imgURL = file.src
     }
 
-    await postService.create({ title, text, links, img: imgURL })
+    const post = await postService.create({ title, text, links, img: imgURL })
 
-    return new HTTPResponse(res, HTTPStatus.CREATED, 'Публикация успешно создана')
+    const response = {
+        message: 'Публикация успешно создана',
+        post
+    }
+
+    return new HTTPResponse(res, HTTPStatus.CREATED, response)
 })

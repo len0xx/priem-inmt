@@ -13,7 +13,12 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         imgURL = file.src
     }
 
-    await dormitoryService.create( { img: imgURL, title, address } )
+    const dormitory = await dormitoryService.create( { img: imgURL, title, address } )
 
-    return new HTTPResponse(res, HTTPStatus.CREATED, 'Общежитие успешно создано')
+    const response = {
+        message: 'Общежитие успешно создано',
+        dormitory
+    }
+
+    return new HTTPResponse(res, HTTPStatus.CREATED, response)
 })

@@ -35,7 +35,7 @@
 
     let responsiblesExpanded = false
 
-    let links = contactInfo.links.length || 1
+    let links = contactInfo?.links.length || 1
     const addLink = () => links++
     const removeLink = () => links--
     

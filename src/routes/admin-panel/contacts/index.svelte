@@ -3,7 +3,7 @@
     import { apiRoute } from '$lib/utilities'
     
     export const load: Load = async ({ fetch }) => {
-        const resContactInfo = await fetch(apiRoute('admin/info/contacts'))
+        const resContactInfo = await fetch(apiRoute('admin/contactInfo'))
         const resResponsibles = await fetch(apiRoute('admin/responsible'))
 
         const contactInfo = (await resContactInfo.json()).contactInfo
@@ -35,7 +35,7 @@
 
     let responsiblesExpanded = false
 
-    let links = contactInfo ? contactInfo.links.length : 1
+    let links = contactInfo.links.length || 1
     const addLink = () => links++
     const removeLink = () => links--
     

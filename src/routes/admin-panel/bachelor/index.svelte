@@ -21,7 +21,7 @@
     }
 </script>
 <script lang="ts">
-    import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, TipTap, RoundButton, FileSelect } from '$components'
+    import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton, FileSelect } from '$components'
     import type { DocumentI, FeatureI, OpportunityI, FeedbackI, ModalComponent } from '../../../types'
     import { slide } from 'svelte/transition'
 

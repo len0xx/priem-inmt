@@ -15,7 +15,7 @@
 
 <script lang="ts">
     import { imask } from 'svelte-imask'
-    import { Grid, AjaxForm, RoundButton, TipTap, Modal } from '$lib/components'
+    import { Form, Grid, Modal, RoundButton, TipTap } from '$lib/components'
     import { DegreeLevel } from '../../../../types/enums'
     import { range, redirect } from '$lib/utilities'
     import { slide } from 'svelte/transition'
@@ -56,28 +56,16 @@
         examsCount--
     }
 
-    let updateError = false
-    let deleteError = false
-
     const removeProgram = async () => {
         const res = await fetch(apiRoute(`admin/programs/${program.id}`), { method: 'DELETE' })
         if (res.ok) {
             redirect('/admin-panel/programs')
-        } else {
-            deleteError = true
         }
         modal.close()
     }
 
     const handleSuccess = () => {
         redirect('/admin-panel/programs')
-    }
-
-    let errorText = ''
-
-    const handleError = (event: CustomEvent<{ error: string }>) => {
-        updateError = true
-        errorText = event.detail.error
     }
 </script>
 
@@ -96,12 +84,11 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2>Редактирование образовательной программы</h2>
-        <AjaxForm
+        <Form
             method="PATCH"
             action="/api/admin/programs/{program.id}"
-            noReset={false}
+            reset={false}
             on:success={handleSuccess}
-            on:error={handleError}
         >
             <h3>Общая информация</h3>
             <Grid m={2} ratio="2:1">
@@ -518,18 +505,6 @@
                 <button type="button" on:click={modal.open} class="btn btn-danger">Удалить</button>
                 <button type="button" on:click|preventDefault={ () => window.history.back() } class="btn btn-outline-secondary">Вернуться назад</button>
             </div>
-        </AjaxForm>
-        <div class="alerts mt-4">
-            {#if updateError}
-                <div class="alert alert-danger" role="alert">
-                    Произошла ошибка{errorText ? `: ${errorText}` : ''}
-                </div>
-            {/if}
-            {#if deleteError}
-                <div class="alert alert-danger" role="alert">
-                    Произошла ошибка во время удаления программы
-                </div>
-            {/if}
-        </div>
+        </Form>
     </div>
 </section>

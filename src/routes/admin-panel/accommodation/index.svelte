@@ -56,9 +56,14 @@
         modal.close()
     }
 
-    const handleSuccess = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
+    const showNewDocument = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
         const doc = event.detail.document
         documents = [ ...documents, doc ]
+    }
+
+    const showNewDormitory = (event: CustomEvent<{ message: string, dormitory: DormitoryI }>) => {
+        const dorm = event.detail.dormitory
+        dormitories = [ ...dormitories, dorm ]
     }
 </script>
 
@@ -80,7 +85,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Редактирование страницы поселения</h2>
         <h3>Общежития</h3>
-        <Form action="/api/admin/dormitory" method="POST" redirect="/admin-panel/accommodation">
+        <Form action="/api/admin/dormitory" method="POST" reset={ true } on:success={ showNewDormitory }>
             <Grid m={2} s={1}>
                 <label>
                     <span class="caption">Название:</span><br />
@@ -134,7 +139,6 @@
             action={settlement ? `/api/admin/settlement/${settlement.id}` : '/api/admin/settlement'} 
             method={settlement ? 'PATCH' : 'POST'} 
             reset={false}
-            on:success={ handleSuccess }
         >
             <Grid m={2}>
                 <div>
@@ -180,7 +184,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Альтернативное поселение</h3>
-        <Form action="/api/admin/rentInfo" method="POST" on:success={ handleSuccess } reset={ false }>
+        <Form action="/api/admin/rentInfo" method="POST" reset={ false }>
             <div class="grid grid-2 m-grid-1">
                 <div>
                     <label>
@@ -228,7 +232,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Загрузка документов</h3>
-        <Form action="/api/admin/documents?type=docAccommodation" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
+        <Form action="/api/admin/documents?type=docAccommodation" method="POST" content="multipart/form-data" on:success={ showNewDocument }>
             <label class="wide">
                 <span class="form-label">Название документа</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />

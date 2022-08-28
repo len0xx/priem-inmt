@@ -73,7 +73,7 @@
                             class="form-control wide"
                             type="text" 
                             use:imask={ phoneMask }
-                            name="phone" required 
+                            name="phone"
                         />
                     </div>
                     <div>
@@ -129,28 +129,28 @@
                 <div>
                     <label>
                         <span class="caption">Контактный номер телефона:</span><br />
-                        <input class="form-control" type="tel" name="tel" id="tel" use:imask={phoneMask} placeholder="+7 (912) 635-52-97" value={ contactInfo?.tel || '' } />
+                        <input class="form-control" type="tel" name="tel" id="tel" use:imask={phoneMask} placeholder="+7 (912) 635-52-97" value={ contactInfo?.tel || null } />
                     </label>
                     <br />
                     <br />
                     <label>
                         <span class="caption">Контактный адрес электронной почты:</span><br />
                         <input class="form-control" type="email" name="email" id="email"
-                            placeholder="contact@urfu.ru" value={ contactInfo?.email || '' } required />
+                            placeholder="contact@urfu.ru" value={ contactInfo?.email || null } required />
                     </label>
                     <br />
                     <br />
                     <label>
                         <span class="caption">Адрес дирекции института:</span><br />
                         <input class="form-control" type="text" name="directorateAddress" id="directorateAddress"
-                            placeholder="г. Екатеринбург, ул. Софьи Ковалевской, 5" value={ contactInfo?.directorateAddress || '' } required />
+                            placeholder="г. Екатеринбург, ул. Софьи Ковалевской, 5" value={ contactInfo?.directorateAddress || null } required />
                     </label>
                     <br />
                     <br />
                     <label>
                         <span class="caption">Адрес приемной комиссии:</span><br />
                         <input class="form-control" type="text" name="admissionsAddress" id="admissionsAddress"
-                            placeholder="г. Екатеринбург, ул. Мира, 19" value={ contactInfo?.admissionsAddress || '' } required />
+                            placeholder="г. Екатеринбург, ул. Мира, 19" value={ contactInfo?.admissionsAddress || null } required />
                     </label>
                 </div>
                 <div id="vs2f">

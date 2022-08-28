@@ -20,8 +20,8 @@
 
     export let programs: EducationalProgram[]
 
-    const programsSpec = programs.filter(program => program.degree == 'Специалитет')
     const programsBach = programs.filter(program => program.degree == 'Бакалавриат')
+    const programsSpec = programs.filter(program => program.degree == 'Специалитет')
     const programsMast = programs.filter(program => program.degree == 'Магистратура')
     let modal: ModalComponent = null
 
@@ -55,26 +55,26 @@
         <h2 class="no-top-margin">Образовательные программы</h2>
         <a href="/admin-panel/programs/new" class="btn btn-outline-primary">Создать новую программу</a>
         <button type="button" class="btn btn-outline-success" on:click={ modal.open }>Импортировать образовательные программы из файла</button>
-        <h3>Специалитет { programsSpec.length ? `(${programsSpec.length})` : '' }</h3>
-        { #if programsSpec.length }
-            <Grid s={1} m={2} l={3}>
-                { #each programsSpec as program }
-                    <a href="/admin-panel/programs/update/{ program.id }">
+        <h3>Бакалавриат{ programsBach.length ? ` (${programsBach.length})` : '' }</h3>
+        { #if programsBach.length }
+        <Grid s={1} m={2} l={3}>
+            { #each programsBach as program }
+            <a href="/admin-panel/programs/update/{ program.id }">
                         <Card variant="grey" color="custom">
                             <svelte:fragment slot="title">{ program.title }</svelte:fragment>
                             <svelte:fragment slot="left">{ program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.budget : 'NaN' } бюджет { program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : 'NaN' } контракт</svelte:fragment>
                             <svelte:fragment slot="right">от { program.educationModes.fullTime ? program.educationModes.fullTime.price : 'NaN' } ₽</svelte:fragment>
                         </Card>
                     </a>
-                { /each }
-            </Grid>
+                    { /each }
+                </Grid>
         { :else }
-            <p>Здесь ещё нет образовательных программ</p>
+        <p>Здесь ещё нет образовательных программ</p>
         { /if }
-        <h3>Бакалавриат{ programsBach.length ? ` (${programsBach.length})` : '' }</h3>
-        { #if programsBach.length }
+        <h3>Специалитет { programsSpec.length ? `(${programsSpec.length})` : '' }</h3>
+        { #if programsSpec.length }
             <Grid s={1} m={2} l={3}>
-                { #each programsBach as program }
+                { #each programsSpec as program }
                     <a href="/admin-panel/programs/update/{ program.id }">
                         <Card variant="grey" color="custom">
                             <svelte:fragment slot="title">{ program.title }</svelte:fragment>

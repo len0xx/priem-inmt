@@ -38,12 +38,6 @@ Responsible.init(
         },
         phone: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: {
-                    msg: 'Поле "Номер телефона" является обязательным'
-                },
-            },
         },
         email: {
             type: DataTypes.STRING,

@@ -79,7 +79,7 @@
                         class="form-control wide"
                         type="text" 
                         use:imask={ phoneMask }
-                        name="phone" required 
+                        name="phone" 
                         value={responsible.phone}
                     />
                 </div>

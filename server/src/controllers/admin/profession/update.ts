@@ -12,7 +12,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
 
     for (let i = 1; i <= 10; i++) {
         const duty = req.body[`duty${i}`]
-        if (duty !== undefined) {
+        if (duty) {
             duties.push(duty)
         }
     }

@@ -110,7 +110,7 @@
                 class:active={URL.startsWith(BACHELOR_URL)}
                 sveltekit:prefetch
                 class="menu-item"
-                on:click={() => openAside = false}>Бакалавриат и специалитет</a
+                on:click={() => openAside = false}>Бакалавриат и&nbsp;специалитет</a
             >
             <a
                 href={MASTER_URL}

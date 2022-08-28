@@ -22,7 +22,7 @@
 <script lang="ts">
     import { Grid, Graduate, Form, Modal, Document, FileSelect, RoundButton } from '$components'
     import { imask } from 'svelte-imask'
-    import { slide } from 'svelte/transition'
+    import { slide, blur } from 'svelte/transition'
     import type { DocumentI, DormitoryI, RentInfoI, SettlementI, ModalComponent } from '../../../types'
 
     export let dormitories: DormitoryI[] = []
@@ -39,6 +39,11 @@
     const fileSelected = (event: CustomEvent<{id: number, path: string}>) => {
         fileId = event.detail.id
         filePath = event.detail.path
+    }
+
+    const resetFiles = () => {
+        fileId = null
+        filePath = null
     }
 
     let phoneMask = {
@@ -64,6 +69,7 @@
     const showNewDormitory = (event: CustomEvent<{ message: string, dormitory: DormitoryI }>) => {
         const dorm = event.detail.dormitory
         dormitories = [ ...dormitories, dorm ]
+        resetFiles()
     }
 </script>
 

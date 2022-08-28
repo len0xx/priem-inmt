@@ -4,7 +4,7 @@ import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 import type { ContactInfoI } from '../../../models/contactInfo.js'
 
-export const update = catchHTTPErrors(async (req: Request, res: Response) => {
+export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { tel, email, directorateAddress, admissionsAddress } = req.body
 
     const links: { text: string, url: string }[] = []
@@ -19,7 +19,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
 
     const newData: ContactInfoI = { id: 1, tel, email, directorateAddress, admissionsAddress, links }
 
-    await contactInfoService.updateById(1, newData)
+    await contactInfoService.create(newData)
 
-    return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Контактные данные успешно обновлены')
+    return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Контактные данные успешно сохранены')
 })

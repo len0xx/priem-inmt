@@ -120,8 +120,8 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Контактные данные</h3>
         <Form
-            action="/api/admin/info/contacts"
-            method="POST"
+            action="/api/admin/contactInfo"
+            method={ contactInfo ? 'PATCH' : 'POST' }
             reset={false}
             redirect="/admin-panel/contacts"
         >

@@ -13,7 +13,7 @@
     }
 </script>
 <script lang="ts">
-    import { Grid, AjaxForm } from '$components'
+    import { Form, Grid } from '$components'
     import { redirect } from '$lib/utilities'
     import type { QuestionI } from '../../../../../types'
 
@@ -21,14 +21,6 @@
 
     const handleSuccess = () => {
         redirect('/admin-panel/master')
-    }
-
-    let updateError = false
-    let errorText = ''
-
-    const handleError = (event: CustomEvent) => {
-        updateError = true
-        errorText = event.detail.error
     }
 </script>
 
@@ -40,7 +32,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <h3>Редактирование вопроса FAQ</h3>
-        <AjaxForm method="PATCH" action="/api/admin/question/{ question.id }" noReset={ false } on:success={ handleSuccess } on:error={ handleError }>
+        <Form method="PATCH" action="/api/admin/question/{ question.id }" reset={ false } on:success={ handleSuccess }>
             <Grid m={1}>
                 <label>
                     <span class="question">Вопрос:</span><br />
@@ -56,13 +48,6 @@
                 <button class="btn btn-primary">Сохранить</button>
                 <button type="button" on:click|preventDefault={ () => window.history.back() } class="btn btn-outline-secondary">Вернуться назад</button>
             </div>
-        </AjaxForm>
-        <div class="alerts mt-4">
-            {#if updateError}
-                <div class="alert alert-danger" role="alert">
-                    Произошла ошибка{errorText ? `: ${errorText}` : ''}
-                </div>
-            {/if}
-        </div>
+        </Form>
     </div>
 </section>

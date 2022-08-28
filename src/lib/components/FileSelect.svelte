@@ -23,6 +23,7 @@
         const json = await res.json()
         const files = json.documents
         filesAmount = json.amount
+        pagesAmount = Math.ceil(filesAmount / LIMIT)
 
         if (res.ok)
             return files

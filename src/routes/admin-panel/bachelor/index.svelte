@@ -21,7 +21,7 @@
     }
 </script>
 <script lang="ts">
-    import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton, FileSelect } from '$components'
+    import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, TipTap, RoundButton, FileSelect } from '$components'
     import type { DocumentI, FeatureI, OpportunityI, FeedbackI, ModalComponent } from '../../../types'
     import { slide } from 'svelte/transition'
 
@@ -219,6 +219,18 @@
         {/if}
     </div>
     <br />
+    <!-- <div class="white-block-wide">
+        <h3 class="no-top-margin">Алгоритм поступления</h3>
+        <Form action="/api/admin/textinfo?page=bachelor" method="PATCH" reset={ false }>
+            <div class="grid grid-2 m-grid-1">
+                <span class="caption">Второй текстовый блок:</span><br />
+                <TipTap name="algorithmSecond" />
+            </div>
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
+        </Form>
+    </div>
+    <br /> -->
     <div class="white-block-wide">
         <h3 class="no-top-margin">Студенческие возможности</h3>
         <Form action="/api/admin/opportunity" method="POST" redirect="/admin-panel/bachelor">

@@ -21,5 +21,5 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
 
     await contactInfoService.create(newData)
 
-    return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Контактные данные успешно сохранены')
+    return new HTTPResponse(res, HTTPStatus.CREATED, 'Контактные данные успешно сохранены')
 })

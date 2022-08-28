@@ -14,16 +14,13 @@
 </script>
 
 <script lang="ts">
-    import { AjaxForm, Grid } from '$components'
+    import { Form, Grid } from '$components'
     import { range, redirect } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
     import type { ProfessionI } from '../../../../../types'
 
     export let profession: ProfessionI
 
-    let updateError = false
-    let deleteError = false
-    let errorText = ''
     let duties = profession.duties.length
 
     const addDuty = () => duties++
@@ -31,11 +28,6 @@
 
     const handleSuccess = () => {
         redirect('/admin-panel/master')
-    }
-
-    const handleError = (event: CustomEvent<{ error: string }>) => {
-        updateError = true
-        errorText = event.detail.error
     }
 </script>
 
@@ -47,22 +39,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Профессии</h2>
         <h3>Редактировать профессию</h3>
-        <AjaxForm action="/api/admin/profession/{ profession.id }" method="PATCH" on:success={ handleSuccess } on:error={ handleError } noReset={true}>
-            { #if updateError }
-                <div class="alert alert-danger">
-                    Произошла ошибка во&nbsp;время обновления
-                </div>
-            { /if }
-            { #if deleteError }
-                <div class="alert alert-danger">
-                    Произошла ошибка во&nbsp;время удаления
-                </div>
-            { /if }
-            { #if errorText }
-                <div class="alert alert-danger">
-                    { errorText }
-                </div>
-            { /if }
+        <Form action="/api/admin/profession/{ profession.id }" method="PATCH" on:success={ handleSuccess } reset={false}>
             <Grid m={2} s={1}>
                 <div>
                     <label>
@@ -105,7 +82,7 @@
                 <button class="btn btn-primary">Сохранить</button>
                 <button type="button" on:click|preventDefault={ () => window.history.back() } class="btn btn-outline-secondary">Вернуться назад</button>
             </div>
-        </AjaxForm>
+        </Form>
     </div>
 </section>
 <style>

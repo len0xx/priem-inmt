@@ -4,7 +4,7 @@ import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
 enum Type {
-    Bachelor = 'bachelorPromo',
+    Bachelor = 'bachelor',
     InstInfo = 'instInfo',
     Main = 'main',
     Master = 'master'

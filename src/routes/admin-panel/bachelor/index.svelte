@@ -21,7 +21,7 @@
     }
 </script>
 <script lang="ts">
-    import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton, FileSelect } from '$components'
+    import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton, FileSelect, TipTap } from '$components'
     import type { DocumentI, FeatureI, OpportunityI, FeedbackI, ModalComponent } from '../../../types'
     import { blur, slide } from 'svelte/transition'
 
@@ -234,6 +234,28 @@
         </Form>
     </div>
     <br /> -->
+    <div class="white-block-wide">
+        <h3>Информация об&nbsp;институте</h3>
+        <Form action="/api/admin/textinfo?page=bachelor" method="PATCH" reset={ false }>
+            <div class="grid grid-1">
+                <label>
+                    <span class="caption">Заголовок:</span><br />
+                    <input required class="form-control" type="text" name="instInfoTitle" value={ pageInfo.instInfoTitle || '' }>
+                </label>
+                <div>
+                    <span class="caption">Текст справа:</span><br />
+                    <TipTap name="instInfoText1" content={ pageInfo.instInfoText1 || '' } />
+                </div>
+                <div>
+                    <span class="caption">Текст внизу:</span><br />
+                    <TipTap name="instInfoText2" content={ pageInfo.instInfoText2 || '' } />
+                </div>
+            </div>
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
+        </Form>
+    </div>
+    <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Студенческие возможности</h3>
         <Form action="/api/admin/opportunity" method="POST" redirect="/admin-panel/bachelor">

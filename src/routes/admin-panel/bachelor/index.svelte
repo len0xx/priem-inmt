@@ -7,16 +7,18 @@
         const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
         const resOpportunities = await fetch(apiRoute('admin/opportunity'))
         const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor'))
+        const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo'))
         const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor'))
     
         const documents = (await resDocuments.json()).documents
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const opportunities = (await resOpportunities.json()).opportunities
         const featuresPromo = (await resFeaturesPromo.json()).features
+        const featuresInst = (await resFeaturesInst.json()).features
         const info = (await resInfo.json()).info
 
-        if (resDocuments.ok && resFeedbacks.ok && resFeaturesPromo.ok && resOpportunities.ok && resInfo.ok) {
-            return { props: { documents, feedbacks, featuresPromo, opportunities, pageInfo: info } }
+        if (resDocuments.ok && resFeedbacks.ok && resFeaturesPromo.ok && resFeaturesInst.ok && resOpportunities.ok && resInfo.ok) {
+            return { props: { documents, feedbacks, featuresPromo, featuresInst, opportunities, pageInfo: info } }
         }
     }
 </script>
@@ -29,13 +31,17 @@
     export let documents: DocumentI[] = []
     export let feedbacks: FeedbackI[] = []
     export let featuresPromo: FeatureI[] = []
+    export let featuresInst: FeatureI[] = []
     export let opportunities: OpportunityI[] = []
 
     let modalDocument: ModalComponent = null
     let documentId: number
     
-    let modalFeature: ModalComponent = null
-    let featureId:number
+    let modalFeaturePromo: ModalComponent = null
+    let featurePromoId:number
+
+    let modalFeatureInst: ModalComponent = null
+    let featureInstId:number
 
     let modalOpportunity: ModalComponent = null
     let opportunityId:number
@@ -57,9 +63,14 @@
         feedbackImagePath = event.detail.path
     }
 
-    const updateFeatureId = (id: number) => {
-        featureId = id
-        modalFeature.open()
+    const updateFeaturePromoId = (id: number) => {
+        featurePromoId = id
+        modalFeaturePromo.open()
+    }
+
+    const updateFeatureInstId = (id: number) => {
+        featureInstId = id
+        modalFeatureInst.open()
     }
 
     const updateOpportunityId = (id: number) => {
@@ -81,11 +92,19 @@
     }
 
     const deleteFeaturePromo = async () => {
-        const res = await fetch(apiRoute(`admin/feature/${featureId}`), { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/feature/${featurePromoId}`), { method: 'DELETE' })
         if (res.ok) {
-            featuresPromo = featuresPromo.filter(feature => feature.id !== featureId)
+            featuresPromo = featuresPromo.filter(feature => feature.id !== featurePromoId)
         }
-        modalFeature.close()
+        modalFeaturePromo.close()
+    }
+
+    const deleteFeatureInst = async () => {
+        const res = await fetch(apiRoute(`admin/feature/${featureInstId}`), { method: 'DELETE' })
+        if (res.ok) {
+            featuresInst = featuresInst.filter(feature => feature.id !== featureInstId)
+        }
+        modalFeatureInst.close()
     }
 
     const deleteOpportunity = async () => {
@@ -109,9 +128,14 @@
         documents = [ ...documents, newDoc ]
     }
 
-    const showNewFeature = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
+    const showNewFeaturePromo = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
         const newFeature = event.detail.feature
         featuresPromo = [ ...featuresPromo, newFeature ]
+    }
+    
+    const showNewFeatureInst = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
+        const newFeature = event.detail.feature
+        featuresInst = [ ...featuresInst, newFeature ]
     }
 </script>
 
@@ -129,11 +153,19 @@
     </div>
 </Modal>
 
-<Modal bind:this={ modalFeature } align="center" closable={true}>
+<Modal bind:this={ modalFeaturePromo } align="center" closable={true}>
     <p class="mb-4">Вы действительно хотите удалить это перечисление?</p>
     <div class="buttons-row">
         <button type="button" on:click={deleteFeaturePromo} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={modalFeature.close} class="btn btn-secondary">Отмена</button>
+        <button type="button" on:click={modalFeaturePromo.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
+<Modal bind:this={ modalFeatureInst } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить это преимущество?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={deleteFeatureInst} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modalFeatureInst.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -183,7 +215,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
-        <Form action="/api/admin/feature?type=bachelor" method="POST" on:success={ showNewFeature }>
+        <Form action="/api/admin/feature?type=bachelor" method="POST" on:success={ showNewFeaturePromo }>
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Заголовок:</span><br />
@@ -206,7 +238,7 @@
                             <Benefit num={feature.title} caption={feature.description} />
                             <br />
                             <a href="/admin-panel/bachelor/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                            <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                            <button type="button" on:click={() => updateFeaturePromoId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>
                     </div>
                 {/each}
@@ -254,6 +286,44 @@
             <br />
             <button class="btn btn-primary">Сохранить</button>
         </Form>
+        <h3>Преимущества института</h3>
+        <Form action="/api/admin/feature?type=instInfo" method="POST" on:success={ showNewFeatureInst }>
+            <div class="grid grid-2 m-grid-1">
+                <label>
+                    <span class="caption">Заголовок:</span><br />
+                    <input required class="form-control" type="text" name="title">
+                </label>
+                <label>
+                    <span class="caption">Подпись:</span><br />
+                    <input required class="form-control" type="text" name="description">
+                </label>
+            </div>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <h3>Опубликованные преимущества</h3>
+        { #if featuresInst.length }
+            <Grid m={3}>
+                {#each featuresInst.filter((_, i) => i < 5 || featuresExpanded) as feature, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
+                        <div class="card-body">
+                            <Benefit num={feature.title} caption={feature.description} />
+                            <br />
+                            <a href="/admin-panel/bachelor/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateFeatureInstId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                        </div>
+                    </div>
+                {/each}
+            </Grid>
+            {#if !featuresExpanded && featuresInst.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
+                </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет преимуществ</p>
+        {/if}
     </div>
     <br />
     <div class="white-block-wide">

@@ -240,7 +240,7 @@
             <div class="grid grid-1">
                 <label>
                     <span class="caption">Заголовок:</span><br />
-                    <input required class="form-control" type="text" name="instInfoTitle" value={ pageInfo.instInfoTitle || '' }>
+                    <input class="form-control" type="text" name="instInfoTitle" value={ pageInfo.instInfoTitle || '' } required />
                 </label>
                 <div>
                     <span class="caption">Текст справа:</span><br />

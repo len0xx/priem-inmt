@@ -267,7 +267,7 @@
     </div>
     <br /> -->
     <div class="white-block-wide">
-        <h3>Информация об&nbsp;институте</h3>
+        <h3 class="no-top-margin">Информация об&nbsp;институте</h3>
         <Form action="/api/admin/textinfo?page=bachelor" method="PATCH" reset={ false }>
             <div class="grid grid-1">
                 <label>

@@ -1,4 +1,5 @@
 import educationalProgramService from '../../../services/educationalProgram.js'
+import documentService from '../../../services/document.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
@@ -61,11 +62,19 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         const name = requestData[`feedback_name${i}`]
         const caption = requestData[`feedback_caption${i}`]
         const text = requestData[`feedback_text${i}`]
+        const img = requestData[`feedback_img${i}`]
+        let imgURL = undefined
+        if (img) {
+            const file = await documentService.getById(+img)
+            imgURL = file.src
+        }
+        console.log(`IMG URL: ${imgURL}`)
         if (name && caption && text) {
             feedbacks[i - 1] = {
                 name: name,
                 caption: caption,
-                text: text
+                text: text,
+                img: imgURL
             }
         }
     }

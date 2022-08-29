@@ -1,8 +1,17 @@
 <script lang="ts">
     import { imask } from 'svelte-imask'
-    import { Grid, Form, RoundButton, TipTap } from '$components'
+    import { Grid, Form, RoundButton, TipTap, FileSelect } from '$components'
+    import type { ModalComponent } from '../../../types'
     import { redirect } from '$lib/utilities'
     import { slide } from 'svelte/transition'
+
+    let firstImageModal: ModalComponent = null
+    let firstImageId: number = null
+    let firstImagePath: string = null
+
+    let secondImageModal: ModalComponent = null
+    let secondImageId: number = null
+    let secondImagePath: string = null
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000'
@@ -49,11 +58,25 @@
     const handleSuccess = () => {
         redirect('/admin-panel/programs')
     }
+
+    const firstImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        firstImageId = event.detail.id
+        firstImagePath = event.detail.path
+    }
+
+    const secondImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        secondImageId = event.detail.id
+        secondImagePath = event.detail.path
+    }
 </script>
 
 <svelte:head>
     <title>Образовательные программы</title>
 </svelte:head>
+
+<FileSelect bind:modal={ firstImageModal } on:save={ firstImageSelected } />
+
+<FileSelect bind:modal={ secondImageModal } on:save={ secondImageSelected } />
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -246,7 +269,7 @@
             </Grid>
             <h3>Отзывы</h3>
             <Grid m={2} ratio="1:2">
-                <div>
+                <Grid m={1}>
                     <div>
                         <label for="feedback_name1">ФИО</label><br />
                         <input class="form-control wide" type="text" name="feedback_name1" />
@@ -255,7 +278,16 @@
                         <label for="feedback_caption1">Подпись</label><br />
                         <input class="form-control wide" type="text" name="feedback_caption1" />
                     </div>
-                </div>
+                    <div>
+                        <label for="feedback_img1">Добавить новое изображение:</label><br />
+                        {#if firstImagePath}
+                            <img width="150px" height="150px" src={firstImagePath} class="img-fluid mt-3" alt="Изображение">
+                            <br />
+                        {/if}
+                        <input type="hidden" name="feedback_img1" value={ firstImageId }><br />
+                        <button type="button" class="btn btn-outline-success" on:click={ firstImageModal.open }> { firstImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    </div>
+                </Grid>
                 <div>
                     <label for="feedback_text1">Текст отзыва</label><br />
                     <textarea class="form-control" name="feedback_text1" cols="30" rows="10"></textarea>
@@ -263,7 +295,7 @@
             </Grid>
             { #if feedbacksExpanded }
                 <Grid m={2} ratio="1:2">
-                    <div>
+                    <Grid m={1}>
                         <div>
                             <label for="feedback_name2">ФИО</label><br />
                             <input class="form-control wide" type="text" name="feedback_name2" />
@@ -272,7 +304,16 @@
                             <label for="feedback_caption2">Подпись</label><br />
                             <input class="form-control wide" type="text" name="feedback_caption2" />
                         </div>
-                    </div>
+                        <div>
+                            <label for="feedback_img2">Добавить новое изображение:</label><br />
+                            {#if secondImagePath}
+                                <img width="150px" height="150px" src={secondImagePath} class="img-fluid mt-3" alt="Изображение">
+                                <br />
+                            {/if}
+                            <input type="hidden" name="feedback_img2" value={ secondImageId }><br />
+                            <button type="button" class="btn btn-outline-success" on:click={ secondImageModal.open }> { secondImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        </div>
+                    </Grid>
                     <div>
                         <label for="feedback_text2">Текст отзыва</label><br />
                         <textarea class="form-control" name="feedback_text2" cols="30" rows="10"></textarea>

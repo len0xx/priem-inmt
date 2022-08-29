@@ -15,13 +15,21 @@
 
 <script lang="ts">
     import { imask } from 'svelte-imask'
-    import { Form, Grid, Modal, RoundButton, TipTap } from '$lib/components'
+    import { Form, Grid, Modal, RoundButton, TipTap, FileSelect } from '$lib/components'
     import { DegreeLevel } from '../../../../types/enums'
     import { range, redirect } from '$lib/utilities'
     import { slide } from 'svelte/transition'
     import type { EducationalProgram, ModalComponent } from '../../../../types'
 
     let modal: ModalComponent = null
+
+    let firstImageModal: ModalComponent = null
+    let firstImageId: number = null
+    let firstImagePath: string = null
+
+    let secondImageModal: ModalComponent = null
+    let secondImageId: number = null
+    let secondImagePath: string = null
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000',
@@ -67,6 +75,18 @@
     const handleSuccess = () => {
         redirect('/admin-panel/programs')
     }
+
+    const firstImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        firstImageId = event.detail.id
+        firstImagePath = event.detail.path
+    }
+
+    const secondImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        secondImageId = event.detail.id
+        secondImagePath = event.detail.path
+    }
+    console.log(`FirstImagePath: ${firstImagePath}`)
+    console.log(`SecondImagePath: ${secondImagePath}`)
 </script>
 
 <svelte:head>
@@ -80,6 +100,10 @@
         <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
+
+<FileSelect bind:modal={ firstImageModal } on:save={ firstImageSelected } />
+
+<FileSelect bind:modal={ secondImageModal } on:save={ secondImageSelected } />
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -464,7 +488,7 @@
             <Grid m={2} ratio="1:2">
                 {#each range(1, feedbacksCount) as i}
                     { @const feedback = program.feedbacks ? program.feedbacks[i - 1] : null}
-                    <div>
+                    <Grid m={1}>
                         <div>
                             <label for="feedback_name{i}">ФИО</label><br />
                             <input
@@ -475,7 +499,7 @@
                             />
                         </div>
                         <div>
-                            <label for="feedback_caption{i + 1}">Подпись</label><br />
+                            <label for="feedback_caption{i}">Подпись</label><br />
                             <input
                                 class="form-control wide"
                                 type="text"
@@ -483,9 +507,34 @@
                                 value={feedback?.caption || null}
                             />
                         </div>
-                    </div>
+                        <div>
+                            <label for="feedback_img{i}">Добавить новое изображение:</label><br />
+                            {#if i == 1}
+                                {#if firstImagePath}
+                                    <img width="150px" height="150px" src={firstImagePath} class="img-fluid mt-3" alt="Изображение">
+                                    <br />
+
+                                {:else}
+                                    <img width="150px" height="150px" src={feedback?.img} class="img-fluid mt-3" alt="Изображение">
+                                    <br />
+                                {/if}
+                                <input type="hidden" name="feedback_img{i}" value={ firstImageId }><br />
+                                <button type="button" class="btn btn-outline-success" on:click={ firstImageModal.open }> { firstImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                            {:else if i == 2}
+                                {#if secondImagePath}
+                                    <img width="150px" height="150px" src={secondImagePath} class="img-fluid mt-3" alt="Изображение">
+                                    <br />
+                                {:else}
+                                    <img width="150px" height="150px" src={feedback?.img} class="img-fluid mt-3" alt="Изображение">
+                                    <br />
+                                {/if}
+                                <input type="hidden" name="feedback_img{i}" value={ secondImageId }><br />
+                                <button type="button" class="btn btn-outline-success" on:click={ secondImageModal.open }> { secondImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                            {/if}
+                        </div>
+                    </Grid>
                     <div>
-                        <label for="feedback_text{i + 1}">Текст отзыва</label><br />
+                        <label for="feedback_text{i}">Текст отзыва</label><br />
                         <textarea class="form-control" name="feedback_text{i}" cols="30" rows="10">{feedback?.text || null}</textarea>
                     </div>
                 {/each}

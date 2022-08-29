@@ -16,7 +16,7 @@
 </script>
 
 <script lang="ts">
-    import { Form, Grid, Graduate, FileSelect, RoundButton } from '$components'
+    import { Form, Grid, Graduate, FileSelect, RoundButton, Modal } from '$components'
     import type { ContactInfoI, ResponsibleI, ModalComponent } from '../../../types'
     import { imask } from 'svelte-imask'
     import { slide, blur } from 'svelte/transition'
@@ -29,6 +29,9 @@
     export let contactInfo: ContactInfoI = null
     export let responsibles: ResponsibleI[]
 
+    let modalResponsible: ModalComponent = null
+    let responsibleId:number
+
     let responsibleImageModal: ModalComponent = null
     let responsibleImageId: number = null
     let responsibleImagePath: string = null
@@ -38,11 +41,23 @@
     let links = contactInfo?.links.length || 1
     const addLink = () => links++
     const removeLink = () => links--
-    
 
     const responsibleImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
         responsibleImageId = event.detail.id
         responsibleImagePath = event.detail.path
+    }
+
+    const updateResponsibleId = (id: number) => {
+        responsibleId = id
+        modalResponsible.open()
+    }
+
+    const deleteResponsible = async () => {
+        const res = await fetch(apiRoute(`admin/responsible/${responsibleId}`), { method: 'DELETE' })
+        if (res.ok) {
+            responsibles = responsibles.filter(responsible => responsible.id !== responsibleId)
+        }
+        modalResponsible.close()
     }
 </script>
 
@@ -51,6 +66,14 @@
 </svelte:head>
 
 <FileSelect bind:modal={ responsibleImageModal } on:save={ responsibleImageSelected } />
+
+<Modal bind:this={ modalResponsible } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить это ответственное лицо?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={deleteResponsible} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modalResponsible.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -100,9 +123,10 @@
             <Grid m={4}>
                 {#each responsibles as responsible, i (i)}
                     {#if i < 8 || responsiblesExpanded}
-                        <a href="/admin-panel/contacts/responsible/update/{ responsible.id }">
-                            <Graduate name={ responsible.name } src={ responsible.img } caption={ responsible.label } />
-                        </a>
+                        <Graduate name={ responsible.name } src={ responsible.img } caption={ responsible.label }>
+                            <a href="/admin-panel/contacts/responsible/update/{ responsible.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateResponsibleId(responsible.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                        </Graduate>
                     {/if}
                 {/each}
             </Grid>
@@ -113,7 +137,7 @@
                 </div>
             {/if}
         {:else}
-            <p class="mt-3">Здесь еще нет известных выпускников</p>
+            <p class="mt-3">Здесь еще нет ответственных лиц</p>
         {/if}
     </div>
     <br />

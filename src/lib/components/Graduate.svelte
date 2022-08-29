@@ -27,6 +27,9 @@
                     <Text className="description" marginBottom={0} opacity={0.6}>{ description }</Text>
                 { /if }
             </div>
+            <div class="buttons">
+                <slot></slot>
+            </div>
         </div>
     </div>
     <Rainbow size="S" fixed="bottom" />
@@ -81,5 +84,9 @@
     .graduate .card-content .text {
         padding: 1em;
         padding-bottom: 2em;
+    }
+
+    .graduate .buttons {
+        margin-top: 1em;
     }
 </style>

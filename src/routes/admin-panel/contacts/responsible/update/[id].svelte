@@ -15,8 +15,7 @@
 
 <script lang="ts">
     import { imask } from 'svelte-imask'
-    import { Form, Grid, Modal, FileSelect} from '$components'
-    import { redirect } from '$lib/utilities'
+    import { Form, Grid, FileSelect} from '$components'
     import type { ResponsibleI, ModalComponent } from '../../../../../types'
 
     let phoneMask = {
@@ -25,19 +24,9 @@
 
     export let responsible: ResponsibleI
 
-    let modal: ModalComponent = null
-
     let responsibleImageModal: ModalComponent = null
     let responsibleImageId: number = null
     let responsibleImagePath: string = null
-
-    const removeResponsible = async () => {
-        const res = await fetch(apiRoute(`admin/responsible/${responsible.id}`), { method: 'DELETE' })
-        if (res.ok) {
-            redirect('/admin-panel/contacts')
-        }
-        modal.close()
-    }
 
     const responsibleImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
         responsibleImageId = event.detail.id
@@ -50,14 +39,6 @@
 </svelte:head>
 
 <FileSelect bind:modal={ responsibleImageModal } on:save={ responsibleImageSelected } />
-
-<Modal bind:this={ modal } align="center" closable={true}>
-    <p class="mb-4">Вы действительно хотите удалить это ответственное лицо?</p>
-    <div class="buttons-row">
-        <button type="button" on:click={removeResponsible} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
-    </div>
-</Modal>
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -103,7 +84,6 @@
             {/if}
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
-                <button type="button" on:click={ modal.open } class="btn btn-danger">Удалить</button>
                 <button type="button" on:click|preventDefault={ () => window.history.back() } class="btn btn-outline-secondary">Вернуться назад</button>
             </div>
         </Form>

@@ -322,18 +322,15 @@
             <Grid m={3} s={1} alignItems="start">
                 {#each feedbacks as feedback, i (i)}
                     {#if i < 6 || feedbacksExpanded}
-                        <div class="card">
-                            <div class="card-body">
-                                <Profile variant="white" img={ feedback.img }>
-                                    <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                                    <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                                    <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                                </Profile>
-                                <br />
+                        <Profile variant="white" img={ feedback.img }>
+                            <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                            <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                            <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                            <svelte:fragment slot="buttons">
                                 <a href="/admin-panel/bachelor/feedback/update/{ feedback.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
                                 <button type="button" on:click={() => updateFeedbackId(feedback.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
-                            </div>
-                        </div>
+                            </svelte:fragment>
+                        </Profile>
                     {/if}
                 {/each}
             </Grid>

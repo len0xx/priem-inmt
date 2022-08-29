@@ -47,6 +47,9 @@
         { /if }
     </Text>
     <p class="hidden shadow-text" bind:this={ shadowText }><slot name="text" /></p>
+    <div class="buttons">
+        <slot name="buttons"></slot>
+    </div>
 </div>
 
 <style>
@@ -81,6 +84,10 @@
         width: 64px;
         height: 64px;
         border-radius: 50%;
+    }
+
+    .kit-profile .buttons {
+        grid-column: span 2;
     }
 
     :global(.kit-profile-title) {

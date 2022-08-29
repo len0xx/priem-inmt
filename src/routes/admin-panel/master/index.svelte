@@ -40,6 +40,9 @@
     let modalFeature: ModalComponent = null
     let featureId:number
 
+    let modalFeedback: ModalComponent = null
+    let feedbackId:number
+
     let feedbackImageModal: ModalComponent = null
     let feedbackImageId: number = null
     let feedbackImagePath: string = null
@@ -64,6 +67,11 @@
     const updateFeatureId = (id: number) => {
         featureId = id
         modalFeature.open()
+    }
+
+    const updateFeedbackId = (id: number) => {
+        feedbackId = id
+        modalFeedback.open()
     }
 
     const feedbackImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
@@ -94,6 +102,14 @@
         }
         modalFeature.close()
     }
+
+    const deleteFeedback = async () => {
+        const res = await fetch(apiRoute(`admin/feedback/${feedbackId}`), { method: 'DELETE' })
+        if (res.ok) {
+            feedbacks = feedbacks.filter(feedback => feedback.id !== feedbackId)
+        }
+        modalFeedback.close()
+    }
 </script>
 
 <svelte:head>
@@ -123,6 +139,14 @@
     <div class="buttons-row">
         <button type="button" on:click={deleteFeature} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modalFeature.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
+<Modal bind:this={ modalFeedback } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить этот отзыв?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={deleteFeedback} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modalFeedback.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -281,16 +305,18 @@
         </Form>
         <h3>Опубликованные отзывы</h3>
         {#if feedbacks.length}
-            <Grid className="mt-5" m={3} s={1} alignItems="start">
+            <Grid m={3} s={1} alignItems="start">
                 {#each feedbacks as feedback, i (i)}
                     {#if i < 6 || feedbacksExpanded}
-                        <a href="/admin-panel/master/feedback/update/{ feedback.id }">
-                            <Profile img={ feedback.img }>
-                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                            </Profile>
-                        </a>
+                        <Profile variant="white" img={ feedback.img }>
+                            <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                            <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                            <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                            <svelte:fragment slot="buttons">
+                                <a href="/admin-panel/master/feedback/update/{ feedback.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                                <button type="button" on:click={() => updateFeedbackId(feedback.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                            </svelte:fragment>
+                        </Profile>
                     {/if}
                 {/each}
             </Grid>

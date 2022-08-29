@@ -18,7 +18,7 @@
         const specialistFeatures = (await resSpecialistFeatures.json()).features
 
         if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok && resFeatures.ok && resInfo.ok && resSpecialistFeatures.ok) {
-            return { props: { feedbacks, professions, questions, features, pageInfo: info, specialistFeatures } }
+            return { props: { feedbacks, professions, questions, features, pageInfo: info, specialistFeatures } } 
         }
     }
 </script>
@@ -160,6 +160,32 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Редактирование страницы магистратуры</h2>
+        <h3>Информация в промо-блоке</h3>
+        <Form action="/api/admin/textinfo?page=master" method="PATCH" reset={ false }>
+            <div class="grid grid-2 m-grid-1">
+                <div class="grid grid-1">
+                    <label>
+                        <span class="caption">Заголовок:</span><br />
+                        <input required class="form-control" type="text" name="masterTitle" value={ pageInfo.masterTitle || '' }>
+                    </label>
+                    <label>
+                        <span class="caption">Подзаголовок:</span><br />
+                        <input required class="form-control" type="text" name="masterSubtitle" value={ pageInfo.masterSubtitle || '' }>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <span class="caption">Сопровождающий текст:</span>
+                        <textarea class="form-control" name="masterText" value={ pageInfo.masterText || '' }></textarea>
+                    </label>
+                </div>
+            </div>
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
+        </Form>
+    </div>
+    <br />
+    <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
         <Form action="/api/admin/feature?type=master" method="POST" redirect="/admin-panel/master">
             <div class="grid grid-2 m-grid-1">

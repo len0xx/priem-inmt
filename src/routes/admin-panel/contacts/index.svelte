@@ -5,12 +5,14 @@
     export const load: Load = async ({ fetch }) => {
         const resContactInfo = await fetch(apiRoute('admin/contactInfo'))
         const resResponsibles = await fetch(apiRoute('admin/responsible'))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=contacts'))
 
         const contactInfo = (await resContactInfo.json()).contactInfo
         const responsibles = (await resResponsibles.json()).responsibles
+        const info = (await resInfo.json()).info
 
         if (resContactInfo.ok && resResponsibles.ok) {
-            return { props: { contactInfo, responsibles } }
+            return { props: { contactInfo, pageInfo: info, responsibles } }
         }
     }
 </script>
@@ -27,6 +29,7 @@
     }
 
     export let contactInfo: ContactInfoI = null
+    export let pageInfo: Record<string, string> = {}
     export let responsibles: ResponsibleI[]
 
     let modalResponsible: ModalComponent = null
@@ -78,7 +81,29 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Редактирование страницы контактов</h2>
-        <h3>Ответственные лица института</h3>
+        <h3>Информация в промо-блоке</h3>
+        <Form action="/api/admin/textinfo?page=contacts" method="PATCH" reset={ false }>
+            <div class="grid grid-2 m-grid-1">
+                <div>
+                    <label>
+                        <span class="caption">Заголовок:</span><br />
+                        <input required class="form-control" type="text" name="contactsTitle" value={ pageInfo.contactsTitle || '' }>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <span class="caption">Подзаголовок:</span><br />
+                        <input required class="form-control" type="text" name="contactsSubtitle" value={ pageInfo.contactsSubtitle || '' }>
+                    </label>
+                </div>
+            </div>
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
+        </Form>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Ответственные лица института</h3>
         { #if responsibles.length < 10 }
             <Form method="POST" action="/api/admin/responsible" reset={ true } redirect="/admin-panel/contacts">
                 <Grid m={2}>
@@ -120,7 +145,7 @@
         { /if }
         <h3>Опубликованные ответственные лица</h3>
         {#if responsibles.length}
-            <Grid m={4}>
+            <Grid m={3}>
                 {#each responsibles as responsible, i (i)}
                     {#if i < 8 || responsiblesExpanded}
                         <Graduate name={ responsible.name } src={ responsible.img } caption={ responsible.label }>
@@ -147,7 +172,6 @@
             action="/api/admin/contactInfo"
             method={ contactInfo ? 'PATCH' : 'POST' }
             reset={false}
-            redirect="/admin-panel/contacts"
         >
             <Grid m={2} s={1}>
                 <div>

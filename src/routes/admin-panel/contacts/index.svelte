@@ -84,7 +84,7 @@
         <h3>Информация в промо-блоке</h3>
         <Form action="/api/admin/textinfo?page=contacts" method="PATCH" reset={ false }>
             <div class="grid grid-2 m-grid-1">
-                <div class="grid grid-1">
+                <div>
                     <label>
                         <span class="caption">Заголовок:</span><br />
                         <input required class="form-control" type="text" name="contactsTitle" value={ pageInfo.contactsTitle || '' }>

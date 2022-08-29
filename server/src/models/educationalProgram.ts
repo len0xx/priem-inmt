@@ -37,7 +37,7 @@ class EducationalProgram
     declare educationModes: EducationModesI
     declare directions: string[]
     declare teacher: TeacherI
-    declare feedbacks: { name: string, caption: string, text: string }[]
+    declare feedbacks: { img: string, name: string, caption: string, text: string }[]
     declare exams: { title: string, result: string }[]
     declare text: string
     declare partners?: string[]

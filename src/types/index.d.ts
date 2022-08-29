@@ -48,6 +48,7 @@ export interface EducationalProgram {
         name: string
         caption: string
         text: string
+        img: string
     }[]
     exams: {
         title: string

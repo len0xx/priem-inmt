@@ -6,7 +6,7 @@
         const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=master'))
         const resProfessions = await fetch(apiRoute('admin/profession/'))
         const resQuestions = await fetch(apiRoute('admin/question/?page=master'))
-        const resFeatures = await fetch(apiRoute('admin/feature/?page=master'))
+        const resFeatures = await fetch(apiRoute('admin/feature/?type=master'))
 
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const professions = (await resProfessions.json()).professions
@@ -154,7 +154,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Редактирование страницы магистратуры</h2>
         <h3 class="no-top-margin">Перечисления</h3>
-        <Form action="/api/admin/feature?page=master" method="POST" redirect="/admin-panel/master">
+        <Form action="/api/admin/feature?type=master" method="POST" redirect="/admin-panel/master">
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Заголовок:</span><br />

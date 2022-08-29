@@ -15,7 +15,7 @@
         const resCarouselLife = await fetch(apiRoute('admin/carousel/?name=life'))
         const carouselLifeImages = (await resCarouselLife.json()).images
 
-        const resFeatures = await fetch(apiRoute('admin/feature/?page=main'))
+        const resFeatures = await fetch(apiRoute('admin/feature/?type=main'))
         const features = (await resFeatures.json()).features
 
         const resPosts = await fetch(apiRoute('admin/post'))
@@ -508,7 +508,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
-        <Form action="/api/admin/feature?page=main" method="POST" redirect="/admin-panel/main">
+        <Form action="/api/admin/feature?type=main" method="POST" redirect="/admin-panel/main">
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Заголовок:</span><br />

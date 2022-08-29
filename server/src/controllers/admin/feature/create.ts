@@ -3,23 +3,20 @@ import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
-enum Page {
+enum Type {
     Bachelor = 'bachelor',
-    Master = 'master',
-    Main = 'main'
+    InstInfo = 'instInfo',
+    Main = 'main',
+    Master = 'master'
 }
 
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { title, description } = req.body
 
-    const page = req.query.page
+    const type = req.query.type
 
-    if (page === Page.Bachelor || page === Page.Master || page === Page.Main) {
-        const feature = await featureService.create({
-            title: title,
-            description: description,
-            page: page
-        })
+    if (type === Type.Bachelor || type === Type.InstInfo || type === Type.Main || type === Type.Master) {
+        const feature = await featureService.create({ title, description, type })
 
         const response = {
             message: 'Перечисление успешно создано',

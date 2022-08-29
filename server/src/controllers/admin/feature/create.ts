@@ -3,8 +3,9 @@ import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
-enum Page {
-    Bachelor = 'bachelor',
+enum Type {
+    BachelorPromo = 'bachelorPromo',
+    BachelorInstInfo = 'bachelorInstInfo',
     Master = 'master',
     Main = 'main'
 }
@@ -12,13 +13,13 @@ enum Page {
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { title, description } = req.body
 
-    const page = req.query.page
+    const type = req.query.type
 
-    if (page === Page.Bachelor || page === Page.Master || page === Page.Main) {
+    if (type === Type.BachelorPromo || type === Type.BachelorInstInfo || type === Type.Master || type === Type.Main) {
         const feature = await featureService.create({
-            title: title,
-            description: description,
-            page: page
+            title,
+            description,
+            type
         })
 
         const response = {

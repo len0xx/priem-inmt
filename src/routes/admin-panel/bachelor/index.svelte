@@ -23,7 +23,7 @@
 <script lang="ts">
     import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton, FileSelect } from '$components'
     import type { DocumentI, FeatureI, OpportunityI, FeedbackI, ModalComponent } from '../../../types'
-    import { slide } from 'svelte/transition'
+    import { blur, slide } from 'svelte/transition'
 
     export let pageInfo: Record<string, string> = {}
     export let documents: DocumentI[] = []
@@ -104,9 +104,14 @@
         modalFeedback.close()
     }
 
-    const handleSuccess = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
-        const doc = event.detail.document
-        documents = [ ...documents, doc ]
+    const showNewDocument = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
+        const newDoc = event.detail.document
+        documents = [ ...documents, newDoc ]
+    }
+
+    const showNewFeature = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
+        const newFeature = event.detail.feature
+        features = [ ...features, newFeature ]
     }
 </script>
 
@@ -178,7 +183,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
-        <Form action="/api/admin/feature?page=bachelor" method="POST" redirect="/admin-panel/bachelor">
+        <Form action="/api/admin/feature?page=bachelor" method="POST" on:success={ showNewFeature }>
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Заголовок:</span><br />
@@ -195,17 +200,15 @@
         <h3>Опубликованные перечисления</h3>
         { #if features.length }
             <Grid m={3}>
-                {#each features as feature, i (i)}
-                    {#if i < 6 || featuresExpanded}
-                        <div class="card">
-                            <div class="card-body">
-                                <Benefit num={feature.title} caption={feature.description} />
-                                <br />
-                                <a href="/admin-panel/bachelor/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                                <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
-                            </div>
+                {#each features.filter((_, i) => i < 5 || featuresExpanded) as feature, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
+                        <div class="card-body">
+                            <Benefit num={feature.title} caption={feature.description} />
+                            <br />
+                            <a href="/admin-panel/bachelor/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
             {#if !featuresExpanded && features.length > 6}
@@ -347,7 +350,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Загрузка документов</h3>
-        <Form action="/api/admin/documents?type=docBachelor" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
+        <Form action="/api/admin/documents?type=docBachelor" method="POST" content="multipart/form-data" on:success={ showNewDocument }>
             <label class="wide">
                 <span class="form-label">Название документа</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />
@@ -366,17 +369,15 @@
         </Form>
         <h3>Загруженные документы</h3>
         {#if documents.length}
-            {#each documents as document, i (i)}
-                {#if i < 5 || documentsExpanded}
-                    { @const parts = document.src.split('.') }
-                    { @const extensionLength = parts.length }
-                    { @const extension = extensionLength > 1 ? parts[parts.length - 1] : '' }
+            {#each documents.filter((_, i) => i < 5 || documentsExpanded) as document, i (i)}
+                { @const parts = document.src.split('.') }
+                { @const extensionLength = parts.length }
+                { @const extension = extensionLength > 1 ? parts[parts.length - 1] : '' }
 
-                    <div class="document-row" transition:slide|local={{ duration: 200 }}>
-                        <Document filename={ document.title } { extension } link={ document.src } />
-                        <button type="button" on:click={() => { documentId = document.id; modalDocument.open() } } class="btn btn-outline-danger btn-sm">Удалить</button>
-                    </div>
-                {/if}
+                <div class="document-row" transition:slide|local={{ duration: 200 }}>
+                    <Document filename={ document.title } { extension } link={ document.src } />
+                    <button type="button" on:click={() => { documentId = document.id; modalDocument.open() } } class="btn btn-outline-danger btn-sm">Удалить</button>
+                </div>
             {/each}
             {#if !documentsExpanded && documents.length > 5}
                 <br />

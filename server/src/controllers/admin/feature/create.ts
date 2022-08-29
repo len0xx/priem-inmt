@@ -15,12 +15,17 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const page = req.query.page
 
     if (page === Page.Bachelor || page === Page.Master || page === Page.Main) {
-        await featureService.create({
+        const feature = await featureService.create({
             title: title,
             description: description,
             page: page
         })
-        return new HTTPResponse(res, HTTPStatus.CREATED, 'Перечисление успешно создано')
+
+        const response = {
+            message: 'Перечисление успешно создано',
+            feature
+        }
+        return new HTTPResponse(res, HTTPStatus.CREATED, response)
     }
     return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Неправильный параметр запроса')
 })

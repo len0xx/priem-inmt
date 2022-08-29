@@ -172,7 +172,6 @@
             action="/api/admin/contactInfo"
             method={ contactInfo ? 'PATCH' : 'POST' }
             reset={false}
-            redirect="/admin-panel/contacts"
         >
             <Grid m={2} s={1}>
                 <div>

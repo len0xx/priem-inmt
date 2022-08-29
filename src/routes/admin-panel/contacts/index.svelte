@@ -145,7 +145,7 @@
         { /if }
         <h3>Опубликованные ответственные лица</h3>
         {#if responsibles.length}
-            <Grid m={4}>
+            <Grid m={3}>
                 {#each responsibles as responsible, i (i)}
                     {#if i < 8 || responsiblesExpanded}
                         <Graduate name={ responsible.name } src={ responsible.img } caption={ responsible.label }>

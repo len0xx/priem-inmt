@@ -7,14 +7,16 @@
         const resProfessions = await fetch(apiRoute('admin/profession/'))
         const resQuestions = await fetch(apiRoute('admin/question/?page=master'))
         const resFeatures = await fetch(apiRoute('admin/feature/?type=master'))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=master'))
 
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const professions = (await resProfessions.json()).professions
         const questions = (await resQuestions.json()).questions
         const features = (await resFeatures.json()).features
+        const info = (await resInfo.json()).info
 
-        if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok && resFeatures.ok) {
-            return { props: { feedbacks, professions, questions, features } }
+        if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok && resFeatures.ok && resInfo.ok ) {
+            return { props: { feedbacks, professions, questions, features, pageInfo: info } }
         }
     }
 </script>
@@ -28,6 +30,7 @@
     export let professions: ProfessionI[] = []
     export let questions: QuestionI[] = []
     export let features: FeatureI[] = []
+    export let pageInfo: Record<string, string> = {}
 
     let featuresExpanded = false
     let questionsExpanded = false
@@ -153,6 +156,32 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Редактирование страницы магистратуры</h2>
+        <h3>Информация в промо-блоке</h3>
+        <Form action="/api/admin/textinfo?page=master" method="PATCH" reset={ false }>
+            <div class="grid grid-2 m-grid-1">
+                <div class="grid grid-1">
+                    <label>
+                        <span class="caption">Заголовок:</span><br />
+                        <input required class="form-control" type="text" name="masterTitle" value={ pageInfo.masterTitle || '' }>
+                    </label>
+                    <label>
+                        <span class="caption">Подзаголовок:</span><br />
+                        <input required class="form-control" type="text" name="masterSubtitle" value={ pageInfo.masterSubtitle || '' }>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <span class="caption">Сопровождающий текст:</span>
+                        <textarea class="form-control" name="masterText" value={ pageInfo.masterText || '' }></textarea>
+                    </label>
+                </div>
+            </div>
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
+        </Form>
+    </div>
+    <br />
+    <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
         <Form action="/api/admin/feature?type=master" method="POST" redirect="/admin-panel/master">
             <div class="grid grid-2 m-grid-1">

@@ -6,17 +6,17 @@
         const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor'))
         const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
         const resOpportunities = await fetch(apiRoute('admin/opportunity'))
-        const resFeatures = await fetch(apiRoute('admin/feature/?page=bachelor'))
+        const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelorPromo'))
         const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor'))
     
         const documents = (await resDocuments.json()).documents
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const opportunities = (await resOpportunities.json()).opportunities
-        const features = (await resFeatures.json()).features
+        const featuresPromo = (await resFeaturesPromo.json()).features
         const info = (await resInfo.json()).info
 
-        if (resDocuments.ok && resFeedbacks.ok && resFeatures.ok && resOpportunities.ok && resInfo.ok) {
-            return { props: { documents, feedbacks, features, opportunities, pageInfo: info } }
+        if (resDocuments.ok && resFeedbacks.ok && resFeaturesPromo.ok && resOpportunities.ok && resInfo.ok) {
+            return { props: { documents, feedbacks, featuresPromo, opportunities, pageInfo: info } }
         }
     }
 </script>
@@ -28,7 +28,7 @@
     export let pageInfo: Record<string, string> = {}
     export let documents: DocumentI[] = []
     export let feedbacks: FeedbackI[] = []
-    export let features: FeatureI[] = []
+    export let featuresPromo: FeatureI[] = []
     export let opportunities: OpportunityI[] = []
 
     let modalDocument: ModalComponent = null
@@ -80,10 +80,10 @@
         modalDocument.close()
     }
 
-    const deleteFeature = async () => {
+    const deleteFeaturePromo = async () => {
         const res = await fetch(apiRoute(`admin/feature/${featureId}`), { method: 'DELETE' })
         if (res.ok) {
-            features = features.filter(feature => feature.id !== featureId)
+            featuresPromo = featuresPromo.filter(feature => feature.id !== featureId)
         }
         modalFeature.close()
     }
@@ -111,7 +111,7 @@
 
     const showNewFeature = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
         const newFeature = event.detail.feature
-        features = [ ...features, newFeature ]
+        featuresPromo = [ ...featuresPromo, newFeature ]
     }
 </script>
 
@@ -132,7 +132,7 @@
 <Modal bind:this={ modalFeature } align="center" closable={true}>
     <p class="mb-4">Вы действительно хотите удалить это перечисление?</p>
     <div class="buttons-row">
-        <button type="button" on:click={deleteFeature} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={deleteFeaturePromo} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modalFeature.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
@@ -183,7 +183,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
-        <Form action="/api/admin/feature?page=bachelor" method="POST" on:success={ showNewFeature }>
+        <Form action="/api/admin/feature?type=bachelorPromo" method="POST" on:success={ showNewFeature }>
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Заголовок:</span><br />
@@ -198,9 +198,9 @@
             <button class="btn btn-primary">Создать</button>
         </Form>
         <h3>Опубликованные перечисления</h3>
-        { #if features.length }
+        { #if featuresPromo.length }
             <Grid m={3}>
-                {#each features.filter((_, i) => i < 5 || featuresExpanded) as feature, i (i)}
+                {#each featuresPromo.filter((_, i) => i < 5 || featuresExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
                             <Benefit num={feature.title} caption={feature.description} />
@@ -211,7 +211,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !featuresExpanded && features.length > 6}
+            {#if !featuresExpanded && featuresPromo.length > 6}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />

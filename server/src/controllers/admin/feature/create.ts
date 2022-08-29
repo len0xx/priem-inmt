@@ -16,11 +16,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const type = req.query.type
 
     if (type === Type.BachelorPromo || type === Type.BachelorInstInfo || type === Type.Master || type === Type.Main) {
-        const feature = await featureService.create({
-            title,
-            description,
-            type
-        })
+        const feature = await featureService.create({ title, description, type })
 
         const response = {
             message: 'Перечисление успешно создано',

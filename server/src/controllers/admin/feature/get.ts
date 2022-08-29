@@ -5,7 +5,7 @@ import type { Request, Response } from 'express'
 
 enum Type {
     Bachelor = 'bachelorPromo',
-    InstInfo = 'InstInfo',
+    InstInfo = 'instInfo',
     Main = 'main',
     Master = 'master'
 }

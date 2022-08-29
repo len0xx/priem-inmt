@@ -30,11 +30,19 @@
     export let rentInfo: RentInfoI = null
     export let settlement: SettlementI = null
 
+    let modalDormitory: ModalComponent = null
+    let dormitoryId:number
+
     let fileModal: ModalComponent = null
     let fileId: number = null
     let filePath: string = null
 
     let dormitoriesExpanded = false
+
+    const updateDormitoryId = (id: number) => {
+        dormitoryId = id
+        modalDormitory.open()
+    }
 
     const fileSelected = (event: CustomEvent<{id: number, path: string}>) => {
         fileId = event.detail.id
@@ -61,6 +69,14 @@
         modal.close()
     }
 
+    const deleteDormitory = async () => {
+        const res = await fetch(apiRoute(`admin/dormitory/${dormitoryId}`), { method: 'DELETE' })
+        if (res.ok) {
+            dormitories = dormitories.filter(dormitory => dormitory.id !== dormitoryId)
+        }
+        modalDormitory.close()
+    }
+
     const showNewDocument = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
         const doc = event.detail.document
         documents = [ ...documents, doc ]
@@ -84,6 +100,14 @@
     <div class="buttons-row">
         <button type="button" on:click={ deleteDocument } class="btn btn-danger">Удалить</button>
         <button type="button" on:click={ modal.close } class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
+<Modal bind:this={ modalDormitory } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить это общежитие?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={deleteDormitory} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modalDormitory.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -120,9 +144,10 @@
             <Grid m={4} s={1}>
                 {#each dormitories.filter((_, i) => i < 8 || dormitoriesExpanded) as dormitory, i (i)}
                     <div transition:blur|local={{ duration: 200 }}>
-                        <a href="/admin-panel/accommodation/dormitories/update/{ dormitory.id }">
-                            <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address } />
-                        </a>
+                        <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address }>
+                            <a href="/admin-panel/accommodation/dormitories/update/{ dormitory.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateDormitoryId(dormitory.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                        </Graduate>
                     </div>
                 {/each}
             </Grid>

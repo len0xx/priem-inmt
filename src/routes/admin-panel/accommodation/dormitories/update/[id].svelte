@@ -14,24 +14,14 @@
 </script>
 
 <script lang="ts">
-    import { Form, FileSelect, Grid, Modal} from '$components'
-    import { redirect } from '$lib/utilities'
+    import { Form, FileSelect, Grid} from '$components'
     import type { DormitoryI, ModalComponent } from '../../../../../types'
 
     export let dormitory: DormitoryI
 
-    let modal: ModalComponent = null
     let fileModal: ModalComponent = null
     let fileId: number = null
     let filePath: string = null
-
-    const removeDormitory = async () => {
-        const res = await fetch(apiRoute(`admin/dormitory/${dormitory.id}`), { method: 'DELETE' })
-        if (res.ok) {
-            redirect('/admin-panel/accommodation')
-        }
-        modal.close()
-    }
 
     const fileSelected = (event: CustomEvent<{ id: number, path: string }>) => {
         fileId = event.detail.id
@@ -44,14 +34,6 @@
 </svelte:head>
 
 <FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
-
-<Modal bind:this={ modal } align="center" closable={true}>
-    <p class="mb-4">Вы действительно хотите удалить это общежитие?</p>
-    <div class="buttons-row">
-        <button type="button" on:click={removeDormitory} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
-    </div>
-</Modal>
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -83,7 +65,6 @@
             <br />
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
-                <button type="button" class="btn btn-outline-danger" on:click={ modal.open }>Удалить общежитие</button>
                 <a href="/admin-panel/accommodation" class="btn btn-outline-secondary">Вернуться назад</a>
             </div>
         </Form>

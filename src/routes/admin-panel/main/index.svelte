@@ -62,6 +62,9 @@
     let modalFeature: ModalComponent = null
     let featureId:number
 
+    let modalGraduate: ModalComponent = null
+    let graduateId:number
+
     let famousExpanded = false
     let partnersExpanded = false
     let carouselExpanded = false
@@ -114,6 +117,11 @@
         modalFeature.open()
     }
 
+    const updateGraduateId = (id: number) => {
+        graduateId = id
+        modalGraduate.open()
+    }
+
     const removePartner = async () => {
         const res = await fetch(apiRoute(`admin/partner/${partnerId}`), { method: 'DELETE' })
         if (res.ok) {
@@ -137,6 +145,14 @@
             features = features.filter(feature => feature.id !== featureId)
         }
         modalFeature.close()
+    }
+
+    const deleteGraduate = async () => {
+        const res = await fetch(apiRoute(`admin/graduate/${graduateId}`), { method: 'DELETE' })
+        if (res.ok) {
+            graduates = graduates.filter(graduate => graduate.id !== graduateId)
+        }
+        modalGraduate.close()
     }
 
     const resetFiles = () => {
@@ -192,6 +208,14 @@
     <div class="buttons-row">
         <button type="button" on:click={deleteFeature} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modalFeature.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
+<Modal bind:this={ modalGraduate } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить этого известного выпускника?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={deleteGraduate} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modalGraduate.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -559,9 +583,10 @@
             <Grid m={4}>
                 {#each graduates as student, i (i)}
                     {#if i < 8 || famousExpanded}
-                        <a href="/admin-panel/main/graduate/update/{ student.id }">
-                            <Graduate name={ student.name } src={ student.photo } caption={ student.description } />
-                        </a>
+                        <Graduate name={ student.name } src={ student.photo } caption={ student.description }>
+                            <a href="/admin-panel/main/graduate/update/{ student.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateGraduateId(student.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                        </Graduate>
                     {/if}
                 {/each}
             </Grid>

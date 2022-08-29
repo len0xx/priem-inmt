@@ -5,6 +5,7 @@ import type { Request, Response } from 'express'
 
 enum Type {
     Bachelor = 'bachelor',
+    Specialist = 'specialist',
     InstInfo = 'instInfo',
     Main = 'main',
     Master = 'master'
@@ -15,7 +16,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
 
     const type = req.query.type
 
-    if (type === Type.Bachelor || type === Type.InstInfo || type === Type.Main || type === Type.Master) {
+    if (type === Type.Bachelor || type === Type.InstInfo || type === Type.Main || type === Type.Master || type === Type.Specialist) {
         const feature = await featureService.create({ title, description, type })
 
         const response = {

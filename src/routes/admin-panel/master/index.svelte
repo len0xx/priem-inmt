@@ -7,14 +7,18 @@
         const resProfessions = await fetch(apiRoute('admin/profession/'))
         const resQuestions = await fetch(apiRoute('admin/question/?page=master'))
         const resFeatures = await fetch(apiRoute('admin/feature/?type=master'))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=master'))
+        const resSpecialistFeatures = await fetch(apiRoute('admin/feature/?type=specialist'))
 
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const professions = (await resProfessions.json()).professions
         const questions = (await resQuestions.json()).questions
         const features = (await resFeatures.json()).features
+        const info = (await resInfo.json()).info
+        const specialistFeatures = (await resSpecialistFeatures.json()).features
 
-        if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok && resFeatures.ok) {
-            return { props: { feedbacks, professions, questions, features } }
+        if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok && resFeatures.ok && resInfo.ok && resSpecialistFeatures.ok) {
+            return { props: { feedbacks, professions, questions, features, pageInfo: info, specialistFeatures } }
         }
     }
 </script>
@@ -24,15 +28,18 @@
     import { slide, blur } from 'svelte/transition'
     import type { FeatureI, FeedbackI, ProfessionI, QuestionI, ModalComponent } from '../../../types'
 
+    export let pageInfo: Record<string, string> = {}
     export let feedbacks: FeedbackI[] = []
     export let professions: ProfessionI[] = []
     export let questions: QuestionI[] = []
     export let features: FeatureI[] = []
+    export let specialistFeatures: FeatureI[] = []
 
     let featuresExpanded = false
     let questionsExpanded = false
     let professionsExpanded = false
     let feedbacksExpanded = false
+    let specialistFeaturesExpanded = false
 
     let questionModal: ModalComponent = null
     let professionModal: ModalComponent = null
@@ -266,6 +273,72 @@
     </div>
     <br />
     <div class="white-block-wide">
+        <h3 class="no-top-margin">Информационный блок</h3>
+        <Form method="PATCH" action="/api/admin/textinfo?page=master" reset={ false }>
+            <label>
+                <span class="heading">Заголовок:</span><br />
+                <input class="form-control" type="text" name="specialistTitle" value={ pageInfo.specialistTitle || '' } required />
+            </label>
+            <br />
+            <br />
+            <Grid m={2}>
+                <div>
+                    <span>Навыки выпускников</span>
+                    <TipTap name="specialistSkills" content={ pageInfo.specialistSkills || '' } />
+                </div>
+                <div>
+                    <span>Возможности студентов</span>
+                    <TipTap name="specialistOpportunities" content={ pageInfo.specialistOpportunities || '' } />
+                </div>
+            </Grid>
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
+        </Form>
+        <br />
+        <h4 class="no-top-margin">Перечисления</h4>
+        <!-- TODO: Remove redirect -->
+        <Form action="/api/admin/feature?type=specialist" method="POST" redirect="/admin-panel/master">
+            <div class="grid grid-2 m-grid-1">
+                <label>
+                    <span class="caption">Заголовок:</span><br />
+                    <input required class="form-control" type="text" name="title">
+                </label>
+                <label>
+                    <span class="caption">Подпись:</span><br />
+                    <input required class="form-control" type="text" name="description">
+                </label>
+            </div>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <h4>Опубликованные перечисления</h4>
+        {#if specialistFeatures.length}
+            <Grid m={3}>
+                {#each specialistFeatures as feature, i (i)}
+                    {#if i < 6 || specialistFeaturesExpanded}
+                        <div class="card">
+                            <div class="card-body">
+                                <Benefit num={feature.title} caption={feature.description} />
+                                <br />
+                                <a href="/admin-panel/master/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                                <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                            </div>
+                        </div>
+                    {/if}
+                {/each}
+            </Grid>
+            {#if !specialistFeaturesExpanded && specialistFeatures.length > 6}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => specialistFeaturesExpanded = true} />
+                </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет перечислений</p>
+        {/if}
+    </div>
+    <br />
+    <div class="white-block-wide">
         <h3 class="no-top-margin">Отзывы</h3>
         <Form action="/api/admin/feedback/?page=master" method="POST" redirect="/admin-panel/master">
             <Grid m={2} s={1}>
@@ -371,38 +444,6 @@
         {:else}
             <p class="mt-3">Здесь еще нет созданных вопросов</p>
         {/if}
-    </div>
-    <br />
-    <div class="white-block-wide">
-        <h3 class="no-top-margin">Информационный блок</h3>
-        <Form method="POST" action="/api/admin/textinfo/?page=master" reset={ true } redirect="/admin-panel/master">
-            <Grid m={2}>
-                <div>
-                    <span>Навыки выпускников</span>
-                    <TipTap name="graduatesSkills" />
-                </div>
-                <div>
-                    <span>Возможности студентов</span>
-                    <TipTap name="studentOpportunities" />
-                </div>
-            </Grid>
-            <br />
-            <button class="btn btn-primary">Создать</button>
-        </Form>
-        <!-- <Form method="POST" action="/api/admin/feature/?page=master" reset={ true } redirect="/admin-panel/master">
-            <Grid m={1}>
-                <label>
-                    <span class="question">Вопрос:</span><br />
-                    <input required class="form-control wide" type="text" name="question" />
-                </label>
-                <label>
-                    <span class="answer">Ответ:</span><br />
-                    <textarea required class="form-control wide" type="text" name="answer" />
-                </label>
-            </Grid>
-            <br />
-            <button class="btn btn-primary">Создать</button>
-        </Form> -->
     </div>
 </section>
 

@@ -4,8 +4,9 @@ import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
 enum Type {
-    Bachelor = 'bachelorPromo',
-    InstInfo = 'InstInfo',
+    Bachelor = 'bachelor',
+    Specialist = 'specialist',
+    InstInfo = 'instInfo',
     Main = 'main',
     Master = 'master'
 }
@@ -27,6 +28,7 @@ export const getAll = catchHTTPErrors(async (req: Request, res: Response) => {
 
     if (type === Type.Bachelor) getByType(Type.Bachelor)
     else if (type === Type.InstInfo) getByType(Type.InstInfo)
+    else if (type === Type.Specialist) getByType(Type.Specialist)
     else if (type === Type.Main) getByType(Type.Main)
     else if (type == Type.Master) getByType(Type.Master)
     else {

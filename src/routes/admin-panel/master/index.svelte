@@ -19,7 +19,7 @@
     }
 </script>
 <script lang="ts">
-    import { Form, Grid, Modal, Benefit, RoundButton, Profile, FileSelect } from '$components'
+    import { Form, Grid, Modal, Benefit, RoundButton, Profile, FileSelect, TipTap } from '$components'
     import { range } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
     import type { FeatureI, FeedbackI, ProfessionI, QuestionI, ModalComponent } from '../../../types'
@@ -371,6 +371,38 @@
         {:else}
             <p class="mt-3">Здесь еще нет созданных вопросов</p>
         {/if}
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Информационный блок</h3>
+        <Form method="POST" action="/api/admin/textinfo/?page=master" reset={ true } redirect="/admin-panel/master">
+            <Grid m={2}>
+                <div>
+                    <span>Навыки выпускников</span>
+                    <TipTap name="graduatesSkills" />
+                </div>
+                <div>
+                    <span>Возможности студентов</span>
+                    <TipTap name="studentOpportunities" />
+                </div>
+            </Grid>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <!-- <Form method="POST" action="/api/admin/feature/?page=master" reset={ true } redirect="/admin-panel/master">
+            <Grid m={1}>
+                <label>
+                    <span class="question">Вопрос:</span><br />
+                    <input required class="form-control wide" type="text" name="question" />
+                </label>
+                <label>
+                    <span class="answer">Ответ:</span><br />
+                    <textarea required class="form-control wide" type="text" name="answer" />
+                </label>
+            </Grid>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form> -->
     </div>
 </section>
 

@@ -7,14 +7,17 @@
         const rentInfoRes = await fetch(apiRoute('admin/rentInfo'))
         const settlementRes = await fetch(apiRoute('admin/settlement/1'))
         const dormsRes = await fetch(apiRoute('admin/dormitory'))
+        const infoRes = await fetch(apiRoute('admin/textinfo/?page=accommodation'))
+
     
         const documents = (await documentsRes.json()).documents
         const rentInfo = (await rentInfoRes.json()).rentInfo
         const settlement = (await settlementRes.json()).responsible
         const dormitories = (await dormsRes.json()).dormitories
+        const info = (await infoRes.json()).info
 
-        if (documentsRes.ok && rentInfoRes.ok && settlementRes.ok) {
-            return { props: { documents, rentInfo, settlement, dormitories } }
+        if (documentsRes.ok && rentInfoRes.ok && settlementRes.ok && infoRes.ok) {
+            return { props: { documents, rentInfo, settlement, dormitories, pageInfo: info } }
         }
     }
 </script>
@@ -29,6 +32,7 @@
     export let documents: DocumentI[] = []
     export let rentInfo: RentInfoI = null
     export let settlement: SettlementI = null
+    export let pageInfo: Record<string, string> = {}
 
     let modalDormitory: ModalComponent = null
     let dormitoryId:number
@@ -114,6 +118,28 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Редактирование страницы поселения</h2>
+        <h3>Информация в промо-блоке</h3>
+        <Form action="/api/admin/textinfo?page=accommodation" method="PATCH" reset={ false }>
+            <div class="grid grid-2 m-grid-1">
+                <div>
+                    <label>
+                        <span class="caption">Заголовок:</span><br />
+                        <input required class="form-control" type="text" name="accommodationTitle" value={ pageInfo.accommodationTitle || '' }>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <span class="caption">Подзаголовок:</span><br />
+                        <input required class="form-control" type="text" name="accommodationSubtitle" value={ pageInfo.accommodationSubtitle || '' }>
+                    </label>
+                </div>
+            </div>
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
+        </Form>
+    </div>
+    <br />    
+    <div class="white-block-wide">
         <h3>Общежития</h3>
         <Form action="/api/admin/dormitory" method="POST" reset={ true } on:success={ showNewDormitory }>
             <Grid m={2} s={1}>

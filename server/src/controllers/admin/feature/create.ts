@@ -4,18 +4,18 @@ import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
 enum Type {
-    BachelorPromo = 'bachelorPromo',
-    BachelorInstInfo = 'bachelorInstInfo',
-    Master = 'master',
-    Main = 'main'
+    Bachelor = 'bachelor',
+    InstInfo = 'instInfo',
+    Main = 'main',
+    Master = 'master'
 }
 
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { title, description } = req.body
 
     const type = req.query.type
-    
-    if (type === Type.BachelorPromo || type === Type.BachelorInstInfo || type === Type.Master || type === Type.Main) {
+
+    if (type === Type.Bachelor || type === Type.InstInfo || type === Type.Main || type === Type.Master) {
         const feature = await featureService.create({ title, description, type })
 
         const response = {

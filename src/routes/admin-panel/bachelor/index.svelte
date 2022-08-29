@@ -6,7 +6,7 @@
         const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor'))
         const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
         const resOpportunities = await fetch(apiRoute('admin/opportunity'))
-        const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelorPromo'))
+        const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor'))
         const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor'))
     
         const documents = (await resDocuments.json()).documents
@@ -183,7 +183,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
-        <Form action="/api/admin/feature?type=bachelorPromo" method="POST" on:success={ showNewFeature }>
+        <Form action="/api/admin/feature?type=bachelor" method="POST" on:success={ showNewFeature }>
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Заголовок:</span><br />

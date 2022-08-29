@@ -4,10 +4,10 @@ import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
 enum Type {
-    BachelorPromo = 'bachelorPromo',
-    BachelorInstInfo = 'bachelorInstInfo',
-    Master = 'master',
-    Main = 'main'
+    Bachelor = 'bachelorPromo',
+    InstInfo = 'InstInfo',
+    Main = 'main',
+    Master = 'master'
 }
 
 export const get = catchHTTPErrors(async (req: Request, res: Response) => {
@@ -25,9 +25,10 @@ export const getAll = catchHTTPErrors(async (req: Request, res: Response) => {
         return new HTTPResponse(res, HTTPStatus.SUCCESS, { features })
     }
 
-    if (type === Type.BachelorPromo) getByType(Type.BachelorPromo)
-    else if (type == Type.Master) getByType(Type.Master)
+    if (type === Type.Bachelor) getByType(Type.Bachelor)
+    else if (type === Type.InstInfo) getByType(Type.InstInfo)
     else if (type === Type.Main) getByType(Type.Main)
+    else if (type == Type.Master) getByType(Type.Master)
     else {
         const features = await featureService.get()
         return new HTTPResponse(res, HTTPStatus.SUCCESS, { features })

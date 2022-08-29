@@ -14,34 +14,15 @@
 </script>
 
 <script lang="ts">
-    import { Grid, Form, Modal } from '$components'
-    import { redirect } from '$lib/utilities'
-    import type { FeatureI, ModalComponent } from '../../../../../types'
+    import { Grid, Form } from '$components'
+    import type { FeatureI } from '../../../../../types'
 
     export let feature: FeatureI
-
-    let modal: ModalComponent = null
-
-    const removeFeature = async () => {
-        const res = await fetch(apiRoute(`admin/feature/${feature.id}`), { method: 'DELETE' })
-        if (res.ok) {
-            redirect('/admin-panel/master')
-        }
-        modal.close()
-    }
 </script>
 
 <svelte:head>
     <title>ИНМТ – Панель администратора</title>
 </svelte:head>
-
-<Modal bind:this={ modal } align="center" closable={true}>
-    <p class="mb-4">Вы действительно хотите удалить это перечисление?</p>
-    <div class="buttons-row">
-        <button type="button" on:click={removeFeature} class="btn btn-danger">Удалить</button>
-        <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
-    </div>
-</Modal>
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -61,7 +42,6 @@
             <br />
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
-                <button type="button" class="btn btn-outline-danger" on:click={ modal.open }>Удалить перечисление</button>
                 <button type="button" on:click|preventDefault={ () => window.history.back() } class="btn btn-outline-secondary">Вернуться назад</button>
             </div>            
         </Form>

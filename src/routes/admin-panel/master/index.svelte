@@ -37,6 +37,9 @@
     let questionModal: ModalComponent = null
     let professionModal: ModalComponent = null
 
+    let modalFeature: ModalComponent = null
+    let featureId:number
+
     let feedbackImageModal: ModalComponent = null
     let feedbackImageId: number = null
     let feedbackImagePath: string = null
@@ -56,6 +59,11 @@
     const updateProfessionId = (id: number) => {
         professonId = id
         professionModal.open()
+    }
+
+    const updateFeatureId = (id: number) => {
+        featureId = id
+        modalFeature.open()
     }
 
     const feedbackImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
@@ -78,6 +86,14 @@
         }
         professionModal.close()
     }
+
+    const deleteFeature = async () => {
+        const res = await fetch(apiRoute(`admin/feature/${featureId}`), { method: 'DELETE' })
+        if (res.ok) {
+            features = features.filter(feature => feature.id !== featureId)
+        }
+        modalFeature.close()
+    }
 </script>
 
 <svelte:head>
@@ -99,6 +115,14 @@
     <div class="buttons-row">
         <button type="button" on:click={removeProfession} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={questionModal.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
+<Modal bind:this={ modalFeature } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить это перечисление?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={deleteFeature} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modalFeature.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -125,13 +149,14 @@
             <Grid m={3}>
                 {#each features as feature, i (i)}
                     {#if i < 6 || featuresExpanded}
-                        <a href="/admin-panel/master/feature/update/{ feature.id }">
-                            <div class="card">
-                                <div class="card-body">
-                                    <Benefit num={feature.title} caption={feature.description} />
-                                </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <Benefit num={feature.title} caption={feature.description} />
+                                <br />
+                                <a href="/admin-panel/master/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                                <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </div>
-                        </a>
+                        </div>
                     {/if}
                 {/each}
             </Grid>

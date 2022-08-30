@@ -10,6 +10,7 @@ export const del = catchHTTPErrors(async (req: Request, res: Response) => {
     const document = await documentService.getById(id)
     await documentService.deleteById(id)
 
+    // Удаляем файл из файловой системы на компьютере (для этого лучше использовать абсолютный путь)
     const __dirname = req.app.get('dir')
     const filePath = path.join(__dirname, document.src)
     await fs.unlink(filePath)

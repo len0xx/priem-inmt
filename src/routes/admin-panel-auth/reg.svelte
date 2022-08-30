@@ -21,7 +21,7 @@
 
     const handleSuccess = () => {
         success = true
-        redirect('/profile')
+        redirect('/admin-panel-auth/login')
     }
 
     const handleError = (event: CustomEvent<{ error: string }>) => {

@@ -22,7 +22,7 @@
 
     const handleSuccess = () => {
         success = true
-        redirect('/admin-panel')
+        redirect('/admin-panel/main')
     }
 
     const handleError = (event: CustomEvent) => {

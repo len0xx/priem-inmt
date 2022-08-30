@@ -18,7 +18,7 @@
         const specialistFeatures = (await resSpecialistFeatures.json()).features
 
         if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok && resFeatures.ok && resInfo.ok && resSpecialistFeatures.ok) {
-            return { props: { feedbacks, professions, questions, features, pageInfo: info, specialistFeatures } } 
+            return { props: { feedbacks, professions, questions, features, pageInfo: info, specialistFeatures } }
         }
     }
 </script>
@@ -47,6 +47,9 @@
     let modalFeature: ModalComponent = null
     let featureId:number
 
+    let modalFeatureSpec: ModalComponent = null
+    let featureSpecId:number
+
     let modalFeedback: ModalComponent = null
     let feedbackId:number
 
@@ -74,6 +77,11 @@
     const updateFeatureId = (id: number) => {
         featureId = id
         modalFeature.open()
+    }
+
+    const updateFeatureSpecId = (id: number) => {
+        featureSpecId = id
+        modalFeatureSpec.open()
     }
 
     const updateFeedbackId = (id: number) => {
@@ -117,6 +125,19 @@
         }
         modalFeedback.close()
     }
+
+    const deleteFeatureSpec = async () => {
+        const res = await fetch(apiRoute(`admin/feature/${featureSpecId}`), { method: 'DELETE' })
+        if (res.ok) {
+            specialistFeatures = specialistFeatures.filter(feature => feature.id !== featureSpecId)
+        }
+        modalFeatureSpec.close()
+    }
+
+    const showNewFeatureSpec = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
+        const newFeature = event.detail.feature
+        specialistFeatures = [ ...specialistFeatures, newFeature ]
+    }
 </script>
 
 <svelte:head>
@@ -146,6 +167,14 @@
     <div class="buttons-row">
         <button type="button" on:click={deleteFeature} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modalFeature.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
+<Modal bind:this={ modalFeatureSpec } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить это перечисление?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={deleteFeatureSpec} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modalFeatureSpec.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -321,9 +350,9 @@
             <button class="btn btn-primary">Сохранить</button>
         </Form>
         <br />
-        <h4 class="no-top-margin">Перечисления</h4>
+        <h4 class="no-top-margin">Преимущества</h4>
         <!-- TODO: Remove redirect -->
-        <Form action="/api/admin/feature?type=specialist" method="POST" redirect="/admin-panel/master">
+        <Form action="/api/admin/feature?type=specialist" method="POST" on:success={ showNewFeatureSpec }>
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Заголовок:</span><br />
@@ -337,7 +366,7 @@
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
-        <h4>Опубликованные перечисления</h4>
+        <h4>Опубликованные преимущества</h4>
         {#if specialistFeatures.length}
             <Grid m={3}>
                 {#each specialistFeatures as feature, i (i)}
@@ -347,7 +376,7 @@
                                 <Benefit num={feature.title} caption={feature.description} />
                                 <br />
                                 <a href="/admin-panel/master/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                                <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                                <button type="button" on:click={() => updateFeatureSpecId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </div>
                         </div>
                     {/if}
@@ -360,7 +389,7 @@
                 </div>
             {/if}
         {:else}
-            <p class="mt-3">Здесь еще нет перечислений</p>
+            <p class="mt-3">Здесь еще нет преимуществ</p>
         {/if}
     </div>
     <br />

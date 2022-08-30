@@ -5,7 +5,15 @@ import type { Request, Response } from 'express'
 
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { title, description } = req.body
-    await opportunityService.create( { title, description } )
 
-    return new HTTPResponse(res, HTTPStatus.CREATED, 'Возможность успешно создана')
+    const opportunity = await opportunityService.create( { title, description } )
+
+    const response = {
+        message: 'Возможность успешно создана',
+        opportunity
+    }
+
+    console.log(response)
+
+    return new HTTPResponse(res, HTTPStatus.CREATED, response)
 })

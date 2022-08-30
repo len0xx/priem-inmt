@@ -137,6 +137,11 @@
         const newFeature = event.detail.feature
         featuresInst = [ ...featuresInst, newFeature ]
     }
+
+    const showNewOpportunity = (event: CustomEvent<{ message: string, opportunity: OpportunityI }>) => {
+        const newOpportunity = event.detail.opportunity
+        opportunities = [ ...opportunities, newOpportunity ]
+    }
 </script>
 
 <svelte:head>
@@ -328,7 +333,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Студенческие возможности</h3>
-        <Form action="/api/admin/opportunity" method="POST" redirect="/admin-panel/bachelor">
+        <Form action="/api/admin/opportunity" method="POST" on:success={ showNewOpportunity }>
             <label>
                 <span class="caption">Название:</span><br />
                 <input class="form-control" type="text" name="title" id="title" required />
@@ -345,25 +350,23 @@
         </Form>
         <h3>Опубликованные возможности</h3>
         {#if opportunities.length}
-            <Grid m={4} s={1}>
-                {#each opportunities as opportunity, i (i)}
-                    {#if i < 8 || opportunitiesExpanded}
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="align-center" style:min-width="200px">
-                                    <Icon name="blue-star" width={40} height={40} alt="star" />
-                                    <Text className="semi-bold subtitle">{ opportunity.title }</Text>
-                                    <Text className="semi-bold small" opacity={0.6}>{ opportunity.description }</Text>
-                                </div>
-                                <br />
-                                <a href="/admin-panel/bachelor/opportunity/update/{ opportunity.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                                <button type="button" on:click={() => updateOpportunityId(opportunity.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+            <Grid m={3} s={1}>
+                {#each opportunities.filter((_, i) => i < 6 || opportunitiesExpanded) as opportunity, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
+                        <div class="card-body">
+                            <div class="align-center" style:min-width="200px">
+                                <Icon name="blue-star" width={40} height={40} alt="star" />
+                                <Text className="semi-bold subtitle">{ opportunity.title }</Text>
+                                <Text className="semi-bold small" opacity={0.6}>{ opportunity.description }</Text>
                             </div>
+                            <br />
+                            <a href="/admin-panel/bachelor/opportunity/update/{ opportunity.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateOpportunityId(opportunity.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
-            {#if !opportunitiesExpanded && opportunities.length > 8}
+            {#if !opportunitiesExpanded && opportunities.length > 6}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => opportunitiesExpanded = true} />

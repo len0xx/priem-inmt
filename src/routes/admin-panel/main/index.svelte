@@ -653,7 +653,7 @@
             <div class="buttons-row">
                 {#if videos.length > 3}
                     <button class="btn btn-primary" disabled>Отправить</button>
-                    <p class="text-muted mt-3">Загружено максимальное количество видеозаписей</p>
+                    <p class="text-muted mt-3">На данный момент загружено максимальное количество видеозаписей – 4. Для того, чтобы загрузить новое видео, необходимо удалить одно из существующих</p>
                 {:else}
                     <button class="btn btn-primary">Отправить</button>
                 {/if}

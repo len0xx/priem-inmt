@@ -63,6 +63,11 @@
         feedbackImagePath = event.detail.path
     }
 
+    const resetFiles = () => {
+        feedbackImageId = null
+        feedbackImagePath = null
+    }
+
     const updateFeaturePromoId = (id: number) => {
         featurePromoId = id
         modalFeaturePromo.open()
@@ -141,6 +146,12 @@
     const showNewOpportunity = (event: CustomEvent<{ message: string, opportunity: OpportunityI }>) => {
         const newOpportunity = event.detail.opportunity
         opportunities = [ ...opportunities, newOpportunity ]
+    }
+
+    const showNewFeedback = (event: CustomEvent<{ message: string, feedback: FeedbackI }>) => {
+        const newFeedback = event.detail.feedback
+        feedbacks = [ ...feedbacks, newFeedback ]
+        resetFiles()
     }
 </script>
 
@@ -379,7 +390,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Отзывы</h3>
-        <Form action="/api/admin/feedback/?page=bachelor" method="POST" redirect="/admin-panel/bachelor">
+        <Form action="/api/admin/feedback/?page=bachelor" method="POST" on:success={ showNewFeedback }>
             <Grid m={2} s={1}>
                 <div>
                     <label>
@@ -418,8 +429,8 @@
         <h3>Опубликованные отзывы</h3>
         {#if feedbacks.length}
             <Grid m={3} s={1} alignItems="start">
-                {#each feedbacks as feedback, i (i)}
-                    {#if i < 6 || feedbacksExpanded}
+                {#each feedbacks.filter((_, i) => i < 6 || feedbacksExpanded) as feedback, i (i)}
+                    <div transition:blur|local={{ duration: 200 }}>
                         <Profile variant="white" img={ feedback.img }>
                             <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                             <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
@@ -429,7 +440,7 @@
                                 <button type="button" on:click={() => updateFeedbackId(feedback.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </svelte:fragment>
                         </Profile>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
             {#if !feedbacksExpanded && feedbacks.length > 6}

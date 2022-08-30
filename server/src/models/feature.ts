@@ -22,6 +22,12 @@ Feature.init(
         type: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                isIn: {
+                    args: [[ 'bachelor', 'master', 'main', 'specialist', 'instInfo' ]],
+                    msg: 'Тип перечисления может принимать одно из пяти значений: bachelor, master, main, specialist или instInfo'
+                }
+            }
         }
     },
     {

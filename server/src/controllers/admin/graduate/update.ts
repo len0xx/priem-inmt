@@ -14,6 +14,8 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         photoURL = file.src
     }
 
+    console.log(`Img from FORM: ${Boolean(photo)}, photoURL: ${photoURL}`)
+
     await graduateService.updateById(id, {
         name: name,
         description: description,

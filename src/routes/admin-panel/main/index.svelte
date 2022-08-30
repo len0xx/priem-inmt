@@ -635,25 +635,31 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Загрузка видео</h3>
+        <h3 class="no-top-margin">Видеозаписи</h3>
+        <p class="text-muted">Максимальный объем видеозаписи должен составлять не более 800 Мб<br />Допустимые форматы: MP4, WEBM, OGG, AVI, MOV, MPEG, MKV</p>
         <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo }>
             <label class="wide">
-                <span class="form-label">Название видео</span>
+                <span class="form-label">Название видеозаписи</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />
             </label>
             <br />
             <br />
             <Grid m={2}>
                 <label>
-                    <span class="caption">Видео</span><br />
+                    <span class="caption">Видеозапись</span><br />
                     <input required class="form-control" type="file" name="video" id="video" />
                 </label>
             </Grid>
             <div class="buttons-row">
-                <button class="btn btn-primary">Отправить</button>
+                {#if videos.length > 3}
+                    <button class="btn btn-primary" disabled>Отправить</button>
+                    <p class="text-muted mt-3">Загружено максимальное количество видеозаписей</p>
+                {:else}
+                    <button class="btn btn-primary">Отправить</button>
+                {/if}
             </div>
         </Form>
-        <h3>Загруженные видео</h3>
+        <h3>Опубликованные видеозаписи</h3>
         {#if videos.length}
             <Grid m={4}>
                 {#each videos as video, i (i)}
@@ -666,7 +672,7 @@
                 {/each}
             </Grid>
         {:else}
-            <p class="mt-3">Здесь еще нет загруженных видео</p>
+            <p class="mt-3">Здесь еще нет загруженных видеозаписей</p>
         {/if}
     </div>
 </section>

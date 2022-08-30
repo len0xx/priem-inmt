@@ -21,8 +21,13 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
             imgURL = file.src
         }
 
-        await feedbackService.create( { page, name, description, img: imgURL, text } )
-        return new HTTPResponse(res, HTTPStatus.CREATED, 'Отзыв успешно создан')
+        const feedback = await feedbackService.create( { page, name, description, img: imgURL, text } )
+
+        const response = {
+            message: 'Отзыв успешно создан',
+            feedback
+        }
+        return new HTTPResponse(res, HTTPStatus.CREATED, response)
     }
     return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Неправильный параметр запроса')
 })

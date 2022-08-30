@@ -13,6 +13,6 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         message: 'Перечисление успешно создано',
         feature
     }
-    
+
     return new HTTPResponse(res, HTTPStatus.CREATED, response)
 })

@@ -2,6 +2,7 @@ import feedbackService from '../../../services/feedback.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
+import type { FindOptions } from 'sequelize/types/model.js'
 
 enum Page {
     Bachelor = 'bachelor',
@@ -16,18 +17,8 @@ export const readOne = catchHTTPErrors(async (req: Request, res: Response) => {
 
 export const readAll = catchHTTPErrors(async (req: Request, res: Response) => {
     const page = req.query.page
+    const options: FindOptions = (page === Page.Bachelor || page === Page.Master) ? { where: { page } } : {}
 
-    const getByPage = async (page: string) => {
-        const feedbacks = await feedbackService.get({ where: { page } })
-        return new HTTPResponse(res, HTTPStatus.SUCCESS, { feedbacks })
-    }
-
-    if (page === Page.Bachelor) {
-        getByPage(Page.Bachelor)
-    } else if (page == Page.Master) {
-        getByPage(Page.Master)
-    } else {
-        const questions = await feedbackService.get()
-        return new HTTPResponse(res, HTTPStatus.SUCCESS, { questions })
-    }
+    const feedbacks = await feedbackService.get(options)
+    return new HTTPResponse(res, HTTPStatus.SUCCESS, { feedbacks })
 })

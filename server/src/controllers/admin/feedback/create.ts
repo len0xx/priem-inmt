@@ -14,8 +14,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const page = req.query.page
 
     if (page === Page.Bachelor || page === Page.Master) {
-
-        let imgURL = undefined
+        let imgURL: string
         if (img) {
             const file = await documentService.getById(+img)
             imgURL = file.src

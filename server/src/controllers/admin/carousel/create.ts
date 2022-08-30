@@ -4,9 +4,9 @@ import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
-enum Name {
+enum Carousel {
     About = 'about',
-    Life = 'life',
+    Life = 'life'
 }
 
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
@@ -14,7 +14,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
 
     const name = req.query.name
 
-    if (name === Name.About || name === Name.Life) {
+    if (name === Carousel.About || name === Carousel.Life) {
         let imgURL = undefined
         if (img) {
             const file = await documentService.getById(+img)

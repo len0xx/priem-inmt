@@ -50,6 +50,12 @@ export const uploadImage = multer({
     fileFilter: createFileFilter(['JPEG', 'JPG', 'PNG', 'SVG'])
 })
 
+export const uploadVideo = multer({
+    storage: storage,
+    limits: { fileSize: fileSizeMB(800) },
+    fileFilter: createFileFilter(['MP4', 'WEBM', 'OGG'])
+})
+
 export const uploadDocument = multer({
     storage: storage,
     limits: { fileSize: fileSizeMB(4) },

@@ -43,8 +43,8 @@ Document.init(
             defaultValue: 'document',
             validate: {
                 isIn: {
-                    args: [[ 'media', 'docAccommodation', 'docBachelor' ]],
-                    msg: 'Тип документа может принимать одно из трех значений: media, docAccommodation или docBachelor'
+                    args: [[ 'media', 'docAccommodation', 'docBachelor', 'video' ]],
+                    msg: 'Тип документа может принимать одно из четырех значений: media, docAccommodation, docBachelor или video'
                 }
             }
         },

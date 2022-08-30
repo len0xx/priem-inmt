@@ -21,17 +21,20 @@
         const resPosts = await fetch(apiRoute('admin/post'))
         const posts = (await resPosts.json()).posts
 
-        if (resGraduates.ok && resPartners.ok && resCarousel.ok && resCarouselLife.ok && resFeatures.ok && resPosts.ok) {
-            return { props: { graduates, partners, carouselImages, carouselLifeImages, features, posts } }
+        const resVideos = await fetch(apiRoute('admin/documents?type=video'))
+        const videos = (await resVideos.json()).documents
+
+        if (resGraduates.ok && resPartners.ok && resCarousel.ok && resCarouselLife.ok && resFeatures.ok && resPosts.ok && resVideos.ok) {
+            return { props: { graduates, partners, carouselImages, carouselLifeImages, features, posts, videos } }
         }
     }
 </script>
 
 <script lang="ts">
-    import { Grid, Graduate, Benefit, Modal, Form, RoundButton, FileSelect } from '$components'
+    import { Grid, Graduate, Benefit, Modal, Form, RoundButton, FileSelect, VideoCard } from '$components'
     import { slide, blur } from 'svelte/transition'
     import { range } from '$lib/utilities.js'
-    import type { GraduateI, PartnerI, PostI, CarouselI, ModalComponent, FeatureI } from '../../../types'
+    import type { GraduateI, PartnerI, PostI, CarouselI, ModalComponent, FeatureI, DocumentI } from '../../../types'
 
     export let posts: PostI[]
 
@@ -40,6 +43,7 @@
     export let carouselImages: CarouselI[] = []
     export let carouselLifeImages: CarouselI[] = []
     export let features: FeatureI[] = []
+    export let videos: DocumentI[] = []
 
     let graduateImageModal: ModalComponent = null
     let graduateImageId: number = null
@@ -64,6 +68,9 @@
 
     let modalGraduate: ModalComponent = null
     let graduateId:number
+
+    let modalVideo: ModalComponent = null
+    let videoId:number
 
     let famousExpanded = false
     let partnersExpanded = false
@@ -122,6 +129,11 @@
         modalGraduate.open()
     }
 
+    const updateVideoId = (id: number) => {
+        videoId = id
+        modalVideo.open()
+    }
+
     const removePartner = async () => {
         const res = await fetch(apiRoute(`admin/partner/${partnerId}`), { method: 'DELETE' })
         if (res.ok) {
@@ -155,6 +167,14 @@
         modalGraduate.close()
     }
 
+    const deleteVideo = async () => {
+        const res = await fetch(apiRoute(`admin/video/${videoId}`), { method: 'DELETE' })
+        if (res.ok) {
+            videos = videos.filter(video => video.id !== videoId)
+        }
+        modalVideo.close()
+    }
+
     const resetFiles = () => {
         fileId = null
         filePath = null
@@ -164,6 +184,11 @@
         const newPost = event.detail.post
         posts = [ ...posts, newPost ]
         resetFiles()
+    }
+
+    const showNewVideo = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
+        const newVideo = event.detail.document
+        videos = [ ...videos, newVideo ]
     }
 </script>
 
@@ -216,6 +241,14 @@
     <div class="buttons-row">
         <button type="button" on:click={deleteGraduate} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modalGraduate.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
+<Modal bind:this={ modalVideo } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить это видео?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={deleteVideo} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={modalVideo.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -598,6 +631,42 @@
             {/if}
         {:else}
             <p class="mt-3">Здесь еще нет известных выпускников</p>
+        {/if}
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Загрузка видео</h3>
+        <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo }>
+            <label class="wide">
+                <span class="form-label">Название видео</span>
+                <input type="text" class="form-control wide" placeholder="Название" name="title" required />
+            </label>
+            <br />
+            <br />
+            <Grid m={2}>
+                <label>
+                    <span class="caption">Видео</span><br />
+                    <input required class="form-control" type="file" name="video" id="video" />
+                </label>
+            </Grid>
+            <div class="buttons-row">
+                <button class="btn btn-primary">Отправить</button>
+            </div>
+        </Form>
+        <h3>Загруженные видео</h3>
+        {#if videos.length}
+            <Grid m={4}>
+                {#each videos as video, i (i)}
+                    <div class="card">
+                        <div class="card-body">
+                            <VideoCard name={video.title} src={video.src} />
+                            <button type="button" on:click={() => updateVideoId(video.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                        </div>
+                    </div>
+                {/each}
+            </Grid>
+        {:else}
+            <p class="mt-3">Здесь еще нет загруженных видео</p>
         {/if}
     </div>
 </section>

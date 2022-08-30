@@ -24,6 +24,7 @@ import featureRouter from './src/routes/admin/feature.js'
 import textinfoRouter from './src/routes/admin/textinfo.js'
 import documentsRouter from './src/routes/admin/documents.js'
 import mediaRouter from './src/routes/admin/media.js'
+import videoRouter from './src/routes/admin/video.js'
 import { fileURLToPath } from 'url'
 import { authorize, redirectLogout, requireAuthorization, requireUnauthorized } from './src/middlewares.js'
 import { errorHandler } from './src/utilities.js'
@@ -98,6 +99,7 @@ app.use('/api/admin/question', questionRouter)
 app.use('/api/admin/feature', featureRouter)
 app.use('/api/admin/documents', documentsRouter)
 app.use('/api/admin/media', mediaRouter)
+app.use('/api/admin/video', videoRouter)
 
 // Обработчик ошибок
 app.use(errorHandler)

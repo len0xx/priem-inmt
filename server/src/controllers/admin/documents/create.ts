@@ -18,7 +18,7 @@ export const create = catchHTTPErrors(async (req: Request & { file: { extension:
     } )
 
     const response = {
-        message: 'Документ успешно загружен',
+        message: type === 'video' ? 'Видео успешно загружено' : 'Документ успешно загружен',
         document: result
     }
     return new HTTPResponse(res, HTTPStatus.CREATED, response)

@@ -14,9 +14,14 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         imgURL = file.src
     }
 
-    await carouselService.create({
+    const image = await carouselService.create({
         img: imgURL,
         name: name
     })
-    return new HTTPResponse(res, HTTPStatus.CREATED, 'Изображение в карусели успешно создано')
+
+    const response = {
+        message: 'Изображение в карусели успешно создано',
+        image
+    }
+    return new HTTPResponse(res, HTTPStatus.CREATED, response)
 })

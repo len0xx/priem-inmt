@@ -9,8 +9,8 @@
         const resPartners = await fetch(apiRoute('admin/partner'))
         const partners = (await resPartners.json()).partners
 
-        const resCarousel = await fetch(apiRoute('admin/carousel/?name=about'))
-        const carouselImages = (await resCarousel.json()).images
+        const resCarouselAbout = await fetch(apiRoute('admin/carousel/?name=about'))
+        const carouselAboutImages = (await resCarouselAbout.json()).images
 
         const resCarouselLife = await fetch(apiRoute('admin/carousel/?name=life'))
         const carouselLifeImages = (await resCarouselLife.json()).images
@@ -24,8 +24,8 @@
         const resVideos = await fetch(apiRoute('admin/documents?type=video'))
         const videos = (await resVideos.json()).documents
 
-        if (resGraduates.ok && resPartners.ok && resCarousel.ok && resCarouselLife.ok && resFeatures.ok && resPosts.ok && resVideos.ok) {
-            return { props: { graduates, partners, carouselImages, carouselLifeImages, features, posts, videos } }
+        if (resGraduates.ok && resPartners.ok && resCarouselAbout.ok && resCarouselLife.ok && resFeatures.ok && resPosts.ok && resVideos.ok) {
+            return { props: { graduates, partners, carouselAboutImages, carouselLifeImages, features, posts, videos } }
         }
     }
 </script>
@@ -40,7 +40,7 @@
 
     export let graduates: GraduateI[] = []
     export let partners: PartnerI[] = []
-    export let carouselImages: CarouselI[] = []
+    export let carouselAboutImages: CarouselI[] = []
     export let carouselLifeImages: CarouselI[] = []
     export let features: FeatureI[] = []
     export let videos: DocumentI[] = []
@@ -53,13 +53,13 @@
     let partnerImageId: number = null
     let partnerImagePath: string = null
 
-    let aboutCarouselModal: ModalComponent = null
-    let aboutCarouselId: number = null
-    let aboutCarouselPath: string = null
+    let carouselAboutImageModal: ModalComponent = null
+    let carouselAboutImageId: number = null
+    let carouselAboutImagePath: string = null
 
-    let lifeCarouselModal: ModalComponent = null
-    let lifeCarouselId: number = null
-    let lifeCarouselPath: string = null
+    let carouselLifeImageModal: ModalComponent = null
+    let carouselLifeImageId: number = null
+    let carouselLifeImagePath: string = null
 
     let partnerModal: ModalComponent = null
     let partnerId: number = null
@@ -78,7 +78,7 @@
 
     let famousExpanded = false
     let partnersExpanded = false
-    let carouselExpanded = false
+    let carouselAboutExpanded = false
     let carouselLifeExpanded = false
     let featuresExpanded = false
     let postsExpanded = false
@@ -92,7 +92,6 @@
     let modal: ModalComponent = null
 
     const addLink = () => links++
-
     const removeLink = () => links--
 
     const deletePost = async (id: number) => {
@@ -118,14 +117,14 @@
         partnerImagePath = event.detail.path
     }
 
-    const aboutCarouselSelected = (event: CustomEvent<{id: number, path: string}>) => {
-        aboutCarouselId = event.detail.id
-        aboutCarouselPath = event.detail.path
+    const carouselAboutImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        carouselAboutImageId = event.detail.id
+        carouselAboutImagePath = event.detail.path
     }
 
-    const lifeCarouselSelected = (event: CustomEvent<{id: number, path: string}>) => {
-        lifeCarouselId = event.detail.id
-        lifeCarouselPath = event.detail.path
+    const carouselLifeImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        carouselLifeImageId = event.detail.id
+        carouselLifeImagePath = event.detail.path
     }
 
     const updateFeatureId = (id: number) => {
@@ -154,7 +153,7 @@
     const removeCarouselImage = async () => {
         const res = await fetch(apiRoute(`admin/carousel/${carouselId}`), { method: 'DELETE' })
         if (res.ok) {
-            carouselImages = carouselImages.filter(image => image.id !== carouselId)
+            carouselAboutImages = carouselAboutImages.filter(image => image.id !== carouselId)
             carouselLifeImages = carouselLifeImages.filter(image => image.id !== carouselId)
         }
         carouselModal.close()
@@ -194,6 +193,16 @@
         partnerImagePath = null
     }
 
+    const resetCarouselAboutImages = () => {
+        carouselAboutImageId = null
+        carouselAboutImagePath = null
+    }
+
+    const resetCarouselLifeImages = () => {
+        carouselLifeImageId = null
+        carouselLifeImagePath = null
+    }
+
     const showNewPost = (event: CustomEvent<{ message: string, post: PostI }>) => {
         const newPost = event.detail.post
         posts = [ ...posts, newPost ]
@@ -205,6 +214,18 @@
         partners = [ ...partners, newPartner ]
         resetPartnerImages()
     }
+
+    const showNewCarouselAboutImage = (event: CustomEvent<{ message: string, image: CarouselI }>) => {
+        const newImage = event.detail.image
+        carouselAboutImages = [ ...carouselAboutImages, newImage ]
+        resetCarouselAboutImages()
+    }
+
+    const showNewCarouselLifeImage = (event: CustomEvent<{ message: string, image: CarouselI }>) => {
+        const newImage = event.detail.image
+        carouselLifeImages = [ ...carouselLifeImages, newImage ]
+        resetCarouselLifeImages()
+    }
 </script>
 
 <svelte:head>
@@ -215,9 +236,9 @@
 
 <FileSelect bind:modal={ partnerImageModal } on:save={ partnerImageSelected } />
 
-<FileSelect bind:modal={ aboutCarouselModal } on:save={ aboutCarouselSelected } />
+<FileSelect bind:modal={ carouselAboutImageModal } on:save={ carouselAboutImageSelected } />
 
-<FileSelect bind:modal={ lifeCarouselModal } on:save={ lifeCarouselSelected } />
+<FileSelect bind:modal={ carouselLifeImageModal } on:save={ carouselLifeImageSelected } />
 
 <FileSelect bind:modal={ postImageModal } on:save={ postImageSelected } />
 
@@ -470,40 +491,38 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Изображения в&nbsp;карусели «Об институте»</h3>
-        <Form action="/api/admin/carousel/?name=about" method="POST" redirect="/admin-panel/main">
+        <Form action="/api/admin/carousel/?name=about" method="POST" on:success={ showNewCarouselAboutImage }>
             <Grid m={2}>
                 <label>
                     <span class="caption">Добавить новое изображение:</span>
-                    {#if aboutCarouselPath}
+                    {#if carouselAboutImagePath}
                         <br />
-                        <img width="150px" height="150px" src={aboutCarouselPath} class="img-fluid mt-3" alt="Изображение в карусели">
+                        <img width="150px" height="150px" src={ carouselAboutImagePath } class="img-fluid mt-3" alt="Изображение в карусели">
                         <br />
                     {/if}
-                    <input type="hidden" name="img" value={ aboutCarouselId }><br />
-                    <button type="button" class="btn btn-outline-success" on:click={ aboutCarouselModal.open }> { aboutCarouselId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    <input type="hidden" name="img" value={ carouselAboutImageId }><br />
+                    <button type="button" class="btn btn-outline-success" on:click={ carouselAboutImageModal.open }> { carouselAboutImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>
             </Grid>
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
         <h3>Опубликованные изображения:</h3>
-        {#if carouselImages.length}
+        {#if carouselAboutImages.length}
             <Grid m={3}>
-                {#each carouselImages as image, i (i)}
-                    {#if i < 6 || carouselExpanded}
-                        <div class="card">
-                            <div class="card-img wide-card-img" style:background-image="url({ image.img })"></div>
-                            <div class="card-body">
-                                <button type="button" class="btn btn-outline-danger" on:click={() => {carouselId = image.id; carouselModal.open()} }>Удалить</button>
-                            </div>
+                {#each carouselAboutImages.filter((_, i) => i < 6 || carouselAboutExpanded) as image, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
+                        <div class="card-img wide-card-img" style:background-image="url({ image.img })"></div>
+                        <div class="card-body">
+                            <button type="button" class="btn btn-outline-danger" on:click={() => {carouselId = image.id; carouselModal.open()} }>Удалить</button>
                         </div>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
-            {#if !carouselExpanded && carouselImages.length > 6}
+            {#if !carouselAboutExpanded && carouselAboutImages.length > 6}
                 <br />
                 <div class="align-center">
-                    <RoundButton variant="plus" size="M" on:click={() => carouselExpanded = true} />
+                    <RoundButton variant="plus" size="M" on:click={() => carouselAboutExpanded = true} />
                 </div>
             {/if}
         {:else}
@@ -513,17 +532,17 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Изображения в&nbsp;карусели «Студенческая жизнь»</h3>
-        <Form action="/api/admin/carousel/?name=life" method="POST" redirect="/admin-panel/main">
+        <Form action="/api/admin/carousel/?name=life" method="POST" on:success={ showNewCarouselLifeImage }>
             <Grid m={2}>
                 <label>
                     <span class="caption">Добавить новое изображение:</span>
-                    {#if lifeCarouselPath}
+                    {#if carouselLifeImagePath}
                         <br />
-                        <img width="150px" height="150px" src={lifeCarouselPath} class="img-fluid mt-3" alt="Изображение в карусели">
+                        <img width="150px" height="150px" src={carouselLifeImagePath} class="img-fluid mt-3" alt="Изображение в карусели">
                         <br />
                     {/if}
-                    <input type="hidden" name="img" value={lifeCarouselId }><br />
-                    <button type="button" class="btn btn-outline-success" on:click={ lifeCarouselModal.open }> { lifeCarouselId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    <input type="hidden" name="img" value={ carouselLifeImageId }><br />
+                    <button type="button" class="btn btn-outline-success" on:click={ carouselLifeImageModal.open }> { carouselLifeImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>
             </Grid>
             <br />
@@ -532,15 +551,13 @@
         <h3>Опубликованные изображения:</h3>
         {#if carouselLifeImages.length}
             <Grid m={3}>
-                {#each carouselLifeImages as image, i (i)}
-                    {#if i < 6 || carouselLifeExpanded}
-                        <div class="card">
-                            <div class="card-img wide-card-img" style:background-image="url({ image.img })"></div>
-                            <div class="card-body">
-                                <button type="button" class="btn btn-outline-danger" on:click={() => {carouselId = image.id; carouselModal.open()} }>Удалить</button>
-                            </div>
+                {#each carouselLifeImages.filter((_, i) => i < 6 || carouselLifeExpanded) as image, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
+                        <div class="card-img wide-card-img" style:background-image="url({ image.img })"></div>
+                        <div class="card-body">
+                            <button type="button" class="btn btn-outline-danger" on:click={() => {carouselId = image.id; carouselModal.open()} }>Удалить</button>
                         </div>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
             {#if !carouselLifeExpanded && carouselLifeImages.length > 6}

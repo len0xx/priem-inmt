@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-    import type { Load } from '@sveltejs/kit'
     import { apiRoute } from '$lib/utilities'
+    import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
         const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor'))
@@ -24,8 +24,8 @@
 </script>
 <script lang="ts">
     import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton, FileSelect, TipTap } from '$components'
-    import type { DocumentI, FeatureI, OpportunityI, FeedbackI, ModalComponent } from '../../../types'
     import { blur, slide } from 'svelte/transition'
+    import type { DocumentI, FeatureI, OpportunityI, FeedbackI, ModalComponent } from '../../../types'
 
     export let pageInfo: Record<string, string> = {}
     export let documents: DocumentI[] = []
@@ -349,14 +349,12 @@
                 <span class="caption">Название:</span><br />
                 <input class="form-control" type="text" name="title" id="title" required />
             </label>
-            <br />
-            <br />
+            <br /><br />
             <label>
                 <span class="caption">Описание:</span><br />
                 <input class="form-control" type="text" name="description" id="description" />
             </label>
-            <br />
-            <br />
+            <br /><br />
             <button class="btn btn-primary">Создать</button>
         </Form>
         <h3>Опубликованные возможности</h3>
@@ -397,14 +395,12 @@
                         <span class="caption">Автор:</span><br />
                         <input class="form-control" type="text" name="name" id="name" required />
                     </label>
-                    <br />
-                    <br />
+                    <br /><br />
                     <label>
                         <span class="caption">Описание:</span><br />
                         <input class="form-control" type="text" name="description" id="description" />
                     </label>
-                    <br />
-                    <br />
+                    <br /><br />
                     <label>
                         <span class="caption">Добавить новое изображение:</span>
                         {#if feedbackImagePath}

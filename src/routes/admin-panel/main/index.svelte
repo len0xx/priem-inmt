@@ -185,11 +185,6 @@
         posts = [ ...posts, newPost ]
         resetFiles()
     }
-
-    const showNewVideo = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
-        const newVideo = event.detail.document
-        videos = [ ...videos, newVideo ]
-    }
 </script>
 
 <svelte:head>
@@ -637,7 +632,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Видеозаписи</h3>
         <p class="text-muted">Максимальный объем видеозаписи должен составлять не более 800 Мб<br />Допустимые форматы: MP4, WEBM, OGG, AVI, MOV, MPEG, MKV</p>
-        <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo }>
+        <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" redirect="/admin-panel/main">
             <label class="wide">
                 <span class="form-label">Название видеозаписи</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />

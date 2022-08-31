@@ -320,7 +320,7 @@
         <h3>Опубликованные преимущества</h3>
         { #if featuresInst.length }
             <Grid m={3}>
-                {#each featuresInst.filter((_, i) => i < 5 || featuresExpanded) as feature, i (i)}
+                {#each featuresInst.filter((_, i) => i < 6 || featuresExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
                             <Benefit num={feature.title} caption={feature.description} />

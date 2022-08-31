@@ -226,6 +226,11 @@
         carouselLifeImages = [ ...carouselLifeImages, newImage ]
         resetCarouselLifeImages()
     }
+
+    const showNewFeature = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
+        const newFeature = event.detail.feature
+        features = [ ...features, newFeature ]
+    }
 </script>
 
 <svelte:head>
@@ -573,7 +578,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
-        <Form action="/api/admin/feature?type=main" method="POST" redirect="/admin-panel/main">
+        <Form action="/api/admin/feature?type=main" method="POST" on:success={ showNewFeature }>
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Заголовок:</span><br />
@@ -590,17 +595,15 @@
         <h3>Опубликованные перечисления</h3>
         {#if features.length}
             <Grid m={3}>
-                {#each features as feature, i (i)}
-                    {#if i < 6 || featuresExpanded}
-                        <div class="card">
-                            <div class="card-body">
-                                <Benefit num={feature.title} caption={feature.description} />
-                                <br />
-                                <a href="/admin-panel/main/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                                <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
-                            </div>
+                {#each features.filter((_, i) => i < 6 || featuresExpanded) as feature, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
+                        <div class="card-body">
+                            <Benefit num={feature.title} caption={feature.description} />
+                            <br />
+                            <a href="/admin-panel/main/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
             {#if !featuresExpanded && features.length > 6}

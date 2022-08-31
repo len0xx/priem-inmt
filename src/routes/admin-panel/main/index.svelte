@@ -497,7 +497,7 @@
                     <span class="caption">Добавить новое изображение:</span>
                     {#if carouselAboutImagePath}
                         <br />
-                        <img width="150px" height="150px" src={carouselAboutImagePath} class="img-fluid mt-3" alt="Изображение в карусели">
+                        <img width="150px" height="150px" src={ carouselAboutImagePath } class="img-fluid mt-3" alt="Изображение в карусели">
                         <br />
                     {/if}
                     <input type="hidden" name="img" value={ carouselAboutImageId }><br />

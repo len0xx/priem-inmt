@@ -6,19 +6,19 @@
         const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=master'))
         const resProfessions = await fetch(apiRoute('admin/profession/'))
         const resQuestions = await fetch(apiRoute('admin/question/?page=master'))
-        const resFeatures = await fetch(apiRoute('admin/feature/?type=master'))
+        const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=master'))
         const resInfo = await fetch(apiRoute('admin/textinfo/?page=master'))
         const resSpecialistFeatures = await fetch(apiRoute('admin/feature/?type=specialist'))
 
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const professions = (await resProfessions.json()).professions
         const questions = (await resQuestions.json()).questions
-        const features = (await resFeatures.json()).features
+        const featuresPromo = (await resFeaturesPromo.json()).features
         const info = (await resInfo.json()).info
         const specialistFeatures = (await resSpecialistFeatures.json()).features
 
-        if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok && resFeatures.ok && resInfo.ok && resSpecialistFeatures.ok) {
-            return { props: { feedbacks, professions, questions, features, pageInfo: info, specialistFeatures } }
+        if (resFeedbacks.ok && resProfessions.ok && resQuestions.ok && resFeaturesPromo.ok && resInfo.ok && resSpecialistFeatures.ok) {
+            return { props: { feedbacks, professions, questions, featuresPromo, pageInfo: info, specialistFeatures } }
         }
     }
 </script>
@@ -32,7 +32,7 @@
     export let feedbacks: FeedbackI[] = []
     export let professions: ProfessionI[] = []
     export let questions: QuestionI[] = []
-    export let features: FeatureI[] = []
+    export let featuresPromo: FeatureI[] = []
     export let specialistFeatures: FeatureI[] = []
 
     let featuresExpanded = false
@@ -110,12 +110,19 @@
         professionModal.close()
     }
 
-    const deleteFeature = async () => {
+    const deleteFeaturePromo = async () => {
         const res = await fetch(apiRoute(`admin/feature/${featureId}`), { method: 'DELETE' })
         if (res.ok) {
-            features = features.filter(feature => feature.id !== featureId)
+            featuresPromo = featuresPromo.filter(feature => feature.id !== featureId)
         }
         modalFeature.close()
+    }
+    const deleteFeatureSpec = async () => {
+        const res = await fetch(apiRoute(`admin/feature/${featureSpecId}`), { method: 'DELETE' })
+        if (res.ok) {
+            specialistFeatures = specialistFeatures.filter(feature => feature.id !== featureSpecId)
+        }
+        modalFeatureSpec.close()
     }
 
     const deleteFeedback = async () => {
@@ -126,12 +133,10 @@
         modalFeedback.close()
     }
 
-    const deleteFeatureSpec = async () => {
-        const res = await fetch(apiRoute(`admin/feature/${featureSpecId}`), { method: 'DELETE' })
-        if (res.ok) {
-            specialistFeatures = specialistFeatures.filter(feature => feature.id !== featureSpecId)
-        }
-        modalFeatureSpec.close()
+
+    const showNewFeaturePromo = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
+        const newFeature = event.detail.feature
+        featuresPromo = [ ...featuresPromo, newFeature ]
     }
 
     const showNewFeatureSpec = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
@@ -165,7 +170,7 @@
 <Modal bind:this={ modalFeature } align="center" closable={true}>
     <p class="mb-4">Вы действительно хотите удалить это перечисление?</p>
     <div class="buttons-row">
-        <button type="button" on:click={deleteFeature} class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={deleteFeaturePromo} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modalFeature.close} class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
@@ -216,7 +221,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
-        <Form action="/api/admin/feature?type=master" method="POST" redirect="/admin-panel/master">
+        <Form action="/api/admin/feature?type=master" method="POST" on:success={ showNewFeaturePromo }>
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Заголовок:</span><br />
@@ -231,22 +236,20 @@
             <button class="btn btn-primary">Создать</button>
         </Form>
         <h3>Опубликованные перечисления</h3>
-        {#if features.length}
+        {#if featuresPromo.length}
             <Grid m={3}>
-                {#each features as feature, i (i)}
-                    {#if i < 6 || featuresExpanded}
-                        <div class="card">
-                            <div class="card-body">
-                                <Benefit num={feature.title} caption={feature.description} />
-                                <br />
-                                <a href="/admin-panel/master/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                                <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
-                            </div>
+                {#each featuresPromo.filter((_, i) => i < 6 || featuresExpanded) as feature, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
+                        <div class="card-body">
+                            <Benefit num={feature.title} caption={feature.description} />
+                            <br />
+                            <a href="/admin-panel/master/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
-            {#if !featuresExpanded && features.length > 6}
+            {#if !featuresExpanded && featuresPromo.length > 6}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
@@ -371,7 +374,7 @@
             <Grid m={3}>
                 {#each specialistFeatures as feature, i (i)}
                     {#if i < 6 || specialistFeaturesExpanded}
-                        <div class="card">
+                        <div class="card"> <!-- TODO: add transision -->
                             <div class="card-body">
                                 <Benefit num={feature.title} caption={feature.description} />
                                 <br />

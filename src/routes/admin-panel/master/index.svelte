@@ -375,9 +375,8 @@
         <h4>Опубликованные преимущества</h4>
         {#if specialistFeatures.length}
             <Grid m={3}>
-                {#each specialistFeatures as feature, i (i)}
-                    {#if i < 6 || specialistFeaturesExpanded}
-                        <div class="card"> <!-- TODO: add transision -->
+                {#each specialistFeatures.filter((_, i) => i < 6 || specialistFeaturesExpanded) as feature, i (i)}
+                        <div class="card" transition:blur|local={{ duration: 200 }}>
                             <div class="card-body">
                                 <Benefit num={feature.title} caption={feature.description} />
                                 <br />
@@ -385,7 +384,6 @@
                                 <button type="button" on:click={() => updateFeatureSpecId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </div>
                         </div>
-                    {/if}
                 {/each}
             </Grid>
             {#if !specialistFeaturesExpanded && specialistFeatures.length > 6}

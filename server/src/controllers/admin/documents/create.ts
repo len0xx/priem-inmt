@@ -9,32 +9,29 @@ export const create = catchHTTPErrors(async (req: Request & { file: { extension:
     const src = generateStaticFilePath(req.file.filename)
     const finalTitle = title || req.file.filename
 
-    const createDocument = async (resmponseMsg) => {
-        const result = await documentService.create( {
-            title: finalTitle,
-            extension: req.file.extension,
-            src,
-            type,
-            size: req.file.size
-        } )
-        const response = {
-            message: resmponseMsg,
-            document: result
-        }
-        return new HTTPResponse(res, HTTPStatus.CREATED, response)
-    }
-
     if (type === 'video') {
         const limitVideos = 4
         let amountVideos = await documentService.count({ where: { type: 'video' } })
         const countVideos = amountVideos++
 
-        if (countVideos < limitVideos) {
-            return createDocument('Видео успешно загружено')
+        if (countVideos >= limitVideos) {
+            return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Превышено максимальное количество загружаемых видеозаписей')
         }
-        return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Превышено максимальное количество загружаемых видеозаписей')
 
     }
-    return createDocument('Документ успешно загружен')
+
+    const result = await documentService.create({
+        title: finalTitle,
+        extension: req.file.extension,
+        src,
+        type,
+        size: req.file.size
+    })
+
+    const response = {
+        message: 'Файл успешно загружен',
+        document: result
+    }
+    return new HTTPResponse(res, HTTPStatus.CREATED, response)
 
 })

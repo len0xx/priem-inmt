@@ -13,8 +13,5 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         opportunity
     }
 
-    // TODO: Delete all console.logs
-    console.log(response)
-
     return new HTTPResponse(res, HTTPStatus.CREATED, response)
 })

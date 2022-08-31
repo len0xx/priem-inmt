@@ -8,7 +8,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
     const { name, label, phone, email, img } = req.body
 
-    let imgURL = undefined
+    let imgURL: string
     if (img) {
         const file = await documentService.getById(+img)
         imgURL = file.src

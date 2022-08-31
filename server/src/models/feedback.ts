@@ -16,7 +16,16 @@ Feedback.init(
     {
         page: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: 'Поле "Страница" является обязательным'
+                },
+                isIn: {
+                    args: [[ 'bachelor', 'master']],
+                    msg: 'Страница может принимать одно из двух значений: bachelor или master'
+                }
+            },
         },
         name: {
             type: DataTypes.STRING,

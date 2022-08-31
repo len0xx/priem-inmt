@@ -25,8 +25,6 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     }
 
     const newData: PostI = { title, text, links, img: imgURL }
-    // TODO: Delete all console.logs
-    console.log(newData)
     await postService.updateById(id, newData)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Публикация успешно обновлена')
 })

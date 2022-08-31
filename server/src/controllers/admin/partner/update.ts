@@ -8,7 +8,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
     const { name, logo } = req.body
 
-    let logoURL = undefined
+    let logoURL: string
     if (logo) {
         const file = await documentService.getById(+logo)
         logoURL = file.src

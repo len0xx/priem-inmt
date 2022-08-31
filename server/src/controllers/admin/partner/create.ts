@@ -7,7 +7,7 @@ import type { Request, Response } from 'express'
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { name, logo } = req.body
 
-    let logoURL = undefined
+    let logoURL: string
     if (logo) {
         const file = await documentService.getById(+logo)
         logoURL = file.src

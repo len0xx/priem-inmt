@@ -7,7 +7,7 @@ import type { Request, Response } from 'express'
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { name, description, graduateYear, photo } = req.body
 
-    let photoURL = undefined
+    let photoURL: string
     if (photo) {
         const file = await documentService.getById(+photo)
         photoURL = file.src

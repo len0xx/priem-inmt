@@ -458,7 +458,7 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Изображения в карусели "Об институте"</h3>
+        <h3 class="no-top-margin">Изображения в&nbsp;карусели «Об институте»</h3>
         <Form action="/api/admin/carousel/?name=about" method="POST" redirect="/admin-panel/main">
             <Grid m={2}>
                 <label>
@@ -496,12 +496,12 @@
                 </div>
             {/if}
         {:else}
-            <p class="mt-3">Здесь еще нет изображений в карусели</p>
+            <p class="mt-3">Здесь еще нет изображений в&nbsp;карусели</p>
         {/if}
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Изображения в карусели "Студенческая жизнь"</h3>
+        <h3 class="no-top-margin">Изображения в&nbsp;карусели «Студенческая жизнь»</h3>
         <Form action="/api/admin/carousel/?name=life" method="POST" redirect="/admin-panel/main">
             <Grid m={2}>
                 <label>
@@ -539,7 +539,7 @@
                 </div>
             {/if}
         {:else}
-            <p class="mt-3">Здесь еще нет изображений в карусели</p>
+            <p class="mt-3">Здесь еще нет изображений в&nbsp;карусели</p>
         {/if}
     </div>
     <br />

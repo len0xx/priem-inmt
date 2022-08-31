@@ -159,6 +159,11 @@
         feedbacks = [ ...feedbacks, newFeedback ]
         resetFiles()
     }
+
+    const showNewQuestion = (event: CustomEvent<{ message: string, question: QuestionI }>) => {
+        const newQuestion = event.detail.question
+        questions = [ ...questions, newQuestion ]
+    }
 </script>
 
 <svelte:head>
@@ -475,8 +480,8 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Ответы на вопросы</h3>
-        <Form method="POST" action="/api/admin/question/?page=master" reset={ true } redirect="/admin-panel/master">
+        <h3 class="no-top-margin">Ответы на&nbsp;вопросы</h3>
+        <Form method="POST" action="/api/admin/question/?page=master" on:success={ showNewQuestion }>
             <Grid m={1}>
                 <label>
                     <span class="question">Вопрос:</span><br />
@@ -493,16 +498,14 @@
         <h3>Опубликованные ответы на вопросы</h3>
         {#if questions.length}
             <Grid m={3}>
-                {#each questions as question, i (i)}
-                    {#if i < 6 || questionsExpanded}
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">{ question.text }</h4><br />
-                                <a href="/admin-panel/master/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                                <button type="button" on:click={() => updateQuestionId(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
-                            </div>
+                {#each questions.filter((_, i) => i < 6 || questionsExpanded) as question, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
+                        <div class="card-body">
+                            <h4 class="card-title">{ question.text }</h4><br />
+                            <a href="/admin-panel/master/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateQuestionId(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
             {#if !questionsExpanded && questions.length > 6}

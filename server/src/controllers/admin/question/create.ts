@@ -14,12 +14,17 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const page = req.query.page
 
     if (page === Page.Bachelor || page === Page.Master) {
-        await questionSerivce.create({
+        const result = await questionSerivce.create({
             text: question,
             answer: answer,
             page: page
         })
-        return new HTTPResponse(res, HTTPStatus.CREATED, 'Ответ на вопрос успешно создан')
+
+        const response = {
+            message: 'Ответ на вопрос успешно создан',
+            question: result
+        }
+        return new HTTPResponse(res, HTTPStatus.CREATED, response)
     }
     return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Неправильный параметр запроса')
 })

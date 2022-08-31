@@ -35,7 +35,7 @@
     export let featuresPromo: FeatureI[] = []
     export let specialistFeatures: FeatureI[] = []
 
-    let featuresExpanded = false
+    let featuresPromoExpanded = false
     let questionsExpanded = false
     let professionsExpanded = false
     let feedbacksExpanded = false
@@ -143,6 +143,11 @@
         const newFeature = event.detail.feature
         specialistFeatures = [ ...specialistFeatures, newFeature ]
     }
+
+    const showNewProfession = (event: CustomEvent<{ message: string, profession: ProfessionI }>) => {
+        const newProfession = event.detail.profession
+        professions = [ ...professions, newProfession ]
+    }
 </script>
 
 <svelte:head>
@@ -238,7 +243,7 @@
         <h3>Опубликованные перечисления</h3>
         {#if featuresPromo.length}
             <Grid m={3}>
-                {#each featuresPromo.filter((_, i) => i < 6 || featuresExpanded) as feature, i (i)}
+                {#each featuresPromo.filter((_, i) => i < 6 || featuresPromoExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
                             <Benefit num={feature.title} caption={feature.description} />
@@ -249,10 +254,10 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !featuresExpanded && featuresPromo.length > 6}
+            {#if !featuresPromoExpanded && featuresPromo.length > 6}
                 <br />
                 <div class="align-center">
-                    <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
+                    <RoundButton variant="plus" size="M" on:click={() => featuresPromoExpanded = true} />
                 </div>
             {/if}
         {:else}
@@ -262,7 +267,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Профессии</h3>
-        <Form action="/api/admin/profession" method="POST" reset={ true } redirect="/admin-panel/master">
+        <Form action="/api/admin/profession" method="POST" reset={ true } on:success={ showNewProfession }>
             <Grid m={2} s={1}>
                 <div>
                     <label>
@@ -306,9 +311,8 @@
         <h3>Опубликованные профессии</h3>
         {#if professions.length}
             <Grid m={3} s={1}>
-                {#each professions as profession, i (i)}
-                    {#if i < 6 || professionsExpanded}
-                        <div class="card">
+                {#each professions.filter((_, i) => i < 6 || professionsExpanded) as profession, i (i)}
+                        <div class="card" transition:blur|local={{ duration: 200 }}>
                             <div class="card-body">
                                 <h4 class="card-title">{ profession.title }</h4>
                                 <p class="card-text">{ profession.description }</p>
@@ -316,7 +320,6 @@
                                 <button type="button" on:click={() => updateProfessionId(profession.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </div>
                         </div>
-                    {/if}
                 {/each}
             </Grid>
             {#if !professionsExpanded && professions.length > 6}

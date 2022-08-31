@@ -3,6 +3,7 @@ import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 import { Op } from 'sequelize'
+import type { FindOptions } from 'sequelize'
 
 export const get = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
@@ -12,24 +13,19 @@ export const get = catchHTTPErrors(async (req: Request, res: Response) => {
 })
 
 export const getAll = catchHTTPErrors(async (req: Request, res: Response) => {
-    const degree = req.query.degree
-
-    const getProgramsWhereDegree = async (degree: string) => {
-        const programs = await educationalProgramService.findAll({
-            where: {
-                degree: degree
-            }
-        })
-        return new HTTPResponse(res, HTTPStatus.SUCCESS, { programs })
-    }
+    let degree = req.query.degree
 
     if (degree === 'bachelor') {
-        getProgramsWhereDegree('Бакалавриат')
-    } else if (degree == 'specialist') {
-        getProgramsWhereDegree('Специалитет')
-    } else if (degree == 'master') {
-        getProgramsWhereDegree('Магистратура')
-    } else if (degree == 'bachspec') {
+        degree = 'Бакалавриат'
+    } else if (degree === 'master') {
+        degree = 'Магистратура'
+    } else if (degree === 'specialist') {
+        degree = 'Специалитет'
+    }
+
+    const options: FindOptions = degree ? { where: { degree } } : {}
+
+    if (degree === 'bachspec') {
         const programs = await educationalProgramService.findAll({
             where: {
                 degree: {
@@ -38,8 +34,8 @@ export const getAll = catchHTTPErrors(async (req: Request, res: Response) => {
             }
         })
         return new HTTPResponse(res, HTTPStatus.SUCCESS, { programs })
-    } else {
-        const programs = await educationalProgramService.get()
-        return new HTTPResponse(res, HTTPStatus.SUCCESS, { programs })
     }
+
+    const programs = await educationalProgramService.get(options)
+    return new HTTPResponse(res, HTTPStatus.SUCCESS, { programs })
 })

@@ -2,11 +2,7 @@ import questionSerivce from '../../../services/question.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
-
-enum Page {
-    Bachelor = 'bachelor',
-    Master = 'master',
-}
+import type { FindOptions } from 'sequelize'
 
 export const get = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
@@ -17,22 +13,8 @@ export const get = catchHTTPErrors(async (req: Request, res: Response) => {
 
 export const getAll = catchHTTPErrors(async (req: Request, res: Response) => {
     const page = req.query.page
+    const options: FindOptions = page ? { where: { page } } : {}
 
-    const getQuestionsWherePage = async (page: string) => {
-        const questions = await questionSerivce.findAll({
-            where: {
-                page: page
-            }
-        })
-        return new HTTPResponse(res, HTTPStatus.SUCCESS, { questions })
-    }
-
-    if (page === Page.Bachelor) {
-        getQuestionsWherePage(Page.Bachelor)
-    } else if (page == Page.Master) {
-        getQuestionsWherePage(Page.Master)
-    } else {
-        const questions = await questionSerivce.get()
-        return new HTTPResponse(res, HTTPStatus.SUCCESS, { questions })
-    }
+    const questions = await questionSerivce.get(options)
+    return new HTTPResponse(res, HTTPStatus.SUCCESS, { questions })
 })

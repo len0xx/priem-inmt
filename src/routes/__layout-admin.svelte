@@ -56,7 +56,7 @@
                 <div class="align-right">
                     {#if user}
                         Добро пожаловать, {user.firstName} <br />
-                        <a href="/admin-panel-auth/logout">Выйти</a>
+                        <a class="btn btn-sm btn-outline-danger" href="/admin-panel-auth/logout" style="padding: 0.1rem 0.2rem">Выйти</a>
                     {/if}
                 </div>
             </div>

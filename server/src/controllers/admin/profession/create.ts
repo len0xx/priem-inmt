@@ -16,7 +16,12 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         }
     }
 
-    await professionService.create({ title, description, minsalary, duties })
+    const profession = await professionService.create({ title, description, minsalary, duties })
 
-    return new HTTPResponse(res, HTTPStatus.CREATED, 'Профессия успешно создана')
+    const response = {
+        message: 'Профессия успешно создана',
+        profession
+    }
+
+    return new HTTPResponse(res, HTTPStatus.CREATED, response)
 })

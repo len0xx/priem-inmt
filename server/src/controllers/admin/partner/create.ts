@@ -13,9 +13,14 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         logoURL = file.src
     }
 
-    await partnerService.create({
+    const partner = await partnerService.create({
         name: name,
         logo: logoURL
     })
-    return new HTTPResponse(res, HTTPStatus.CREATED, 'Партнер института успешно создан')
+
+    const response = {
+        message: 'Партнер института успешно создан',
+        partner
+    }
+    return new HTTPResponse(res, HTTPStatus.CREATED, response)
 })

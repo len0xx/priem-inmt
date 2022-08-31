@@ -35,7 +35,7 @@
     export let featuresPromo: FeatureI[] = []
     export let specialistFeatures: FeatureI[] = []
 
-    let featuresExpanded = false
+    let featuresPromoExpanded = false
     let questionsExpanded = false
     let professionsExpanded = false
     let feedbacksExpanded = false
@@ -56,6 +56,7 @@
     let feedbackImageModal: ModalComponent = null
     let feedbackImageId: number = null
     let feedbackImagePath: string = null
+
 
     let duties = 1
     const addDuty = () => duties++
@@ -92,6 +93,11 @@
     const feedbackImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
         feedbackImageId = event.detail.id
         feedbackImagePath = event.detail.path
+    }
+
+    const resetFiles = () => {
+        feedbackImageId = null
+        feedbackImagePath = null
     }
 
     const removeQuestion = async () => {
@@ -133,7 +139,6 @@
         modalFeedback.close()
     }
 
-
     const showNewFeaturePromo = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
         const newFeature = event.detail.feature
         featuresPromo = [ ...featuresPromo, newFeature ]
@@ -142,6 +147,22 @@
     const showNewFeatureSpec = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
         const newFeature = event.detail.feature
         specialistFeatures = [ ...specialistFeatures, newFeature ]
+    }
+
+    const showNewProfession = (event: CustomEvent<{ message: string, profession: ProfessionI }>) => {
+        const newProfession = event.detail.profession
+        professions = [ ...professions, newProfession ]
+    }
+
+    const showNewFeedback = (event: CustomEvent<{ message: string, feedback: FeedbackI }>) => {
+        const newFeedback = event.detail.feedback
+        feedbacks = [ ...feedbacks, newFeedback ]
+        resetFiles()
+    }
+
+    const showNewQuestion = (event: CustomEvent<{ message: string, question: QuestionI }>) => {
+        const newQuestion = event.detail.question
+        questions = [ ...questions, newQuestion ]
     }
 </script>
 
@@ -238,7 +259,7 @@
         <h3>Опубликованные перечисления</h3>
         {#if featuresPromo.length}
             <Grid m={3}>
-                {#each featuresPromo.filter((_, i) => i < 6 || featuresExpanded) as feature, i (i)}
+                {#each featuresPromo.filter((_, i) => i < 6 || featuresPromoExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
                             <Benefit num={feature.title} caption={feature.description} />
@@ -249,10 +270,10 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !featuresExpanded && featuresPromo.length > 6}
+            {#if !featuresPromoExpanded && featuresPromo.length > 6}
                 <br />
                 <div class="align-center">
-                    <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
+                    <RoundButton variant="plus" size="M" on:click={() => featuresPromoExpanded = true} />
                 </div>
             {/if}
         {:else}
@@ -262,7 +283,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Профессии</h3>
-        <Form action="/api/admin/profession" method="POST" reset={ true } redirect="/admin-panel/master">
+        <Form action="/api/admin/profession" method="POST" reset={ true } on:success={ showNewProfession }>
             <Grid m={2} s={1}>
                 <div>
                     <label>
@@ -306,9 +327,8 @@
         <h3>Опубликованные профессии</h3>
         {#if professions.length}
             <Grid m={3} s={1}>
-                {#each professions as profession, i (i)}
-                    {#if i < 6 || professionsExpanded}
-                        <div class="card">
+                {#each professions.filter((_, i) => i < 6 || professionsExpanded) as profession, i (i)}
+                        <div class="card" transition:blur|local={{ duration: 200 }}>
                             <div class="card-body">
                                 <h4 class="card-title">{ profession.title }</h4>
                                 <p class="card-text">{ profession.description }</p>
@@ -316,7 +336,6 @@
                                 <button type="button" on:click={() => updateProfessionId(profession.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </div>
                         </div>
-                    {/if}
                 {/each}
             </Grid>
             {#if !professionsExpanded && professions.length > 6}
@@ -372,9 +391,8 @@
         <h4>Опубликованные преимущества</h4>
         {#if specialistFeatures.length}
             <Grid m={3}>
-                {#each specialistFeatures as feature, i (i)}
-                    {#if i < 6 || specialistFeaturesExpanded}
-                        <div class="card"> <!-- TODO: add transision -->
+                {#each specialistFeatures.filter((_, i) => i < 6 || specialistFeaturesExpanded) as feature, i (i)}
+                        <div class="card" transition:blur|local={{ duration: 200 }}>
                             <div class="card-body">
                                 <Benefit num={feature.title} caption={feature.description} />
                                 <br />
@@ -382,7 +400,6 @@
                                 <button type="button" on:click={() => updateFeatureSpecId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </div>
                         </div>
-                    {/if}
                 {/each}
             </Grid>
             {#if !specialistFeaturesExpanded && specialistFeatures.length > 6}
@@ -398,7 +415,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Отзывы</h3>
-        <Form action="/api/admin/feedback/?page=master" method="POST" redirect="/admin-panel/master">
+        <Form action="/api/admin/feedback/?page=master" method="POST" on:success={ showNewFeedback }>
             <Grid m={2} s={1}>
                 <div>
                     <label>
@@ -436,9 +453,9 @@
         </Form>
         <h3>Опубликованные отзывы</h3>
         {#if feedbacks.length}
-            <Grid m={3} s={1} alignItems="start">
-                {#each feedbacks as feedback, i (i)}
-                    {#if i < 6 || feedbacksExpanded}
+            <Grid m={3} s={1}>
+                {#each feedbacks.filter((_, i) => i < 6 || feedbacksExpanded) as feedback, i (i)}
+                    <div transition:blur|local={{ duration: 200 }}>
                         <Profile variant="white" img={ feedback.img }>
                             <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                             <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
@@ -448,7 +465,7 @@
                                 <button type="button" on:click={() => updateFeedbackId(feedback.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </svelte:fragment>
                         </Profile>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
             {#if !feedbacksExpanded && feedbacks.length > 6}
@@ -463,8 +480,8 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Ответы на вопросы</h3>
-        <Form method="POST" action="/api/admin/question/?page=master" reset={ true } redirect="/admin-panel/master">
+        <h3 class="no-top-margin">Ответы на&nbsp;вопросы</h3>
+        <Form method="POST" action="/api/admin/question/?page=master" on:success={ showNewQuestion }>
             <Grid m={1}>
                 <label>
                     <span class="question">Вопрос:</span><br />
@@ -481,16 +498,14 @@
         <h3>Опубликованные ответы на вопросы</h3>
         {#if questions.length}
             <Grid m={3}>
-                {#each questions as question, i (i)}
-                    {#if i < 6 || questionsExpanded}
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">{ question.text }</h4><br />
-                                <a href="/admin-panel/master/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                                <button type="button" on:click={() => updateQuestionId(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
-                            </div>
+                {#each questions.filter((_, i) => i < 6 || questionsExpanded) as question, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
+                        <div class="card-body">
+                            <h4 class="card-title">{ question.text }</h4><br />
+                            <a href="/admin-panel/master/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateQuestionId(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
             {#if !questionsExpanded && questions.length > 6}

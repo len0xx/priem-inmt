@@ -57,6 +57,7 @@
     let feedbackImageId: number = null
     let feedbackImagePath: string = null
 
+
     let duties = 1
     const addDuty = () => duties++
     const removeDuty = () => duties--
@@ -92,6 +93,11 @@
     const feedbackImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
         feedbackImageId = event.detail.id
         feedbackImagePath = event.detail.path
+    }
+
+    const resetFiles = () => {
+        feedbackImageId = null
+        feedbackImagePath = null
     }
 
     const removeQuestion = async () => {
@@ -133,7 +139,6 @@
         modalFeedback.close()
     }
 
-
     const showNewFeaturePromo = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
         const newFeature = event.detail.feature
         featuresPromo = [ ...featuresPromo, newFeature ]
@@ -147,6 +152,12 @@
     const showNewProfession = (event: CustomEvent<{ message: string, profession: ProfessionI }>) => {
         const newProfession = event.detail.profession
         professions = [ ...professions, newProfession ]
+    }
+
+    const showNewFeedback = (event: CustomEvent<{ message: string, feedback: FeedbackI }>) => {
+        const newFeedback = event.detail.feedback
+        feedbacks = [ ...feedbacks, newFeedback ]
+        resetFiles()
     }
 </script>
 
@@ -399,7 +410,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Отзывы</h3>
-        <Form action="/api/admin/feedback/?page=master" method="POST" redirect="/admin-panel/master">
+        <Form action="/api/admin/feedback/?page=master" method="POST" on:success={ showNewFeedback }>
             <Grid m={2} s={1}>
                 <div>
                     <label>
@@ -437,9 +448,9 @@
         </Form>
         <h3>Опубликованные отзывы</h3>
         {#if feedbacks.length}
-            <Grid m={3} s={1} alignItems="start">
-                {#each feedbacks as feedback, i (i)}
-                    {#if i < 6 || feedbacksExpanded}
+            <Grid m={3} s={1}>
+                {#each feedbacks.filter((_, i) => i < 6 || feedbacksExpanded) as feedback, i (i)}
+                    <div transition:blur|local={{ duration: 200 }}>
                         <Profile variant="white" img={ feedback.img }>
                             <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                             <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
@@ -449,7 +460,7 @@
                                 <button type="button" on:click={() => updateFeedbackId(feedback.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                             </svelte:fragment>
                         </Profile>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
             {#if !feedbacksExpanded && feedbacks.length > 6}

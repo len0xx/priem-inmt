@@ -49,9 +49,9 @@
     let graduateImageId: number = null
     let graduateImagePath: string = null
 
-    let partnersImageModal: ModalComponent = null
-    let partnersImageId: number = null
-    let partnersImagePath: string = null
+    let partnerImageModal: ModalComponent = null
+    let partnerImageId: number = null
+    let partnerImagePath: string = null
 
     let carouselImageModal: ModalComponent = null
     let carouselImageId: number = null
@@ -79,9 +79,9 @@
     let featuresExpanded = false
     let postsExpanded = false
 
-    let fileModal: ModalComponent = null
-    let fileId: number = null
-    let filePath: string = null
+    let postImageModal: ModalComponent = null
+    let postImageId: number = null
+    let postImagePath: string = null
     
     let links = 1
     let deleteId = 0
@@ -99,9 +99,9 @@
         modal.close()
     }
 
-    const fileSelected = (event: CustomEvent<{id: number, path: string}>) => {
-        fileId = event.detail.id
-        filePath = event.detail.path
+    const postImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        postImageId = event.detail.id
+        postImagePath = event.detail.path
     }
 
     const graduateImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
@@ -109,9 +109,9 @@
         graduateImagePath = event.detail.path
     }
 
-    const partnersImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
-        partnersImageId = event.detail.id
-        partnersImagePath = event.detail.path
+    const partnerImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        partnerImageId = event.detail.id
+        partnerImagePath = event.detail.path
     }
 
     const carouselImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
@@ -175,15 +175,26 @@
         modalVideo.close()
     }
 
-    const resetFiles = () => {
-        fileId = null
-        filePath = null
+    const resetPostImages = () => {
+        postImageId = null
+        postImagePath = null
+    }
+
+    const resetPartnerImages = () => {
+        partnerImageId = null
+        partnerImagePath = null
     }
 
     const showNewPost = (event: CustomEvent<{ message: string, post: PostI }>) => {
         const newPost = event.detail.post
         posts = [ ...posts, newPost ]
-        resetFiles()
+        resetPostImages()
+    }
+
+    const showNewPartner = (event: CustomEvent<{ message: string, partner: PartnerI }>) => {
+        const newPartner = event.detail.partner
+        partners = [ ...partners, newPartner ]
+        resetPartnerImages()
     }
 </script>
 
@@ -193,11 +204,11 @@
 
 <FileSelect bind:modal={ graduateImageModal } on:save={ graduateImageSelected } />
 
-<FileSelect bind:modal={ partnersImageModal } on:save={ partnersImageSelected } />
+<FileSelect bind:modal={ partnerImageModal } on:save={ partnerImageSelected } />
 
 <FileSelect bind:modal={ carouselImageModal } on:save={ carouselImageSelected } />
 
-<FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
+<FileSelect bind:modal={ postImageModal } on:save={ postImageSelected } />
 
 <Modal bind:this={ modal } align="center" closable={true}>
     <p class="mb-4">Вы действительно хотите удалить эту публикацию?</p>
@@ -286,12 +297,12 @@
                     <br />
                     <label>
                         <span class="caption">Изображение:</span>
-                        {#if filePath}
+                        {#if postImagePath}
                             <br />
-                            <img width="150px" height="150px" src={filePath} class="img-fluid mt-3 mb-3" alt="Изображение">   
+                            <img width="150px" height="150px" src={postImagePath} class="img-fluid mt-3 mb-3" alt="Изображение">   
                         {/if}                 
-                        <input type="hidden" name="img" value={ fileId }><br />
-                        <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        <input type="hidden" name="img" value={ postImageId }><br />
+                        <button type="button" class="btn btn-outline-success" on:click={ postImageModal.open }> { postImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     </label>
                 </div>
                 <div id="vs2f">
@@ -343,7 +354,7 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Информация о поступлении</h3>
+        <h3 class="no-top-margin">Информация о&nbsp;поступлении</h3>
         <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
             <label class="form-check-label" for="flexSwitchCheckDefault">Бюджет/Контракт</label>
@@ -408,16 +419,16 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Партнеры</h3>
-        <Form action="/api/admin/partner" method="POST" redirect="/admin-panel/main">
+        <Form action="/api/admin/partner" method="POST" on:success={ showNewPartner }>
             <label>
                 <span class="caption">Добавить новый логотип партнёра:</span>
-                {#if partnersImagePath}
+                {#if partnerImagePath}
                     <br />
-                    <img width="150px" height="150px" src={partnersImagePath} class="img-fluid mt-3 mb-3" alt="Логотип партнера">
+                    <img width="150px" height="150px" src={partnerImagePath} class="img-fluid mt-3 mb-3" alt="Логотип партнера">
                     <br />
                 {/if}
-                <input type="hidden" name="logo" value={ partnersImageId }><br />
-                <button type="button" class="btn btn-outline-success" on:click={ partnersImageModal.open }> { partnersImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                <input type="hidden" name="logo" value={ partnerImageId }><br />
+                <button type="button" class="btn btn-outline-success" on:click={ partnerImageModal.open }> { partnerImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
             </label>
             <br />
             <br />
@@ -426,15 +437,13 @@
         <h3>Опубликованные партнеры</h3>
         {#if partners.length}
             <Grid m={5}>
-                {#each partners as partner, i (i)}
-                    {#if i < 10 || partnersExpanded}
-                        <div class="card">
-                            <div class="card-img medium-card-img contain-img" style:background-image="url({ partner.logo })"></div>
-                            <div class="card-body">
-                                <button type="button" class="btn btn-outline-danger" on:click={() => {partnerId = partner.id; partnerModal.open()} }>Удалить</button>
-                            </div>
+                {#each partners.filter((_, i) => i < 6 || partnersExpanded) as partner, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
+                        <div class="card-img medium-card-img contain-img" style:background-image="url({ partner.logo })"></div>
+                        <div class="card-body">
+                            <button type="button" class="btn btn-outline-danger" on:click={() => {partnerId = partner.id; partnerModal.open()} }>Удалить</button>
                         </div>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
             {#if !partnersExpanded && partners.length > 10}

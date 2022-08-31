@@ -53,9 +53,13 @@
     let partnersImageId: number = null
     let partnersImagePath: string = null
 
-    let carouselImageModal: ModalComponent = null
-    let carouselImageId: number = null
-    let carouselImagePath: string = null
+    let aboutCarouselModal: ModalComponent = null
+    let aboutCarouselId: number = null
+    let aboutCarouselPath: string = null
+
+    let lifeCarouselModal: ModalComponent = null
+    let lifeCarouselId: number = null
+    let lifeCarouselPath: string = null
 
     let partnerModal: ModalComponent = null
     let partnerId: number = null
@@ -114,9 +118,14 @@
         partnersImagePath = event.detail.path
     }
 
-    const carouselImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
-        carouselImageId = event.detail.id
-        carouselImagePath = event.detail.path
+    const aboutCarouselSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        aboutCarouselId = event.detail.id
+        aboutCarouselPath = event.detail.path
+    }
+
+    const lifeCarouselSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        lifeCarouselId = event.detail.id
+        lifeCarouselPath = event.detail.path
     }
 
     const updateFeatureId = (id: number) => {
@@ -195,7 +204,9 @@
 
 <FileSelect bind:modal={ partnersImageModal } on:save={ partnersImageSelected } />
 
-<FileSelect bind:modal={ carouselImageModal } on:save={ carouselImageSelected } />
+<FileSelect bind:modal={ aboutCarouselModal } on:save={ aboutCarouselSelected } />
+
+<FileSelect bind:modal={ lifeCarouselModal } on:save={ lifeCarouselSelected } />
 
 <FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
 
@@ -454,13 +465,13 @@
             <Grid m={2}>
                 <label>
                     <span class="caption">Добавить новое изображение:</span>
-                    {#if carouselImagePath}
+                    {#if aboutCarouselPath}
                         <br />
-                        <img width="150px" height="150px" src={carouselImagePath} class="img-fluid mt-3" alt="Изображение в карусели">
+                        <img width="150px" height="150px" src={aboutCarouselPath} class="img-fluid mt-3" alt="Изображение в карусели">
                         <br />
                     {/if}
-                    <input type="hidden" name="img" value={ carouselImageId }><br />
-                    <button type="button" class="btn btn-outline-success" on:click={ carouselImageModal.open }> { carouselImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    <input type="hidden" name="img" value={ aboutCarouselId }><br />
+                    <button type="button" class="btn btn-outline-success" on:click={ aboutCarouselModal.open }> { aboutCarouselId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>
             </Grid>
             <br />
@@ -497,13 +508,13 @@
             <Grid m={2}>
                 <label>
                     <span class="caption">Добавить новое изображение:</span>
-                    {#if carouselImagePath}
+                    {#if lifeCarouselPath}
                         <br />
-                        <img width="150px" height="150px" src={carouselImagePath} class="img-fluid mt-3" alt="Изображение в карусели">
+                        <img width="150px" height="150px" src={lifeCarouselPath} class="img-fluid mt-3" alt="Изображение в карусели">
                         <br />
                     {/if}
-                    <input type="hidden" name="img" value={ carouselImageId }><br />
-                    <button type="button" class="btn btn-outline-success" on:click={ carouselImageModal.open }> { carouselImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    <input type="hidden" name="img" value={lifeCarouselId }><br />
+                    <button type="button" class="btn btn-outline-success" on:click={ lifeCarouselModal.open }> { lifeCarouselId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>
             </Grid>
             <br />

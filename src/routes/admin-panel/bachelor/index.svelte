@@ -35,7 +35,7 @@
     export let featuresInst: FeatureI[] = []
     export let opportunities: OpportunityI[] = []
 
-    let isFormBudget = true
+    let isFormBudget = false
 
     let modalDocument: ModalComponent = null
     let documentId: number
@@ -237,6 +237,10 @@
             calendarSuccess = false
         }
     }
+    
+    const handleForm = (event: CustomEvent) => {
+        isFormBudget = event.detail.state
+    }
 </script>
 
 <svelte:head>
@@ -355,7 +359,7 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Информация о приёме</h3>
+        <h3 class="no-top-margin">Календарь приёма</h3>
         <form on:submit={calendarSubmit}>
             <Grid m={2}>
                 <div>
@@ -367,14 +371,9 @@
                     <TipTap name="textDescription" content={calendar ? calendar.textDescription : ''} />
                 </div>
             </Grid>
-            <Switch left="Контракт" right="Бюджет" />
-            <div class="d-flex flex-row align-items-center">
-                <h3 class="me-3">Календарь приёма</h3>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" bind:checked={isFormBudget} type="checkbox" id="switchEducationForm">
-                    <label class="form-check-label" for="switchEducationForm">{isFormBudget ? 'Бюджет' : 'Контракт'}</label>
-                </div>
-            </div>
+            <br />
+            <Switch left="Контракт" right="Бюджет" on:change={handleForm} />
+            <br />
             <div class="accordion">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="panelsStayOpen-headingOne">

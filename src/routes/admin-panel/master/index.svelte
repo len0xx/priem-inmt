@@ -373,7 +373,6 @@
         </Form>
         <br />
         <h4 class="no-top-margin">Преимущества</h4>
-        <!-- TODO: Remove redirect -->
         <Form action="/api/admin/feature?type=specialist" method="POST" on:success={ showNewFeatureSpec }>
             <div class="grid grid-2 m-grid-1">
                 <label>

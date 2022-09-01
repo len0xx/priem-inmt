@@ -76,7 +76,7 @@
     let modalVideo: ModalComponent = null
     let videoId:number
 
-    let famousExpanded = false
+    let graduatesExpanded = false
     let partnersExpanded = false
     let carouselAboutExpanded = false
     let carouselLifeExpanded = false
@@ -225,6 +225,21 @@
         const newImage = event.detail.image
         carouselLifeImages = [ ...carouselLifeImages, newImage ]
         resetCarouselLifeImages()
+    }
+
+    const showNewFeature = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
+        const newFeature = event.detail.feature
+        features = [ ...features, newFeature ]
+    }
+
+    const showNewGraduate = (event: CustomEvent<{ message: string, graduate: GraduateI }>) => {
+        const newGraduate = event.detail.graduate
+        graduates = [ ...graduates, newGraduate ]
+    }
+
+    const showNewVideo = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
+        const newVideo = event.detail.document
+        videos = [ ...videos, newVideo ]
     }
 </script>
 
@@ -490,7 +505,7 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Изображения в&nbsp;карусели «Об институте»</h3>
+        <h3 class="no-top-margin">Изображения в&nbsp;карусели «Об&nbsp;институте»</h3>
         <Form action="/api/admin/carousel/?name=about" method="POST" on:success={ showNewCarouselAboutImage }>
             <Grid m={2}>
                 <label>
@@ -573,7 +588,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
-        <Form action="/api/admin/feature?type=main" method="POST" redirect="/admin-panel/main">
+        <Form action="/api/admin/feature?type=main" method="POST" on:success={ showNewFeature }>
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">Заголовок:</span><br />
@@ -590,17 +605,15 @@
         <h3>Опубликованные перечисления</h3>
         {#if features.length}
             <Grid m={3}>
-                {#each features as feature, i (i)}
-                    {#if i < 6 || featuresExpanded}
-                        <div class="card">
-                            <div class="card-body">
-                                <Benefit num={feature.title} caption={feature.description} />
-                                <br />
-                                <a href="/admin-panel/main/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                                <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
-                            </div>
+                {#each features.filter((_, i) => i < 6 || featuresExpanded) as feature, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
+                        <div class="card-body">
+                            <Benefit num={feature.title} caption={feature.description} />
+                            <br />
+                            <a href="/admin-panel/main/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
             {#if !featuresExpanded && features.length > 6}
@@ -616,7 +629,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Известные выпускники</h3>
-        <Form action="/api/admin/graduate" method="POST" redirect="/admin-panel/main">
+        <Form action="/api/admin/graduate" method="POST" on:success={ showNewGraduate }>
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="caption">ФИО</span><br />
@@ -645,20 +658,20 @@
         </Form>
         <h3>Опубликованные известные выпускники</h3>
         {#if graduates.length}
-            <Grid m={4}>
-                {#each graduates as student, i (i)}
-                    {#if i < 8 || famousExpanded}
-                        <Graduate name={ student.name } src={ student.photo } caption={ student.description }>
-                            <a href="/admin-panel/main/graduate/update/{ student.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                            <button type="button" on:click={() => updateGraduateId(student.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+            <Grid m={3}>
+                {#each graduates.filter((_, i) => i < 6 || graduatesExpanded) as graduate, i (i)}
+                    <div transition:blur|local={{ duration: 200 }}>
+                        <Graduate name={ graduate.name } src={ graduate.photo } caption={ graduate.description }>
+                            <a href="/admin-panel/main/graduate/update/{ graduate.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateGraduateId(graduate.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </Graduate>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
-            {#if !famousExpanded && graduates.length > 8}
+            {#if !graduatesExpanded && graduates.length > 8}
                 <br />
                 <div class="align-center">
-                    <RoundButton variant="plus" size="M" on:click={() => famousExpanded = true} />
+                    <RoundButton variant="plus" size="M" on:click={() => graduatesExpanded = true} />
                 </div>
             {/if}
         {:else}
@@ -669,7 +682,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Видеозаписи</h3>
         <p class="text-muted">Максимальный объем видеозаписи должен составлять не более 800 Мб<br />Допустимые форматы: MP4, WEBM, OGG, AVI, MOV, MPEG, MKV</p>
-        <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" redirect="/admin-panel/main">
+        <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo }>
             <label class="wide">
                 <span class="form-label">Название видеозаписи</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />
@@ -693,9 +706,9 @@
         </Form>
         <h3>Опубликованные видеозаписи</h3>
         {#if videos.length}
-            <Grid m={4}>
+            <Grid m={3} s={1}>
                 {#each videos as video, i (i)}
-                    <div class="card">
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
                             <VideoCard name={video.title} src={video.src} />
                             <button type="button" on:click={() => updateVideoId(video.id)} class="btn btn-outline-danger btn-sm">Удалить</button>

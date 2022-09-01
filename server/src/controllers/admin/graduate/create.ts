@@ -13,11 +13,16 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         photoURL = file.src
     }
 
-    await graduateService.create({
-        name: name,
-        description: description,
-        graduateYear: graduateYear,
+    const graduate = await graduateService.create({
+        name,
+        description,
+        graduateYear,
         photo: photoURL
     })
-    return new HTTPResponse(res, HTTPStatus.CREATED, 'Известный выпускник успешно создан')
+
+    const response = {
+        message: 'Известный выпускник успешно создан',
+        graduate
+    }
+    return new HTTPResponse(res, HTTPStatus.CREATED, response)
 })

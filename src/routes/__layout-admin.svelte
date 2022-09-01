@@ -79,8 +79,7 @@
         </div>
         <div class="left-menu-user align-left pc-hide"> 
             {#if user}          
-                <p>Добро пожаловать, {user.firstName}</p>
-                <a class="btn btn-outline-danger" href="/admin-panel-auth/logout">Выйти</a>
+                <p>Добро пожаловать, {user.firstName} <a class="btn btn-outline-danger cnS2" href="/admin-panel-auth/logout">Выйти</a></p>
             {/if}
         </div>
         <nav class="left-menu-nav">
@@ -140,13 +139,6 @@
                 class="menu-item"
                 on:click={() => openAside = false}>Файлы</a
             >
-            <!-- <a
-                href={TEXTS_URL}
-                class:active={URL.startsWith(TEXTS_URL)}
-                sveltekit:prefetch
-                class="menu-item"
-                on:click={() => openAside = false}>Текстовые элементы</a
-            > -->
         </nav>
     </aside>
     <div class="panel-content">

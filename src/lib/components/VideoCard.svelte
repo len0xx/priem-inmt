@@ -25,7 +25,7 @@
     <div class="img" on:click={ toggleVideo }>
         <!-- svelte-ignore a11y-media-has-caption -->
         <video class="lazy" loop playsinline bind:this={ video } width="100%">
-            <source data-src={ src } type="video/mp4">
+            <source data-src={ src } type="video/mp4" { src }>
         </video>
         { #if !videoPlaying }
             <img src="/img/play-icon.svg" alt="Play">

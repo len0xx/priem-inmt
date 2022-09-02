@@ -28,14 +28,14 @@
     import type { DocumentI, FeatureI, OpportunityI, FeedbackI, ModalComponent } from '../../../types'
 
     export let pageInfo: Record<string, string> = {}
-    const calendar = pageInfo['calendar'] ? JSON.parse(pageInfo['calendar']) : null
+    const calendar = pageInfo['bachelorCalendar'] ? JSON.parse(pageInfo['bachelorCalendar']) : null
     export let documents: DocumentI[] = []
     export let feedbacks: FeedbackI[] = []
     export let featuresPromo: FeatureI[] = []
     export let featuresInst: FeatureI[] = []
     export let opportunities: OpportunityI[] = []
 
-    let isFormBudget = false
+    let isFormContract = false
 
     let modalDocument: ModalComponent = null
     let documentId: number
@@ -159,10 +159,10 @@
 
     let calendarSubmitted = false
     let calendarSuccess = false
+    let calendarJson = {}
 
     const calendarSubmit = async (e) => {
         e.preventDefault()
-        let calendarJson = {}
         const formData = new FormData(e.target)
         const formDataJson = Object.fromEntries(formData.entries())
 
@@ -172,57 +172,57 @@
             budget: {
                 fullTime: {
                     documents: {
-                        exams: isFormBudget ? formDataJson.budgetDocumentsFullTimeExams : calendar?.budget.fullTime.documents.exams || '',
-                        tests: isFormBudget ? formDataJson.budgetDocumentsFullTimeTests : calendar?.budget.fullTime.documents.tests || ''
+                        exams: !isFormContract ? formDataJson.budgetDocumentsFullTimeExams : calendar?.budget.fullTime.documents.exams || '',
+                        tests: !isFormContract ? formDataJson.budgetDocumentsFullTimeTests : calendar?.budget.fullTime.documents.tests || ''
                     },
                     tests: {
-                        computer: isFormBudget ? formDataJson.budgetTestsFullTimeComputer : calendar?.budget.fullTime.tests.computer || '',
-                        professional: isFormBudget ? formDataJson.budgetTestsFullTimeProfessional : calendar?.budget.fullTime.tests.professional || ''
+                        computer: !isFormContract ? formDataJson.budgetTestsFullTimeComputer : calendar?.budget.fullTime.tests.computer || '',
+                        professional: !isFormContract ? formDataJson.budgetTestsFullTimeProfessional : calendar?.budget.fullTime.tests.professional || ''
                     },
                     completion: {
-                        priority: isFormBudget ? formDataJson.budgetCompletionFullTimePriority : calendar?.budget.fullTime.completion.priority || '',
-                        main: isFormBudget ? formDataJson.budgetCompletionFullTimeMain : calendar?.budget.fullTime.completion.main || ''
+                        priority: !isFormContract ? formDataJson.budgetCompletionFullTimePriority : calendar?.budget.fullTime.completion.priority || '',
+                        main: !isFormContract ? formDataJson.budgetCompletionFullTimeMain : calendar?.budget.fullTime.completion.main || ''
                     },
                     orders: {
-                        special: isFormBudget ? formDataJson.budgetOrdersFullTimeSpecial : calendar?.budget.fullTime.orders.special || '',
-                        main: isFormBudget ? formDataJson.budgetOrdersFullTimeMain : calendar?.budget.fullTime.orders.main || ''
+                        special: !isFormContract ? formDataJson.budgetOrdersFullTimeSpecial : calendar?.budget.fullTime.orders.special || '',
+                        main: !isFormContract ? formDataJson.budgetOrdersFullTimeMain : calendar?.budget.fullTime.orders.main || ''
                     }
                 },
                 partTime: {
-                    documents: isFormBudget ? formDataJson.budgetDocumentsPartTime : calendar?.budget.partTime.documents || '',
-                    tests: isFormBudget ? formDataJson.budgetTestsPartTime : calendar?.budget.partTime.tests || '',
+                    documents: !isFormContract ? formDataJson.budgetDocumentsPartTime : calendar?.budget.partTime.documents || '',
+                    tests: !isFormContract ? formDataJson.budgetTestsPartTime : calendar?.budget.partTime.tests || '',
                     completion: {
-                        priority: isFormBudget ? formDataJson.budgetCompletionPartTimePriority : calendar?.budget.partTime.completion.priority || '',
-                        main: isFormBudget ? formDataJson.budgetCompletionPartTimeMain : calendar?.budget.partTime.completion.main || ''
+                        priority: !isFormContract ? formDataJson.budgetCompletionPartTimePriority : calendar?.budget.partTime.completion.priority || '',
+                        main: !isFormContract ? formDataJson.budgetCompletionPartTimeMain : calendar?.budget.partTime.completion.main || ''
                     },
                     orders: {
-                        special: isFormBudget ? formDataJson.budgetOrdersPartTimeSpecial : calendar?.budget.partTime.orders.special || '',
-                        main: isFormBudget ? formDataJson.budgetOrdersPartTimeMain : calendar?.budget.partTime.orders.main || ''
+                        special: !isFormContract ? formDataJson.budgetOrdersPartTimeSpecial : calendar?.budget.partTime.orders.special || '',
+                        main: !isFormContract ? formDataJson.budgetOrdersPartTimeMain : calendar?.budget.partTime.orders.main || ''
                     }
                 }
             },
             contract: {
                 fullTime: {
                     documents: {
-                        exams: isFormBudget ? calendar?.contract.fullTime.documents.exam || '' : formDataJson.contractDocumentsFullTimeExams,
-                        tests: isFormBudget ? calendar?.contract.fullTime.documents.tests || '' : formDataJson.contractDocumentsFullTimeTests,
+                        exams: !isFormContract ? calendar?.contract.fullTime.documents.exams || '' : formDataJson.contractDocumentsFullTimeExams,
+                        tests: !isFormContract ? calendar?.contract.fullTime.documents.tests || '' : formDataJson.contractDocumentsFullTimeTests,
                     },
-                    tests: isFormBudget ? calendar?.contract.fullTime.tests || '' : formDataJson.contractTestsFullTime,
-                    completion: isFormBudget ? calendar?.contract.fullTime.completion || '' : formDataJson.contractCompletionFullTime,
-                    orders: isFormBudget ? calendar?.contract.fullTime.orders || '' : formDataJson.contractOrdersFullTime
+                    tests: !isFormContract ? calendar?.contract.fullTime.tests || '' : formDataJson.contractTestsFullTime,
+                    completion: !isFormContract ? calendar?.contract.fullTime.completion || '' : formDataJson.contractCompletionFullTime,
+                    orders: !isFormContract ? calendar?.contract.fullTime.orders || '' : formDataJson.contractOrdersFullTime
                 },
                 partTime: {
-                    documents: isFormBudget ? calendar?.contract.partTime.documents || '' : formDataJson.contractDocumentsPartTime,
-                    tests: isFormBudget ? calendar?.contract.partTime.tests || '' : formDataJson.contractTestsPartTime,
-                    completion: isFormBudget ? calendar?.contract.partTime.completion || '' : formDataJson.contractCompletionPartTime,
-                    orders: isFormBudget ? calendar?.contract.partTime.orders || '' : formDataJson.contractOrdersPartTime
+                    documents: !isFormContract ? calendar?.contract.partTime.documents || '' : formDataJson.contractDocumentsPartTime,
+                    tests: !isFormContract ? calendar?.contract.partTime.tests || '' : formDataJson.contractTestsPartTime,
+                    completion: !isFormContract ? calendar?.contract.partTime.completion || '' : formDataJson.contractCompletionPartTime,
+                    orders: !isFormContract ? calendar?.contract.partTime.orders || '' : formDataJson.contractOrdersPartTime
                 }
             }
         }
     
         const res = await fetch(apiRoute('admin/textinfo/?page=bachelor'), {
             method: 'PATCH',
-            body: new URLSearchParams({ calendar: JSON.stringify(calendarJson) }),
+            body: new URLSearchParams({ bachelorCalendar: JSON.stringify(calendarJson) }),
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded',
             },
@@ -239,7 +239,7 @@
     }
     
     const handleForm = (event: CustomEvent) => {
-        isFormBudget = event.detail.state
+        isFormContract = event.detail.state
     }
 </script>
 
@@ -360,25 +360,29 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Календарь приёма</h3>
-        <form on:submit={calendarSubmit}>
+        <Form method="PATCH" action="/api/admin/textinfo?page=bachelor" reset={ false }>
             <Grid m={2}>
                 <div>
                     <span>Основной текстовый блок</span>
-                    <TipTap name="textMain" content={calendar ? calendar.textMain : ''} />
+                    <TipTap name="bachelorCalendarTextMain" content={pageInfo.bachelorCalendarTextMain || ''} />
                 </div>
                 <div>
                     <span>Текстовый блок вступительных испытаний</span>
-                    <TipTap name="textDescription" content={calendar ? calendar.textDescription : ''} />
+                    <TipTap name="bachelorCalendarTextDescription" content={pageInfo.bachelorCalendarTextDescription || ''} />
                 </div>
             </Grid>
             <br />
-            <Switch left="Контракт" right="Бюджет" on:change={handleForm} />
+            <button class="btn btn-primary">Сохранить</button>
+        </Form>
+        <br />
+        <form on:submit={calendarSubmit}>
+            <Switch left="Бюджет" right="Контракт" on:change={handleForm} />
             <br />
             <div class="accordion">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                            Очная форма обучения ({isFormBudget ? 'Бюджет' : 'Контракт'})
+                            Очная форма обучения ({!isFormContract ? 'Бюджет' : 'Контракт'})
                         </button>
                     </h2>
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
@@ -388,7 +392,7 @@
                                     <h4>Приём документов</h4>
                                     <div>
                                         <span class="documents">По результатам ЕГЭ:</span><br />
-                                        {#if isFormBudget}
+                                        {#if !isFormContract}
                                             <input class="form-control" type="text" name="budgetDocumentsFullTimeExams" value={calendar?.budget.fullTime.documents.exams || ''} required />
                                         {:else}
                                             <input class="form-control" type="text" name="contractDocumentsFullTimeExams" value={calendar?.contract.fullTime.documents.exams || ''} required />
@@ -398,7 +402,7 @@
                                     <br />
                                     <div>
                                         <span class="documents">По вступительным испытаниям:</span><br />
-                                        {#if isFormBudget}
+                                        {#if !isFormContract}
                                             <input class="form-control" type="text" name="budgetDocumentsFullTimeTests" value={calendar?.budget.fullTime.documents.tests || ''} required />
                                         {:else}
                                             <input class="form-control" type="text" name="contractDocumentsFullTimeTests" value={calendar?.contract.fullTime.documents.tests || ''} required />
@@ -407,7 +411,7 @@
                                 </div>
                                 <div>
                                     <h4>Вступительные испытания</h4>
-                                    {#if isFormBudget}
+                                    {#if !isFormContract}
                                         <label>
                                             <span class="tests">В форме компьютерного тестирования:</span><br />
                                             <input class="form-control" type="text" name="budgetTestsFullTimeComputer" value={calendar?.budget.fullTime.tests.computer || ''} required />
@@ -427,7 +431,7 @@
                                 </div>
                                 <div>
                                     <h4>Завершение приёма</h4>
-                                    {#if isFormBudget}
+                                    {#if !isFormContract}
                                         <label>
                                             <span class="completion">Этап приоритетного зачисления:</span><br />
                                             <input class="form-control" type="text" name="budgetCompletionFullTimePriority" value={calendar?.budget.fullTime.completion.priority || ''} required />
@@ -447,7 +451,7 @@
                                 </div>
                                 <div>
                                     <h4>Приказы о зачислении</h4>
-                                    {#if isFormBudget}
+                                    {#if !isFormContract}
                                         <label>
                                             <span class="orders">Особые права; без экзаменов; на целевые места:</span><br />
                                             <input class="form-control" type="text" name="budgetOrdersFullTimeSpecial" value={calendar?.budget.fullTime.orders.special || ''} required />
@@ -472,7 +476,7 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                          Очно-заочная и заочная формы обучения ({isFormBudget ? 'Бюджет' : 'Контракт'})
+                          Очно-заочная и заочная формы обучения ({!isFormContract ? 'Бюджет' : 'Контракт'})
                       </button>
                     </h2>
                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
@@ -482,7 +486,7 @@
                                     <h4>Приём документов</h4>
                                     <div>
                                         <span class="documents">Период:</span><br />
-                                        {#if isFormBudget}
+                                        {#if !isFormContract}
                                             <textarea class="form-control" type="text" name="budgetDocumentsPartTime" value={calendar?.budget.partTime.documents || ''} required />
                                         {:else}
                                             <textarea class="form-control" type="text" name="contractDocumentsPartTime" value={calendar?.contract.partTime.documents || ''} required />
@@ -493,7 +497,7 @@
                                     <h4>Вступительные испытания</h4>
                                     <div>
                                         <span class="tests">Период:</span><br />
-                                        {#if isFormBudget}
+                                        {#if !isFormContract}
                                             <textarea class="form-control" type="text" name="budgetTestsPartTime" value={calendar?.budget.partTime.tests || ''} required />
                                         {:else}
                                             <textarea class="form-control" type="text" name="contractTestsPartTime" value={calendar?.contract.partTime.tests || ''} required />
@@ -502,7 +506,7 @@
                                 </div>
                                 <div>
                                     <h4>Завершение приёма</h4>
-                                    {#if isFormBudget}
+                                    {#if !isFormContract}
                                         <label>
                                             <span class="completion">Этап приоритетного зачисления:</span><br />
                                             <input class="form-control" type="text" name="budgetCompletionPartTimePriority" value={calendar?.budget.partTime.completion.priority || ''} required />
@@ -522,7 +526,7 @@
                                 </div>
                                 <div>
                                     <h4>Приказы о зачислении</h4>
-                                    {#if isFormBudget}
+                                    {#if !isFormContract}
                                         <label>
                                             <span class="orders">Особые права; без экзаменов; на целевые места:</span><br />
                                             <input class="form-control" type="text" name="budgetOrdersPartTimeSpecial" value={calendar?.budget.partTime.orders.special || ''} required />

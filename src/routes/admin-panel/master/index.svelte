@@ -23,17 +23,20 @@
     }
 </script>
 <script lang="ts">
-    import { Form, Grid, Modal, Benefit, RoundButton, Profile, FileSelect, TipTap } from '$components'
+    import { Form, Grid, Modal, Benefit, RoundButton, Profile, FileSelect, TipTap, Switch } from '$components'
     import { range } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
     import type { FeatureI, FeedbackI, ProfessionI, QuestionI, ModalComponent } from '../../../types'
 
     export let pageInfo: Record<string, string> = {}
+    const calendar = pageInfo['masterCalendar'] ? JSON.parse(pageInfo['masterCalendar']) : null
     export let feedbacks: FeedbackI[] = []
     export let professions: ProfessionI[] = []
     export let questions: QuestionI[] = []
     export let featuresPromo: FeatureI[] = []
     export let specialistFeatures: FeatureI[] = []
+
+    let isFormContract = false
 
     let featuresPromoExpanded = false
     let questionsExpanded = false
@@ -164,6 +167,82 @@
         const newQuestion = event.detail.question
         questions = [ ...questions, newQuestion ]
     }
+
+    let calendarSubmitted = false
+    let calendarSuccess = false
+    let calendarJson = {}
+
+    const calendarSubmit = async (e) => {
+        e.preventDefault()
+        const formData = new FormData(e.target)
+        const formDataJson = Object.fromEntries(formData.entries())
+
+        calendarJson = {
+            textMain: formDataJson.textMain,
+            textDescription: formDataJson.textDescription,
+            budget: {
+                fullTime: {
+                    documents: !isFormContract ? formDataJson.budgetDocumentsFullTime : calendar?.budget.fullTime.documents || '',
+                    tests: !isFormContract ? formDataJson.budgetTestsFullTime : calendar?.budget.fullTime.tests || '',
+                    completion: {
+                        target: !isFormContract ? formDataJson.budgetCompletionFullTimeTarget : calendar?.budget.fullTime.completion.target || '',
+                        main: !isFormContract ? formDataJson.budgetCompletionFullTimeMain : calendar?.budget.fullTime.completion.main || ''
+                    },
+                    orders: {
+                        target: !isFormContract ? formDataJson.budgetOrdersFullTimeTarget : calendar?.budget.fullTime.orders.target || '',
+                        main: !isFormContract ? formDataJson.budgetOrdersFullTimeMain : calendar?.budget.fullTime.orders.main || ''
+                    }
+                },
+                partTime: {
+                    documents: !isFormContract ? formDataJson.budgetDocumentsPartTime : calendar?.budget.partTime.documents || '',
+                    tests: !isFormContract ? formDataJson.budgetTestsPartTime : calendar?.budget.partTime.tests || '',
+                    completion: {
+                        target: !isFormContract ? formDataJson.budgetCompletionPartTimeTarget : calendar?.budget.partTime.completion.target || '',
+                        main: !isFormContract ? formDataJson.budgetCompletionPartTimeMain : calendar?.budget.partTime.completion.main || ''
+                    },
+                    orders: {
+                        target: !isFormContract ? formDataJson.budgetOrdersPartTimeTarget : calendar?.budget.partTime.orders.target || '',
+                        main: !isFormContract ? formDataJson.budgetOrdersPartTimeMain : calendar?.budget.partTime.orders.main || ''
+                    }
+                }
+            },
+            contract: {
+                fullTime: {
+                    documents: !isFormContract ? calendar?.contract.fullTime.documents || '' : formDataJson.contractDocumentsFullTime,
+                    tests: !isFormContract ? calendar?.contract.fullTime.tests || '' : formDataJson.contractTestsFullTime,
+                    completion: !isFormContract ? calendar?.contract.fullTime.completion || '' : formDataJson.contractCompletionFullTime,
+                    orders: !isFormContract ? calendar?.contract.fullTime.orders || '' : formDataJson.contractOrdersFullTime
+                },
+                partTime: {
+                    documents: !isFormContract ? calendar?.contract.partTime.documents || '' : formDataJson.contractDocumentsPartTime,
+                    tests: !isFormContract ? calendar?.contract.partTime.tests || '' : formDataJson.contractTestsPartTime,
+                    completion: !isFormContract ? calendar?.contract.partTime.completion || '' : formDataJson.contractCompletionPartTime,
+                    orders: !isFormContract ? calendar?.contract.partTime.orders || '' : formDataJson.contractOrdersPartTime
+                }
+            }
+        }
+    
+        const res = await fetch(apiRoute('admin/textinfo/?page=master'), {
+            method: 'PATCH',
+            body: new URLSearchParams({ masterCalendar: JSON.stringify(calendarJson) }),
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded',
+            },
+        })
+
+        if (res.ok === true) {
+            calendarSubmitted = true
+            calendarSuccess = true
+        }
+        else if (res.ok === false) {
+            calendarSubmitted = true
+            calendarSuccess = false
+        }
+    }
+    
+    const handleForm = (event: CustomEvent) => {
+        isFormContract = event.detail.state
+    }
 </script>
 
 <svelte:head>
@@ -279,6 +358,196 @@
         {:else}
             <p class="mt-3">Здесь еще нет перечислений</p>
         {/if}
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Календарь приёма</h3>
+        <Form method="PATCH" action="/api/admin/textinfo?page=master" reset={ false }>
+            <Grid m={2}>
+                <div>
+                    <span>Основной текстовый блок</span>
+                    <TipTap name="masterCalendarTextMain" content={pageInfo.masterCalendarTextMain || ''} />
+                </div>
+                <div>
+                    <span>Текстовый блок вступительных испытаний</span>
+                    <TipTap name="masterCalendarTextDescription" content={pageInfo.masterCalendarTextDescription || ''} />
+                </div>
+            </Grid>
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
+        </Form>
+        <br />
+        <form on:submit={calendarSubmit}>
+            <Switch left="Бюджет" right="Контракт" on:change={handleForm} />
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            Очная форма обучения ({!isFormContract ? 'Бюджет' : 'Контракт'})
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            <Grid m={4}>
+                                <div>
+                                    <h4>Приём документов</h4>
+                                    <div>
+                                        <span class="documents">Период:</span><br />
+                                        {#if !isFormContract}
+                                            <input class="form-control" type="text" name="budgetDocumentsFullTime" value={calendar?.budget.fullTime.documents || ''} required />
+                                        {:else}
+                                            <input class="form-control" type="text" name="contractDocumentsFullTime" value={calendar?.contract.fullTime.documents || ''} required />
+                                        {/if}
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4>Вступительные испытания</h4>
+                                    <div>
+                                        <span class="documents">Период:</span><br />
+                                        {#if !isFormContract}
+                                            <input class="form-control" type="text" name="budgetTestsFullTime" value={calendar?.budget.fullTime.tests || ''} required />
+                                        {:else}
+                                            <input class="form-control" type="text" name="contractTestsFullTime" value={calendar?.contract.fullTime.tests || ''} required />
+                                        {/if}
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4>Завершение приёма</h4>
+                                    {#if !isFormContract}
+                                        <label>
+                                            <span class="completion">На целевые места:</span><br />
+                                            <input class="form-control" type="text" name="budgetCompletionFullTimeTarget" value={calendar?.budget.fullTime.completion.target || ''} required />
+                                        </label>
+                                        <br />
+                                        <br />
+                                        <label>
+                                            <span class="completion">Общий конкурс:</span><br />
+                                            <input class="form-control" type="text" name="budgetCompletionFullTimeMain" value={calendar?.budget.fullTime.completion.main || ''} required />
+                                        </label>
+                                    {:else}
+                                        <label>
+                                            <span class="completion">Период:</span><br />
+                                            <textarea class="form-control" type="text" name="contractCompletionFullTime" value={calendar?.contract.fullTime.completion || ''} required />
+                                        </label>
+                                    {/if}
+                                </div>
+                                <div>
+                                    <h4>Приказы о зачислении</h4>
+                                    {#if !isFormContract}
+                                        <label>
+                                            <span class="orders">На целевые места:</span><br />
+                                            <input class="form-control" type="text" name="budgetOrdersFullTimeTarget" value={calendar?.budget.fullTime.orders.target || ''} required />
+                                        </label>
+                                        <br />
+                                        <br />
+                                        <label>
+                                            <span class="orders">Общий конкурс:</span><br />
+                                            <input class="form-control" type="text" name="budgetOrdersFullTimeMain" value={calendar?.budget.fullTime.orders.main || ''} required />
+                                        </label>
+                                    {:else}
+                                        <label>
+                                            <span class="orders">Период:</span><br />
+                                            <textarea class="form-control" type="text" name="contractOrdersFullTime" value={calendar?.contract.fullTime.orders || ''} required />
+                                        </label>
+                                    {/if}
+                                </div>
+                            </Grid>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                          Очно-заочная и заочная формы обучения ({!isFormContract ? 'Бюджет' : 'Контракт'})
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <Grid m={4}>
+                                <div>
+                                    <h4>Приём документов</h4>
+                                    <div>
+                                        <span class="documents">Период:</span><br />
+                                        {#if !isFormContract}
+                                            <input class="form-control" type="text" name="budgetDocumentsPartTime" value={calendar?.budget.partTime.documents || ''} required />
+                                        {:else}
+                                            <input class="form-control" type="text" name="contractDocumentsPartTime" value={calendar?.contract.partTime.documents || ''} required />
+                                        {/if}
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4>Вступительные испытания</h4>
+                                    <div>
+                                        <span class="documents">Период:</span><br />
+                                        {#if !isFormContract}
+                                            <input class="form-control" type="text" name="budgetTestsPartTime" value={calendar?.budget.partTime.tests || ''} required />
+                                        {:else}
+                                            <input class="form-control" type="text" name="contractTestsPartTime" value={calendar?.contract.partTime.tests || ''} required />
+                                        {/if}
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4>Завершение приёма</h4>
+                                    {#if !isFormContract}
+                                        <label>
+                                            <span class="completion">На целевые места:</span><br />
+                                            <input class="form-control" type="text" name="budgetCompletionPartTimeTarget" value={calendar?.budget.partTime.completion.target || ''} required />
+                                        </label>
+                                        <br />
+                                        <br />
+                                        <label>
+                                            <span class="completion">Общий конкурс:</span><br />
+                                            <input class="form-control" type="text" name="budgetCompletionPartTimeMain" value={calendar?.budget.partTime.completion.main || ''} required />
+                                        </label>
+                                    {:else}
+                                        <label>
+                                            <span class="completion">Период:</span><br />
+                                            <textarea class="form-control" type="text" name="contractCompletionPartTime" value={calendar?.contract.partTime.completion || ''} required />
+                                        </label>
+                                    {/if}
+                                </div>
+                                <div>
+                                    <h4>Приказы о зачислении</h4>
+                                    {#if !isFormContract}
+                                        <label>
+                                            <span class="orders">На целевые места:</span><br />
+                                            <input class="form-control" type="text" name="budgetOrdersPartTimeTarget" value={calendar?.budget.partTime.orders.target || ''} required />
+                                        </label>
+                                        <br />
+                                        <br />
+                                        <label>
+                                            <span class="orders">Общий конкурс:</span><br />
+                                            <input class="form-control" type="text" name="budgetOrdersPartTimeMain" value={calendar?.budget.partTime.orders.main || ''} required />
+                                        </label>
+                                    {:else}
+                                        <label>
+                                            <span class="orders">Период:</span><br />
+                                            <textarea class="form-control" type="text" name="contractOrdersPartTime" value={calendar?.contract.partTime.orders || ''} required />
+                                        </label>
+                                    {/if}
+                                </div>
+                            </Grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
+            {#if calendarSubmitted}
+                <div class="alerts mt-4" transition:blur|local={{ duration: 200 }}>
+                    { #if calendarSuccess }
+                        <div transition:blur|local={{ duration: 200 }} class="alert alert-success mb-0" role="alert">
+                            Данные успешно обновлены
+                        </div>
+                    { :else }
+                        <div transition:blur|local={{ duration: 200 }} class="alert alert-danger mb-0" role="alert">
+                            Произошла ошибка
+                        </div>
+                    {/if}
+                </div>
+            {/if}
+        </form>
     </div>
     <br />
     <div class="white-block-wide">

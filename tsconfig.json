@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"baseUrl": "./",
 		"paths": {
 			"$components": [
 				"src/lib/components"
@@ -14,6 +15,11 @@
 				"src/lib/*"
 			]
 		},
+		"lib": [
+			"ES2020",
+			"DOM",
+			"DOM.Iterable"
+		],
 		"allowSyntheticDefaultImports": true,
 		"typeRoots": [ "./src/types", "./node_modules/@types" ]
 	},

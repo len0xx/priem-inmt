@@ -71,23 +71,25 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         }
 
         if ((name || text) && name && text) {
-            feedbacks[i - 1] = {
+            const newFeedback: Record<string, string> = {
                 name: name,
                 caption: caption,
                 text: text
             }
-            if (caption) feedbacks[i - 1].caption = caption
+            if (caption) newFeedback.caption = caption
             if (imgURL) {
-                feedbacks[i - 1].img = imgURL
+                newFeedback.img = imgURL
             }
 
             // Если новое изображение не было выбрано, а раньше оно было, то сохраняем его, чтобы не потерять при обновлении
-            if (!feedbacks[i - 1].img && previuosProgramState.feedbacks[i - 1] && previuosProgramState.feedbacks[i - 1].img) {
-                feedbacks[i - 1].img = previuosProgramState.feedbacks[i - 1].img
+            const previuosFeedbackState = previuosProgramState.feedbacks[feedbacks.length - 1]
+            if (!newFeedback.img && previuosFeedbackState && previuosFeedbackState.img) {
+                newFeedback.img = previuosFeedbackState.img
             }
+            feedbacks.push(newFeedback)
         }
         else if (i == 1) {
-            return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Отзыв должен содержать как минимум имя и текст')
+            return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Отзыв должен содержать как минимум имя и текст. Для того, чтобы очистить отзыв, просто очистите все поля')
         }
     }
 

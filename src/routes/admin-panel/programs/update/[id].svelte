@@ -414,11 +414,7 @@
                 </Grid>
                 <div class="buttons-row">
                     {#if examsCount < 5}
-                        <button
-                            type="button"
-                            on:click={addExam}
-                            class="btn btn-outline-primary">Добавить экзамен</button
-                        >
+                        <button type="button" on:click={addExam} class="btn btn-outline-primary">Добавить экзамен</button>
                     {/if}
                 </div>
             {/if}
@@ -494,7 +490,7 @@
                             />
                         </div>
                         <div>
-                            <label for="feedback_img{i}">Добавить новое изображение:</label><br />
+                            <label for="feedback_img{i}">Изображение:</label><br />
                             {#if imagePaths[i - 1]}
                                 <!-- svelte-ignore a11y-missing-attribute -->
                                 <img width="150px" height="150px" src={imagePaths[i - 1]} class="img-fluid mt-3">

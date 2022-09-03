@@ -1,9 +1,11 @@
 <script lang="ts">
     import { imask } from 'svelte-imask'
     import { Grid, Form, RoundButton, TipTap, FileSelect } from '$components'
-    import type { ModalComponent } from '../../../types'
     import { redirect } from '$lib/utilities'
-    import { slide } from 'svelte/transition'
+    import { slide, blur } from 'svelte/transition'
+    import { DegreeLevel } from '../../../types/enums.js'
+    import type { ModalComponent } from '../../../types'
+import { execArgv } from 'process';
 
     let firstImageModal: ModalComponent = null
     let firstImageId: number = null
@@ -23,37 +25,20 @@
     let mode3 = false
     let degree = 'Бакалавриат'
     let activeExams = [true, false, false, false, false]
-    let countExams = 1
+    $: countExams = activeExams.filter(exam => exam).length
 
     const addExam = () => {
-        let active = 1
-        for (let i = 1; i < activeExams.length; i++) {
-            if (!activeExams[i]) {
+        let flag = false
+        activeExams.forEach((exam, i) => {
+            if (!exam && !flag) {
                 activeExams[i] = true
-                active++
-                countExams = active
-                return
+                flag = true
             }
-    
-            active++
-    
-        }
+        })
+        // countExams = countExams == activeExams.length ? activeExams.length : countExams++
     }
 
-    const removeExam = () => {
-        let active = 5
-        for (let i = activeExams.length - 1; i >= 1; i--) {
-            if (activeExams[i]) {
-                activeExams[i] = false
-                active--
-                countExams = active
-                return
-            }
-    
-            active--
-    
-        }
-    }
+    const removeExam = (index: number) => activeExams[index] = false
 
     const handleSuccess = () => {
         redirect('/admin-panel/programs')
@@ -215,31 +200,39 @@
                     <textarea class="form-control" name="directions" cols="30" rows="4"></textarea>
                 </div>
             </Grid>
-            { #if degree != 'Магистратура' }
+            { #if degree != DegreeLevel.MASTER }
                 <h3>Экзамены</h3>
                 <Grid m={1}>
-                    { #each activeExams as exam, i }
-                        { #if exam }
-                            <div transition:slide|local={{ duration: 200 }} class="grid grid-2 m-grid-1">
-                                <div>
-                                    <label for="exam{ i + 1 }">Название экзамена</label><br />
-                                    <input class="form-control wide" type="text" name="exam{ i + 1 }" required />
-                                </div>
-                                <div>
-                                    <label for="result{ i + 1 }">Минимальный балл</label><br />
-                                    <input class="form-control wide" type="number" name="result{ i + 1 }" required />
-                                </div>
+                    {#each activeExams.filter(exam => exam) as _, i}
+                        <div transition:slide|local={{ duration: 200 }} class="grid grid-2-plus-btn m-grid-1">
+                            <div>
+                                <label for="exam{i + 1}">Название экзамена</label><br />
+                                <input
+                                    class="form-control wide"
+                                    type="text"
+                                    name="exam{i + 1}"
+                                    required
+                                />
                             </div>
-                        { /if }
-                    { /each }
+                            <div>
+                                <label for="result{i + 1}">Минимальный балл</label><br />
+                                <input
+                                    class="form-control wide"
+                                    type="number"
+                                    name="result{i + 1}"
+                                    required
+                                />
+                            </div>
+                            {#if countExams > 1}
+                                <button type="button" on:click={ () => removeExam(i) } transition:blur|local={{ duration: 200 }} class="btn btn btn-outline-danger">Удалить экзамен</button >
+                            {/if}
+                        </div>
+                    {/each}
                 </Grid>
                 <div class="buttons-row">
-                    { #if countExams < 5 }
-                        <button type="button" on:click={ addExam } class="btn btn-outline-primary">Добавить экзамен</button>
-                    { /if }
-                    { #if countExams > 1 }
-                        <button type="button" on:click={ removeExam } class="btn btn-outline-danger">Удалить экзамен</button>
-                    { /if }
+                    {#if countExams < 5}
+                        <button type="button" on:click={addExam} class="btn btn-outline-primary">Добавить экзамен</button>
+                    {/if}
                 </div>
             { /if }
             <h3>Руководитель программы</h3>
@@ -279,9 +272,10 @@
                         <input class="form-control wide" type="text" name="feedback_caption1" />
                     </div>
                     <div>
-                        <label for="feedback_img1">Добавить новое изображение:</label><br />
+                        <label for="feedback_img1">Изображение:</label><br />
                         {#if firstImagePath}
-                            <img width="150px" height="150px" src={firstImagePath} class="img-fluid mt-3" alt="Изображение">
+                            <!-- svelte-ignore a11y-missing-attribute -->
+                            <img width="150px" height="150px" src={firstImagePath} class="img-fluid mt-3">
                             <br />
                         {/if}
                         <input type="hidden" name="feedback_img1" value={ firstImageId }><br />

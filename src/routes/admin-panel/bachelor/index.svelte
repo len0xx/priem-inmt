@@ -163,7 +163,7 @@
     let calendarErrorMessage = ''
     let calendarJson = {}
 
-    const isFilledIn = (value: FormDataEntryValue) => !!value
+    const isFilledIn = (value: File | string) => !!value
 
     const calendarSubmit = async (e: Event) => {
         const formData = new FormData(e.target as HTMLFormElement)

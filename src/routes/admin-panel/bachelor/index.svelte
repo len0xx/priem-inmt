@@ -163,26 +163,24 @@
     let calendarErrorMessage = ''
     let calendarJson = {}
 
-    function isRequired(value) {
+    function isFilledIn(value: FormDataEntryValue) {
         return value !== null && value !== ''
     }
 
-    const calendarSubmit = async (e) => {
+    const calendarSubmit = async (e: Event) => {
         e.preventDefault()
-        const formData = new FormData(e.target)
+        const formData = new FormData(e.target as HTMLFormElement)
         const formDataJson = Object.fromEntries(formData.entries())
-
 
         for ( let field of formData ) {
             const [key, value] = field
             const input = document.getElementsByName(key)[0]
 
-            if(!isRequired(value)) {
+            if (!isFilledIn(value)) {
                 input.classList.add('is-invalid')
                 calendarError = true
                 calendarErrorMessage = 'Необходимо заполнить все обязательные поля'
-                break
-            } else if (isRequired) {
+            } else {
                 input.classList.remove('is-invalid')
                 calendarError = false
             }

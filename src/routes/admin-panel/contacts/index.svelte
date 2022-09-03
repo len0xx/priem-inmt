@@ -62,6 +62,11 @@
         }
         modalResponsible.close()
     }
+
+    const showNewResponsible = (event: CustomEvent<{ message: string, responsible: ResponsibleI }>) => {
+        const newResponsible = event.detail.responsible
+        responsibles = [ ...responsibles, newResponsible ]
+    }
 </script>
 
 <svelte:head>
@@ -105,7 +110,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Ответственные лица института</h3>
         { #if responsibles.length < 10 }
-            <Form method="POST" action="/api/admin/responsible" reset={ true } redirect="/admin-panel/contacts">
+            <Form method="POST" action="/api/admin/responsible" reset={ true } on:success={ showNewResponsible }>
                 <Grid m={2}>
                     <div>
                         <label for="name">ФИО ответственного лица</label><br />
@@ -146,13 +151,13 @@
         <h3>Опубликованные ответственные лица</h3>
         {#if responsibles.length}
             <Grid s={1} m={2} l={3} xl={4}>
-                {#each responsibles as responsible, i (i)}
-                    {#if i < 8 || responsiblesExpanded}
+                {#each responsibles.filter((_, i) => i < 8 || responsiblesExpanded) as responsible, i (i)}
+                    <div transition:blur|local={{ duration: 200 }}>
                         <Graduate name={ responsible.name } src={ responsible.img } caption={ responsible.label }>
                             <a href="/admin-panel/contacts/responsible/update/{ responsible.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
                             <button type="button" on:click={() => updateResponsibleId(responsible.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </Graduate>
-                    {/if}
+                    </div>
                 {/each}
             </Grid>
             {#if !responsiblesExpanded && responsibles.length > 8}

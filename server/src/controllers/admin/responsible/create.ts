@@ -13,12 +13,17 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         imgURL = file.src
     }
 
-    await responsibleService.create({
-        name: name,
-        label: label,
-        phone: phone,
-        email: email,
+    const responsible = await responsibleService.create({
+        name,
+        label,
+        phone,
+        email,
         img: imgURL
     })
-    return new HTTPResponse(res, HTTPStatus.CREATED, 'Ответственное лицо успешно создано')
+
+    const response = {
+        message: 'Ответственное лицо успешно создано',
+        responsible
+    }
+    return new HTTPResponse(res, HTTPStatus.CREATED, response)
 })

@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
     // import { sendNodeAJAX } from '../../../shared/utilities'
-    import type { Load } from '@sveltejs/kit'
     import { apiRoute } from '$lib/utilities'
+    import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch }) => {
         const res = await fetch(apiRoute('admin/programs'))
@@ -42,7 +42,8 @@
 <Modal bind:this={ modal } align="center" closable={true}>
     <p class="mb-4">
         Вы уверены, что хотите произвести импорт программ из файла? <br />
-        После этого действия будет создано более 30 образовательных программ. Удалить их можно будет только вручную
+        После этого действия будет создано более 40 образовательных программ, состояние которых было актуально в мае 2022. <br />
+        Удалить их можно будет только вручную
     </p>
     <div class="buttons-row">
         <button type="button" on:click={ importPrograms } class="btn btn-success">Произвести импорт</button>

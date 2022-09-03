@@ -77,6 +77,8 @@ app.use('/admin-panel-auth/logout', redirectLogout)
 app.use('/admin-panel-auth/*', requireUnauthorized)
 
 // Даём доступ к статическим файлам
+// (Не путать со статическими файлами в приложении SvelteKit,
+// здесь хостятся в основном только те файлы, которые загружаются пользователями через формы)
 app.use('/static', express.static(path.join(__dirname, 'static')))
 
 // Express routes

@@ -234,3 +234,8 @@ nav ul.pagination li {
 ul.pagination li.page-item {
     cursor: pointer;
 }
+
+.grid-2-plus-btn {
+    grid-template-columns: 1fr 1fr 240px;
+    align-items: end;
+}

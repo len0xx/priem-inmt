@@ -3,13 +3,14 @@ import documentService from '../../../services/document.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
-import type { TeacherI, EducationModesI } from '../../../models/educationalProgram'
+import type { TeacherI, EducationModesI, EducationalProgramI } from '../../../models/educationalProgram'
 
 export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
     const requestData = req.body
-    const { title, degree, text, mode1, mode2, mode3 } = req.body
+    const { title, degree, text, mode1, mode2, mode3 } = requestData
 
+    const previuosProgramState = await educationalProgramService.getById(id)
     const directions: string[] = (req.body.directions).split('\n')
     const educationModes: EducationModesI = {}
 
@@ -57,30 +58,40 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     }
 
     const feedbacks = []
-
     for (let i = 1; i <= 2; i++) {
+        let imgURL: string
         const name = requestData[`feedback_name${i}`]
         const caption = requestData[`feedback_caption${i}`]
         const text = requestData[`feedback_text${i}`]
         const img = requestData[`feedback_img${i}`]
-        let imgURL = undefined
-        if (img) {
+
+        if (+img && !isNaN(+img)) {
             const file = await documentService.getById(+img)
-            imgURL = file.src
+            imgURL = file ? file.src : undefined
         }
-        console.log(`IMG URL: ${imgURL}`)
-        if (name && caption && text) {
+
+        if ((name || text) && name && text) {
             feedbacks[i - 1] = {
                 name: name,
                 caption: caption,
-                text: text,
-                img: imgURL
+                text: text
             }
+            if (caption) feedbacks[i - 1].caption = caption
+            if (imgURL) {
+                feedbacks[i - 1].img = imgURL
+            }
+
+            // Если новое изображение не было выбрано, а раньше оно было, то сохраняем его, чтобы не потерять при обновлении
+            if (!feedbacks[i - 1].img && previuosProgramState.feedbacks[i - 1] && previuosProgramState.feedbacks[i - 1].img) {
+                feedbacks[i - 1].img = previuosProgramState.feedbacks[i - 1].img
+            }
+        }
+        else if (i == 1) {
+            return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Отзыв должен содержать как минимум имя и текст')
         }
     }
 
     const exams = []
-
     for (let i = 1; i <= 5; i++) {
         const exam = requestData[`exam${i}`]
         const result = requestData[`result${i}`]
@@ -92,15 +103,12 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         }
     }
 
-    await educationalProgramService.updateById(id, {
-        title: title,
-        degree: degree,
-        educationModes: educationModes,
-        directions: directions,
-        teacher: teacher,
-        exams: exams,
-        text: text,
-        feedbacks: feedbacks
-    })
+    const newProgramState: EducationalProgramI = {
+        title, degree,
+        educationModes, directions,
+        teacher, exams,
+        text, feedbacks
+    }
+    await educationalProgramService.updateById(id, newProgramState)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Образовательная программа успешно обновлена')
 })

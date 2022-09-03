@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-    import type { Load } from '@sveltejs/kit'
     import { apiRoute } from '$lib/utilities'
+    import type { Load } from '@sveltejs/kit'
 
     export const load: Load = async ({ fetch, params }) => {
         const programId = params.id
@@ -18,18 +18,14 @@
     import { Form, Grid, Modal, RoundButton, TipTap, FileSelect } from '$lib/components'
     import { DegreeLevel } from '../../../../types/enums'
     import { range, redirect } from '$lib/utilities'
-    import { slide } from 'svelte/transition'
+    import { slide, blur } from 'svelte/transition'
     import type { EducationalProgram, ModalComponent } from '../../../../types'
 
     let modal: ModalComponent = null
 
-    let firstImageModal: ModalComponent = null
-    let firstImageId: number = null
-    let firstImagePath: string = null
-
-    let secondImageModal: ModalComponent = null
-    let secondImageId: number = null
-    let secondImagePath: string = null
+    let imageModals: ModalComponent[] = []
+    let imageIds: number[] = []
+    let imagePaths: string[] = []
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000',
@@ -59,8 +55,11 @@
         }
     }
 
-    const removeExam = () => {
-        exams[examsCount - 1] = undefined
+    console.log(program.feedbacks)
+
+    const removeExam = (index?: number) => {
+        const finalIndex = index !== undefined || index !== null ? index : examsCount - 1
+        exams = exams.filter((_exam, i) => i !== finalIndex)
         examsCount--
     }
 
@@ -77,16 +76,16 @@
     }
 
     const firstImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
-        firstImageId = event.detail.id
-        firstImagePath = event.detail.path
+        imageIds[0] = event.detail.id
+        imagePaths[0] = event.detail.path
     }
 
     const secondImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
-        secondImageId = event.detail.id
-        secondImagePath = event.detail.path
+        imageIds[1] = event.detail.id
+        imagePaths[1] = event.detail.path
     }
-    console.log(`FirstImagePath: ${firstImagePath}`)
-    console.log(`SecondImagePath: ${secondImagePath}`)
+    console.log(`FirstImagePath: ${imagePaths[0]}`)
+    console.log(`SecondImagePath: ${imagePaths[1]}`)
 </script>
 
 <svelte:head>
@@ -101,9 +100,9 @@
     </div>
 </Modal>
 
-<FileSelect bind:modal={ firstImageModal } on:save={ firstImageSelected } />
+<FileSelect bind:modal={ imageModals[0] } on:save={ firstImageSelected } />
 
-<FileSelect bind:modal={ secondImageModal } on:save={ secondImageSelected } />
+<FileSelect bind:modal={ imageModals[1] } on:save={ secondImageSelected } />
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -367,8 +366,7 @@
                 </div>
                 <div>
                     {#if mode3}
-                        <label for="language3">Язык освоения (заочно)</label><br
-                        />
+                        <label for="language3">Язык освоения (заочно)</label><br/>
                         <input
                             class="form-control wide"
                             type="text"
@@ -379,44 +377,39 @@
                     {/if}
                 </div>
                 <div>
-                    <label for="directions"
-                        >Направления подготовки (каждое с новой строки)</label
-                    ><br />
+                    <label for="directions">Направления подготовки (каждое с новой строки)</label><br />
                     <textarea class="form-control" name="directions" cols="30" rows="4" value={directions} />
                 </div>
             </Grid>
             {#if degree != DegreeLevel.MASTER}
                 <h3>Экзамены</h3>
                 <Grid m={1}>
-                    {#each Object.values(exams) as exam, i}
-                        {#if exams[i] != undefined}
-                            <div transition:slide|local={{ duration: 200 }} class="grid grid-2 m-grid-1">
-                                <div>
-                                    <label for="exam{i + 1}"
-                                        >Название экзамена</label
-                                    ><br />
-                                    <input
-                                        class="form-control wide"
-                                        type="text"
-                                        name="exam{i + 1}"
-                                        value={exam.title}
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label for="result{i + 1}"
-                                        >Минимальный балл</label
-                                    ><br />
-                                    <input
-                                        class="form-control wide"
-                                        type="number"
-                                        name="result{i + 1}"
-                                        value={exam.result}
-                                        required
-                                    />
-                                </div>
+                    {#each exams as exam, i}
+                        <div transition:slide|local={{ duration: 200 }} class="grid grid-2-plus-btn m-grid-1">
+                            <div>
+                                <label for="exam{i + 1}">Название экзамена</label><br />
+                                <input
+                                    class="form-control wide"
+                                    type="text"
+                                    name="exam{i + 1}"
+                                    value={exam.title}
+                                    required
+                                />
                             </div>
-                        {/if}
+                            <div>
+                                <label for="result{i + 1}">Минимальный балл</label><br />
+                                <input
+                                    class="form-control wide"
+                                    type="number"
+                                    name="result{i + 1}"
+                                    value={exam.result}
+                                    required
+                                />
+                            </div>
+                            {#if examsCount > 1}
+                                <button type="button" on:click={ () => removeExam(i) } transition:blur|local={{ duration: 200 }} class="btn btn btn-outline-danger">Удалить экзамен</button >
+                            {/if}
+                        </div>
                     {/each}
                 </Grid>
                 <div class="buttons-row">
@@ -425,13 +418,6 @@
                             type="button"
                             on:click={addExam}
                             class="btn btn-outline-primary">Добавить экзамен</button
-                        >
-                    {/if}
-                    {#if examsCount > 1}
-                        <button
-                            type="button"
-                            on:click={removeExam}
-                            class="btn btn btn-outline-danger">Удалить экзамен</button
                         >
                     {/if}
                 </div>
@@ -485,8 +471,8 @@
                 <TipTap name="text" content={program.text} />
             </Grid>
             <h3>Отзывы</h3>
-            <Grid m={2} ratio="1:2">
-                {#each range(1, feedbacksCount) as i}
+            {#each range(1, feedbacksCount) as i}
+                <Grid m={2} ratio="1:2">
                     { @const feedback = program.feedbacks ? program.feedbacks[i - 1] : null}
                     <Grid m={1}>
                         <div>
@@ -509,36 +495,26 @@
                         </div>
                         <div>
                             <label for="feedback_img{i}">Добавить новое изображение:</label><br />
-                            {#if i == 1}
-                                {#if firstImagePath}
-                                    <img width="150px" height="150px" src={firstImagePath} class="img-fluid mt-3" alt="Изображение">
-                                    <br />
-
-                                {:else}
-                                    <img width="150px" height="150px" src={feedback?.img} class="img-fluid mt-3" alt="Изображение">
-                                    <br />
-                                {/if}
-                                <input type="hidden" name="feedback_img{i}" value={ firstImageId }><br />
-                                <button type="button" class="btn btn-outline-success" on:click={ firstImageModal.open }> { firstImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
-                            {:else if i == 2}
-                                {#if secondImagePath}
-                                    <img width="150px" height="150px" src={secondImagePath} class="img-fluid mt-3" alt="Изображение">
-                                    <br />
-                                {:else}
-                                    <img width="150px" height="150px" src={feedback?.img} class="img-fluid mt-3" alt="Изображение">
-                                    <br />
-                                {/if}
-                                <input type="hidden" name="feedback_img{i}" value={ secondImageId }><br />
-                                <button type="button" class="btn btn-outline-success" on:click={ secondImageModal.open }> { secondImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                            {#if imagePaths[i - 1]}
+                                <!-- svelte-ignore a11y-missing-attribute -->
+                                <img width="150px" height="150px" src={imagePaths[i - 1]} class="img-fluid mt-3">
+                                <br />
+                            {:else}
+                                <!-- svelte-ignore a11y-missing-attribute -->
+                                <img width="150px" height="150px" src={feedback?.img} class="img-fluid mt-3">
+                                <br />
                             {/if}
+                            <input type="hidden" name="feedback_img{i}" value={ imageIds[i - 1] || '' }><br />
+                            <button type="button" class="btn btn-outline-success" on:click={ imageModals[i - 1].open }> { imageIds[i - 1] ? 'Файл выбран' : 'Выбрать файл' } </button>
                         </div>
                     </Grid>
                     <div>
                         <label for="feedback_text{i}">Текст отзыва</label><br />
                         <textarea class="form-control" name="feedback_text{i}" cols="30" rows="10">{feedback?.text || null}</textarea>
                     </div>
-                {/each}
-            </Grid>
+                </Grid>
+                <br />
+            {/each}
             { #if feedbacksCount < 2}
                 <div class="align-center">
                     <RoundButton

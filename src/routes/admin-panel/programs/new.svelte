@@ -35,7 +35,6 @@ import { execArgv } from 'process';
                 flag = true
             }
         })
-        // countExams = countExams == activeExams.length ? activeExams.length : countExams++
     }
 
     const removeExam = (index: number) => activeExams[index] = false

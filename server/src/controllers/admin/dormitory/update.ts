@@ -12,7 +12,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     let imgURL: string
     if (img) {
         const file = await documentService.getById(+img)
-        imgURL = file.src
+        imgURL = file ? file.src : undefined
     }
 
     const newData: DormitoryI = { img: imgURL, title, address }

@@ -23,7 +23,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     let imgURL = undefined
     if (img) {
         const file = await documentService.getById(+img)
-        imgURL = file.src
+        imgURL = file ? file.src : undefined
     }
 
     const post = await postService.create({ title, text, links, img: imgURL })

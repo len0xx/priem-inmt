@@ -21,7 +21,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     let imgURL = undefined
     if (img) {
         const file = await documentService.getById(+img)
-        imgURL = file.src
+        imgURL = file ? file.src : undefined
     }
 
     const newData: PostI = { title, text, links, img: imgURL }

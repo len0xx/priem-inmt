@@ -10,7 +10,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     let imgURL: string
     if (img) {
         const file = await documentService.getById(+img)
-        imgURL = file.src
+        imgURL = file ? file.src : undefined
     }
 
     const dormitory = await dormitoryService.create( { img: imgURL, title, address } )

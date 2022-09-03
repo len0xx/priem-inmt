@@ -15,5 +15,5 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         phone: phone,
         email: email
     })
-    return new HTTPResponse(res, HTTPStatus.CREATED, 'Ответственный за поселение успешно обновлен')
+    return new HTTPResponse(res, HTTPStatus.CREATED, 'Контактные данные ответственного за поселение успешно обновлены')
 })

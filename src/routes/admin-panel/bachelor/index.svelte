@@ -159,82 +159,106 @@
 
     let calendarSubmitted = false
     let calendarSuccess = false
+    let calendarError = false
+    let calendarErrorMessage = ''
     let calendarJson = {}
+
+    function isRequired(value) {
+        return value !== null && value !== ''
+    }
 
     const calendarSubmit = async (e) => {
         e.preventDefault()
         const formData = new FormData(e.target)
         const formDataJson = Object.fromEntries(formData.entries())
 
-        calendarJson = {
-            textMain: formDataJson.textMain,
-            textDescription: formDataJson.textDescription,
-            budget: {
-                fullTime: {
-                    documents: {
-                        exams: !isFormContract ? formDataJson.budgetDocumentsFullTimeExams : calendar?.budget.fullTime.documents.exams || '',
-                        tests: !isFormContract ? formDataJson.budgetDocumentsFullTimeTests : calendar?.budget.fullTime.documents.tests || ''
-                    },
-                    tests: {
-                        computer: !isFormContract ? formDataJson.budgetTestsFullTimeComputer : calendar?.budget.fullTime.tests.computer || '',
-                        professional: !isFormContract ? formDataJson.budgetTestsFullTimeProfessional : calendar?.budget.fullTime.tests.professional || ''
-                    },
-                    completion: {
-                        priority: !isFormContract ? formDataJson.budgetCompletionFullTimePriority : calendar?.budget.fullTime.completion.priority || '',
-                        main: !isFormContract ? formDataJson.budgetCompletionFullTimeMain : calendar?.budget.fullTime.completion.main || ''
-                    },
-                    orders: {
-                        special: !isFormContract ? formDataJson.budgetOrdersFullTimeSpecial : calendar?.budget.fullTime.orders.special || '',
-                        main: !isFormContract ? formDataJson.budgetOrdersFullTimeMain : calendar?.budget.fullTime.orders.main || ''
-                    }
-                },
-                partTime: {
-                    documents: !isFormContract ? formDataJson.budgetDocumentsPartTime : calendar?.budget.partTime.documents || '',
-                    tests: !isFormContract ? formDataJson.budgetTestsPartTime : calendar?.budget.partTime.tests || '',
-                    completion: {
-                        priority: !isFormContract ? formDataJson.budgetCompletionPartTimePriority : calendar?.budget.partTime.completion.priority || '',
-                        main: !isFormContract ? formDataJson.budgetCompletionPartTimeMain : calendar?.budget.partTime.completion.main || ''
-                    },
-                    orders: {
-                        special: !isFormContract ? formDataJson.budgetOrdersPartTimeSpecial : calendar?.budget.partTime.orders.special || '',
-                        main: !isFormContract ? formDataJson.budgetOrdersPartTimeMain : calendar?.budget.partTime.orders.main || ''
-                    }
-                }
-            },
-            contract: {
-                fullTime: {
-                    documents: {
-                        exams: !isFormContract ? calendar?.contract.fullTime.documents.exams || '' : formDataJson.contractDocumentsFullTimeExams,
-                        tests: !isFormContract ? calendar?.contract.fullTime.documents.tests || '' : formDataJson.contractDocumentsFullTimeTests,
-                    },
-                    tests: !isFormContract ? calendar?.contract.fullTime.tests || '' : formDataJson.contractTestsFullTime,
-                    completion: !isFormContract ? calendar?.contract.fullTime.completion || '' : formDataJson.contractCompletionFullTime,
-                    orders: !isFormContract ? calendar?.contract.fullTime.orders || '' : formDataJson.contractOrdersFullTime
-                },
-                partTime: {
-                    documents: !isFormContract ? calendar?.contract.partTime.documents || '' : formDataJson.contractDocumentsPartTime,
-                    tests: !isFormContract ? calendar?.contract.partTime.tests || '' : formDataJson.contractTestsPartTime,
-                    completion: !isFormContract ? calendar?.contract.partTime.completion || '' : formDataJson.contractCompletionPartTime,
-                    orders: !isFormContract ? calendar?.contract.partTime.orders || '' : formDataJson.contractOrdersPartTime
-                }
+
+        for ( let field of formData ) {
+            const [key, value] = field
+            const input = document.getElementsByName(key)[0]
+
+            if(!isRequired(value)) {
+                input.classList.add('is-invalid')
+                calendarError = true
+                calendarErrorMessage = 'Необходимо заполнить все обязательные поля'
+                break
+            } else if (isRequired) {
+                input.classList.remove('is-invalid')
+                calendarError = false
             }
         }
-    
-        const res = await fetch(apiRoute('admin/textinfo/?page=bachelor'), {
-            method: 'PATCH',
-            body: new URLSearchParams({ bachelorCalendar: JSON.stringify(calendarJson) }),
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded',
-            },
-        })
 
-        if (res.ok === true) {
-            calendarSubmitted = true
-            calendarSuccess = true
-        }
-        else if (res.ok === false) {
-            calendarSubmitted = true
-            calendarSuccess = false
+        if (!calendarError) {
+            calendarJson = {
+                textMain: formDataJson.textMain,
+                textDescription: formDataJson.textDescription,
+                budget: {
+                    fullTime: {
+                        documents: {
+                            exams: !isFormContract ? formDataJson.budgetDocumentsFullTimeExams : calendar?.budget.fullTime.documents.exams || '',
+                            tests: !isFormContract ? formDataJson.budgetDocumentsFullTimeTests : calendar?.budget.fullTime.documents.tests || ''
+                        },
+                        tests: {
+                            computer: !isFormContract ? formDataJson.budgetTestsFullTimeComputer : calendar?.budget.fullTime.tests.computer || '',
+                            professional: !isFormContract ? formDataJson.budgetTestsFullTimeProfessional : calendar?.budget.fullTime.tests.professional || ''
+                        },
+                        completion: {
+                            priority: !isFormContract ? formDataJson.budgetCompletionFullTimePriority : calendar?.budget.fullTime.completion.priority || '',
+                            main: !isFormContract ? formDataJson.budgetCompletionFullTimeMain : calendar?.budget.fullTime.completion.main || ''
+                        },
+                        orders: {
+                            special: !isFormContract ? formDataJson.budgetOrdersFullTimeSpecial : calendar?.budget.fullTime.orders.special || '',
+                            main: !isFormContract ? formDataJson.budgetOrdersFullTimeMain : calendar?.budget.fullTime.orders.main || ''
+                        }
+                    },
+                    partTime: {
+                        documents: !isFormContract ? formDataJson.budgetDocumentsPartTime : calendar?.budget.partTime.documents || '',
+                        tests: !isFormContract ? formDataJson.budgetTestsPartTime : calendar?.budget.partTime.tests || '',
+                        completion: {
+                            priority: !isFormContract ? formDataJson.budgetCompletionPartTimePriority : calendar?.budget.partTime.completion.priority || '',
+                            main: !isFormContract ? formDataJson.budgetCompletionPartTimeMain : calendar?.budget.partTime.completion.main || ''
+                        },
+                        orders: {
+                            special: !isFormContract ? formDataJson.budgetOrdersPartTimeSpecial : calendar?.budget.partTime.orders.special || '',
+                            main: !isFormContract ? formDataJson.budgetOrdersPartTimeMain : calendar?.budget.partTime.orders.main || ''
+                        }
+                    }
+                },
+                contract: {
+                    fullTime: {
+                        documents: {
+                            exams: !isFormContract ? calendar?.contract.fullTime.documents.exams || '' : formDataJson.contractDocumentsFullTimeExams,
+                            tests: !isFormContract ? calendar?.contract.fullTime.documents.tests || '' : formDataJson.contractDocumentsFullTimeTests,
+                        },
+                        tests: !isFormContract ? calendar?.contract.fullTime.tests || '' : formDataJson.contractTestsFullTime,
+                        completion: !isFormContract ? calendar?.contract.fullTime.completion || '' : formDataJson.contractCompletionFullTime,
+                        orders: !isFormContract ? calendar?.contract.fullTime.orders || '' : formDataJson.contractOrdersFullTime
+                    },
+                    partTime: {
+                        documents: !isFormContract ? calendar?.contract.partTime.documents || '' : formDataJson.contractDocumentsPartTime,
+                        tests: !isFormContract ? calendar?.contract.partTime.tests || '' : formDataJson.contractTestsPartTime,
+                        completion: !isFormContract ? calendar?.contract.partTime.completion || '' : formDataJson.contractCompletionPartTime,
+                        orders: !isFormContract ? calendar?.contract.partTime.orders || '' : formDataJson.contractOrdersPartTime
+                    }
+                }
+            }
+    
+            const res = await fetch(apiRoute('admin/textinfo/?page=bachelor'), {
+                method: 'PATCH',
+                body: new URLSearchParams({ bachelorCalendar: JSON.stringify(calendarJson) }),
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded',
+                },
+            })
+
+            if (res.ok === true) {
+                calendarSubmitted = true
+                calendarSuccess = true
+            }
+            else if (res.ok === false) {
+                calendarSubmitted = true
+                calendarSuccess = false
+            }
         }
     }
     
@@ -393,9 +417,9 @@
                                     <div>
                                         <span class="documents">По результатам ЕГЭ:</span><br />
                                         {#if !isFormContract}
-                                            <input class="form-control" type="text" name="budgetDocumentsFullTimeExams" value={calendar?.budget.fullTime.documents.exams || ''} required />
+                                            <textarea class="form-control" type="text" name="budgetDocumentsFullTimeExams" value={calendar?.budget.fullTime.documents.exams || ''} />
                                         {:else}
-                                            <input class="form-control" type="text" name="contractDocumentsFullTimeExams" value={calendar?.contract.fullTime.documents.exams || ''} required />
+                                            <textarea class="form-control" type="text" name="contractDocumentsFullTimeExams" value={calendar?.contract.fullTime.documents.exams || ''} />
                                         {/if}
                                     </div>
                                     <br />
@@ -403,9 +427,9 @@
                                     <div>
                                         <span class="documents">По вступительным испытаниям:</span><br />
                                         {#if !isFormContract}
-                                            <input class="form-control" type="text" name="budgetDocumentsFullTimeTests" value={calendar?.budget.fullTime.documents.tests || ''} required />
+                                            <textarea class="form-control" type="text" name="budgetDocumentsFullTimeTests" value={calendar?.budget.fullTime.documents.tests || ''} />
                                         {:else}
-                                            <input class="form-control" type="text" name="contractDocumentsFullTimeTests" value={calendar?.contract.fullTime.documents.tests || ''} required />
+                                            <textarea class="form-control" type="text" name="contractDocumentsFullTimeTests" value={calendar?.contract.fullTime.documents.tests || ''} />
                                         {/if}
                                     </div>
                                 </div>
@@ -414,18 +438,18 @@
                                     {#if !isFormContract}
                                         <label>
                                             <span class="tests">В форме компьютерного тестирования:</span><br />
-                                            <input class="form-control" type="text" name="budgetTestsFullTimeComputer" value={calendar?.budget.fullTime.tests.computer || ''} required />
+                                            <input class="form-control" type="text" name="budgetTestsFullTimeComputer" value={calendar?.budget.fullTime.tests.computer || ''} />
                                         </label>
                                         <br />
                                         <br />
                                         <label>
                                             <span class="tests">Экзамены творческой и профессиональной направленности:</span><br />
-                                            <input class="form-control" type="text" name="budgetTestsFullTimeProfessional" value={calendar?.budget.fullTime.tests.professional || ''} required />
+                                            <input class="form-control" type="text" name="budgetTestsFullTimeProfessional" value={calendar?.budget.fullTime.tests.professional || ''} />
                                         </label>
                                     {:else}
                                         <label>
                                             <span class="tests">Период:</span><br />
-                                            <textarea class="form-control" type="text" name="contractTestsFullTime" value={calendar?.contract.fullTime.tests || ''} required />
+                                            <textarea class="form-control" type="text" name="contractTestsFullTime" value={calendar?.contract.fullTime.tests || ''} />
                                         </label>
                                     {/if}
                                 </div>
@@ -434,18 +458,18 @@
                                     {#if !isFormContract}
                                         <label>
                                             <span class="completion">Этап приоритетного зачисления:</span><br />
-                                            <input class="form-control" type="text" name="budgetCompletionFullTimePriority" value={calendar?.budget.fullTime.completion.priority || ''} required />
+                                            <input class="form-control" type="text" name="budgetCompletionFullTimePriority" value={calendar?.budget.fullTime.completion.priority || ''} />
                                         </label>
                                         <br />
                                         <br />
                                         <label>
                                             <span class="completion">Этап зачисления на основные конкурсные места:</span><br />
-                                            <input class="form-control" type="text" name="budgetCompletionFullTimeMain" value={calendar?.budget.fullTime.completion.main || ''} required />
+                                            <input class="form-control" type="text" name="budgetCompletionFullTimeMain" value={calendar?.budget.fullTime.completion.main || ''} />
                                         </label>
                                     {:else}
                                         <label>
                                             <span class="completion">Период:</span><br />
-                                            <textarea class="form-control" type="text" name="contractCompletionFullTime" value={calendar?.contract.fullTime.completion || ''} required />
+                                            <textarea class="form-control" type="text" name="contractCompletionFullTime" value={calendar?.contract.fullTime.completion || ''} />
                                         </label>
                                     {/if}
                                 </div>
@@ -454,18 +478,18 @@
                                     {#if !isFormContract}
                                         <label>
                                             <span class="orders">Особые права; без экзаменов; на целевые места:</span><br />
-                                            <input class="form-control" type="text" name="budgetOrdersFullTimeSpecial" value={calendar?.budget.fullTime.orders.special || ''} required />
+                                            <input class="form-control" type="text" name="budgetOrdersFullTimeSpecial" value={calendar?.budget.fullTime.orders.special || ''} />
                                         </label>
                                         <br />
                                         <br />
                                         <label>
                                             <span class="orders">Этап зачисления на основные конкурсные места:</span><br />
-                                            <input class="form-control" type="text" name="budgetOrdersFullTimeMain" value={calendar?.budget.fullTime.orders.main || ''} required />
+                                            <input class="form-control" type="text" name="budgetOrdersFullTimeMain" value={calendar?.budget.fullTime.orders.main || ''} />
                                         </label>
                                     {:else}
                                         <label>
                                             <span class="orders">Период:</span><br />
-                                            <textarea class="form-control" type="text" name="contractOrdersFullTime" value={calendar?.contract.fullTime.orders || ''} required />
+                                            <textarea class="form-control" type="text" name="contractOrdersFullTime" value={calendar?.contract.fullTime.orders || ''} />
                                         </label>
                                     {/if}
                                 </div>
@@ -487,9 +511,9 @@
                                     <div>
                                         <span class="documents">Период:</span><br />
                                         {#if !isFormContract}
-                                            <textarea class="form-control" type="text" name="budgetDocumentsPartTime" value={calendar?.budget.partTime.documents || ''} required />
+                                            <textarea class="form-control" type="text" name="budgetDocumentsPartTime" value={calendar?.budget.partTime.documents || ''} />
                                         {:else}
-                                            <textarea class="form-control" type="text" name="contractDocumentsPartTime" value={calendar?.contract.partTime.documents || ''} required />
+                                            <textarea class="form-control" type="text" name="contractDocumentsPartTime" value={calendar?.contract.partTime.documents || ''} />
                                         {/if}
                                     </div>
                                 </div>
@@ -498,9 +522,9 @@
                                     <div>
                                         <span class="tests">Период:</span><br />
                                         {#if !isFormContract}
-                                            <textarea class="form-control" type="text" name="budgetTestsPartTime" value={calendar?.budget.partTime.tests || ''} required />
+                                            <textarea class="form-control" type="text" name="budgetTestsPartTime" value={calendar?.budget.partTime.tests || ''} />
                                         {:else}
-                                            <textarea class="form-control" type="text" name="contractTestsPartTime" value={calendar?.contract.partTime.tests || ''} required />
+                                            <textarea class="form-control" type="text" name="contractTestsPartTime" value={calendar?.contract.partTime.tests || ''} />
                                         {/if}
                                     </div>
                                 </div>
@@ -509,18 +533,18 @@
                                     {#if !isFormContract}
                                         <label>
                                             <span class="completion">Этап приоритетного зачисления:</span><br />
-                                            <input class="form-control" type="text" name="budgetCompletionPartTimePriority" value={calendar?.budget.partTime.completion.priority || ''} required />
+                                            <input class="form-control" type="text" name="budgetCompletionPartTimePriority" value={calendar?.budget.partTime.completion.priority || ''} />
                                         </label>
                                         <br />
                                         <br />
                                         <label>
                                             <span class="completion">Этап зачисления на основные конкурсные места:</span><br />
-                                            <input class="form-control" type="text" name="budgetCompletionPartTimeMain" value={calendar?.budget.partTime.completion.main || ''} required />
+                                            <input class="form-control" type="text" name="budgetCompletionPartTimeMain" value={calendar?.budget.partTime.completion.main || ''} />
                                         </label>
                                     {:else}
                                         <label>
                                             <span class="completion">Период:</span><br />
-                                            <textarea class="form-control" type="text" name="contractCompletionPartTime" value={calendar?.contract.partTime.completion || ''} required />
+                                            <textarea class="form-control" type="text" name="contractCompletionPartTime" value={calendar?.contract.partTime.completion || ''} />
                                         </label>
                                     {/if}
                                 </div>
@@ -529,18 +553,18 @@
                                     {#if !isFormContract}
                                         <label>
                                             <span class="orders">Особые права; без экзаменов; на целевые места:</span><br />
-                                            <input class="form-control" type="text" name="budgetOrdersPartTimeSpecial" value={calendar?.budget.partTime.orders.special || ''} required />
+                                            <input class="form-control" type="text" name="budgetOrdersPartTimeSpecial" value={calendar?.budget.partTime.orders.special || ''} />
                                         </label>
                                         <br />
                                         <br />
                                         <label>
                                             <span class="orders">Этап зачисления на основные конкурсные места:</span><br />
-                                            <input class="form-control" type="text" name="budgetOrdersPartTimeMain" value={calendar?.budget.partTime.orders.main || ''} required />
+                                            <input class="form-control" type="text" name="budgetOrdersPartTimeMain" value={calendar?.budget.partTime.orders.main || ''} />
                                         </label>
                                     {:else}
                                         <label>
                                             <span class="orders">Период:</span><br />
-                                            <textarea class="form-control" type="text" name="contractOrdersPartTime" value={calendar?.contract.partTime.orders || ''} required />
+                                            <textarea class="form-control" type="text" name="contractOrdersPartTime" value={calendar?.contract.partTime.orders || ''} />
                                         </label>
                                     {/if}
                                 </div>
@@ -559,9 +583,16 @@
                         </div>
                     { :else }
                         <div transition:blur|local={{ duration: 200 }} class="alert alert-danger mb-0" role="alert">
-                            Произошла ошибка
+                            Произошла ошибка при обновлении
                         </div>
                     {/if}
+                </div>
+            {/if}
+            {#if calendarError}
+                <div class="alerts mt-4" transition:blur|local={{ duration: 200 }}>
+                    <div transition:blur|local={{ duration: 200 }} class="alert alert-danger mb-0" role="alert">
+                        Произошла ошибка: {calendarErrorMessage}
+                    </div>
                 </div>
             {/if}
         </form>

@@ -163,12 +163,9 @@
     let calendarErrorMessage = ''
     let calendarJson = {}
 
-    function isFilledIn(value: FormDataEntryValue) {
-        return value !== null && value !== ''
-    }
+    const isFilledIn = (value: FormDataEntryValue) => !!value
 
     const calendarSubmit = async (e: Event) => {
-        e.preventDefault()
         const formData = new FormData(e.target as HTMLFormElement)
         const formDataJson = Object.fromEntries(formData.entries())
 
@@ -397,7 +394,7 @@
             <button class="btn btn-primary">Сохранить</button>
         </Form>
         <br />
-        <form on:submit={calendarSubmit}>
+        <form on:submit|preventDefault={calendarSubmit}>
             <Switch left="Бюджет" right="Контракт" on:change={handleForm} />
             <br />
             <div class="accordion">

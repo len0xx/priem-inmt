@@ -92,7 +92,7 @@
                     <Link color="black" lineWidth={ 3 } href="/contacts" prefetch variant="hover">Контакты</Link>
                 </Nav>
                 <div class="mobile-hide align-right">
-                    <Link color="var(--red)" variant="interactive" lineWidth={ 3 } on:click={ $modal.open }>Хочу поступить</Link>
+                    <Link color="var(--red)" variant="interactive" lineWidth={ 3 } preventDefault on:click={ $modal.open }>Хочу поступить</Link>
                 </div>
             </div>
         </div>

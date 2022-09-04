@@ -6,7 +6,7 @@
 
     type LinkVariant = 'regular' | 'underlined' | 'interactive' | 'hover'
 
-    export let href = '#'
+    export let href = ''
     export let title = ''
     export let target = '_SELF'
     export let color = 'var(--blue)'

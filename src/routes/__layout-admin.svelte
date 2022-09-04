@@ -49,7 +49,7 @@
     <Header hideOnScrollDown={true} showOnScrollUp={true} hideAfter={90}>
         <div class="content">
             <div class="admin-header-layout mobile-hide">
-                <a href="/">
+                <a href="/admin-panel">
                     <img src="/img/urfu-logo-colourful.svg" alt="УрФУ" />
                 </a>
                 <div />

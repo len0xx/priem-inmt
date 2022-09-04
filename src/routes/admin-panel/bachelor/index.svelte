@@ -750,7 +750,7 @@
             <Grid m={3} s={1} alignItems="start">
                 {#each feedbacks.filter((_, i) => i < 6 || feedbacksExpanded) as feedback, i (i)}
                     <div transition:blur|local={{ duration: 200 }}>
-                        <Profile variant="white" img={ feedback.img }>
+                        <Profile variant="grey" img={ feedback.img }>
                             <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
                             <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
                             <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>

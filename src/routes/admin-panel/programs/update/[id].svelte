@@ -463,9 +463,9 @@
                 <div />
             </Grid>
             <h3>Описание программы</h3>
-            <Grid m={2} ratio="2:1">
+            <div>
                 <TipTap name="text" content={program.text} />
-            </Grid>
+            </div>
             <h3>Отзывы</h3>
             {#each range(1, feedbacksCount) as i}
                 <Grid m={2} ratio="1:2">

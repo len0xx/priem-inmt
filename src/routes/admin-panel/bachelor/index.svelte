@@ -165,9 +165,17 @@
 
     const isFilledIn = (value: File | string) => !!value
 
+    const removeInvalidClass = (e: Event) => {
+        const target = e.target as HTMLFormElement
+        const input = document.getElementsByName(target.name)[0]
+        input.classList.remove('is-invalid')
+    }
+
     const calendarSubmit = async (e: Event) => {
         const formData = new FormData(e.target as HTMLFormElement)
         const formDataJson = Object.fromEntries(formData.entries())
+
+        let notFilledInputs = 0
 
         for ( let field of formData ) {
             const [key, value] = field
@@ -175,13 +183,14 @@
 
             if (!isFilledIn(value)) {
                 input.classList.add('is-invalid')
-                calendarError = true
-                calendarErrorMessage = 'Необходимо заполнить все обязательные поля'
+                notFilledInputs++
             } else {
                 input.classList.remove('is-invalid')
-                calendarError = false
             }
         }
+
+        calendarError = notFilledInputs > 0
+        calendarErrorMessage = 'Необходимо заполнить поля для всех форм обучения'
 
         if (!calendarError) {
             calendarJson = {
@@ -412,19 +421,18 @@
                                     <div>
                                         <span class="documents">По результатам ЕГЭ:</span><br />
                                         {#if !isFormContract}
-                                            <textarea class="form-control" type="text" name="budgetDocumentsFullTimeExams" value={calendar?.budget.fullTime.documents.exams || ''} />
+                                            <textarea class="form-control" type="text" name="budgetDocumentsFullTimeExams" value={calendar?.budget.fullTime.documents.exams || ''} on:input={removeInvalidClass} />
                                         {:else}
-                                            <textarea class="form-control" type="text" name="contractDocumentsFullTimeExams" value={calendar?.contract.fullTime.documents.exams || ''} />
+                                            <textarea class="form-control" type="text" name="contractDocumentsFullTimeExams" value={calendar?.contract.fullTime.documents.exams || ''} on:input={removeInvalidClass} />
                                         {/if}
                                     </div>
-                                    <br />
                                     <br />
                                     <div>
                                         <span class="documents">По вступительным испытаниям:</span><br />
                                         {#if !isFormContract}
-                                            <textarea class="form-control" type="text" name="budgetDocumentsFullTimeTests" value={calendar?.budget.fullTime.documents.tests || ''} />
+                                            <textarea class="form-control" type="text" name="budgetDocumentsFullTimeTests" value={calendar?.budget.fullTime.documents.tests || ''} on:input={removeInvalidClass} />
                                         {:else}
-                                            <textarea class="form-control" type="text" name="contractDocumentsFullTimeTests" value={calendar?.contract.fullTime.documents.tests || ''} />
+                                            <textarea class="form-control" type="text" name="contractDocumentsFullTimeTests" value={calendar?.contract.fullTime.documents.tests || ''} on:input={removeInvalidClass} />
                                         {/if}
                                     </div>
                                 </div>
@@ -433,18 +441,18 @@
                                     {#if !isFormContract}
                                         <label>
                                             <span class="tests">В форме компьютерного тестирования:</span><br />
-                                            <input class="form-control" type="text" name="budgetTestsFullTimeComputer" value={calendar?.budget.fullTime.tests.computer || ''} />
+                                            <input class="form-control" type="text" name="budgetTestsFullTimeComputer" value={calendar?.budget.fullTime.tests.computer || ''} on:input={removeInvalidClass} />
                                         </label>
                                         <br />
                                         <br />
                                         <label>
                                             <span class="tests">Экзамены творческой и профессиональной направленности:</span><br />
-                                            <input class="form-control" type="text" name="budgetTestsFullTimeProfessional" value={calendar?.budget.fullTime.tests.professional || ''} />
+                                            <input class="form-control" type="text" name="budgetTestsFullTimeProfessional" value={calendar?.budget.fullTime.tests.professional || ''} on:input={removeInvalidClass} />
                                         </label>
                                     {:else}
                                         <label>
                                             <span class="tests">Период:</span><br />
-                                            <textarea class="form-control" type="text" name="contractTestsFullTime" value={calendar?.contract.fullTime.tests || ''} />
+                                            <textarea class="form-control" type="text" name="contractTestsFullTime" value={calendar?.contract.fullTime.tests || ''} on:input={removeInvalidClass} />
                                         </label>
                                     {/if}
                                 </div>
@@ -453,18 +461,18 @@
                                     {#if !isFormContract}
                                         <label>
                                             <span class="completion">Этап приоритетного зачисления:</span><br />
-                                            <input class="form-control" type="text" name="budgetCompletionFullTimePriority" value={calendar?.budget.fullTime.completion.priority || ''} />
+                                            <input class="form-control" type="text" name="budgetCompletionFullTimePriority" value={calendar?.budget.fullTime.completion.priority || ''} on:input={removeInvalidClass} />
                                         </label>
                                         <br />
                                         <br />
                                         <label>
                                             <span class="completion">Этап зачисления на основные конкурсные места:</span><br />
-                                            <input class="form-control" type="text" name="budgetCompletionFullTimeMain" value={calendar?.budget.fullTime.completion.main || ''} />
+                                            <input class="form-control" type="text" name="budgetCompletionFullTimeMain" value={calendar?.budget.fullTime.completion.main || ''} on:input={removeInvalidClass} />
                                         </label>
                                     {:else}
                                         <label>
                                             <span class="completion">Период:</span><br />
-                                            <textarea class="form-control" type="text" name="contractCompletionFullTime" value={calendar?.contract.fullTime.completion || ''} />
+                                            <textarea class="form-control" type="text" name="contractCompletionFullTime" value={calendar?.contract.fullTime.completion || ''} on:input={removeInvalidClass} />
                                         </label>
                                     {/if}
                                 </div>
@@ -473,18 +481,18 @@
                                     {#if !isFormContract}
                                         <label>
                                             <span class="orders">Особые права; без экзаменов; на целевые места:</span><br />
-                                            <input class="form-control" type="text" name="budgetOrdersFullTimeSpecial" value={calendar?.budget.fullTime.orders.special || ''} />
+                                            <input class="form-control" type="text" name="budgetOrdersFullTimeSpecial" value={calendar?.budget.fullTime.orders.special || ''} on:input={removeInvalidClass} />
                                         </label>
                                         <br />
                                         <br />
                                         <label>
                                             <span class="orders">Этап зачисления на основные конкурсные места:</span><br />
-                                            <input class="form-control" type="text" name="budgetOrdersFullTimeMain" value={calendar?.budget.fullTime.orders.main || ''} />
+                                            <input class="form-control" type="text" name="budgetOrdersFullTimeMain" value={calendar?.budget.fullTime.orders.main || ''} on:input={removeInvalidClass} />
                                         </label>
                                     {:else}
                                         <label>
                                             <span class="orders">Период:</span><br />
-                                            <textarea class="form-control" type="text" name="contractOrdersFullTime" value={calendar?.contract.fullTime.orders || ''} />
+                                            <textarea class="form-control" type="text" name="contractOrdersFullTime" value={calendar?.contract.fullTime.orders || ''} on:input={removeInvalidClass} />
                                         </label>
                                     {/if}
                                 </div>
@@ -506,9 +514,9 @@
                                     <div>
                                         <span class="documents">Период:</span><br />
                                         {#if !isFormContract}
-                                            <textarea class="form-control" type="text" name="budgetDocumentsPartTime" value={calendar?.budget.partTime.documents || ''} />
+                                            <textarea class="form-control" type="text" name="budgetDocumentsPartTime" value={calendar?.budget.partTime.documents || ''} on:input={removeInvalidClass} />
                                         {:else}
-                                            <textarea class="form-control" type="text" name="contractDocumentsPartTime" value={calendar?.contract.partTime.documents || ''} />
+                                            <textarea class="form-control" type="text" name="contractDocumentsPartTime" value={calendar?.contract.partTime.documents || ''} on:input={removeInvalidClass} />
                                         {/if}
                                     </div>
                                 </div>
@@ -517,9 +525,9 @@
                                     <div>
                                         <span class="tests">Период:</span><br />
                                         {#if !isFormContract}
-                                            <textarea class="form-control" type="text" name="budgetTestsPartTime" value={calendar?.budget.partTime.tests || ''} />
+                                            <textarea class="form-control" type="text" name="budgetTestsPartTime" value={calendar?.budget.partTime.tests || ''} on:input={removeInvalidClass} />
                                         {:else}
-                                            <textarea class="form-control" type="text" name="contractTestsPartTime" value={calendar?.contract.partTime.tests || ''} />
+                                            <textarea class="form-control" type="text" name="contractTestsPartTime" value={calendar?.contract.partTime.tests || ''} on:input={removeInvalidClass} />
                                         {/if}
                                     </div>
                                 </div>
@@ -528,18 +536,18 @@
                                     {#if !isFormContract}
                                         <label>
                                             <span class="completion">Этап приоритетного зачисления:</span><br />
-                                            <input class="form-control" type="text" name="budgetCompletionPartTimePriority" value={calendar?.budget.partTime.completion.priority || ''} />
+                                            <input class="form-control" type="text" name="budgetCompletionPartTimePriority" value={calendar?.budget.partTime.completion.priority || ''} on:input={removeInvalidClass} />
                                         </label>
                                         <br />
                                         <br />
                                         <label>
                                             <span class="completion">Этап зачисления на основные конкурсные места:</span><br />
-                                            <input class="form-control" type="text" name="budgetCompletionPartTimeMain" value={calendar?.budget.partTime.completion.main || ''} />
+                                            <input class="form-control" type="text" name="budgetCompletionPartTimeMain" value={calendar?.budget.partTime.completion.main || ''} on:input={removeInvalidClass} />
                                         </label>
                                     {:else}
                                         <label>
                                             <span class="completion">Период:</span><br />
-                                            <textarea class="form-control" type="text" name="contractCompletionPartTime" value={calendar?.contract.partTime.completion || ''} />
+                                            <textarea class="form-control" type="text" name="contractCompletionPartTime" value={calendar?.contract.partTime.completion || ''} on:input={removeInvalidClass} />
                                         </label>
                                     {/if}
                                 </div>
@@ -548,18 +556,18 @@
                                     {#if !isFormContract}
                                         <label>
                                             <span class="orders">Особые права; без экзаменов; на целевые места:</span><br />
-                                            <input class="form-control" type="text" name="budgetOrdersPartTimeSpecial" value={calendar?.budget.partTime.orders.special || ''} />
+                                            <input class="form-control" type="text" name="budgetOrdersPartTimeSpecial" value={calendar?.budget.partTime.orders.special || ''} on:input={removeInvalidClass} />
                                         </label>
                                         <br />
                                         <br />
                                         <label>
                                             <span class="orders">Этап зачисления на основные конкурсные места:</span><br />
-                                            <input class="form-control" type="text" name="budgetOrdersPartTimeMain" value={calendar?.budget.partTime.orders.main || ''} />
+                                            <input class="form-control" type="text" name="budgetOrdersPartTimeMain" value={calendar?.budget.partTime.orders.main || ''} on:input={removeInvalidClass} />
                                         </label>
                                     {:else}
                                         <label>
                                             <span class="orders">Период:</span><br />
-                                            <textarea class="form-control" type="text" name="contractOrdersPartTime" value={calendar?.contract.partTime.orders || ''} />
+                                            <textarea class="form-control" type="text" name="contractOrdersPartTime" value={calendar?.contract.partTime.orders || ''} on:input={removeInvalidClass} />
                                         </label>
                                     {/if}
                                 </div>
@@ -818,5 +826,9 @@
 <style>
     label {
         width: 100%;
+    }
+
+    textarea.form-control:not(.fixed-width), input.form-control:not(.fixed-width) {
+        min-width: 0;
     }
 </style>

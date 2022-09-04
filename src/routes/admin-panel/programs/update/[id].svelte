@@ -491,15 +491,15 @@
                         </div>
                         <div>
                             <label for="feedback_img{i}">Изображение:</label><br />
-                            {#if imagePaths[i - 1]}
+                            { #if imagePaths[i - 1] }
                                 <!-- svelte-ignore a11y-missing-attribute -->
                                 <img width="150px" height="150px" src={imagePaths[i - 1]} class="img-fluid mt-3">
                                 <br />
-                            {:else}
+                            { :else if feedback?.img }
                                 <!-- svelte-ignore a11y-missing-attribute -->
                                 <img width="150px" height="150px" src={feedback?.img} class="img-fluid mt-3">
                                 <br />
-                            {/if}
+                            { /if }
                             <input type="hidden" name="feedback_img{i}" value={ imageIds[i - 1] || '' }><br />
                             <button type="button" class="btn btn-outline-success" on:click={ imageModals[i - 1].open }> { imageIds[i - 1] ? 'Файл выбран' : 'Выбрать файл' } </button>
                         </div>

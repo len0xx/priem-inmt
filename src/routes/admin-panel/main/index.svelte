@@ -623,7 +623,7 @@
         </Form>
         <h3>Опубликованные видеозаписи</h3>
         {#if videos.length}
-            <Grid m={3} s={1}>
+            <Grid s={1} m={2} l={3} xl={4}>
                 {#each videos as video, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">

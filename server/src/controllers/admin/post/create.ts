@@ -1,14 +1,22 @@
 import postService from '../../../services/post.js'
 import documentService from '../../../services/document.js'
-import { catchHTTPErrors, HTTPError, HTTPResponse } from '../../../utilities.js'
+import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
+const MAX_POSTS_AMOUNT = 10
+
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { img, title, text } = req.body
+    const amount = await postService.count()
 
-    if (!title || !text)
-        throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поля Название и Текст являются обязательными')
+    if (amount >= MAX_POSTS_AMOUNT) {
+        return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, `Превышено максимальное количество публикаций (${ MAX_POSTS_AMOUNT }). Чтобы создать новую публикацию, необходимо удалить одну из существующих`)
+    }
+
+    if (!title || !text) {
+        return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Поля Название и Текст являются обязательными')
+    }
 
     const links: { text: string, url: string }[] = []
 
@@ -20,8 +28,8 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         }
     }
 
-    let imgURL = undefined
-    if (img) {
+    let imgURL: string
+    if (+img && !isNaN(+img)) {
         const file = await documentService.getById(+img)
         imgURL = file ? file.src : undefined
     }

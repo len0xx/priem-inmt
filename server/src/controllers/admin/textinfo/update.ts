@@ -7,14 +7,14 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const fields = Object.keys(req.body) as string[]
     const page = req.query.page as string
 
-    for (const field of fields) {
+    for (const name of fields) {
         const object = {
             page,
-            name: field,
-            content: req.body[field] as string
+            name,
+            content: req.body[name].toString()
         }
 
-        await textService.createOrUpdate({ where: { name: field } }, object)
+        await textService.createOrUpdate({ where: { name } }, object)
     }
 
     return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Текстовые данные успешно обновлены')

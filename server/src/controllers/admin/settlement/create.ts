@@ -7,12 +7,9 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { name, label, address, auditory, phone, email } = req.body
 
     await settlementResponsible.create({
-        name: name,
-        label: label,
-        address: address,
-        auditory: auditory,
-        phone: phone,
-        email: email
+        name, label,
+        address, auditory,
+        phone, email
     })
     return new HTTPResponse(res, HTTPStatus.CREATED, 'Ответственный за поселение успешно создан')
 })

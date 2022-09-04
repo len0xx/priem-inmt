@@ -8,7 +8,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { name, label, phone, email, img } = req.body
 
     let imgURL: string
-    if (img) {
+    if (+img && !isNaN(+img)) {
         const file = await documentService.getById(+img)
         imgURL = file ? file.src : undefined
     }

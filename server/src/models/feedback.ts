@@ -3,7 +3,7 @@ import sequelize from '../../db.js'
 
 class Feedback extends Model<InferAttributes<Feedback, { omit: 'id' }>, InferCreationAttributes<Feedback>> {
     declare id: CreationOptional<number>
-    declare page: string
+    declare page: 'bachelor' | 'master'
     declare name: string
     declare description: string
     declare img: string
@@ -22,7 +22,7 @@ Feedback.init(
                     msg: 'Поле "Страница" является обязательным'
                 },
                 isIn: {
-                    args: [[ 'bachelor', 'master']],
+                    args: [[ 'bachelor', 'master' ]],
                     msg: 'Страница может принимать одно из двух значений: bachelor или master'
                 }
             },
@@ -39,12 +39,8 @@ Feedback.init(
                 }
             }
         },
-        description: {
-            type: DataTypes.STRING
-        },
-        img: {
-            type: DataTypes.STRING
-        },
+        description: DataTypes.STRING,
+        img: DataTypes.STRING,
         text: {
             type: DataTypes.TEXT,
             allowNull: false,

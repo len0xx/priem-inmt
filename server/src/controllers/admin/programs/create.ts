@@ -62,11 +62,13 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         const caption = requestData[`feedback_caption${i}`]
         const text = requestData[`feedback_text${i}`]
         const img = requestData[`feedback_img${i}`]
+
         let imgURL = undefined
-        if (img) {
+        if (+img && !isNaN(+img)) {
             const file = await documentService.getById(+img)
             imgURL = file ? file.src : undefined
         }
+        
         if (name && caption && text) {
             feedbacks[i - 1] = {
                 name: name,

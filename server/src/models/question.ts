@@ -5,7 +5,7 @@ class Question extends Model<InferAttributes<Question, { omit: 'id' }>, InferCre
     declare id: CreationOptional<number>
     declare text: string
     declare answer: string
-    declare page: string
+    declare page: 'bachelor' | 'master'
 }
 
 export type QuestionI = InferAttributes<Question, { omit: 'id' }>
@@ -38,7 +38,7 @@ Question.init(
                     msg: 'Поле "Страница" является обязательным'
                 },
                 isIn: {
-                    args: [[ 'bachelor', 'master']],
+                    args: [[ 'bachelor', 'master' ]],
                     msg: 'Страница может принимать одно из двух значений: bachelor или master'
                 }
             },

@@ -4,8 +4,15 @@ import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 import type { ContactInfoI } from '../../../models/contactInfo.js'
 
+const MAX_CONTACTS_AMOUNT = 4
+
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { tel, email, directorateAddress, admissionsAddress } = req.body
+    const amount = await contactInfoService.count()
+
+    if (amount >= MAX_CONTACTS_AMOUNT) {
+        return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, `Превышено максимальное количество контактов (${ MAX_CONTACTS_AMOUNT }). Чтобы создать новый, необходимо удалить один из существующих`)
+    }
 
     const links: { text: string, url: string }[] = []
 

@@ -142,245 +142,110 @@
             <h3>Подробная информация</h3>
             <Grid m={3} gap={2}>
                 <div>
-                    <label for="mode1"> Очная форма обучения </label>
-                    <input
-                        type="checkbox"
-                        name="mode1"
-                        id="mode1"
-                        bind:checked={mode1}
-                    />
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="mode1" id="mode1" bind:checked={ mode1 }>
+                        <label class="form-check-label" for="mode1">Очная форма обучения</label>
+                    </div>
                 </div>
                 <div>
-                    <label for="mode2"> Очно-заочная форма обучения </label>
-                    <input
-                        type="checkbox"
-                        name="mode2"
-                        id="mode2"
-                        bind:checked={mode2}
-                    />
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="mode2" id="mode2" bind:checked={ mode2 }>
+                        <label class="form-check-label" for="mode2">Очно-заочная форма обучения</label>
+                    </div>
                 </div>
                 <div>
-                    <label for="mode3"> Заочная форма обучения </label>
-                    <input
-                        type="checkbox"
-                        name="mode3"
-                        id="mode3"
-                        bind:checked={mode3}
-                    />
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="mode3" id="mode3" bind:checked={ mode3 }>
+                        <label class="form-check-label" for="mode3">Заочная форма обучения</label>
+                    </div>
                 </div>
                 <div>
-                    {#if mode1}
-                        <label for="budget1"
-                            >Количество мест - Бюджет (очно)</label
-                        ><br />
-                        <input
-                            class="form-control wide"
-                            type="number"
-                            name="budget1"
-                            placeholder="10"
-                            value={program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.budget : '0'}
-                            required
-                        />
-                    {/if}
+                    { #if mode1 }
+                        <div class="grid grid-1" transition:blur|local={{ duration: 200 }}>
+                            <div>
+                                <label for="budget1">Количество мест - Бюджет (очно)</label><br />
+                                <input class="form-control wide" type="number" name="budget1" placeholder="10" required value={program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.budget : '0'} />
+                            </div>
+                            <div>
+                                <label for="contract1">Количество мест - Контракт (очно)</label><br />
+                                <input class="form-control wide" type="number" name="contract1" placeholder="10" required value={program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : '0'} />
+                            </div>
+                            <div>
+                                <label for="period1">Срок обучения (очно)</label><br />
+                                <input class="form-control wide" type="text" name="period1" placeholder="2 года и 6 месяцев" value={program.educationModes.fullTime ? program.educationModes.fullTime.duration : ''} />
+                            </div>
+                            <div>
+                                <label for="price1">Стоимость обучения (очно)</label><br />
+                                <small>Только число (без слова "от" и символа рубля)</small><br />
+                                <input class="form-control wide" type="text" name="price1" placeholder="170 000" value={program.educationModes.fullTime ? program.educationModes.fullTime.price : ''} />
+                            </div>
+                            <div>
+                                <label for="language1">Язык освоения (очно)</label><br />
+                                <input class="form-control wide" type="text" name="language1" placeholder="Русский, Английский" value={program.educationModes.fullTime ? program.educationModes.fullTime.languages : ''} />
+                            </div>
+                        </div>
+                    { /if }
                 </div>
                 <div>
-                    {#if mode2}
-                        <label for="budget2"
-                            >Количество мест - Бюджет (очно-заочно)</label
-                        ><br />
-                        <input
-                            class="form-control wide"
-                            type="number"
-                            name="budget2"
-                            placeholder="10"
-                            value={program.educationModes.partFullTime ? program.educationModes.partFullTime.vacantSpots.budget: '0'}
-                        />
-                    {/if}
+                    { #if mode2 }
+                        <div class="grid grid-1" transition:blur|local={{ duration: 200 }}>
+                            <div>
+                                <label for="budget1">Количество мест - Бюджет (очно-заочно)</label><br />
+                                <input class="form-control wide" type="number" name="budget2" placeholder="10" required value={program.educationModes.partFullTime ? program.educationModes.partFullTime.vacantSpots.budget: '0'} />
+                            </div>
+                            <div>
+                                <label for="contract1">Количество мест - Контракт (очно-заочно)</label><br />
+                                <input class="form-control wide" type="number" name="contract2" placeholder="10" required value={program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : '0'} />
+                            </div>
+                            <div>
+                                <label for="period1">Срок обучения (очно-заочно)</label><br />
+                                <input class="form-control wide" type="text" name="period2" placeholder="2 года и 6 месяцев" value={program.educationModes.partFullTime ? program.educationModes.partFullTime.duration : ''} />
+                            </div>
+                            <div>
+                                <label for="price1">Стоимость обучения (очно-заочно)</label><br />
+                                <small>Только число (без слова "от" и символа рубля)</small><br />
+                                <input class="form-control wide" type="text" name="price2" placeholder="170 000" value={program.educationModes.partFullTime ? program.educationModes.partFullTime.price : ''} />
+                            </div>
+                            <div>
+                                <label for="language1">Язык освоения (очно-заочно)</label><br />
+                                <input class="form-control wide" type="text" name="language2" placeholder="Русский, Английский" value={program.educationModes.partFullTime ? program.educationModes.partFullTime.languages : ''} />
+                            </div>
+                        </div>
+                    { /if }
                 </div>
                 <div>
-                    {#if mode3}
-                        <label for="budget3"
-                            >Количество мест - Бюджет (заочно)</label
-                        ><br />
-                        <input
-                            class="form-control wide"
-                            type="number"
-                            name="budget3"
-                            placeholder="10"
-                            value={program.educationModes.partTime ? program.educationModes.partTime.vacantSpots.budget : '0'}
-                        />
-                    {/if}
-                </div>
-                <div>
-                    {#if mode1}
-                        <label for="contract1"
-                            >Количество мест - Контракт (очно)</label
-                        ><br />
-                        <input
-                            class="form-control wide"
-                            type="number"
-                            name="contract1"
-                            placeholder="10"
-                            value={program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : '0'}
-                            required
-                        />
-                    {/if}
-                </div>
-                <div>
-                    {#if mode2}
-                        <label for="contract2"
-                            >Количество мест - Контракт (очно-заочно)</label
-                        ><br />
-                        <input
-                            class="form-control wide"
-                            type="number"
-                            name="contract2"
-                            placeholder="10"
-                            value={program.educationModes.partFullTime ? program.educationModes.partFullTime.vacantSpots.contract : '0'}
-                        />
-                    {/if}
-                </div>
-                <div>
-                    {#if mode3}
-                        <label for="contract3"
-                            >Количество мест - Контракт (заочно)</label
-                        ><br />
-                        <input
-                            class="form-control wide"
-                            type="number"
-                            name="contract3"
-                            placeholder="10"
-                            value={program.educationModes.partTime ? program.educationModes.partTime.vacantSpots.contract : '0'}
-                        />
-                    {/if}
-                </div>
-                <div>
-                    {#if mode1}
-                        <label for="period1">Срок обучения (очно)</label><br />
-                        <input
-                            class="form-control wide"
-                            type="text"
-                            name="period1"
-                            placeholder="2 года и 6 месяцев"
-                            value={program.educationModes.fullTime ? program.educationModes.fullTime.duration : ''}
-                        />
-                    {/if}
-                </div>
-                <div>
-                    {#if mode2}
-                        <label for="period2">Срок обучения (очно-заочно)</label
-                        ><br />
-                        <input
-                            class="form-control wide"
-                            type="text"
-                            name="period2"
-                            value={program.educationModes.partFullTime ? program.educationModes.partFullTime.duration : ''}
-                        />
-                    {/if}
-                </div>
-                <div>
-                    {#if mode3}
-                        <label for="period3">Срок обучения (заочно)</label><br
-                        />
-                        <input
-                            class="form-control wide"
-                            type="text"
-                            name="period3"
-                            value={program.educationModes.partTime ? program.educationModes.partTime.duration : ''}
-                        />
-                    {/if}
-                </div>
-                <div>
-                    {#if mode1}
-                        <label for="price1">Стоимость обучения (очно)</label><br
-                        />
-                        <small
-                            >Только число (без слова "от" и символа рубля)</small
-                        ><br />
-                        <input
-                            class="form-control wide"
-                            type="text"
-                            name="price1"
-                            placeholder="170 000"
-                            value={program.educationModes.fullTime ? program.educationModes.fullTime.price : ''}
-                        />
-                    {/if}
-                </div>
-                <div>
-                    {#if mode2}
-                        <label for="price2"
-                            >Стоимость обучения (очно-заочно)</label
-                        ><br />
-                        <small
-                            >Только число (без слова "от" и символа рубля)</small
-                        ><br />
-                        <input
-                            class="form-control wide"
-                            type="text"
-                            name="price2"
-                            value={program.educationModes.partFullTime ? program.educationModes.partFullTime.price : ''}
-                        />
-                    {/if}
-                </div>
-                <div>
-                    {#if mode3}
-                        <label for="price3">Стоимость обучения (заочно)</label
-                        ><br />
-                        <small
-                            >Только число (без слова "от" и символа рубля)</small
-                        ><br />
-                        <input
-                            class="form-control wide"
-                            type="text"
-                            name="price3"
-                            value={program.educationModes.partTime.price ? program.educationModes.partTime.price : ''}
-                        />
-                    {/if}
-                </div>
-                <div>
-                    {#if mode1}
-                        <label for="language1">Язык освоения (очно)</label><br
-                        />
-                        <input
-                            class="form-control wide"
-                            type="text"
-                            name="language1"
-                            placeholder="Русский, Английский"
-                            value={program.educationModes.fullTime ? program.educationModes.fullTime.languages : ''}
-                        />
-                    {/if}
-                </div>
-                <div>
-                    {#if mode2}
-                        <label for="language2"
-                            >Язык освоения (очно-заочно)</label
-                        ><br />
-                        <input
-                            class="form-control wide"
-                            type="text"
-                            name="language2"
-                            placeholder="Русский, Английский"
-                            value={program.educationModes.partFullTime ? program.educationModes.partFullTime.languages : ''}
-                        />
-                    {/if}
-                </div>
-                <div>
-                    {#if mode3}
-                        <label for="language3">Язык освоения (заочно)</label><br/>
-                        <input
-                            class="form-control wide"
-                            type="text"
-                            name="language3"
-                            placeholder="Русский, Английский"
-                            value={program.educationModes.partTime ? program.educationModes.partTime.languages: ''}
-                        />
-                    {/if}
-                </div>
-                <div>
-                    <label for="directions">Направления подготовки (каждое с новой строки)</label><br />
-                    <textarea class="form-control" name="directions" cols="30" rows="4" value={directions} />
+                    { #if mode3 }
+                        <div class="grid grid-1" transition:blur|local={{ duration: 200 }}>
+                            <div>
+                                <label for="budget1">Количество мест - Бюджет (заочно)</label><br />
+                                <input class="form-control wide" type="number" name="budget3" placeholder="10" required value={program.educationModes.partTime ? program.educationModes.partTime.vacantSpots.budget : '0'} />
+                            </div>
+                            <div>
+                                <label for="contract1">Количество мест - Контракт (заочно)</label><br />
+                                <input class="form-control wide" type="number" name="contract3" placeholder="10" required value={program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : '0'} />
+                            </div>
+                            <div>
+                                <label for="period1">Срок обучения (заочно)</label><br />
+                                <input class="form-control wide" type="text" name="period3" placeholder="2 года и 6 месяцев" value={program.educationModes.partTime ? program.educationModes.partTime.duration : ''} />
+                            </div>
+                            <div>
+                                <label for="price1">Стоимость обучения (заочно)</label><br />
+                                <small>Только число (без слова "от" и символа рубля)</small><br />
+                                <input class="form-control wide" type="text" name="price3" placeholder="170 000" value={program.educationModes.partTime.price ? program.educationModes.partTime.price : ''} />
+                            </div>
+                            <div>
+                                <label for="language1">Язык освоения (заочно)</label><br />
+                                <input class="form-control wide" type="text" name="language3" placeholder="Русский, Английский" value={program.educationModes.partTime ? program.educationModes.partTime.languages: ''} />
+                            </div>
+                        </div>
+                    { /if }
                 </div>
             </Grid>
+            <br />
+            <div>
+                <label for="directions">Направления подготовки (каждое с новой строки)</label><br />
+                <textarea class="form-control" name="directions" cols="30" rows="4">{ directions }</textarea>
+            </div>
             {#if degree != DegreeLevel.MASTER}
                 <h3>Экзамены</h3>
                 <Grid m={1}>

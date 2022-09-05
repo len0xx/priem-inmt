@@ -60,9 +60,9 @@
         { #if programsBach.length }
             <Grid s={1} m={2} l={3}>
                 { #each programsBach as program }
-                    <Grid m={1} className="k2if">
+                    <Grid m={1} className="k2if" gap={0.5}>
                         <ProgramCardNew { program } />
-                        <a href="/admin-panel/programs/update/{ program.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                        <a href="/admin-panel/programs/update/{ program.id }" class="btn btn-outline-primary btn-sm uvnq">Редактировать</a>
                     </Grid>
                 { /each }
             </Grid>
@@ -73,9 +73,9 @@
         { #if programsSpec.length }
             <Grid s={1} m={2} l={3}>
                 { #each programsSpec as program }
-                    <Grid m={1} className="k2if">
+                    <Grid m={1} className="k2if" gap={0.5}>
                         <ProgramCardNew { program } />
-                        <a href="/admin-panel/programs/update/{ program.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                        <a href="/admin-panel/programs/update/{ program.id }" class="btn btn-outline-primary btn-sm uvnq">Редактировать</a>
                     </Grid>
                 { /each }
             </Grid>
@@ -86,9 +86,9 @@
         { #if programsMast.length }
             <Grid s={1} m={2} l={3}>
                 { #each programsMast as program }
-                    <Grid m={1} className="k2if">
+                    <Grid m={1} className="k2if" gap={0.5}>
                         <ProgramCardNew { program } />
-                        <a href="/admin-panel/programs/update/{ program.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                        <a href="/admin-panel/programs/update/{ program.id }" class="btn btn-outline-primary btn-sm uvnq">Редактировать</a>
                     </Grid>
                 { /each }
             </Grid>
@@ -101,5 +101,9 @@
 <style>
     :global(.k2if) {
         grid-template-rows: auto min-content;
+    }
+
+    .uvnq {
+        margin-bottom: 0.5em;
     }
 </style>

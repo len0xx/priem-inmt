@@ -426,9 +426,9 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Изображения в&nbsp;карусели «Об&nbsp;институте»</h3>
-        <Form action="/api/admin/carousel/?name=about" method="POST" on:success={ showNewCarouselAboutImage }>
-            <Grid m={2}>
+        <h3 class="no-top-margin">Об институте</h3>
+        <Grid m={2} ratio="2:3">
+            <Form action="/api/admin/carousel/?name=about" method="POST" on:success={ showNewCarouselAboutImage }>
                 <label>
                     <span class="caption">Добавить новое изображение:</span>
                     {#if carouselAboutImagePath}
@@ -439,10 +439,19 @@
                     <input type="hidden" name="img" value={ carouselAboutImageId }><br />
                     <button type="button" class="btn btn-outline-success" on:click={ carouselAboutImageModal.open }> { carouselAboutImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 </label>
-            </Grid>
-            <br />
-            <button class="btn btn-primary">Создать</button>
-        </Form>
+                <br />
+                <br />
+                <button class="btn btn-primary">Создать</button>
+            </Form>
+            <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
+                <label>
+                    <span class="caption">Текст об институте:</span>
+                    <textarea name="aboutInstituteText" class="form-control wide" rows="6">{ info.aboutInstituteText || '' }</textarea>
+                </label>
+                <br />
+                <button class="btn btn-primary">Сохранить</button>
+            </Form>
+        </Grid>
         <h3>Опубликованные изображения:</h3>
         {#if carouselAboutImages.length}
             <Grid m={3}>
@@ -471,7 +480,7 @@
         <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
             <label>
                 <span class="caption">Текст перед изображениями:</span>
-                <textarea name="studentLifeCaption" class="form-control wide" required>{ info.studentLifeCaption || '' }</textarea>
+                <textarea name="studentLifeCaption" class="form-control wide" rows="6" required>{ info.studentLifeCaption || '' }</textarea>
             </label>
             <button class="btn btn-primary">Сохранить</button>
         </Form>

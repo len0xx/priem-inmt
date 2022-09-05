@@ -7,6 +7,7 @@ import type { Handle, GetSession, RequestEvent } from '@sveltejs/kit'
 dotenv.config()
 
 export const handle: Handle = async ({ event, resolve }) => {
+    
     const cookies = cookie.parse(event.request.headers.get('cookie') || '')
     const response = await resolve(event)
 
@@ -35,6 +36,7 @@ export const getSession: GetSession = async (event: RequestEvent & { locals: App
             const HOST = event.request.headers.get('host')
             const PROTOCOL = HOST.startsWith('localhost') ? 'http' : 'https'
             const BASE_API_URL = `${PROTOCOL}://${HOST}/api`
+            event.locals.api = BASE_API_URL
 
             const headers = {
                 'X-API-Key': process.env.API_KEY
@@ -82,6 +84,7 @@ export const getSession: GetSession = async (event: RequestEvent & { locals: App
         loggedIn: !!(event.locals.token && event.locals.user),
         token: event.locals.token,
         csrf: event.locals.csrf,
-        user: event.locals.user
+        user: event.locals.user,
+        api: event.locals.api
     }
 }

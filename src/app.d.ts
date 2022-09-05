@@ -9,7 +9,8 @@ declare global {
 		interface Locals {
 			token: string,
 			csrf: string,
-			user: UserI
+			user: UserI,
+			api?: string
 		}
 
 		// interface Platform {}

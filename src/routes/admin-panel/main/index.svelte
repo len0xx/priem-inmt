@@ -611,45 +611,41 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Видеозаписи</h3>
         <Grid m={2} s={1} ratio="3:2">
-            <div>
-                <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo }>
-                    <Grid m={1}>
-                        <label class="wide">
-                            <span class="form-label">Название видеозаписи</span>
-                            <input type="text" class="form-control wide" placeholder="Название" name="title" required />
-                        </label>
-                        <Grid m={2}>
-                            <label>
-                                <span class="caption">Видеозапись</span><br />
-                                <input required class="form-control" type="file" name="video" id="video" />
-                            </label>
-                        </Grid>
-                    </Grid>
-                    <br />
-                    <p class="text-muted">
-                        Максимальный объем видеозаписи должен составлять не более 800 Мб
-                        <br />
-                        Допустимые форматы: MP4, WEBM, OGG, AVI, MOV, MPEG, MKV
-                    </p>
-                    <div class="buttons-row">
-                        {#if videos.length > 3}
-                            <button class="btn btn-primary" disabled>Отправить</button>
-                            <p class="text-muted mt-3">На данный момент загружено максимальное количество видеозаписей – 4. Для того, чтобы загрузить новое видео, необходимо удалить одно из существующих</p>
-                        {:else}
-                            <button class="btn btn-primary">Отправить</button>
-                        {/if}
-                    </div>
-                </Form>
-            </div>
-            <div>
-                <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
-                    <label>
-                        <span class="caption">Текст под заголовком:</span>
-                        <textarea name="videoText" class="form-control wide" rows="6" required>{ info.videoText || '' }</textarea>
+            <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo }>
+                <Grid m={1}>
+                    <label class="wide">
+                        <span class="form-label">Название видеозаписи</span>
+                        <input type="text" class="form-control wide" placeholder="Название" name="title" required />
                     </label>
-                    <button class="btn btn-primary">Сохранить</button>
-                </Form>
-            </div>
+                    <Grid m={2}>
+                        <label>
+                            <span class="caption">Видеозапись</span><br />
+                            <input required class="form-control" type="file" name="video" id="video" />
+                        </label>
+                    </Grid>
+                </Grid>
+                <br />
+                <p class="text-muted">
+                    Максимальный объем видеозаписи должен составлять не более 800 Мб
+                    <br />
+                    Допустимые форматы: MP4, WEBM, OGG, AVI, MOV, MPEG, MKV
+                </p>
+                <div class="buttons-row">
+                    {#if videos.length > 3}
+                        <button class="btn btn-primary" disabled>Отправить</button>
+                        <p class="text-muted mt-3">На данный момент загружено максимальное количество видеозаписей – 4. Для того, чтобы загрузить новое видео, необходимо удалить одно из существующих</p>
+                    {:else}
+                        <button class="btn btn-primary">Отправить</button>
+                    {/if}
+                </div>
+            </Form>
+            <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
+                <label>
+                    <span class="caption">Текст под заголовком:</span>
+                    <textarea name="videoText" class="form-control wide" rows="6" required>{ info.videoText || '' }</textarea>
+                </label>
+                <button class="btn btn-primary">Сохранить</button>
+            </Form>
         </Grid>
         <h3>Опубликованные видеозаписи</h3>
         {#if videos.length}

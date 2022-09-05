@@ -28,6 +28,7 @@ import Preloader from './Preloader.svelte'
 import Profession from './Profession.svelte'
 import Profile from './Profile.svelte'
 import ProgramCard from './ProgramCard.svelte'
+import ProgramCardNew from './ProgramCardNew.svelte'
 import Progress from './Progress.svelte'
 import Rainbow from './Rainbow.svelte'
 import RoundButton from './RoundButton.svelte'
@@ -75,6 +76,7 @@ export {
     Profession,
     Profile,
     ProgramCard,
+    ProgramCardNew,
     Progress,
     Rainbow,
     RoundButton,

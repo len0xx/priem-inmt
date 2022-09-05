@@ -14,7 +14,7 @@ const AMOUNT_LIMITS = {
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { title, description } = req.body
     const type = req.query.type.toString()
-    const amount = await featureService.count()
+    const amount = await featureService.count({ where: { type } })
 
     if (amount >= AMOUNT_LIMITS[type]) {
         return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, `Превышено максимальное количество перечислений (${ AMOUNT_LIMITS[type] }). Чтобы создать новое, необходимо удалить одно из существующих`)

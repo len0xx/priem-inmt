@@ -22,6 +22,7 @@
         }
     }
 </script>
+
 <script lang="ts">
     import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton, FileSelect, TipTap, Switch } from '$components'
     import { blur, slide } from 'svelte/transition'

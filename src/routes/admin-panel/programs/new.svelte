@@ -5,7 +5,6 @@
     import { slide, blur } from 'svelte/transition'
     import { DegreeLevel } from '../../../types/enums.js'
     import type { ModalComponent } from '../../../types'
-    // import { execArgv } from 'process'
 
     let firstImageModal: ModalComponent = null
     let firstImageId: number = null

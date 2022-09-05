@@ -26,6 +26,7 @@
 <script lang="ts">
     import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton, FileSelect, TipTap, Switch } from '$components'
     import { blur, slide } from 'svelte/transition'
+    import { isMobile } from '$lib/stores.js'
     import type { DocumentI, FeatureI, OpportunityI, FeedbackI, ModalComponent } from '../../../types'
 
     export let pageInfo: Record<string, string> = {}
@@ -35,6 +36,8 @@
     export let featuresPromo: FeatureI[] = []
     export let featuresInst: FeatureI[] = []
     export let opportunities: OpportunityI[] = []
+
+    const totalMobileObjects = 4
 
     let isFormContract = false
 
@@ -364,8 +367,8 @@
         </Form>
         <h3>Опубликованные перечисления</h3>
         { #if featuresPromo.length }
-            <Grid m={3}>
-                {#each featuresPromo.filter((_, i) => i < 5 || featuresExpanded) as feature, i (i)}
+            <Grid l={3} m={2} s={1}>
+                {#each featuresPromo.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || featuresExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
                             <Benefit num={feature.title} caption={feature.description} />
@@ -376,7 +379,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !featuresExpanded && featuresPromo.length > 6}
+            {#if !featuresExpanded && featuresPromo.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
@@ -390,7 +393,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Календарь приёма</h3>
         <Form method="PATCH" action="/api/admin/textinfo?page=bachelor" reset={ false }>
-            <Grid m={2}>
+            <Grid l={2} m={1}>
                 <div>
                     <span>Основной текстовый блок</span>
                     <TipTap name="bachelorCalendarTextMain" content={pageInfo.bachelorCalendarTextMain || ''} />
@@ -416,24 +419,24 @@
                     </h2>
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
-                            <Grid m={4}>
+                            <Grid l={4} m={2} s={1}>
                                 <div>
                                     <h4>Приём документов</h4>
                                     <div>
                                         <span class="documents">По результатам ЕГЭ:</span><br />
                                         {#if !isFormContract}
-                                            <textarea class="form-control" type="text" name="budgetDocumentsFullTimeExams" value={calendar?.budget.fullTime.documents.exams || ''} on:input={removeInvalidClass} />
+                                            <textarea class="form-control mb-0" type="text" name="budgetDocumentsFullTimeExams" value={calendar?.budget.fullTime.documents.exams || ''} on:input={removeInvalidClass} />
                                         {:else}
-                                            <textarea class="form-control" type="text" name="contractDocumentsFullTimeExams" value={calendar?.contract.fullTime.documents.exams || ''} on:input={removeInvalidClass} />
+                                            <textarea class="form-control mb-0" type="text" name="contractDocumentsFullTimeExams" value={calendar?.contract.fullTime.documents.exams || ''} on:input={removeInvalidClass} />
                                         {/if}
                                     </div>
                                     <br />
                                     <div>
                                         <span class="documents">По вступительным испытаниям:</span><br />
                                         {#if !isFormContract}
-                                            <textarea class="form-control" type="text" name="budgetDocumentsFullTimeTests" value={calendar?.budget.fullTime.documents.tests || ''} on:input={removeInvalidClass} />
+                                            <textarea class="form-control mb-0" type="text" name="budgetDocumentsFullTimeTests" value={calendar?.budget.fullTime.documents.tests || ''} on:input={removeInvalidClass} />
                                         {:else}
-                                            <textarea class="form-control" type="text" name="contractDocumentsFullTimeTests" value={calendar?.contract.fullTime.documents.tests || ''} on:input={removeInvalidClass} />
+                                            <textarea class="form-control mb-0" type="text" name="contractDocumentsFullTimeTests" value={calendar?.contract.fullTime.documents.tests || ''} on:input={removeInvalidClass} />
                                         {/if}
                                     </div>
                                 </div>
@@ -509,15 +512,15 @@
                     </h2>
                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                         <div class="accordion-body">
-                            <Grid m={4}>
+                            <Grid l={4} m={2} s={1}>
                                 <div>
                                     <h4>Приём документов</h4>
                                     <div>
                                         <span class="documents">Период:</span><br />
                                         {#if !isFormContract}
-                                            <textarea class="form-control" type="text" name="budgetDocumentsPartTime" value={calendar?.budget.partTime.documents || ''} on:input={removeInvalidClass} />
+                                            <textarea class="form-control mb-0" type="text" name="budgetDocumentsPartTime" value={calendar?.budget.partTime.documents || ''} on:input={removeInvalidClass} />
                                         {:else}
-                                            <textarea class="form-control" type="text" name="contractDocumentsPartTime" value={calendar?.contract.partTime.documents || ''} on:input={removeInvalidClass} />
+                                            <textarea class="form-control mb-0" type="text" name="contractDocumentsPartTime" value={calendar?.contract.partTime.documents || ''} on:input={removeInvalidClass} />
                                         {/if}
                                     </div>
                                 </div>
@@ -526,9 +529,9 @@
                                     <div>
                                         <span class="tests">Период:</span><br />
                                         {#if !isFormContract}
-                                            <textarea class="form-control" type="text" name="budgetTestsPartTime" value={calendar?.budget.partTime.tests || ''} on:input={removeInvalidClass} />
+                                            <textarea class="form-control mb-0" type="text" name="budgetTestsPartTime" value={calendar?.budget.partTime.tests || ''} on:input={removeInvalidClass} />
                                         {:else}
-                                            <textarea class="form-control" type="text" name="contractTestsPartTime" value={calendar?.contract.partTime.tests || ''} on:input={removeInvalidClass} />
+                                            <textarea class="form-control mb-0" type="text" name="contractTestsPartTime" value={calendar?.contract.partTime.tests || ''} on:input={removeInvalidClass} />
                                         {/if}
                                     </div>
                                 </div>
@@ -651,8 +654,8 @@
         </Form>
         <h3>Опубликованные преимущества</h3>
         { #if featuresInst.length }
-            <Grid m={3}>
-                {#each featuresInst.filter((_, i) => i < 6 || featuresExpanded) as feature, i (i)}
+            <Grid l={3} m={2} s={1}>
+                {#each featuresInst.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || featuresExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
                             <Benefit num={feature.title} caption={feature.description} />
@@ -663,7 +666,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !featuresExpanded && featuresInst.length > 6}
+            {#if !featuresExpanded && featuresInst.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
@@ -691,8 +694,8 @@
         </Form>
         <h3>Опубликованные возможности</h3>
         {#if opportunities.length}
-            <Grid m={3} s={1}>
-                {#each opportunities.filter((_, i) => i < 6 || opportunitiesExpanded) as opportunity, i (i)}
+            <Grid l={3} m={2} s={1}>
+                {#each opportunities.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || opportunitiesExpanded) as opportunity, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
                             <div class="align-center" style:min-width="200px">
@@ -707,7 +710,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !opportunitiesExpanded && opportunities.length > 6}
+            {#if !opportunitiesExpanded && opportunities.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => opportunitiesExpanded = true} />
@@ -741,7 +744,11 @@
                             <br />
                         {/if}
                         <input type="hidden" name="img" value={ feedbackImageId }><br />
-                        <button type="button" class="btn btn-outline-success" on:click={ feedbackImageModal.open }> { feedbackImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        {#if $isMobile}
+                            <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                        {:else}
+                            <button type="button" class="btn btn-outline-success" on:click={ feedbackImageModal.open }> { feedbackImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        {/if}
                     </label>
                 </div>
                 <div>
@@ -756,8 +763,8 @@
         </Form>
         <h3>Опубликованные отзывы</h3>
         {#if feedbacks.length}
-            <Grid m={3} s={1} alignItems="start">
-                {#each feedbacks.filter((_, i) => i < 6 || feedbacksExpanded) as feedback, i (i)}
+            <Grid l={3} m={2} s={1} alignItems="start">
+                {#each feedbacks.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || feedbacksExpanded) as feedback, i (i)}
                     <div transition:blur|local={{ duration: 200 }}>
                         <Profile variant="grey" img={ feedback.img }>
                             <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
@@ -771,7 +778,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !feedbacksExpanded && feedbacks.length > 6}
+            {#if !feedbacksExpanded && feedbacks.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => feedbacksExpanded = true} />

@@ -37,6 +37,7 @@
     import { Grid, Graduate, Benefit, Modal, Form, RoundButton, FileSelect, VideoCard } from '$components'
     import { slide, blur } from 'svelte/transition'
     import { range } from '$lib/utilities.js'
+    import { isMobile } from '$lib/stores.js'
     import type { GraduateI, PartnerI, PostI, CarouselI, ModalComponent, FeatureI, DocumentI } from '../../../types'
 
     export let posts: PostI[]
@@ -48,6 +49,8 @@
     export let features: FeatureI[] = []
     export let videos: DocumentI[] = []
     export let info: Record<string, string> = {}
+
+    const totalMobileObjects = 4
 
     let graduateImageModal: ModalComponent = null
     let graduateImageId: number = null
@@ -334,7 +337,11 @@
                             <img width="150px" height="150px" src={postImagePath} class="img-fluid mt-3 mb-3" alt="Изображение">   
                         {/if}                 
                         <input type="hidden" name="img" value={ postImageId }><br />
-                        <button type="button" class="btn btn-outline-success" on:click={ postImageModal.open }> { postImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        {#if $isMobile}
+                            <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                        {:else}
+                            <button type="button" class="btn btn-outline-success" on:click={ postImageModal.open }> { postImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        {/if}
                     </label>
                 </div>
                 <div id="vs2f">
@@ -360,7 +367,7 @@
         <h3>Опубликованные публикации</h3>
         {#if posts.length}
             <Grid l={3} m={2} s={1}>
-                {#each posts.filter((_, i) => i < 6 || postsExpanded) as post, i (i)}
+                {#each posts.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || postsExpanded) as post, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         {#if post.img}
                             <div class="card-img wide-card-img" style:background-image="url({ post.img })"></div>
@@ -374,7 +381,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !postsExpanded && posts.length > 6}
+            {#if !postsExpanded && posts.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => postsExpanded = true} />
@@ -396,7 +403,11 @@
                     <br />
                 {/if}
                 <input type="hidden" name="logo" value={ partnerImageId }><br />
-                <button type="button" class="btn btn-outline-success" on:click={ partnerImageModal.open }> { partnerImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                {#if $isMobile}
+                    <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                {:else}
+                    <button type="button" class="btn btn-outline-success" on:click={ partnerImageModal.open }> { partnerImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                {/if}
             </label>
             <br />
             <br />
@@ -404,8 +415,8 @@
         </Form>
         <h3>Опубликованные партнеры</h3>
         {#if partners.length}
-            <Grid m={5}>
-                {#each partners.filter((_, i) => i < 6 || partnersExpanded) as partner, i (i)}
+            <Grid xl={4} l={3} m={2} s={1}>
+                {#each partners.filter((_, i) => i < ($isMobile ? totalMobileObjects : 8) || partnersExpanded) as partner, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-img medium-card-img contain-img" style:background-image="url({ partner.logo })"></div>
                         <div class="card-body">
@@ -414,7 +425,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !partnersExpanded && partners.length > 10}
+            {#if !partnersExpanded && partners.length > ($isMobile ? totalMobileObjects : 8)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => partnersExpanded = true} />
@@ -437,7 +448,11 @@
                         <br />
                     {/if}
                     <input type="hidden" name="img" value={ carouselAboutImageId }><br />
-                    <button type="button" class="btn btn-outline-success" on:click={ carouselAboutImageModal.open }> { carouselAboutImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    {#if $isMobile}
+                        <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                    {:else}
+                        <button type="button" class="btn btn-outline-success" on:click={ carouselAboutImageModal.open }> { carouselAboutImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    {/if}
                 </label>
                 <br />
                 <br />
@@ -454,8 +469,8 @@
         </Grid>
         <h3>Опубликованные изображения:</h3>
         {#if carouselAboutImages.length}
-            <Grid m={3}>
-                {#each carouselAboutImages.filter((_, i) => i < 6 || carouselAboutExpanded) as image, i (i)}
+            <Grid l={3} m={2} s={1}>
+                {#each carouselAboutImages.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || carouselAboutExpanded) as image, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-img wide-card-img" style:background-image="url({ image.img })"></div>
                         <div class="card-body">
@@ -464,7 +479,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !carouselAboutExpanded && carouselAboutImages.length > 6}
+            {#if !carouselAboutExpanded && carouselAboutImages.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => carouselAboutExpanded = true} />
@@ -488,7 +503,11 @@
                             <br />
                         {/if}
                         <input type="hidden" name="img" value={ carouselLifeImageId }><br />
-                        <button type="button" class="btn btn-outline-success" on:click={ carouselLifeImageModal.open }> { carouselLifeImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        {#if $isMobile}
+                            <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                        {:else}
+                            <button type="button" class="btn btn-outline-success" on:click={ carouselLifeImageModal.open }> { carouselLifeImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        {/if}
                     </label>
                 </Grid>
                 <br />
@@ -504,8 +523,8 @@
         </Grid>
         <h3>Опубликованные изображения:</h3>
         {#if carouselLifeImages.length}
-            <Grid m={3}>
-                {#each carouselLifeImages.filter((_, i) => i < 6 || carouselLifeExpanded) as image, i (i)}
+            <Grid l={3} m={2} s={1}>
+                {#each carouselLifeImages.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || carouselLifeExpanded) as image, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-img wide-card-img" style:background-image="url({ image.img })"></div>
                         <div class="card-body">
@@ -514,7 +533,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !carouselLifeExpanded && carouselLifeImages.length > 6}
+            {#if !carouselLifeExpanded && carouselLifeImages.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => carouselLifeExpanded = true} />
@@ -543,8 +562,8 @@
         </Form>
         <h3>Опубликованные перечисления</h3>
         {#if features.length}
-            <Grid m={3}>
-                {#each features.filter((_, i) => i < 6 || featuresExpanded) as feature, i (i)}
+            <Grid l={3} m={2} s={1}>
+                {#each features.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || featuresExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
                             <Benefit num={feature.title} caption={feature.description} />
@@ -555,7 +574,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !featuresExpanded && features.length > 6}
+            {#if !featuresExpanded && features.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
@@ -585,7 +604,11 @@
                 <label>
                     <span class="caption">Фотография:</span>
                     <input type="hidden" name="photo" value={ graduateImageId }><br />
-                    <button type="button" class="btn btn-outline-success" on:click={ graduateImageModal.open }> { graduateImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    {#if $isMobile}
+                        <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                    {:else}
+                        <button type="button" class="btn btn-outline-success" on:click={ graduateImageModal.open }> { graduateImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    {/if}
                 </label>
             </div>
             <br />
@@ -597,8 +620,8 @@
         </Form>
         <h3>Опубликованные известные выпускники</h3>
         {#if graduates.length}
-            <Grid m={3}>
-                {#each graduates.filter((_, i) => i < 6 || graduatesExpanded) as graduate, i (i)}
+            <Grid l={3} m={2} s={1}>
+                {#each graduates.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || graduatesExpanded) as graduate, i (i)}
                     <div transition:blur|local={{ duration: 200 }}>
                         <Graduate name={ graduate.name } src={ graduate.photo } caption={ graduate.description }>
                             <a href="/admin-panel/main/graduate/update/{ graduate.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
@@ -607,7 +630,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !graduatesExpanded && graduates.length > 8}
+            {#if !graduatesExpanded && graduates.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => graduatesExpanded = true} />

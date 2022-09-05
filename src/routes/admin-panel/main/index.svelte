@@ -427,7 +427,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Об институте</h3>
-        <Grid m={2} ratio="2:3">
+        <Grid m={2} s={1} ratio="2:3">
             <Form action="/api/admin/carousel/?name=about" method="POST" on:success={ showNewCarouselAboutImage }>
                 <label>
                     <span class="caption">Добавить новое изображение:</span>
@@ -477,30 +477,31 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Студенческая жизнь</h3>
-        <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
-            <label>
-                <span class="caption">Текст перед изображениями:</span>
-                <textarea name="studentLifeCaption" class="form-control wide" rows="6" required>{ info.studentLifeCaption || '' }</textarea>
-            </label>
-            <button class="btn btn-primary">Сохранить</button>
-        </Form>
-        <br />
-        <Form action="/api/admin/carousel/?name=life" method="POST" on:success={ showNewCarouselLifeImage }>
-            <Grid m={2}>
+        <Grid m={2} s={1} ratio="2:3">
+            <Form action="/api/admin/carousel/?name=life" method="POST" on:success={ showNewCarouselLifeImage }>
+                <Grid m={2}>
+                    <label>
+                        <span class="caption">Добавить новое изображение:</span>
+                        {#if carouselLifeImagePath}
+                            <br />
+                            <img width="150px" height="150px" src={carouselLifeImagePath} class="img-fluid mt-3" alt="Изображение в карусели">
+                            <br />
+                        {/if}
+                        <input type="hidden" name="img" value={ carouselLifeImageId }><br />
+                        <button type="button" class="btn btn-outline-success" on:click={ carouselLifeImageModal.open }> { carouselLifeImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    </label>
+                </Grid>
+                <br />
+                <button class="btn btn-primary">Создать</button>
+            </Form>
+            <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
                 <label>
-                    <span class="caption">Добавить новое изображение:</span>
-                    {#if carouselLifeImagePath}
-                        <br />
-                        <img width="150px" height="150px" src={carouselLifeImagePath} class="img-fluid mt-3" alt="Изображение в карусели">
-                        <br />
-                    {/if}
-                    <input type="hidden" name="img" value={ carouselLifeImageId }><br />
-                    <button type="button" class="btn btn-outline-success" on:click={ carouselLifeImageModal.open }> { carouselLifeImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    <span class="caption">Текст перед изображениями:</span>
+                    <textarea name="studentLifeCaption" class="form-control wide" rows="6" required>{ info.studentLifeCaption || '' }</textarea>
                 </label>
-            </Grid>
-            <br />
-            <button class="btn btn-primary">Создать</button>
-        </Form>
+                <button class="btn btn-primary">Сохранить</button>
+            </Form>
+        </Grid>
         <h3>Опубликованные изображения:</h3>
         {#if carouselLifeImages.length}
             <Grid m={3}>

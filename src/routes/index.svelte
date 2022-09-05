@@ -1,3 +1,45 @@
+<script context="module" lang="ts">
+    import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities.js'
+    
+    export const load: Load = async ({ fetch, session }) => {
+        const resGraduates = await fetch(apiRoute('admin/graduate', session.api))
+        const graduates = (await resGraduates.json()).graduates
+
+        const resPartners = await fetch(apiRoute('admin/partner', session.api))
+        const partners = (await resPartners.json()).partners
+
+        const resCarouselAbout = await fetch(apiRoute('admin/carousel/?name=about', session.api))
+        const carouselAboutImages = (await resCarouselAbout.json()).images
+
+        const resCarouselLife = await fetch(apiRoute('admin/carousel/?name=life', session.api))
+        const carouselLifeImages = (await resCarouselLife.json()).images
+
+        const resFeatures = await fetch(apiRoute('admin/feature/?type=main', session.api))
+        const features = (await resFeatures.json()).features
+
+        const resPosts = await fetch(apiRoute('admin/post', session.api))
+        const posts = (await resPosts.json()).posts
+
+        const resVideos = await fetch(apiRoute('admin/documents?type=video', session.api))
+        const videos = (await resVideos.json()).documents
+
+        if (resGraduates.ok && resPartners.ok && resCarouselAbout.ok && resCarouselLife.ok && resFeatures.ok && resPosts.ok && resVideos.ok) {
+            return {
+                props: {
+                    graduates,
+                    partners,
+                    carouselAboutImages,
+                    carouselLifeImages,
+                    features,
+                    posts,
+                    videos
+                }
+            }
+        }
+    }
+</script>
+
 <script lang="ts">
     import { onMount } from 'svelte'
     import {
@@ -23,9 +65,13 @@
     import images1 from '$lib/images1'
     import images2 from '$lib/images2'
     import partners from '$lib/partners'
-    import graduates from '$lib/graduates'
+    // import graduates from '$lib/graduates'
     import { getSequentialPartialIndexes } from '$lib/utilities'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
+    import type { GraduateI, PostI } from 'src/types'
+
+    export let posts: PostI[] = []
+    export let graduates: GraduateI[] = []
 
     let showPreloader = true
     let pageLoaded = false
@@ -74,26 +120,19 @@
 </Header>
 <div class="escape-header">
     <Slider let:showPrevPage let:showNextPage duration={ 15 }>
-        <Slide img="/img/slide1-img.jpg">
-            <Heading size={2} className="white-text">Институт новых материалов и технологий УрФУ</Heading>
-            <Text className="heading-3">Актуальная информация о поступлении в университет в 2022 году:</Text>
-            <Link href="/bachelor" variant="interactive" color="white" lineWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
-            <Link href="/master" variant="interactive" color="white" lineWidth={ 2 }>Магистратура</Link><br />
-            <svelte:fragment slot="buttons">
-                <RoundButton theme="bright" size="M" variant="left" on:click={ showPrevPage } />
-                <RoundButton theme="bright" size="M" variant="right" on:click={ showNextPage } />
-            </svelte:fragment>
-        </Slide>
-        <Slide img="/img/slide2-img.jpg">
-            <Heading size={2} className="white-text">Старт приема документов – 20 июня</Heading>
-            <Text className="heading-3">Выбрать направление подготовки и зарегистрироваться в личном кабинете абитуриента можно уже сейчас:</Text>
-            <Link href="/bachelor" variant="interactive" color="white" lineWidth={ 2 }>Бакалавриат и специалитет</Link><br /><br />
-            <Link href="/master" variant="interactive" color="white" lineWidth={ 2 }>Магистратура</Link><br />
-            <svelte:fragment slot="buttons">
-                <RoundButton theme="bright" size="M" variant="left" on:click={ showPrevPage } />
-                <RoundButton theme="bright" size="M" variant="right" on:click={ showNextPage } />
-            </svelte:fragment>
-        </Slide>
+        { #each posts as post (post.id) }
+            <Slide img={ post.img }>
+                <Heading size={2} className="white-text">{ post.title }</Heading>
+                <Text className="heading-3">{ post.text }</Text>
+                { #each post.links as link, i (i) }
+                    <Link href={ link.url } variant="interactive" color="white" lineWidth={ 2 }>{ link.text }</Link><br /><br />
+                { /each }
+                <svelte:fragment slot="buttons">
+                    <RoundButton theme="bright" size="M" variant="left" on:click={ showPrevPage } />
+                    <RoundButton theme="bright" size="M" variant="right" on:click={ showNextPage } />
+                </svelte:fragment>
+            </Slide>
+        { /each }
     </Slider>
     <br />
     <section class="info-1" id="about">
@@ -188,14 +227,14 @@
             <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.5}>Известные выпускники</Heading>
         </div>
         <Carousel margin={0} className="mobile-hide">
-            { @const grad = graduates.filter(graduate => graduate.src.length) }
+            { @const grad = graduates.filter(graduate => graduate.photo.length) }
             { #each getSequentialPartialIndexes(grad, 6) as range }
                 <div class="fill-width">
                     <div class="content">
                         <Grid s={3} m={6} className="my-4" alignItems="stretch">
                             { #each range as i }
                             { @const graduate = grad[i] }
-                                <Graduate headingSize={4} size="S" {...graduate} />
+                                <Graduate headingSize={4} size="S" {...graduate} src={graduate.photo} />
                             { /each }
                         </Grid>
                     </div>
@@ -204,8 +243,8 @@
         </Carousel>
         <div class="content pc-hide">
             <div class="mobile-horizontal-scroll">
-                { #each graduates.filter(graduate => graduate.src.length) as graduate }
-                    <Graduate headingSize={4} inline size="M" {...graduate} />
+                { #each graduates.filter(graduate => graduate.photo.length) as graduate }
+                    <Graduate headingSize={4} inline size="M" {...graduate} src={graduate.photo} />
                 { /each }
             </div>
         </div>

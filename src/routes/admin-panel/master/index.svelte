@@ -365,7 +365,7 @@
         </Form>
         <h3>Опубликованные перечисления</h3>
         {#if featuresPromo.length}
-            <Grid m={3}>
+            <Grid m={3} s={1}>
                 {#each featuresPromo.filter((_, i) => i < 6 || featuresPromoExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
@@ -391,7 +391,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Календарь приёма</h3>
         <Form method="PATCH" action="/api/admin/textinfo?page=master" reset={ false }>
-            <Grid m={2}>
+            <Grid m={2} s={1}>
                 <div>
                     <span>Основной текстовый блок</span>
                     <TipTap name="masterCalendarTextMain" content={pageInfo.masterCalendarTextMain || ''} />
@@ -417,7 +417,7 @@
                     </h2>
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
-                            <Grid m={4}>
+                            <Grid m={4} s={1}>
                                 <div>
                                     <h4>Приём документов</h4>
                                     <div>
@@ -492,7 +492,7 @@
                     </h2>
                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                         <div class="accordion-body">
-                            <Grid m={4}>
+                            <Grid m={4} s={1}>
                                 <div>
                                     <h4>Приём документов</h4>
                                     <div>
@@ -662,7 +662,7 @@
             </label>
             <br />
             <br />
-            <Grid m={2}>
+            <Grid m={2} s={1}>
                 <div>
                     <span>Навыки выпускников</span>
                     <TipTap name="specialistSkills" content={ pageInfo.specialistSkills || '' } />
@@ -800,7 +800,7 @@
         </Form>
         <h3>Опубликованные ответы на вопросы</h3>
         {#if questions.length}
-            <Grid m={3}>
+            <Grid m={3} s={1}>
                 {#each questions.filter((_, i) => i < 6 || questionsExpanded) as question, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">

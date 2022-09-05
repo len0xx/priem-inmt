@@ -1,6 +1,12 @@
 <script lang="ts">
     import { Icon, ScrollToTop, Header, Link } from '$components'
     import { page } from '$app/stores'
+    import { isMobile } from '$lib/stores'
+
+    let innerWidth = 0
+    $: {
+        $isMobile = innerWidth < 768
+    }
 
     // User authorization
     import { session } from '$app/stores'
@@ -43,7 +49,7 @@
     <link rel="stylesheet" href="/admin.css" />
 </svelte:head>
 
-<svelte:window on:scroll={scrollHandler} />
+<svelte:window bind:innerWidth on:scroll={scrollHandler} />
 
 <main>
     <Header hideOnScrollDown={true} showOnScrollUp={true} hideAfter={90}>

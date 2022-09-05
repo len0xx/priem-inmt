@@ -4,11 +4,11 @@
     
     export const load: Load = async ({ fetch, session }) => {
         const resOpportunities = await fetch(apiRoute('admin/opportunity', session.api))
-        // const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor'))
-        // const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
-        // const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor'))
-        // const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo'))
-        // const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor'))
+        // const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor', session.api))
+        // const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
+        // const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor', session.api))
+        // const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
+        // const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor', session.api))
     
         // const documents = (await resDocuments.json()).documents
         // const feedbacks = (await resFeedbacks.json()).feedbacks

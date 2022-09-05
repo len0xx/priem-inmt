@@ -195,7 +195,7 @@
             method={settlement ? 'PATCH' : 'POST'} 
             reset={false}
         >
-            <Grid m={2}>
+            <Grid m={2} s={1}>
                 <div>
                     <label for="name">ФИО</label>
                     <input type="text" class="form-control wide" name="name" value={settlement?.name || ''} required />
@@ -206,7 +206,7 @@
                 </div>
             </Grid>
             <br />
-            <Grid m={2}>
+            <Grid m={2} s={1}>
                 <div>
                     <label for="address">Адрес</label>
                     <input required class="form-control" type="text" value={settlement?.address || ''} name="address" />
@@ -217,7 +217,7 @@
                 </div>
             </Grid>
             <br />
-            <Grid m={2}>
+            <Grid m={2} s={1}>
                 <div>
                     <label for="phone">Номер телефона</label>
                     <input required class="form-control" type="text" value={settlement?.phone || ''} use:imask={ phoneMask } name="phone" />
@@ -294,7 +294,7 @@
             </label>
             <br />
             <br />
-            <Grid m={3}>
+            <Grid m={3} s={1}>
                 <label>
                     <span class="caption">Документ</span><br />
                     <input required class="form-control" type="file" name="file" id="file" />

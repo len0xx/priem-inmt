@@ -111,7 +111,7 @@
         <h3 class="no-top-margin">Ответственные лица института</h3>
         { #if responsibles.length < 10 }
             <Form method="POST" action="/api/admin/responsible" reset={ true } on:success={ showNewResponsible }>
-                <Grid m={2}>
+                <Grid m={2} s={1}>
                     <div>
                         <label for="name">ФИО ответственного лица</label><br />
                         <input class="form-control wide" type="text" name="name" required />

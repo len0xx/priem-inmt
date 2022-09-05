@@ -494,22 +494,21 @@
         <h3 class="no-top-margin">Студенческая жизнь</h3>
         <Grid m={2} s={1} ratio="2:3">
             <Form action="/api/admin/carousel/?name=life" method="POST" on:success={ showNewCarouselLifeImage }>
-                <Grid m={2}>
-                    <label>
-                        <span class="caption">Добавить новое изображение:</span>
-                        {#if carouselLifeImagePath}
-                            <br />
-                            <img width="150px" height="150px" src={carouselLifeImagePath} class="img-fluid mt-3" alt="Изображение в карусели">
-                            <br />
-                        {/if}
-                        <input type="hidden" name="img" value={ carouselLifeImageId }><br />
-                        {#if $isMobile}
-                            <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
-                        {:else}
-                            <button type="button" class="btn btn-outline-success" on:click={ carouselLifeImageModal.open }> { carouselLifeImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
-                        {/if}
-                    </label>
-                </Grid>
+                <label>
+                    <span class="caption">Добавить новое изображение:</span>
+                    {#if carouselLifeImagePath}
+                        <br />
+                        <img width="150px" height="150px" src={carouselLifeImagePath} class="img-fluid mt-3" alt="Изображение в карусели">
+                        <br />
+                    {/if}
+                    <input type="hidden" name="img" value={ carouselLifeImageId }><br />
+                    {#if $isMobile}
+                        <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                    {:else}
+                        <button type="button" class="btn btn-outline-success" on:click={ carouselLifeImageModal.open }> { carouselLifeImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    {/if}
+                </label>
+                <br />
                 <br />
                 <button class="btn btn-primary">Создать</button>
             </Form>

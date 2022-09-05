@@ -18,7 +18,7 @@
             <slot name="text" />
         </Text>
     </div>
-    <div class="bottom">
+    <div class="bottom align-items-end">
         <div class="left">
             <slot name="left" />
         </div>

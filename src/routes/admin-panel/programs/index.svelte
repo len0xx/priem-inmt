@@ -60,9 +60,10 @@
         { #if programsBach.length }
             <Grid s={1} m={2} l={3}>
                 { #each programsBach as program }
-                    <a href="/admin-panel/programs/update/{ program.id }">
+                    <Grid m={1} className="k2if">
                         <ProgramCardNew { program } />
-                    </a>
+                        <a href="/admin-panel/programs/update/{ program.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                    </Grid>
                 { /each }
             </Grid>
         { :else }
@@ -72,9 +73,10 @@
         { #if programsSpec.length }
             <Grid s={1} m={2} l={3}>
                 { #each programsSpec as program }
-                    <a href="/admin-panel/programs/update/{ program.id }">
+                    <Grid m={1} className="k2if">
                         <ProgramCardNew { program } />
-                    </a>
+                        <a href="/admin-panel/programs/update/{ program.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                    </Grid>
                 { /each }
             </Grid>
         { :else }
@@ -84,9 +86,10 @@
         { #if programsMast.length }
             <Grid s={1} m={2} l={3}>
                 { #each programsMast as program }
-                    <a href="/admin-panel/programs/update/{ program.id }">
+                    <Grid m={1} className="k2if">
                         <ProgramCardNew { program } />
-                    </a>
+                        <a href="/admin-panel/programs/update/{ program.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                    </Grid>
                 { /each }
             </Grid>
         { :else }
@@ -94,3 +97,9 @@
         { /if }
     </div>
 </section>
+
+<style>
+    :global(.k2if) {
+        grid-template-rows: auto min-content;
+    }
+</style>

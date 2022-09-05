@@ -1,3 +1,28 @@
+<script context="module" lang="ts">
+    import { apiRoute } from '$lib/utilities'
+    import type { Load } from '@sveltejs/kit'
+    
+    export const load: Load = async ({ fetch, session }) => {
+        const resOpportunities = await fetch(apiRoute('admin/opportunity', session.api))
+        // const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor', session.api))
+        // const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
+        // const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor', session.api))
+        // const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
+        // const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor', session.api))
+    
+        // const documents = (await resDocuments.json()).documents
+        // const feedbacks = (await resFeedbacks.json()).feedbacks
+        const opportunities = (await resOpportunities.json()).opportunities
+        // const featuresPromo = (await resFeaturesPromo.json()).features
+        // const featuresInst = (await resFeaturesInst.json()).features
+        // const info = (await resInfo.json()).info
+
+        if (resOpportunities.ok) {
+            return { props: { opportunities } }
+        }
+    }
+</script>
+
 <script lang="ts">
     import { onMount } from 'svelte'
     import {
@@ -22,6 +47,7 @@
         Announce,
         Document,
         Preloader,
+        Opportunity,
         RoundButton,
         ProgramCard,
         SelectButton,
@@ -35,6 +61,9 @@
     import { formEndpoint, modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { bachelor as feedbacks } from '$lib/feedback'
     import { blur, fly } from 'svelte/transition'
+    import type { OpportunityI } from 'src/types'
+
+    export let opportunities: OpportunityI[] = []
 
     let linkColor: 'white' | 'black' = 'white'
     let programsExpanded = false
@@ -599,7 +628,10 @@
         <Heading size={1} className="blue-text" marginTop={0}>Студенческие <br /> возможности</Heading>
         <div class="mobile-horizontal-scroll">
             <Grid l={6}>
-                <div class="align-center" style:min-width="200px">
+                { #each opportunities as opportunity (opportunity.id) }
+                    <Opportunity {...opportunity} />
+                { /each }
+                <!-- <div class="align-center" style:min-width="200px">
                     <Icon name="blue-star" width={40} height={40} alt="star" />
                     <Text className="semi-bold subtitle">Общежитие</Text>
                     <Text className="semi-bold small" opacity={0.6}>Иногородние студенты, обучающиеся по очной форме, могут получить место в общежитии на время обучения</Text>
@@ -628,7 +660,7 @@
                     <Icon name="blue-star" width={40} height={40} alt="star" />
                     <Text className="semi-bold subtitle">Спорт</Text>
                     <Text className="semi-bold small" opacity={0.6}>Привычные занятия физкультурой можно заменить любимым видом спорта и присоединиться к одной из 20 сборных команд вуза</Text>
-                </div>
+                </div> -->
             </Grid>
         </div>
     </div>

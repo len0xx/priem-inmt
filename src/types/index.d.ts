@@ -17,6 +17,7 @@ export interface TeacherI {
     caption: string
     phone: string
     email: string
+    photo?: string
 }
 
 export type ContentType = 'multipart/form-data' | 'application/x-www-form-urlencoded' | 'text/plain'
@@ -54,7 +55,8 @@ export interface EducationalProgram {
         title: string
         result: string
     }[]
-    text: string
+    text: string,
+    partners: string[]
 }
 
 export interface PostI {

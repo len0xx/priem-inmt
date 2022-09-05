@@ -24,8 +24,11 @@
         const resVideos = await fetch(apiRoute('admin/documents?type=video'))
         const videos = (await resVideos.json()).documents
 
-        if (resGraduates.ok && resPartners.ok && resCarouselAbout.ok && resCarouselLife.ok && resFeatures.ok && resPosts.ok && resVideos.ok) {
-            return { props: { graduates, partners, carouselAboutImages, carouselLifeImages, features, posts, videos } }
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=main'))
+        const info = (await resInfo.json()).info
+
+        if (resGraduates.ok && resPartners.ok && resCarouselAbout.ok && resCarouselLife.ok && resFeatures.ok && resPosts.ok && resVideos.ok && resInfo.ok) {
+            return { props: { graduates, partners, carouselAboutImages, carouselLifeImages, features, posts, videos, info } }
         }
     }
 </script>
@@ -45,6 +48,7 @@
     export let carouselLifeImages: CarouselI[] = []
     export let features: FeatureI[] = []
     export let videos: DocumentI[] = []
+    export let info: Record<string, string> = {}
 
     const totalMobileObjects = 4
 
@@ -433,9 +437,9 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Изображения в&nbsp;карусели «Об&nbsp;институте»</h3>
-        <Form action="/api/admin/carousel/?name=about" method="POST" on:success={ showNewCarouselAboutImage }>
-            <Grid m={2}>
+        <h3 class="no-top-margin">Об институте</h3>
+        <Grid m={2} s={1} ratio="2:3">
+            <Form action="/api/admin/carousel/?name=about" method="POST" on:success={ showNewCarouselAboutImage }>
                 <label>
                     <span class="caption">Добавить новое изображение:</span>
                     {#if carouselAboutImagePath}
@@ -450,10 +454,19 @@
                         <button type="button" class="btn btn-outline-success" on:click={ carouselAboutImageModal.open }> { carouselAboutImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     {/if}
                 </label>
-            </Grid>
-            <br />
-            <button class="btn btn-primary">Создать</button>
-        </Form>
+                <br />
+                <br />
+                <button class="btn btn-primary">Создать</button>
+            </Form>
+            <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
+                <label>
+                    <span class="caption">Текст об институте:</span>
+                    <textarea name="aboutInstituteText" class="form-control wide" rows="6">{ info.aboutInstituteText || '' }</textarea>
+                </label>
+                <br />
+                <button class="btn btn-primary">Сохранить</button>
+            </Form>
+        </Grid>
         <h3>Опубликованные изображения:</h3>
         {#if carouselAboutImages.length}
             <Grid l={3} m={2} s={1}>
@@ -478,27 +491,32 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Изображения в&nbsp;карусели «Студенческая жизнь»</h3>
-        <Form action="/api/admin/carousel/?name=life" method="POST" on:success={ showNewCarouselLifeImage }>
-            <Grid m={2}>
-                <label>
-                    <span class="caption">Добавить новое изображение:</span>
-                    {#if carouselLifeImagePath}
-                        <br />
-                        <img width="150px" height="150px" src={carouselLifeImagePath} class="img-fluid mt-3" alt="Изображение в карусели">
-                        <br />
-                    {/if}
-                    <input type="hidden" name="img" value={ carouselLifeImageId }><br />
-                    {#if $isMobile}
-                        <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
-                    {:else}
+        <h3 class="no-top-margin">Студенческая жизнь</h3>
+        <Grid m={2} s={1} ratio="2:3">
+            <Form action="/api/admin/carousel/?name=life" method="POST" on:success={ showNewCarouselLifeImage }>
+                <Grid m={2}>
+                    <label>
+                        <span class="caption">Добавить новое изображение:</span>
+                        {#if carouselLifeImagePath}
+                            <br />
+                            <img width="150px" height="150px" src={carouselLifeImagePath} class="img-fluid mt-3" alt="Изображение в карусели">
+                            <br />
+                        {/if}
+                        <input type="hidden" name="img" value={ carouselLifeImageId }><br />
                         <button type="button" class="btn btn-outline-success" on:click={ carouselLifeImageModal.open }> { carouselLifeImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
-                    {/if}
+                    </label>
+                </Grid>
+                <br />
+                <button class="btn btn-primary">Создать</button>
+            </Form>
+            <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
+                <label>
+                    <span class="caption">Текст перед изображениями:</span>
+                    <textarea name="studentLifeCaption" class="form-control wide" rows="6" required>{ info.studentLifeCaption || '' }</textarea>
                 </label>
-            </Grid>
-            <br />
-            <button class="btn btn-primary">Создать</button>
-        </Form>
+                <button class="btn btn-primary">Сохранить</button>
+            </Form>
+        </Grid>
         <h3>Опубликованные изображения:</h3>
         {#if carouselLifeImages.length}
             <Grid l={3} m={2} s={1}>
@@ -621,29 +639,43 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Видеозаписи</h3>
-        <p class="text-muted">Максимальный объем видеозаписи должен составлять не более 800 Мб<br />Допустимые форматы: MP4, WEBM, OGG, AVI, MOV, MPEG, MKV</p>
-        <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo }>
-            <label class="wide">
-                <span class="form-label">Название видеозаписи</span>
-                <input type="text" class="form-control wide" placeholder="Название" name="title" required />
-            </label>
-            <br />
-            <br />
-            <Grid m={2}>
+        <Grid m={2} s={1} ratio="3:2">
+            <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo }>
+                <Grid m={1}>
+                    <label class="wide">
+                        <span class="form-label">Название видеозаписи</span>
+                        <input type="text" class="form-control wide" placeholder="Название" name="title" required />
+                    </label>
+                    <Grid m={2}>
+                        <label>
+                            <span class="caption">Видеозапись</span><br />
+                            <input required class="form-control" type="file" name="video" id="video" />
+                        </label>
+                    </Grid>
+                </Grid>
+                <br />
+                <p class="text-muted">
+                    Максимальный объем видеозаписи должен составлять не более 800 Мб
+                    <br />
+                    Допустимые форматы: MP4, WEBM, OGG, AVI, MOV, MPEG, MKV
+                </p>
+                <div class="buttons-row">
+                    {#if videos.length > 3}
+                        <button class="btn btn-primary" disabled>Отправить</button>
+                        <p class="text-muted mt-3">На данный момент загружено максимальное количество видеозаписей – 4. Для того, чтобы загрузить новое видео, необходимо удалить одно из существующих</p>
+                    {:else}
+                        <button class="btn btn-primary">Отправить</button>
+                    {/if}
+                </div>
+            </Form>
+            <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
                 <label>
-                    <span class="caption">Видеозапись</span><br />
-                    <input required class="form-control" type="file" name="video" id="video" />
+                    <span class="caption">Текст под заголовком:</span>
+                    <textarea name="videoText" class="form-control wide" rows="6" required>{ info.videoText || '' }</textarea>
                 </label>
-            </Grid>
-            <div class="buttons-row">
-                {#if videos.length > 3}
-                    <button class="btn btn-primary" disabled>Отправить</button>
-                    <p class="text-muted mt-3">На данный момент загружено максимальное количество видеозаписей – 4. Для того, чтобы загрузить новое видео, необходимо удалить одно из существующих</p>
-                {:else}
-                    <button class="btn btn-primary">Отправить</button>
-                {/if}
-            </div>
-        </Form>
+                <button class="btn btn-primary">Сохранить</button>
+            </Form>
+        </Grid>
         <h3>Опубликованные видеозаписи</h3>
         {#if videos.length}
             <Grid s={1} m={2} l={3} xl={4}>

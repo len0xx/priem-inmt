@@ -503,7 +503,11 @@
                             <br />
                         {/if}
                         <input type="hidden" name="img" value={ carouselLifeImageId }><br />
-                        <button type="button" class="btn btn-outline-success" on:click={ carouselLifeImageModal.open }> { carouselLifeImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        {#if $isMobile}
+                            <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                        {:else}
+                            <button type="button" class="btn btn-outline-success" on:click={ carouselLifeImageModal.open }> { carouselLifeImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        {/if}
                     </label>
                 </Grid>
                 <br />

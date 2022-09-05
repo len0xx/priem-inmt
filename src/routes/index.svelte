@@ -69,8 +69,6 @@
     import { getSequentialPartialIndexes } from '$lib/utilities'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import type { GraduateI, PostI } from 'src/types'
-import { post } from 'jquery'
-import { link } from 'fs';
 
     export let posts: PostI[] = []
     export let graduates: GraduateI[] = []

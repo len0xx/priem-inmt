@@ -24,8 +24,11 @@
         const resVideos = await fetch(apiRoute('admin/documents?type=video'))
         const videos = (await resVideos.json()).documents
 
-        if (resGraduates.ok && resPartners.ok && resCarouselAbout.ok && resCarouselLife.ok && resFeatures.ok && resPosts.ok && resVideos.ok) {
-            return { props: { graduates, partners, carouselAboutImages, carouselLifeImages, features, posts, videos } }
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=main'))
+        const info = (await resInfo.json()).info
+
+        if (resGraduates.ok && resPartners.ok && resCarouselAbout.ok && resCarouselLife.ok && resFeatures.ok && resPosts.ok && resVideos.ok && resInfo.ok) {
+            return { props: { graduates, partners, carouselAboutImages, carouselLifeImages, features, posts, videos, info } }
         }
     }
 </script>
@@ -44,6 +47,7 @@
     export let carouselLifeImages: CarouselI[] = []
     export let features: FeatureI[] = []
     export let videos: DocumentI[] = []
+    export let info: Record<string, string> = {}
 
     let graduateImageModal: ModalComponent = null
     let graduateImageId: number = null
@@ -463,7 +467,15 @@
     </div>
     <br />
     <div class="white-block-wide">
-        <h3 class="no-top-margin">Изображения в&nbsp;карусели «Студенческая жизнь»</h3>
+        <h3 class="no-top-margin">Студенческая жизнь</h3>
+        <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
+            <label>
+                <span class="caption">Текст перед изображениями:</span>
+                <textarea name="studentLifeCaption" class="form-control wide" required>{ info.studentLifeCaption || '' }</textarea>
+            </label>
+            <button class="btn btn-primary">Сохранить</button>
+        </Form>
+        <br />
         <Form action="/api/admin/carousel/?name=life" method="POST" on:success={ showNewCarouselLifeImage }>
             <Grid m={2}>
                 <label>
@@ -598,29 +610,47 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Видеозаписи</h3>
-        <p class="text-muted">Максимальный объем видеозаписи должен составлять не более 800 Мб<br />Допустимые форматы: MP4, WEBM, OGG, AVI, MOV, MPEG, MKV</p>
-        <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo }>
-            <label class="wide">
-                <span class="form-label">Название видеозаписи</span>
-                <input type="text" class="form-control wide" placeholder="Название" name="title" required />
-            </label>
-            <br />
-            <br />
-            <Grid m={2}>
-                <label>
-                    <span class="caption">Видеозапись</span><br />
-                    <input required class="form-control" type="file" name="video" id="video" />
-                </label>
-            </Grid>
-            <div class="buttons-row">
-                {#if videos.length > 3}
-                    <button class="btn btn-primary" disabled>Отправить</button>
-                    <p class="text-muted mt-3">На данный момент загружено максимальное количество видеозаписей – 4. Для того, чтобы загрузить новое видео, необходимо удалить одно из существующих</p>
-                {:else}
-                    <button class="btn btn-primary">Отправить</button>
-                {/if}
+        <Grid m={2} s={1} ratio="3:2">
+            <div>
+                <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo }>
+                    <Grid m={1}>
+                        <label class="wide">
+                            <span class="form-label">Название видеозаписи</span>
+                            <input type="text" class="form-control wide" placeholder="Название" name="title" required />
+                        </label>
+                        <Grid m={2}>
+                            <label>
+                                <span class="caption">Видеозапись</span><br />
+                                <input required class="form-control" type="file" name="video" id="video" />
+                            </label>
+                        </Grid>
+                    </Grid>
+                    <br />
+                    <p class="text-muted">
+                        Максимальный объем видеозаписи должен составлять не более 800 Мб
+                        <br />
+                        Допустимые форматы: MP4, WEBM, OGG, AVI, MOV, MPEG, MKV
+                    </p>
+                    <div class="buttons-row">
+                        {#if videos.length > 3}
+                            <button class="btn btn-primary" disabled>Отправить</button>
+                            <p class="text-muted mt-3">На данный момент загружено максимальное количество видеозаписей – 4. Для того, чтобы загрузить новое видео, необходимо удалить одно из существующих</p>
+                        {:else}
+                            <button class="btn btn-primary">Отправить</button>
+                        {/if}
+                    </div>
+                </Form>
             </div>
-        </Form>
+            <div>
+                <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
+                    <label>
+                        <span class="caption">Текст под заголовком:</span>
+                        <textarea name="videoText" class="form-control wide" rows="6" required>{ info.videoText || '' }</textarea>
+                    </label>
+                    <button class="btn btn-primary">Сохранить</button>
+                </Form>
+            </div>
+        </Grid>
         <h3>Опубликованные видеозаписи</h3>
         {#if videos.length}
             <Grid s={1} m={2} l={3} xl={4}>

@@ -26,6 +26,7 @@
     import { Form, Grid, Modal, Benefit, RoundButton, Profile, FileSelect, TipTap, Switch } from '$components'
     import { range } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
+    import { isMobile } from '$lib/stores.js'
     import type { FeatureI, FeedbackI, ProfessionI, QuestionI, ModalComponent } from '../../../types'
 
     export let pageInfo: Record<string, string> = {}
@@ -35,6 +36,8 @@
     export let questions: QuestionI[] = []
     export let featuresPromo: FeatureI[] = []
     export let specialistFeatures: FeatureI[] = []
+
+    const totalMobileObjects = 4
 
     let isFormContract = false
 
@@ -365,8 +368,8 @@
         </Form>
         <h3>Опубликованные перечисления</h3>
         {#if featuresPromo.length}
-            <Grid m={3} s={1}>
-                {#each featuresPromo.filter((_, i) => i < 6 || featuresPromoExpanded) as feature, i (i)}
+            <Grid l={3} m={2} s={1}>
+                {#each featuresPromo.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || featuresPromoExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
                             <Benefit num={feature.title} caption={feature.description} />
@@ -377,7 +380,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !featuresPromoExpanded && featuresPromo.length > 6}
+            {#if !featuresPromoExpanded && featuresPromo.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => featuresPromoExpanded = true} />
@@ -630,8 +633,8 @@
         </Form>
         <h3>Опубликованные профессии</h3>
         {#if professions.length}
-            <Grid m={3} s={1}>
-                {#each professions.filter((_, i) => i < 6 || professionsExpanded) as profession, i (i)}
+            <Grid l={3} m={2} s={1}>
+                {#each professions.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || professionsExpanded) as profession, i (i)}
                         <div class="card" transition:blur|local={{ duration: 200 }}>
                             <div class="card-body">
                                 <h4 class="card-title">{ profession.title }</h4>
@@ -642,7 +645,7 @@
                         </div>
                 {/each}
             </Grid>
-            {#if !professionsExpanded && professions.length > 6}
+            {#if !professionsExpanded && professions.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => professionsExpanded = true} />
@@ -693,8 +696,8 @@
         </Form>
         <h4>Опубликованные преимущества</h4>
         {#if specialistFeatures.length}
-            <Grid m={3}>
-                {#each specialistFeatures.filter((_, i) => i < 6 || specialistFeaturesExpanded) as feature, i (i)}
+            <Grid l={3} m={2} s={1}>
+                {#each specialistFeatures.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || specialistFeaturesExpanded) as feature, i (i)}
                         <div class="card" transition:blur|local={{ duration: 200 }}>
                             <div class="card-body">
                                 <Benefit num={feature.title} caption={feature.description} />
@@ -705,7 +708,7 @@
                         </div>
                 {/each}
             </Grid>
-            {#if !specialistFeaturesExpanded && specialistFeatures.length > 6}
+            {#if !specialistFeaturesExpanded && specialistFeatures.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => specialistFeaturesExpanded = true} />
@@ -741,7 +744,11 @@
                             <br />
                         {/if}
                         <input type="hidden" name="img" value={ feedbackImageId }><br />
-                        <button type="button" class="btn btn-outline-success" on:click={ feedbackImageModal.open }> { feedbackImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        {#if $isMobile}
+                            <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                        {:else}
+                            <button type="button" class="btn btn-outline-success" on:click={ feedbackImageModal.open }> { feedbackImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        {/if}
                     </label>
                 </div>
                 <div>
@@ -756,8 +763,8 @@
         </Form>
         <h3>Опубликованные отзывы</h3>
         {#if feedbacks.length}
-            <Grid m={3} s={1}>
-                {#each feedbacks.filter((_, i) => i < 6 || feedbacksExpanded) as feedback, i (i)}
+            <Grid xl={3} l={2} m={1} s={1}>
+                {#each feedbacks.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || feedbacksExpanded) as feedback, i (i)}
                     <div transition:blur|local={{ duration: 200 }}>
                         <Profile variant="grey" img={ feedback.img }>
                             <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
@@ -771,7 +778,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !feedbacksExpanded && feedbacks.length > 6}
+            {#if !feedbacksExpanded && feedbacks.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => feedbacksExpanded = true} />
@@ -800,8 +807,8 @@
         </Form>
         <h3>Опубликованные ответы на вопросы</h3>
         {#if questions.length}
-            <Grid m={3} s={1}>
-                {#each questions.filter((_, i) => i < 6 || questionsExpanded) as question, i (i)}
+            <Grid l={3} m={2} s={1}>
+                {#each questions.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || questionsExpanded) as question, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
                             <h4 class="card-title">{ question.text }</h4><br />
@@ -811,7 +818,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !questionsExpanded && questions.length > 6}
+            {#if !questionsExpanded && questions.length > ($isMobile ? totalMobileObjects : 6)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => questionsExpanded = true} />

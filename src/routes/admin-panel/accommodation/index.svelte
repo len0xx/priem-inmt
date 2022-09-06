@@ -304,7 +304,7 @@
             <Grid m={3} s={1}>
                 <label>
                     <span class="caption">Документ</span><br />
-                    <input required class="form-control" type="file" name="file" id="file" />
+                    <input required class="form-control" type="file" name="file" id="file" accept=".pdf, .doc, .docx, .xls, .xlsx, .jpg, .jpeg, .png, .svg"/>
                 </label>
             </Grid>
             <div class="buttons-row">

@@ -156,7 +156,6 @@
             paidPlaces += value.vacantSpots.contract
         }
 
-        // const degreeFilter = ['Бакалавриат', 'Специалитет'].includes(program.degree)
         const modeFilter = selectedEducationModes.length ? selectedEducationModes.filter(value => Object.keys(program.educationModes).map(key => modeToText[key]).includes(value)).length > 0 : true
         const languageFilter = selectedLanguages.length ? selectedLanguages.filter(value => Object.values(program.educationModes).map(val => val.languages).join(', ').includes(value)).length > 0 : true
         const payFilter = selectedPayModes.length ? (selectedPayModes.includes('Бюджет') ? budgetPlaces > 0 : false) || (selectedPayModes.includes('Контракт') ? paidPlaces > 0 : false) : true
@@ -343,7 +342,7 @@
             <Grid l={3} m={2} s={1}>
                 { #each programsFiltered as program, i (program.id) }
                     { #if i < 6 || programsExpanded }
-                        <div transition:blur={{ duration: 200 }}>
+                        <div transition:blur={{ duration: 200 }} class="grid">
                             <ProgramCardNew on:click={ () => openProgram(i) } { program } />
                         </div>
                         { #if programActive[i] }

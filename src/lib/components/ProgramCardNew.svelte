@@ -33,9 +33,3 @@
     </span>
     <svelte:fragment slot="right">от { program.educationModes[Object.keys(program.educationModes)[activeMode]].price }₽</svelte:fragment>
 </Card>
-
-<style>
-    :global(.gh7u) {
-        cursor: default !important;
-    }
-</style>

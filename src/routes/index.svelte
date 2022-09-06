@@ -65,13 +65,13 @@
     import images1 from '$lib/images1'
     import images2 from '$lib/images2'
     import partners from '$lib/partners'
-    // import graduates from '$lib/graduates'
+    import graduates from '$lib/graduates'
     import { getSequentialPartialIndexes } from '$lib/utilities'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import type { GraduateI, PostI } from 'src/types'
+    import type { PostI } from 'src/types'
 
     export let posts: PostI[] = []
-    export let graduates: GraduateI[] = []
+    // export let graduates: GraduateI[] = []
 
     let showPreloader = true
     let pageLoaded = false

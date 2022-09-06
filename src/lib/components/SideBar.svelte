@@ -1,26 +1,29 @@
 <script lang="ts">
     import { Text, Heading, Grid, Button, Partner, Profile, Rainbow } from '.'
     import { createEventDispatcher, onMount } from 'svelte'
-    import type { EducationMode, Degree, Exam, Teacher, Feedback } from '$lib/programs'
+    import type { Degree, Exam } from '$lib/programs'
+    import type { TeacherI, ProgramFeedbackI, EducationModesI } from '../../types'
+
+    const modeToText = {
+        partTime: 'Заочно',
+        partFullTime: 'Очно-заочно',
+        fullTime: 'Очно'
+    }
 
     const dispatch = createEventDispatcher()
 
-    export let title: string
-    export let vacantSpots: [string, string][]
-    export let price: string[]
-    export let text: string
+    export let title: string // 1
+    export let text: string // 1
     export let hidden = true
-    export let partners: string[] = []
-    export let languages: string[]
-    export let directions: string[] = []
-    export let duration: string[]
-    export let degree: Degree
-    export let feedbacks: Feedback[] = []
-    export let educationModes: EducationMode[]
-    export let exams: Exam[] = []
-    export let teacher: Teacher
+    export let partners: string[] = [] // 1
+    export let directions: string[] = [] // 1
+    export let degree: Degree // 1
+    export let feedbacks: ProgramFeedbackI[] = [] // 1
+    export let educationModes: EducationModesI
+    export let exams: Exam[] = [] // 1
+    export let teacher: TeacherI // 1
 
-    let activeMode = 0
+    let activeMode = Object.keys(educationModes).includes('fullTime') ? 'fullTime' : Object.keys(educationModes)[0]
 
     const emitApplying = () => dispatch('apply')
 
@@ -45,16 +48,16 @@
                         <div>
                             <h3>{ title }</h3>
                             <div class="pills">
-                                { #each educationModes as mode, i }
-                                    <div class="pill" class:active={ activeMode == i } on:click={() => activeMode = i}>{ mode }</div>
+                                { #each Object.keys(educationModes) as mode, i (i) }
+                                    <div class="pill" class:active={ activeMode == mode } on:click={() => activeMode = mode}>{ modeToText[mode] }</div>
                                 { /each }
                             </div>
                         </div>
                         <div>
                             <ul>
-                                <li>{ vacantSpots[activeMode][0] } бюджетных мест</li>
-                                <li>{ vacantSpots[activeMode][1] } контрактных мест</li>
-                                <li>{ price[activeMode] } в год</li>
+                                <li>{ educationModes[activeMode].vacantSpots.budget } бюджетных мест</li>
+                                <li>{ educationModes[activeMode].vacantSpots.contract } контрактных мест</li>
+                                <li>{ educationModes[activeMode].price } в год</li>
                             </ul>
                         </div>
                     </div>
@@ -94,7 +97,7 @@
                             <h3 class="blue-text">{ teacher.name }</h3>
                             <p>Руководитель программы</p>
                             <p class="semi-transparent">
-                                { @html teacher.position }
+                                { @html teacher.caption }
                             </p>
                             <p>
                                 <a href="mailto:{ teacher.email }" class="link blue-color">{ teacher.email }</a>
@@ -120,11 +123,11 @@
                             </p>
                             <p>
                                 <span class="semi-transparent">Срок обучения:</span><br />
-                                { duration[activeMode] }
+                                { educationModes[activeMode].duration }
                             </p>
                             <p>
                                 <span class="semi-transparent">Язык освоения:</span><br />
-                                { languages.filter((lang, pos) => languages.indexOf(lang) == pos).join(', ') }
+                                { educationModes[activeMode].languages }
                             </p>
                         </div>
                         <Rainbow size="S" fixed="bottom" />
@@ -139,9 +142,9 @@
                     <h3 class="blue-text">Отзывы</h3>
                     <div class="feedbacks">
                         { #each feedbacks as feedback }
-                            <Profile variant="white">
+                            <Profile variant="white" img={ feedback.img || null }>
                                 <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                                <svelte:fragment slot="description">{ feedback.position }</svelte:fragment>
+                                <svelte:fragment slot="description">{ feedback.caption }</svelte:fragment>
                                 <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
                             </Profile>
                         { /each }

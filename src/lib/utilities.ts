@@ -1,7 +1,6 @@
 import { ajax } from 'jquery'
 import axios, { type AxiosRequestConfig } from 'axios'
-import type { RESTMethod, DefaultAJAXResponse, ContentType } from '../types'
-import type { Program } from './programs'
+import type { RESTMethod, DefaultAJAXResponse, ContentType, EducationalProgram, EducationModesI } from '../types'
 
 export const DOMAIN_NAME = 'inmt-priem.urfu.ru'
 export const BASE_DOMAIN = 'https://' + DOMAIN_NAME
@@ -173,21 +172,21 @@ export const encodeQuery = (data: Record<string, string>): string => {
     return ret.join('&')
 }
 
-export const sortByName = (a: Program, b: Program): number => {
+export const sortByName = (a: EducationalProgram, b: EducationalProgram): number => {
     if (a.title < b.title) return -1
     if (a.title > b.title) return 1
     return 0
 }
 
-export const countPlaces = (places: string[][]): number => {
+export const countPlaces = (modes: EducationModesI): number => {
     let total = 0
-    places.forEach(modePlaces => total += modePlaces.reduce((acc: number, cur: string) => acc + +cur, 0))
+    Object.values(modes).forEach(mode => total += mode.vacantSpots.budget + mode.vacantSpots.contract)
     return total
 }
 
-export const sortByPlaces = (a: Program, b: Program): number => {
-    if (countPlaces(a.vacantSpots) > countPlaces(b.vacantSpots)) return -1
-    if (countPlaces(a.vacantSpots) < countPlaces(b.vacantSpots)) return 1
+export const sortByPlaces = (a: EducationalProgram, b: EducationalProgram): number => {
+    if (countPlaces(a.educationModes) > countPlaces(b.educationModes)) return -1
+    if (countPlaces(a.educationModes) < countPlaces(b.educationModes)) return 1
     return 0
 }
 
@@ -199,9 +198,9 @@ export const getPriceNumber = (price: string): number => {
     return +nums
 }
 
-export const sortByPrice = (a: Program, b: Program): number => {
-    if (getPriceNumber(a.price[0]) < getPriceNumber(b.price[0])) return -1
-    if (getPriceNumber(a.price[0]) > getPriceNumber(b.price[0])) return 1
+export const sortByPrice = (a: EducationalProgram, b: EducationalProgram): number => {
+    if (getPriceNumber(a.educationModes.fullTime.price) < getPriceNumber(b.educationModes.fullTime.price)) return -1
+    if (getPriceNumber(a.educationModes.fullTime.price) > getPriceNumber(b.educationModes.fullTime.price)) return 1
     return 0
 }
 

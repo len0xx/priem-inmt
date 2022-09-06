@@ -30,7 +30,7 @@ export const requireAuthorization = (response: 'redirect' | 'json' = 'json') => 
     const payload = response == 'json' ? 'У вас нет доступа к этому ресурсу' : '/admin-panel-auth/login'
 
     return (req: CustomRequest, res: Response, next: NextFunction) => {
-        if (req.user && req.user.role !== requiredRole) 
+        if (req.user && req.user.role !== requiredRole)
             return new HTTPResponse(res, HTTPStatus.FORBIDDEN, { error: 'You are not allowed to access this page' })
 
         if (!(req.user && req.user instanceof User))

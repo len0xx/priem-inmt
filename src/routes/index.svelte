@@ -176,19 +176,28 @@
                 <a href="/bachelor">
                     <NewsCard img="/img/bachelor-inmt.jpg">
                         <svelte:fragment slot="title">Бакалавриат и специалитет</svelte:fragment>
-                        <Text marginY={0}><span class="red-text">19</span> <span class="semi-transparent">образовательных программ</span></Text>
+                        <Text marginY={0}>
+                            <span class="red-text">19</span>
+                            <span class="semi-transparent">образовательных программ</span>
+                        </Text>
                     </NewsCard>
                 </a>
                 <a href="/master">
                     <NewsCard img="/img/master-inmt.jpg">
                         <svelte:fragment slot="title">Магистратура</svelte:fragment>
-                        <Text marginY={0}><span class="red-text">26</span> <span class="semi-transparent">образовательных программ</span></Text>
+                        <Text marginY={0}>
+                            <span class="red-text">26</span>
+                            <span class="semi-transparent">образовательных программ</span>
+                        </Text>
                     </NewsCard>
                 </a>
                 <a href="https://aspirant.urfu.ru/ru/aspirantura/" target="_BLANK">
                     <NewsCard img="/img/postgraduate-inmt.jpg">
                         <svelte:fragment slot="title">Аспирантура</svelte:fragment>
-                        <Text marginY={0}><span class="red-text">21</span> <span class="semi-transparent">образовательная программа</span></Text>
+                        <Text marginY={0}>
+                            <span class="red-text">21</span>
+                            <span class="semi-transparent">образовательная программа</span>
+                        </Text>
                     </NewsCard>
                 </a>
             </Grid>

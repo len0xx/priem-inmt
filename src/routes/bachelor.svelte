@@ -6,19 +6,21 @@
         const resOpportunities = await fetch(apiRoute('admin/opportunity', session.api))
         // const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor', session.api))
         // const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
-        // const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor', session.api))
+        const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor', session.api))
         // const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
         // const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor', session.api))
+        const resPrograms = await fetch(apiRoute('admin/programs?degree=bachelor', session.api))
     
         // const documents = (await resDocuments.json()).documents
         // const feedbacks = (await resFeedbacks.json()).feedbacks
         const opportunities = (await resOpportunities.json()).opportunities
-        // const featuresPromo = (await resFeaturesPromo.json()).features
+        const featuresPromo = (await resFeaturesPromo.json()).features
         // const featuresInst = (await resFeaturesInst.json()).features
         // const info = (await resInfo.json()).info
+        const programs = (await resPrograms.json()).programs
 
-        if (resOpportunities.ok) {
-            return { props: { opportunities } }
+        if (resOpportunities.ok && resFeaturesPromo.ok && resPrograms.ok) {
+            return { props: { opportunities, featuresPromo, programs } }
         }
     }
 </script>
@@ -49,21 +51,23 @@
         Preloader,
         Opportunity,
         RoundButton,
-        ProgramCard,
         SelectButton,
         ScrollingPhoto,
+        ProgramCardNew
     } from '$components'
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
-    import programs, { type EducationMode, type Program } from '$lib/programs'
     import images from '$lib/images3'
     import partners from '$lib/partners'
     import documents from '$lib/documents'
     import { formEndpoint, modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { bachelor as feedbacks } from '$lib/feedback'
     import { blur, fly } from 'svelte/transition'
-    import type { OpportunityI } from 'src/types'
+    import type { EducationMode } from '$lib/programs'
+    import type { FeatureI, OpportunityI, EducationalProgram } from 'src/types'
 
     export let opportunities: OpportunityI[] = []
+    export let featuresPromo: FeatureI[] = []
+    export let programs: EducationalProgram[] = []
 
     let linkColor: 'white' | 'black' = 'white'
     let programsExpanded = false
@@ -137,18 +141,29 @@
         resetFormResults()
     }
 
-    const applyFilters = (program: Program, selectedEducationModes: EducationMode[], selectedPayModes: string[], selectedLanguages: string[], selectedExams: string[], searchString: string): boolean => {
-        const budgetPlaces = program.vacantSpots.reduce((acc: number, cur: string[]) => acc + +cur[0], 0)
-        const paidPlaces = program.vacantSpots.reduce((acc: number, cur: string[]) => acc + +cur[1], 0)
+    const modeToText = {
+        partTime: 'Заочно',
+        partFullTime: 'Очно-заочно',
+        fullTime: 'Очно'
+    }
 
-        const degreeFilter = ['Бакалавриат', 'Специалитет'].includes(program.degree)
-        const modeFilter = selectedEducationModes.length ? selectedEducationModes.filter(value => program.educationModes.includes(value)).length > 0 : true
-        const languageFilter = selectedLanguages.length ? selectedLanguages.filter(value => program.languages.includes(value)).length > 0 : true
+    const applyFilters = (program: EducationalProgram, selectedEducationModes: EducationMode[], selectedPayModes: string[], selectedLanguages: string[], selectedExams: string[], searchString: string): boolean => {
+        let budgetPlaces = 0
+        let paidPlaces = 0
+
+        for (const value of Object.values(program.educationModes)) {
+            budgetPlaces += value.vacantSpots.budget
+            paidPlaces += value.vacantSpots.contract
+        }
+
+        // const degreeFilter = ['Бакалавриат', 'Специалитет'].includes(program.degree)
+        const modeFilter = selectedEducationModes.length ? selectedEducationModes.filter(value => Object.keys(program.educationModes).map(key => modeToText[key]).includes(value)).length > 0 : true
+        const languageFilter = selectedLanguages.length ? selectedLanguages.filter(value => Object.values(program.educationModes).map(val => val.languages).join(', ').includes(value)).length > 0 : true
         const payFilter = selectedPayModes.length ? (selectedPayModes.includes('Бюджет') ? budgetPlaces > 0 : false) || (selectedPayModes.includes('Контракт') ? paidPlaces > 0 : false) : true
         const examsFilter = program.exams && selectedExams.length ? selectedExams.filter(value => program.exams.map(exam => exam.title).includes(value)).length > 0 : true
         const searchFilter = searchString ? program.title.toLowerCase().includes(searchString.toLowerCase()) : true
 
-        return modeFilter && languageFilter && payFilter && examsFilter && degreeFilter && searchFilter
+        return modeFilter && languageFilter && payFilter && examsFilter && searchFilter
     }
 
     $: programsFiltered = programs.filter(
@@ -256,9 +271,12 @@
 <section id="benefits">
     <div class="content">
         <Grid l={4} m={2}>
-            <Benefit num="1 128" caption="Бюджетных мест по программам бакалавриата и специалитета" />
+            { #each featuresPromo as feature (feature.id) }
+                <Benefit num={feature.title} caption={feature.description} />
+            { /each }
+            <!-- <Benefit num="1 128" caption="Бюджетных мест по программам бакалавриата и специалитета" />
             <Benefit num="123" caption="Контрактных мест по программам бакалавриата и специалитета" />
-            <Benefit num="20 июня" caption="Начало приема документов в приемной комиссии УрФУ" />
+            <Benefit num="20 июня" caption="Начало приема документов в приемной комиссии УрФУ" /> -->
         </Grid>
     </div>
 </section>
@@ -326,7 +344,7 @@
                 { #each programsFiltered as program, i (program.id) }
                     { #if i < 6 || programsExpanded }
                         <div transition:blur={{ duration: 200 }}>
-                            <ProgramCard on:click={ () => openProgram(i) } { program } />
+                            <ProgramCardNew on:click={ () => openProgram(i) } { program } />
                         </div>
                         { #if programActive[i] }
                             <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); $modal.open()}} bind:hidden={programOpened[i]} {...program} />

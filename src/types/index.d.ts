@@ -38,6 +38,13 @@ export interface EducationModesI {
     fullTime?: EducationModeI
 }
 
+export interface ProgramFeedbackI {
+    name: string
+    caption: string
+    text: string
+    img: string
+}
+
 export interface EducationalProgram {
     id: number
     title: string
@@ -45,12 +52,7 @@ export interface EducationalProgram {
     educationModes: EducationModesI
     directions: string[]
     teacher: TeacherI
-    feedbacks: {
-        name: string
-        caption: string
-        text: string
-        img: string
-    }[]
+    feedbacks: ProgramFeedbackI[]
     exams: {
         title: string
         result: string

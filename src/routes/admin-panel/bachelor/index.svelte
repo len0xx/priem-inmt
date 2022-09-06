@@ -2,13 +2,13 @@
     import { apiRoute } from '$lib/utilities'
     import type { Load } from '@sveltejs/kit'
     
-    export const load: Load = async ({ fetch }) => {
-        const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor'))
-        const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
-        const resOpportunities = await fetch(apiRoute('admin/opportunity'))
-        const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor'))
-        const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo'))
-        const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor'))
+    export const load: Load = async ({ fetch, session }) => {
+        const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor', session.api))
+        const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
+        const resOpportunities = await fetch(apiRoute('admin/opportunity', session.api))
+        const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor', session.api))
+        const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor', session.api))
     
         const documents = (await resDocuments.json()).documents
         const feedbacks = (await resFeedbacks.json()).feedbacks
@@ -30,6 +30,7 @@
     import type { DocumentI, FeatureI, OpportunityI, FeedbackI, ModalComponent } from '../../../types'
 
     export let pageInfo: Record<string, string> = {}
+    
     const calendar = pageInfo['bachelorCalendar'] ? JSON.parse(pageInfo['bachelorCalendar']) : null
     export let documents: DocumentI[] = []
     export let feedbacks: FeedbackI[] = []

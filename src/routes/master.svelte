@@ -1,3 +1,30 @@
+<script context="module" lang="ts">
+    import { apiRoute } from '$lib/utilities'
+    import type { Load } from '@sveltejs/kit'
+    
+    export const load: Load = async ({ fetch, session }) => {
+        // const resOpportunities = await fetch(apiRoute('admin/opportunity', session.api))
+        // const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor', session.api))
+        // const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
+        // const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=master', session.api))
+        // const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
+        // const resInfo = await fetch(apiRoute('admin/textinfo/?page=master', session.api))
+        const resPrograms = await fetch(apiRoute('admin/programs?degree=master', session.api))
+    
+        // const documents = (await resDocuments.json()).documents
+        // const feedbacks = (await resFeedbacks.json()).feedbacks
+        // const opportunities = (await resOpportunities.json()).opportunities
+        // const featuresPromo = (await resFeaturesPromo.json()).features
+        // const featuresInst = (await resFeaturesInst.json()).features
+        // const info = (await resInfo.json()).info
+        const programs = (await resPrograms.json()).programs
+
+        if (resPrograms.ok) {
+            return { props: { programs } }
+        }
+    }
+</script>
+
 <script lang="ts">
     import { onMount } from 'svelte'
     import {
@@ -22,11 +49,10 @@
         Profession,
         Expandable,
         RoundButton,
-        ProgramCard,
+        ProgramCardNew,
         SelectButton
     } from '$components'
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
-    import programs, { type EducationMode, type Program } from '$lib/programs'
     import images from '$lib/images3'
     import partners from '$lib/partners'
     import professions from '$lib/professions'
@@ -34,6 +60,10 @@
     import { master as feedbacks } from '$lib/feedback'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { blur, fly } from 'svelte/transition'
+    import type { EducationMode } from '$lib/programs'
+    import type { EducationalProgram } from '../types'
+
+    export let programs: EducationalProgram[] = []
 
     let programsExpanded = false
     let professionsExpanded = false
@@ -96,15 +126,26 @@
         }, 200)
     }
     
-    const applyFilters = (program: Program, selectedEducationModes: EducationMode[], selectedPayModes: string[], selectedLanguages: string[], searchString: string): boolean => {
-        const budgetPlaces = program.vacantSpots.reduce((acc: number, cur: string[]) => acc + +cur[0], 0)
-        const paidPlaces = program.vacantSpots.reduce((acc: number, cur: string[]) => acc + +cur[1], 0)
+    const modeToText = {
+        partTime: 'Заочно',
+        partFullTime: 'Очно-заочно',
+        fullTime: 'Очно'
+    }
+
+    const applyFilters = (program: EducationalProgram, selectedEducationModes: EducationMode[], selectedPayModes: string[], selectedLanguages: string[], searchString: string): boolean => {
+        let budgetPlaces = 0
+        let paidPlaces = 0
+
+        for (const value of Object.values(program.educationModes)) {
+            budgetPlaces += value.vacantSpots.budget
+            paidPlaces += value.vacantSpots.contract
+        }
 
         const degreeFilter = ['Магистратура'].includes(program.degree)
-        const modeFilter = selectedEducationModes.length ? selectedEducationModes.filter(value => program.educationModes.includes(value)).length > 0 : true
-        const languageFilter = selectedLanguages.length ? selectedLanguages.filter(value => program.languages.includes(value)).length > 0 : true
-        const searchFilter = searchString ? program.title.toLowerCase().includes(searchString.toLowerCase()) : true
+        const modeFilter = selectedEducationModes.length ? selectedEducationModes.filter(value => Object.keys(program.educationModes).map(key => modeToText[key]).includes(value)).length > 0 : true
+        const languageFilter = selectedLanguages.length ? selectedLanguages.filter(value => Object.values(program.educationModes).map(val => val.languages).join(', ').includes(value)).length > 0 : true
         const payFilter = selectedPayModes.length ? (selectedPayModes.includes('Бюджет') ? budgetPlaces > 0 : false) || (selectedPayModes.includes('Контракт') ? paidPlaces > 0 : false) : true
+        const searchFilter = searchString ? program.title.toLowerCase().includes(searchString.toLowerCase()) : true
 
         return modeFilter && languageFilter && payFilter && degreeFilter && searchFilter
     }
@@ -461,7 +502,7 @@
                 { #each programsFiltered as program, i (program.id) }
                     { #if i < 6 || programsExpanded }
                         <div transition:blur={{ duration: 200 }}>
-                            <ProgramCard on:click={ () => openProgram(i) } { program } />
+                            <ProgramCardNew on:click={ () => openProgram(i) } { program } />
                         </div>
                         { #if programActive[i] }
                             <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); $modal.open()}} bind:hidden={programOpened[i]} {...program} />

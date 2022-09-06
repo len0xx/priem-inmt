@@ -56,6 +56,9 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         phone: requestData.teacher_phone,
         email: requestData.teacher_email
     }
+    if (previuosProgramState.teacher.photo && !requestData.teacher_photo) {
+        teacher.photo = previuosProgramState.teacher.photo
+    }
 
     const feedbacks = []
     for (let i = 1; i <= 2; i++) {
@@ -87,9 +90,6 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
                 newFeedback.img = previuosFeedbackState.img
             }
             feedbacks.push(newFeedback)
-        }
-        else if (i == 1) {
-            return new HTTPResponse(res, HTTPStatus.BAD_REQUEST, 'Отзыв должен содержать как минимум имя и текст. Для того, чтобы очистить отзыв, просто очистите все поля')
         }
     }
 

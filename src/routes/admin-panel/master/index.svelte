@@ -408,7 +408,7 @@
             <button class="btn btn-primary">Сохранить</button>
         </Form>
         <br />
-        <form on:submit={calendarSubmit}>
+        <form on:submit|preventDefault={calendarSubmit}>
             <Switch left="Бюджет" right="Контракт" on:change={handleForm} />
             <br />
             <div class="accordion">

@@ -652,7 +652,7 @@
                     <Grid m={2}>
                         <label>
                             <span class="caption">Видеозапись</span><br />
-                            <input required class="form-control" type="file" name="video" id="video" />
+                            <input required class="form-control" type="file" name="video" id="video" accept=".mp4, .webm, .ogg, .avi, .mov, .mpeg, .mkv"/>
                         </label>
                     </Grid>
                 </Grid>

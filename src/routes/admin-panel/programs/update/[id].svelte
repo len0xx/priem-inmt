@@ -18,6 +18,7 @@
     import { Form, Grid, Modal, RoundButton, TipTap, FileSelect } from '$lib/components'
     import { DegreeLevel } from '../../../../types/enums'
     import { range, redirect } from '$lib/utilities'
+    import { isMobile } from '$lib/stores'
     import { slide, blur } from 'svelte/transition'
     import type { EducationalProgram, ModalComponent } from '../../../../types'
 
@@ -26,6 +27,10 @@
     let imageModals: ModalComponent[] = []
     let imageIds: number[] = []
     let imagePaths: string[] = []
+    
+    let teacherImageModal: ModalComponent = null
+    let teacherImageId: number = null
+    let teacherImagePath: string = null
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000',
@@ -84,6 +89,12 @@
         imageIds[1] = event.detail.id
         imagePaths[1] = event.detail.path
     }
+
+    const teacherImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        teacherImageId = event.detail.id
+        teacherImagePath = event.detail.path
+    }
+
     console.log(`FirstImagePath: ${imagePaths[0]}`)
     console.log(`SecondImagePath: ${imagePaths[1]}`)
 </script>
@@ -103,6 +114,8 @@
 <FileSelect bind:modal={ imageModals[0] } on:save={ firstImageSelected } />
 
 <FileSelect bind:modal={ imageModals[1] } on:save={ secondImageSelected } />
+
+<FileSelect bind:modal={ teacherImageModal } on:save={ teacherImageSelected } />
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -327,7 +340,24 @@
                         />
                     </div>
                 </div>
-                <div />
+                <div>
+                    <label for="teacher_photo">Фотография:</label><br />
+                    {#if teacherImagePath}
+                        <!-- svelte-ignore a11y-missing-attribute -->
+                        <img width="150px" height="150px" src={teacherImagePath} class="img-fluid mt-3">
+                        <br />
+                    {:else}
+                        <!-- svelte-ignore a11y-missing-attribute -->
+                        <img width="150px" height="150px" src={program.teacher.photo} class="img-fluid mt-3">
+                        <br />
+                    {/if}
+                    <input type="hidden" name="teacher_photo" value={ teacherImageId }><br />
+                    {#if $isMobile}
+                        <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                    {:else}
+                        <button type="button" class="btn btn-outline-success" on:click={ teacherImageModal.open }> { teacherImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    {/if}
+                </div>
             </Grid>
             <h3>Описание программы</h3>
             <div>
@@ -368,7 +398,11 @@
                                 <br />
                             { /if }
                             <input type="hidden" name="feedback_img{i}" value={ imageIds[i - 1] || '' }><br />
-                            <button type="button" class="btn btn-outline-success" on:click={ imageModals[i - 1].open }> { imageIds[i - 1] ? 'Файл выбран' : 'Выбрать файл' } </button>
+                            {#if $isMobile}
+                                <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                            {:else}
+                                <button type="button" class="btn btn-outline-success" on:click={ imageModals[i - 1].open }> { imageIds[i - 1] ? 'Файл выбран' : 'Выбрать файл' } </button>
+                            {/if}
                         </div>
                     </Grid>
                     <div>

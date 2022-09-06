@@ -48,11 +48,19 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         }
     }
 
+    let teacherPhotoURL = undefined
+    const teacherPhoto = requestData.teacher_photo
+    if (+teacherPhoto && !isNaN(+teacherPhoto)) {
+        const teacherFile = await documentService.getById(+teacherPhoto)
+        teacherPhotoURL = teacherFile ? teacherFile.src : undefined
+    }
+
     const teacher: TeacherI = {
         name: requestData.teacher_name,
         caption: requestData.teacher_caption,
         phone: requestData.teacher_phone,
-        email: requestData.teacher_email
+        email: requestData.teacher_email,
+        photo: teacherPhotoURL
     }
 
     const feedbacks = []

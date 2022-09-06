@@ -26,6 +26,7 @@
     import { Grid, Graduate, Form, Modal, Document, FileSelect, RoundButton } from '$components'
     import { imask } from 'svelte-imask'
     import { slide, blur } from 'svelte/transition'
+    import { isMobile } from '$lib/stores.js'
     import type { DocumentI, DormitoryI, RentInfoI, SettlementI, ModalComponent } from '../../../types'
 
     export let dormitories: DormitoryI[] = []
@@ -33,6 +34,8 @@
     export let rentInfo: RentInfoI = null
     export let settlement: SettlementI = null
     export let pageInfo: Record<string, string> = {}
+
+    const totalMobileObjects = 4
 
     let modalDormitory: ModalComponent = null
     let dormitoryId:number
@@ -159,7 +162,11 @@
                         <br />
                     {/if}
                     <input type="hidden" name="img" value={ fileId }>
-                    <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    {#if $isMobile}
+                        <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                    {:else}
+                        <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    {/if}
                 </label>
             </Grid>
             <br />
@@ -167,8 +174,8 @@
         </Form>
         <h3>Опубликованные общежития</h3>
         {#if dormitories.length}
-            <Grid m={4} s={1}>
-                {#each dormitories.filter((_, i) => i < 8 || dormitoriesExpanded) as dormitory, i (i)}
+            <Grid xl={4} l={3} m={2} s={1}>
+                {#each dormitories.filter((_, i) => i < ($isMobile ? totalMobileObjects : 8) || dormitoriesExpanded) as dormitory, i (i)}
                     <div transition:blur|local={{ duration: 200 }}>
                         <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address }>
                             <a href="/admin-panel/accommodation/dormitories/update/{ dormitory.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
@@ -177,7 +184,7 @@
                     </div>
                 {/each}
             </Grid>
-            {#if !dormitoriesExpanded && dormitories.length > 8}
+            {#if !dormitoriesExpanded && dormitories.length > ($isMobile ? totalMobileObjects : 8)}
                 <br />
                 <div class="align-center">
                     <RoundButton variant="plus" size="M" on:click={() => dormitoriesExpanded = true} />
@@ -297,7 +304,7 @@
             <Grid m={3} s={1}>
                 <label>
                     <span class="caption">Документ</span><br />
-                    <input required class="form-control" type="file" name="file" id="file" />
+                    <input required class="form-control" type="file" name="file" id="file" accept=".pdf, .doc, .docx, .xls, .xlsx, .jpg, .jpeg, .png, .svg"/>
                 </label>
             </Grid>
             <div class="buttons-row">

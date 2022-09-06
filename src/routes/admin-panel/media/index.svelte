@@ -64,7 +64,7 @@
                 </label>
                 <label>
                     <span class="form-label">Файл</span><br />
-                    <input required class="form-control" type="file" name="media" id="media" />
+                    <input required class="form-control" type="file" name="media" id="media" accept=".pdf, .doc, .docx, .xls, .xlsx, .jpg, .jpeg, .png, .svg, .mp4, .webm, .ogg, .avi, .mov, .mpeg, .mkv"/>
                 </label>
             </div>
             <div class="buttons-row">

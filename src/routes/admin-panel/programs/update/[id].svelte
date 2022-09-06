@@ -114,7 +114,7 @@
             on:success={handleSuccess}
         >
             <h3>Общая информация</h3>
-            <Grid m={2} ratio="2:1">
+            <Grid m={2} s={1} ratio="2:1">
                 <div>
                     <label for="title">Название</label><br />
                     <input
@@ -140,27 +140,14 @@
                 </div>
             </Grid>
             <h3>Подробная информация</h3>
-            <Grid m={3} gap={2}>
+            <Grid m={3} s={1} gap={2}>
                 <div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="mode1" id="mode1" bind:checked={ mode1 }>
                         <label class="form-check-label" for="mode1">Очная форма обучения</label>
                     </div>
-                </div>
-                <div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="mode2" id="mode2" bind:checked={ mode2 }>
-                        <label class="form-check-label" for="mode2">Очно-заочная форма обучения</label>
-                    </div>
-                </div>
-                <div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="mode3" id="mode3" bind:checked={ mode3 }>
-                        <label class="form-check-label" for="mode3">Заочная форма обучения</label>
-                    </div>
-                </div>
-                <div>
                     { #if mode1 }
+                        <br />
                         <div class="grid grid-1" transition:blur|local={{ duration: 200 }}>
                             <div>
                                 <label for="budget1">Количество мест - Бюджет (очно)</label><br />
@@ -187,7 +174,12 @@
                     { /if }
                 </div>
                 <div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="mode2" id="mode2" bind:checked={ mode2 }>
+                        <label class="form-check-label" for="mode2">Очно-заочная форма обучения</label>
+                    </div>
                     { #if mode2 }
+                        <br />
                         <div class="grid grid-1" transition:blur|local={{ duration: 200 }}>
                             <div>
                                 <label for="budget1">Количество мест - Бюджет (очно-заочно)</label><br />
@@ -214,7 +206,12 @@
                     { /if }
                 </div>
                 <div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="mode3" id="mode3" bind:checked={ mode3 }>
+                        <label class="form-check-label" for="mode3">Заочная форма обучения</label>
+                    </div>
                     { #if mode3 }
+                        <br />
                         <div class="grid grid-1" transition:blur|local={{ duration: 200 }}>
                             <div>
                                 <label for="budget1">Количество мест - Бюджет (заочно)</label><br />
@@ -284,46 +281,51 @@
                 </div>
             {/if}
             <h3>Руководитель программы</h3>
-            <Grid m={3}>
+            <Grid l={3} m={2} s={1}>
                 <div>
-                    <label for="teacher_name">ФИО</label><br />
-                    <input
-                        class="form-control wide"
-                        type="text"
-                        name="teacher_name"
-                        value={program.teacher.name}
-                        required
-                    />
+                    <div>
+                        <label for="teacher_name">ФИО</label><br />
+                        <input
+                            class="form-control wide"
+                            type="text"
+                            name="teacher_name"
+                            value={program.teacher.name}
+                            required
+                        />
+                    </div>
+                    <br />
+                    <div>
+                        <label for="teacher_caption">Учёные звания</label><br />
+                        <input
+                            class="form-control wide"
+                            type="text"
+                            name="teacher_caption"
+                            value={program.teacher.caption}
+                            required
+                        />
+                    </div>
                 </div>
                 <div>
-                    <label for="teacher_caption">Учёные звания</label><br />
-                    <input
-                        class="form-control wide"
-                        type="text"
-                        name="teacher_caption"
-                        value={program.teacher.caption}
-                        required
-                    />
-                </div>
-                <div />
-                <div>
-                    <label for="teacher_phone">Телефон</label><br />
-                    <input
-                        class="form-control wide"
-                        type="text"
-                        use:imask={phoneMask}
-                        name="teacher_phone"
-                        value={program.teacher.phone}
-                    />
-                </div>
-                <div>
-                    <label for="teacher_email">Email</label><br />
-                    <input
-                        class="form-control wide"
-                        type="email"
-                        name="teacher_email"
-                        value={program.teacher.email}
-                    />
+                    <div>
+                        <label for="teacher_phone">Телефон</label><br />
+                        <input
+                            class="form-control wide"
+                            type="text"
+                            use:imask={phoneMask}
+                            name="teacher_phone"
+                            value={program.teacher.phone}
+                        />
+                    </div>
+                    <br />
+                    <div>
+                        <label for="teacher_email">Email</label><br />
+                        <input
+                            class="form-control wide"
+                            type="email"
+                            name="teacher_email"
+                            value={program.teacher.email}
+                        />
+                    </div>
                 </div>
                 <div />
             </Grid>
@@ -333,7 +335,7 @@
             </div>
             <h3>Отзывы</h3>
             {#each range(1, feedbacksCount) as i}
-                <Grid m={2} ratio="1:2">
+                <Grid l={2} m={1} s={1} ratio="1:2">
                     { @const feedback = program.feedbacks ? program.feedbacks[i - 1] : null}
                     <Grid m={1}>
                         <div>

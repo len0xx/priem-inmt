@@ -7,7 +7,7 @@ import type { Handle, GetSession, RequestEvent } from '@sveltejs/kit'
 dotenv.config()
 
 export const handle: Handle = async ({ event, resolve }) => {
-    
+
     const cookies = cookie.parse(event.request.headers.get('cookie') || '')
     const response = await resolve(event)
 

@@ -14,7 +14,8 @@
 </script>
 
 <script lang="ts">
-    import { Form, FileSelect, Grid} from '$components'
+    import { Form, FileSelect, Grid } from '$components'
+    import { isMobile } from '$lib/stores'
     import type { DormitoryI, ModalComponent } from '../../../../../types'
 
     export let dormitory: DormitoryI
@@ -58,7 +59,11 @@
                         <span class="caption">Изображение:</span><br />
                         <img width="150px" height="150px" src={filePath ? filePath : dormitory.img} class="img-fluid mt-3 mb-3" alt="Изображение общежития">                   
                         <input type="hidden" name="img" value={ fileId }><br />
-                        <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать другой файл' } </button>
+                        {#if $isMobile}
+                            <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                        {:else}
+                            <button type="button" class="btn btn-outline-primary" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать другой файл' } </button>
+                        {/if}
                     </label>
                 </div>
             </Grid>

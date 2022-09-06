@@ -17,6 +17,7 @@
     import { Form, FileSelect } from '$components'
     import { slide, blur } from 'svelte/transition'
     import { range } from '$lib/utilities'
+    import { isMobile } from '$lib/stores'
     import type { PostI, ModalComponent } from '../../../../../types'
 
     export let post: PostI
@@ -64,7 +65,11 @@
                     <label>
                         <span class="caption">Изображение:</span>
                         <input type="hidden" name="img" value={ fileId }><br />
-                        <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        {#if $isMobile}
+                            <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                        {:else}
+                            <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                        {/if}
                     </label>
                 </div>
                 <div id="vs2f">

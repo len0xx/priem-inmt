@@ -15,6 +15,7 @@
 
 <script lang="ts">
     import { Grid, Form, FileSelect } from '$components'
+    import { isMobile } from '$lib/stores'
     import type { GraduateI, ModalComponent } from '../../../../../types'
 
     export let graduate: GraduateI
@@ -56,7 +57,11 @@
                 <label>
                     <span class="caption">Фотография:</span>
                     <input type="hidden" name="photo" value={ fileId }><br />
-                    <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    {#if $isMobile}
+                        <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                    {:else}
+                        <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    {/if}
                 </label>
             </Grid>
             <br />

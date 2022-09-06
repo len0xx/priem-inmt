@@ -236,8 +236,19 @@ ul.pagination li.page-item {
 }
 
 .grid-2-plus-btn {
-    grid-template-columns: 1fr 1fr 240px;
     align-items: end;
+}
+
+@media screen and (min-width: 769px) {
+    .grid-2-plus-btn {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (min-width: 1101px) {
+    .grid-2-plus-btn {
+        grid-template-columns: 1fr 1fr 240px;
+    }
 }
 
 .form-switch > * {

@@ -99,7 +99,13 @@ EducationalProgram.init(
         },
         partners: {
             type: DataTypes.JSON,
-            allowNull: true
+            allowNull: true,
+            validate: {
+                len: {
+                    args: [0, 20],
+                    msg: 'Превышено максимальное количество партнеров программы (20)'
+                }
+            }
         }
     },
     {

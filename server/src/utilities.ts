@@ -91,7 +91,7 @@ export class HTTPResponse {
                 if (this.cookies[key].value)
                     handler.cookie(key, this.cookies[key].value, this.cookies[key].options)
                 else
-                    handler.clearCookie(key)
+                    handler.clearCookie(key, { path: '/' })
             }
         }
     }

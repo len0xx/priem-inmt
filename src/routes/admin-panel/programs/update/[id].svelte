@@ -346,7 +346,7 @@
                         <!-- svelte-ignore a11y-missing-attribute -->
                         <img width="150px" height="150px" src={teacherImagePath} class="img-fluid mt-3">
                         <br />
-                    {:else}
+                    {:else if program.teacher.photo}
                         <!-- svelte-ignore a11y-missing-attribute -->
                         <img width="150px" height="150px" src={program.teacher.photo} class="img-fluid mt-3">
                         <br />

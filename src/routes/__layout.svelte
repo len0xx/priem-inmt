@@ -1,7 +1,23 @@
+<script context="module" lang="ts">
+    import { apiRoute } from '$lib/utilities'
+    import type { Load } from '@sveltejs/kit'
+    
+    export const load: Load = async ({ fetch, session }) => {
+        const resContactInfo = await fetch(apiRoute('admin/contactInfo', session.api))
+        const contactInfo = (await resContactInfo.json()).contactInfo
+
+        if (resContactInfo.ok) {
+            return { props: { pageInfo: contactInfo } }
+        }
+    }
+</script>
+
 <script lang="ts">
     import { formEndpoint, modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { afterNavigate, beforeNavigate } from '$app/navigation'
     import { Nav, Link, Modal, MobileMenu, Header, Heading, Rainbow, Text, Input, Icon, Button, Footer, AjaxForm, ScrollToTop } from '$components'
+
+    export let pageInfo: { links?: { url: string, text: string }[] } & Record<string, string> = {}
 
     let formSubmitted = false
     let formSuccess = false
@@ -104,28 +120,34 @@
         <div class="content">
             <div class="grid grid-2 m-grid-1">
                 <div>
-                    <p class="grey-text">Горячая линия</p>
-                    <h2 class="no-top-margin">
-                        <a href="tel:+7 (912) 635-52-97">+7 (912) 635-52-97</a><br>
-                        <a href="mailto:ok.inmt@urfu.ru">ok.inmt@urfu.ru</a>
-                    </h2>
+                    { #if pageInfo.tel || pageInfo.email }
+                        <p class="grey-text">Горячая линия</p>
+                        <h2 class="no-top-margin">
+                            { #if pageInfo.tel }
+                                <a href="tel:{ pageInfo.tel }">{ pageInfo.tel }</a><br>
+                            { /if }
+                            { #if pageInfo.email }
+                                <a href="mailto:{ pageInfo.email }">{ pageInfo.email }</a>
+                            { /if }
+                        </h2>
+                    { /if }
                     <div class="grid grid-2 m-grid-1 my-7">
                         <div>
                             <p class="grey-text">Дирекция института</p>
-                            <h3 class="no-top-margin">г. Екатеринбург<br>
-                                ул. Мира, 28</h3>
+                            <h3 class="no-top-margin" style:max-width="max(50%, 200px)">{ pageInfo.directorateAddress }</h3>
                         </div>
                         <div>
                             <p class="grey-text">Приемная комиссия</p>
-                            <h3 class="no-top-margin">г. Екатеринбург,<br>
-                                ул. Мира, 19</h3>
+                            <h3 class="no-top-margin" style:max-width="max(50%, 200px)">{ pageInfo.admissionsAddress }</h3>
                         </div>
                     </div>
-                    <Nav className="social">
-                        <Link href="https://vk.com/abiturient_inmt" className="size-3" variant="interactive" lineWidth={ 3 }>ВКонтакте</Link>
-                        <Link href="https://vk.com/inmt_urfu" className="size-3" variant="interactive" lineWidth={ 3 }>Союз студентов ИНМТ</Link>
-                        <Link href="https://t.me/abitinmt" className="size-3" variant="interactive" lineWidth={ 3 }>Telegram</Link>
-                    </Nav>
+                    { #if pageInfo.links && pageInfo.links.length }
+                        <Nav className="social">
+                            { #each pageInfo.links as link, i (i) }
+                                <Link href={ link.url } className="size-3" variant="interactive" lineWidth={ 3 }>{ link.text }</Link>
+                            { /each }
+                        </Nav>
+                    { /if }
                 </div>
                 <div>
                     <h2 class="no-top-margin">Обратная связь</h2>

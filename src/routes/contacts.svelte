@@ -2,10 +2,10 @@
     import type { Load } from '@sveltejs/kit'
     import { apiRoute } from '$lib/utilities'
     
-    export const load: Load = async ({ fetch }) => {
-        const resContactInfo = await fetch(apiRoute('admin/contactInfo'))
-        const resResponsibles = await fetch(apiRoute('admin/responsible'))
-        const resInfo = await fetch(apiRoute('admin/textinfo/?page=contacts'))
+    export const load: Load = async ({ fetch, session }) => {
+        const resContactInfo = await fetch(apiRoute('admin/contactInfo', session.api))
+        const resResponsibles = await fetch(apiRoute('admin/responsible', session.api))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=contacts', session.api))
 
         const contactInfo = (await resContactInfo.json()).contactInfo
         const responsibles = (await resResponsibles.json()).responsibles

@@ -6,7 +6,7 @@
         // const resOpportunities = await fetch(apiRoute('admin/opportunity', session.api))
         // const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor', session.api))
         // const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
-        // const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=master', session.api))
+        const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=master', session.api))
         // const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
         const resInfo = await fetch(apiRoute('admin/textinfo/?page=master', session.api))
         const resPrograms = await fetch(apiRoute('admin/programs?degree=master', session.api))
@@ -14,13 +14,13 @@
         // const documents = (await resDocuments.json()).documents
         // const feedbacks = (await resFeedbacks.json()).feedbacks
         // const opportunities = (await resOpportunities.json()).opportunities
-        // const featuresPromo = (await resFeaturesPromo.json()).features
+        const featuresPromo = (await resFeaturesPromo.json()).features
         // const featuresInst = (await resFeaturesInst.json()).features
         const info = (await resInfo.json()).info
         const programs = (await resPrograms.json()).programs
 
-        if (resPrograms.ok && resInfo.ok) {
-            return { props: { programs, pageInfo: info } }
+        if (resPrograms.ok && resInfo.ok && resFeaturesPromo.ok) {
+            return { props: { programs, pageInfo: info, featuresPromo } }
         }
     }
 </script>
@@ -61,9 +61,10 @@
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { blur, fly } from 'svelte/transition'
     import type { EducationMode } from '$lib/programs'
-    import type { EducationalProgram } from '../types'
+    import type { EducationalProgram, FeatureI } from '../types'
 
     export let programs: EducationalProgram[] = []
+    export let featuresPromo: FeatureI[] = []
     export let pageInfo: Record<string, string> = {}
 
     let programsExpanded = false
@@ -249,10 +250,9 @@
 <section id="benefits">
     <div class="content">
         <Grid m={4} s={2}>
-            <Benefit num="414" caption="Бюджетных мест по программам магистратуры" />
-            <Benefit num="35" caption="Контрактных мест по программам магистратуры" />
-            <Benefit num="20 июня" caption="Начало приема документов в приемной комиссии УрФУ" />
-            <Benefit num="93,3% " caption="Трудоустроенных выпускников" />
+            { #each featuresPromo as feature (feature.id) }
+                <Benefit num={feature.title} caption={feature.description} />
+            { /each }
         </Grid>
     </div>
 </section>

@@ -277,9 +277,6 @@
             { #each featuresPromo as feature (feature.id) }
                 <Benefit num={feature.title} caption={feature.description} />
             { /each }
-            <!-- <Benefit num="1 128" caption="Бюджетных мест по программам бакалавриата и специалитета" />
-            <Benefit num="123" caption="Контрактных мест по программам бакалавриата и специалитета" />
-            <Benefit num="20 июня" caption="Начало приема документов в приемной комиссии УрФУ" /> -->
         </Grid>
     </div>
 </section>

@@ -643,42 +643,27 @@
 <section id="student-life">
     <div class="content">
         <Heading size={1} className="blue-text" marginTop={0}>Студенческие <br /> возможности</Heading>
-        <div class="mobile-horizontal-scroll">
-            <Grid l={6}>
+        <div class="mobile-hide">
+            { #if opportunities.length > 6 }
+                <div class="horizontal-scroll">
+                    { #each opportunities as opportunity (opportunity.id) }
+                        <Opportunity {...opportunity} />
+                    { /each }
+                </div>
+            { :else }
+                <Grid l={6}>
+                    { #each opportunities as opportunity (opportunity.id) }
+                        <Opportunity {...opportunity} />
+                    { /each }
+                </Grid>
+            { /if }
+        </div>
+        <div class="pc-hide">
+            <div class="horizontal-scroll">
                 { #each opportunities as opportunity (opportunity.id) }
                     <Opportunity {...opportunity} />
                 { /each }
-                <!-- <div class="align-center" style:min-width="200px">
-                    <Icon name="blue-star" width={40} height={40} alt="star" />
-                    <Text className="semi-bold subtitle">Общежитие</Text>
-                    <Text className="semi-bold small" opacity={0.6}>Иногородние студенты, обучающиеся по очной форме, могут получить место в общежитии на время обучения</Text>
-                </div>
-                <div class="align-center" style:min-width="200px">
-                    <Icon name="blue-star" width={40} height={40} alt="star" />
-                    <Text className="semi-bold subtitle">Военная кафедра</Text>
-                    <Text className="semi-bold small" opacity={0.6}>Студенты могут пройти обучение на офицеров и сержантов запаса во время получения основной специальности в ИНМТ </Text>
-                </div>
-                <div class="align-center" style:min-width="200px">
-                    <Icon name="blue-star" width={40} height={40} alt="star" />
-                    <Text className="semi-bold subtitle">Студенческие организации</Text>
-                    <Text className="semi-bold small" opacity={0.6}>Найти занятие по душе сможет каждый. Более 30 организаций и клубов по интересам доступны студентам вуза </Text>
-                </div>
-                <div class="align-center" style:min-width="200px">
-                    <Icon name="blue-star" width={40} height={40} alt="star" />
-                    <Text className="semi-bold subtitle">Стипендии</Text>
-                    <Text className="semi-bold small" opacity={0.6}>Дополнительная поддержка талантливых студентов за научную, общественную и творческую деятельность </Text>
-                </div>
-                <div class="align-center" style:min-width="200px">
-                    <Icon name="blue-star" width={40} height={40} alt="star" />
-                    <Text className="semi-bold subtitle">Наука</Text>
-                    <Text className="semi-bold small" opacity={0.6}>Современные лаборатории и опытные профессора помогут начать успешную карьеру в науке </Text>
-                </div>
-                <div class="align-center" style:min-width="200px">
-                    <Icon name="blue-star" width={40} height={40} alt="star" />
-                    <Text className="semi-bold subtitle">Спорт</Text>
-                    <Text className="semi-bold small" opacity={0.6}>Привычные занятия физкультурой можно заменить любимым видом спорта и присоединиться к одной из 20 сборных команд вуза</Text>
-                </div> -->
-            </Grid>
+            </div>
         </div>
     </div>
     <br />

@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt'
 import type { CookieOptions, Response as ExpressResponse, Request, NextFunction } from 'express'
 import type { HTTPErrorI } from './types'
 import { HTTPStatus } from './types/enums.js'
-// import jwt from 'jsonwebtoken'
 
 export class HTTPError extends Error implements HTTPErrorI {
     public readonly code: number
@@ -91,7 +90,7 @@ export class HTTPResponse {
                 if (this.cookies[key].value)
                     handler.cookie(key, this.cookies[key].value, this.cookies[key].options)
                 else
-                    handler.clearCookie(key)
+                    handler.clearCookie(key, { path: '/' }) // Doesn't work without "{ path: '/' }"
             }
         }
     }

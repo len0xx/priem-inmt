@@ -362,22 +362,24 @@
             <!-- TODO: decent layout -->
             <p>Выберите до&nbsp;20&nbsp;логотипов партнеров-работодателей</p>
             <Grid m={5} s={2}>
-                { #each activePartners.filter(partner => partner) as _, i }
-                <div transition:blur|local={{ duration: 200 }} class="grid" style="grid-template-rows: repeat(3, max-content)">
-                    <input type="hidden" name="partner_logo{i}" value={ partnerLogoIds[i] }>
-                    { #if partnerLogoPaths[i] }
-                        <!-- svelte-ignore a11y-missing-attribute -->
-                        <img width="150px" height="150px" src={ partnerLogoPaths[i] } class="img-fluid mt-3">
+                { #each activePartners as partner, i }
+                    { #if partner }
+                    <div transition:blur|local={{ duration: 200 }} class="grid" style="grid-template-rows: repeat(3, max-content)">
+                        <input type="hidden" name="partner_logo{i + 1}" value={ partnerLogoIds[i] }>
+                        { #if partnerLogoPaths[i] }
+                            <!-- svelte-ignore a11y-missing-attribute -->
+                            <img width="150px" height="150px" src={ partnerLogoPaths[i] } class="img-fluid mt-3">
+                        { /if }
+                        <button type="button" class="btn btn-outline-success btn-sm" on:click={ partnerLogoModal.open }>{ partnerLogoIds[i] ? 'Файл выбран' : 'Выбрать файл' }</button>
+                        { #if partnerLogoIds[i] }
+                            <button type="button" on:click={ () => removePartner(i) } transition:blur|local={{ duration: 200 }} class="btn btn btn-outline-danger btn-sm">Удалить логотип</button>
+                        { /if }
+                    </div>
                     { /if }
-                    <button type="button" class="btn btn-outline-success btn-sm" on:click={ partnerLogoModal.open }>{ partnerLogoIds[i] ? 'Файл выбран' : 'Выбрать файл' }</button>
-                    { #if partnerLogoIds[i] }
-                        <button type="button" on:click={ () => removePartner(i) } transition:blur|local={{ duration: 200 }} class="btn btn btn-outline-danger btn-sm">Удалить логотип</button >
-                    { /if }
-                </div>
                 { /each }
             </Grid>
             <div class="buttons-row">
-                {#if countPartners < 20}
+                { #if countPartners < 20 }
                     <button type="button" on:click={addPartner} class="btn btn-outline-primary">Добавить логотип</button>
                 {/if}
             </div>

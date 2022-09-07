@@ -100,6 +100,16 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         }
     }
 
+    const partners = []
+    for (let i = 1; i <= 20; i++) {
+        const partnerLogo = requestData[`partner_logo${i}`]
+        if (+partnerLogo && !isNaN(+partnerLogo)) {
+            const file = await documentService.getById(+partnerLogo)
+            if (file) partners[i - 1] = file.src
+        }
+    }
+
+
     await educationalProgramService.create({
         title: title,
         degree: degree,
@@ -108,7 +118,8 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         teacher: teacher,
         exams: exams,
         text: text,
-        feedbacks: feedbacks
+        feedbacks: feedbacks,
+        partners: partners
     })
     return new HTTPResponse(res, HTTPStatus.CREATED, 'Образовательная программа успешно создана')
 })

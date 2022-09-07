@@ -24,7 +24,7 @@
                     <Text className="caption" marginY={0.5} opacity={0.8}>{ caption }</Text>
                 { /if }
                 { #if description }
-                    <Text className="description" marginBottom={0} opacity={0.6}>{ description }</Text>
+                    <Text className="description" marginBottom={0} opacity={0.6}>{ @html description }</Text>
                 { /if }
             </div>
             <div class="buttons">

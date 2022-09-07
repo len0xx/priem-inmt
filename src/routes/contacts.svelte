@@ -2,17 +2,15 @@
     import type { Load } from '@sveltejs/kit'
     import { apiRoute } from '$lib/utilities'
     
-    export const load: Load = async ({ fetch }) => {
-        const resContactInfo = await fetch(apiRoute('admin/contactInfo'))
-        const resResponsibles = await fetch(apiRoute('admin/responsible'))
-        const resInfo = await fetch(apiRoute('admin/textinfo/?page=contacts'))
+    export const load: Load = async ({ fetch, session }) => {
+        const resResponsibles = await fetch(apiRoute('admin/responsible', session.api))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=contacts', session.api))
 
-        const contactInfo = (await resContactInfo.json()).contactInfo
         const responsibles = (await resResponsibles.json()).responsibles
         const info = (await resInfo.json()).info
 
-        if (resContactInfo.ok && resResponsibles.ok) {
-            return { props: { contactInfo, pageInfo: info, responsibles } }
+        if (resInfo.ok && resResponsibles.ok) {
+            return { props: { pageInfo: info, responsibles } }
         }
     }
 </script>
@@ -29,7 +27,9 @@
         Preloader
     } from '$components'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
+    import type { ResponsibleI } from '../types'
 
+    export let responsibles: ResponsibleI[] = []
     export let pageInfo: Record<string, string> = {}
 
     let showPreloader = true
@@ -107,10 +107,9 @@
     <div class="content">
         <Heading size={1} className="blue-text">Ответственные <br /> лица института</Heading>
         <Grid m={4} s={1}>
-            <Graduate name="Еланцев Алексей Владимирович" caption="Ответственный секретарь отборочной комиссии" description="+7 (912) 635-52-97 a.v.elantcev@urfu.ru" src="/img/elantsev.jpg" />
-            <Graduate name="Хафизова Алина Руслановна" caption="Заместитель секретаря отборочной комиссии" description="+7 (909) 700-07-20 khafizova.alina@urfu.ru" src="/img/khafizova.jpg" />
-            <Graduate name="Страузов Александр Михайлович" caption="Заместитель секретаря отборочной комиссии" description="a.m.strauzov@urfu.ru" src="/img/strauzov.jpg" />
-            <Graduate name="Сутормина Анастасия Александровна" caption="Заместитель секретаря отборочной комиссии " description="a.a.sutormina@urfu.ru" src="/img/sutormina.jpg" />
+            { #each responsibles as responsible, i (i) }
+                <Graduate name={ responsible.name } caption={ responsible.label } description={ [responsible.email, responsible.phone].join('<br>') } src={ responsible.img } />
+            { /each }
         </Grid>
     </div>
 </section>

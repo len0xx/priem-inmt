@@ -1,3 +1,22 @@
+<script context="module" lang="ts">
+    import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
+    
+    export const load: Load = async ({ fetch }) => {
+        const resContactInfo = await fetch(apiRoute('admin/contactInfo'))
+        const resResponsibles = await fetch(apiRoute('admin/responsible'))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=contacts'))
+
+        const contactInfo = (await resContactInfo.json()).contactInfo
+        const responsibles = (await resResponsibles.json()).responsibles
+        const info = (await resInfo.json()).info
+
+        if (resContactInfo.ok && resResponsibles.ok) {
+            return { props: { contactInfo, pageInfo: info, responsibles } }
+        }
+    }
+</script>
+
 <script lang="ts">
     import { onMount } from 'svelte'
     import {
@@ -10,6 +29,8 @@
         Preloader
     } from '$components'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
+
+    export let pageInfo: Record<string, string> = {}
 
     let showPreloader = true
     let pageLoaded = false
@@ -71,7 +92,10 @@
 <section class="promo contacts" id="beginning">
     <div class="content">
         <Grid m={1} l={2} ratio="5:3" alignItems="end">
-            <Heading size={1} marginY={0}>Контакты<br /><span class="smaller-text">Институт новых материалов <br /> и технологий</span></Heading>
+            <Heading size={1} marginY={0}>
+                { pageInfo.contactsTitle }<br />
+                <span class="smaller-text">{ pageInfo.contactsSubtitle }</span>
+            </Heading>
             <div class="align-right">
                 <Link on:click={ $modal.open } href="" preventDefault={ true } variant="interactive" color="white" lineWidth={ 2 }>Получить консультацию</Link>
             </div>

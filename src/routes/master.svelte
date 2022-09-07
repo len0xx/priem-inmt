@@ -8,7 +8,7 @@
         // const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
         // const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=master', session.api))
         // const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
-        // const resInfo = await fetch(apiRoute('admin/textinfo/?page=master', session.api))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=master', session.api))
         const resPrograms = await fetch(apiRoute('admin/programs?degree=master', session.api))
     
         // const documents = (await resDocuments.json()).documents
@@ -16,11 +16,11 @@
         // const opportunities = (await resOpportunities.json()).opportunities
         // const featuresPromo = (await resFeaturesPromo.json()).features
         // const featuresInst = (await resFeaturesInst.json()).features
-        // const info = (await resInfo.json()).info
+        const info = (await resInfo.json()).info
         const programs = (await resPrograms.json()).programs
 
-        if (resPrograms.ok) {
-            return { props: { programs } }
+        if (resPrograms.ok && resInfo.ok) {
+            return { props: { programs, pageInfo: info } }
         }
     }
 </script>
@@ -64,6 +64,7 @@
     import type { EducationalProgram } from '../types'
 
     export let programs: EducationalProgram[] = []
+    export let pageInfo: Record<string, string> = {}
 
     let programsExpanded = false
     let professionsExpanded = false
@@ -228,10 +229,13 @@
 <section class="promo master" id="beginning">
     <div class="content">
         <Grid m={1} l={2} ratio="5:3" alignItems="end">
-            <Heading size={1} marginY={0}>Программы магистратуры<br /><span class="smaller-text">Институт новых материалов <br /> и технологий</span></Heading>
+            <Heading size={1} marginY={0}>
+                { pageInfo.masterTitle }<br />
+                <span class="smaller-text">{ pageInfo.masterSubtitle }</span>
+            </Heading>
             <div>
                 <Text className="medium" id="mnz2">
-                    УрФУ получил наивысшую оценку среди нестоличных вузов в рейтинге Forbes в 2021 году по показателю востребованности выпускников, который учитывает мнение 35 ведущих российских компаний.<br /><br />
+                    { pageInfo.masterText }<br /><br />
                     <Link href="#programs" variant="interactive" color="white" lineWidth={ 2 }>Смотреть программы</Link>
                 </Text>
             </div>

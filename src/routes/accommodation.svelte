@@ -1,3 +1,27 @@
+<script context="module" lang="ts">
+    import type { Load } from '@sveltejs/kit'
+    import { apiRoute } from '$lib/utilities'
+    
+    export const load: Load = async ({ fetch, session }) => {
+        const documentsRes = await fetch(apiRoute('admin/documents?type=docAccommodation', session.api))
+        const rentInfoRes = await fetch(apiRoute('admin/rentInfo', session.api))
+        const settlementRes = await fetch(apiRoute('admin/settlement/1', session.api))
+        const dormsRes = await fetch(apiRoute('admin/dormitory', session.api))
+        const infoRes = await fetch(apiRoute('admin/textinfo/?page=accommodation', session.api))
+
+    
+        const documents = (await documentsRes.json()).documents
+        const rentInfo = (await rentInfoRes.json()).rentInfo
+        const settlement = (await settlementRes.json()).responsible
+        const dormitories = (await dormsRes.json()).dormitories
+        const info = (await infoRes.json()).info
+
+        if (documentsRes.ok && rentInfoRes.ok && settlementRes.ok && infoRes.ok) {
+            return { props: { documents, rentInfo, settlement, dormitories, pageInfo: info } }
+        }
+    }
+</script>
+
 <script lang="ts">
     import { onMount } from 'svelte'
     import {
@@ -15,6 +39,8 @@
     } from '$components'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import documents from '$lib/documents2'
+
+    export let pageInfo: Record<string, string> = {}
 
     let showPreloader = true
     let pageLoaded = false
@@ -86,7 +112,10 @@
 <section class="promo accommodation" id="beginning">
     <div class="content">
         <Grid m={1} l={2} ratio="5:3" alignItems="end">
-            <Heading size={1} marginY={0}>Поселение<br /><span class="smaller-text">Институт новых материалов <br /> и технологий</span></Heading>
+            <Heading size={1} marginY={0}>
+                { pageInfo.accommodationTitle }<br />
+                <span class="smaller-text">{ pageInfo.accommodationSubtitle }</span>
+            </Heading>
             <div class="align-right">
                 <Link on:click={ $modal.open } href="" preventDefault={true} variant="interactive" color="white" lineWidth={ 2 }>Получить консультацию</Link>
             </div>

@@ -8,7 +8,7 @@
         // const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
         const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor', session.api))
         // const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
-        // const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor', session.api))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor', session.api))
         const resPrograms = await fetch(apiRoute('admin/programs?degree=bachelor', session.api))
     
         // const documents = (await resDocuments.json()).documents
@@ -16,11 +16,11 @@
         const opportunities = (await resOpportunities.json()).opportunities
         const featuresPromo = (await resFeaturesPromo.json()).features
         // const featuresInst = (await resFeaturesInst.json()).features
-        // const info = (await resInfo.json()).info
+        const info = (await resInfo.json()).info
         const programs = (await resPrograms.json()).programs
 
-        if (resOpportunities.ok && resFeaturesPromo.ok && resPrograms.ok) {
-            return { props: { opportunities, featuresPromo, programs } }
+        if (resOpportunities.ok && resFeaturesPromo.ok && resPrograms.ok && resInfo.ok) {
+            return { props: { opportunities, featuresPromo, programs, pageInfo: info } }
         }
     }
 </script>
@@ -68,6 +68,7 @@
     export let opportunities: OpportunityI[] = []
     export let featuresPromo: FeatureI[] = []
     export let programs: EducationalProgram[] = []
+    export let pageInfo: Record<string, string> = {}
 
     let linkColor: 'white' | 'black' = 'white'
     let programsExpanded = false
@@ -252,10 +253,13 @@
 <section class="promo bachelor" id="beginning">
     <div class="content">
         <Grid m={1} l={2} ratio="5:3" alignItems="end">
-            <Heading size={1} marginY={0}>Бакалавриат <br /> и специалитет<br /><span class="smaller-text">Институт новых материалов <br /> и технологий</span></Heading>
+            <Heading size={1} marginY={0}>
+                { pageInfo.bachelorTitle }<br />
+                <span class="smaller-text">{ pageInfo.bachelorSubtitle }</span>
+            </Heading>
             <div>
                 <Text className="medium" id="mnz2">
-                    Институт новых материалов и технологий Уральского федерального университета – один из крупнейших центров высшего инженерного образования региона с 1920 года, сочетающий фундаментальную подготовку и практический междисциплинарный подход<br /><br />
+                    { pageInfo.bachelorText }<br /><br />
                     <Link href="#programs" color="white" variant="interactive" lineWidth={ 2 }>Смотреть программы</Link>
                 </Text>
             </div>

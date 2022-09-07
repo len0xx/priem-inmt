@@ -60,8 +60,6 @@
         }
     }
 
-    console.log(program.feedbacks)
-
     const removeExam = (index?: number) => {
         const finalIndex = index !== undefined || index !== null ? index : examsCount - 1
         exams = exams.filter((_exam, i) => i !== finalIndex)
@@ -94,9 +92,6 @@
         teacherImageId = event.detail.id
         teacherImagePath = event.detail.path
     }
-
-    console.log(`FirstImagePath: ${imagePaths[0]}`)
-    console.log(`SecondImagePath: ${imagePaths[1]}`)
 </script>
 
 <svelte:head>
@@ -141,11 +136,7 @@
                 </div>
                 <div>
                     <label for="degree">Уровень подготовки</label><br />
-                    <select
-                        class="wide form-select"
-                        name="degree"
-                        bind:value={degree}
-                    >
+                    <select class="wide form-select" name="degree" bind:value={degree} >
                         <option value="Бакалавриат">Бакалавриат</option>
                         <option value="Специалитет">Специалитет</option>
                         <option value="Магистратура">Магистратура</option>

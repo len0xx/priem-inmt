@@ -1,8 +1,9 @@
+import { MulterError } from 'multer'
 import { ValidationError } from 'sequelize'
 import bcrypt from 'bcrypt'
+import { HTTPStatus } from './types/enums.js'
 import type { CookieOptions, Response as ExpressResponse, Request, NextFunction } from 'express'
 import type { HTTPErrorI } from './types'
-import { HTTPStatus } from './types/enums.js'
 
 export class HTTPError extends Error implements HTTPErrorI {
     public readonly code: number
@@ -122,8 +123,12 @@ export const errorHandler = <ErrorType extends Error>(err: ErrorType, _req: Requ
         return
     }
 
-    const code: number = err instanceof HTTPError ? err.code : HTTPStatus.INTERNAL_ERROR
-    const errorText: string = err.message || err.toString()
+    const code = err instanceof HTTPError ? err.code : HTTPStatus.INTERNAL_ERROR
+    let errorText = err.message || err.toString()
+
+    if (err instanceof MulterError && err.message === 'File too large') {
+        errorText = 'Файл имеет слишком большой объём. Пожалуйста, выберите файл меньшего объёма'
+    }
 
     return new HTTPResponse(res, code, errorText)
 }

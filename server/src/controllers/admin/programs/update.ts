@@ -8,7 +8,7 @@ import type { TeacherI, EducationModesI, EducationalProgramI } from '../../../mo
 export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
     const requestData = req.body
-    const { title, degree, text, mode1, mode2, mode3 } = requestData
+    const { title, degree, text, mode1, mode2, mode3, partner } = requestData
 
     const previuosProgramState = await educationalProgramService.getById(id)
     const directions: string[] = (req.body.directions).split('\n')
@@ -105,11 +105,19 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         }
     }
 
+    const partners = previuosProgramState.partners
+    if (+partner && !isNaN(+partner) && partners.length < 20) {
+        const partnerLogoFile = await documentService.getById(+partner)
+        const partnerLogoUrl = partnerLogoFile?.src
+        if (partnerLogoUrl) partners.push(partnerLogoUrl)
+    }
+
     const newProgramState: EducationalProgramI = {
         title, degree,
         educationModes, directions,
         teacher, exams,
-        text, feedbacks
+        text, feedbacks,
+        partners
     }
     await educationalProgramService.updateById(id, newProgramState)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Образовательная программа успешно обновлена')

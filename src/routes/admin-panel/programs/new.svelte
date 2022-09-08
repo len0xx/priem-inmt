@@ -19,10 +19,6 @@
     let teacherImageId: number = null
     let teacherImagePath: string = null
 
-    let partnerLogoModal: ModalComponent = null
-    let partnerLogoIds: number[] = []
-    let partnerLogoPaths: string[] = []
-
     let phoneMask = {
         mask: '+{7}-(000)-000-0000'
     }
@@ -34,8 +30,6 @@
     let degree = 'Бакалавриат'
     let activeExams = [true, false, false, false, false]
     $: countExams = activeExams.filter(exam => exam).length
-    let activePartners = [true, ...Array(19).fill(false)]
-    $: countPartners = activePartners.filter(partner => partner).length
 
     const addExam = () => {
         let flag = false
@@ -47,19 +41,7 @@
         })
     }
 
-    const addPartner = () => {
-        let flag = false
-        activePartners.forEach((partner, i) => {
-            if (!partner && !flag) {
-                activePartners[i] = true
-                flag = true
-            }
-        })
-    }
-
     const removeExam = (index: number) => activeExams[index] = false
-    const removePartner = (index: number) => activePartners[index] = false
-
     const handleSuccess = () => {
         redirect('/admin-panel/programs')
     }
@@ -78,11 +60,6 @@
         teacherImageId = event.detail.id
         teacherImagePath = event.detail.path
     }
-
-    const partnerLogoSelected = (event: CustomEvent<{id: number, path: string}>) => {
-        partnerLogoIds = [...partnerLogoIds, event.detail.id]
-        partnerLogoPaths = [...partnerLogoPaths, event.detail.path]
-    }
 </script>
 
 <svelte:head>
@@ -94,8 +71,6 @@
 <FileSelect bind:modal={ secondImageModal } on:save={ secondImageSelected } />
 
 <FileSelect bind:modal={ teacherImageModal } on:save={ teacherImageSelected } />
-
-<FileSelect bind:modal={ partnerLogoModal } on:save={ partnerLogoSelected } />
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -358,31 +333,6 @@
                     <RoundButton variant="plus" size="M" on:click={ () => feedbacksExpanded = true } />
                 </div>
             { /if }
-            <h3>Партнеры</h3>
-            <!-- TODO: decent layout -->
-            <p>Выберите до&nbsp;20&nbsp;логотипов партнеров-работодателей</p>
-            <Grid m={5} s={2}>
-                { #each activePartners as partner, i }
-                    { #if partner }
-                    <div transition:blur|local={{ duration: 200 }} class="grid" style="grid-template-rows: repeat(3, max-content)">
-                        <input type="hidden" name="partner_logo{i + 1}" value={ partnerLogoIds[i] }>
-                        { #if partnerLogoPaths[i] }
-                            <!-- svelte-ignore a11y-missing-attribute -->
-                            <img width="150px" height="150px" src={ partnerLogoPaths[i] } class="img-fluid mt-3">
-                        { /if }
-                        <button type="button" class="btn btn-outline-success btn-sm" on:click={ partnerLogoModal.open }>{ partnerLogoIds[i] ? 'Файл выбран' : 'Выбрать файл' }</button>
-                        { #if partnerLogoIds[i] }
-                            <button type="button" on:click={ () => removePartner(i) } transition:blur|local={{ duration: 200 }} class="btn btn btn-outline-danger btn-sm">Удалить логотип</button>
-                        { /if }
-                    </div>
-                    { /if }
-                { /each }
-            </Grid>
-            <div class="buttons-row">
-                { #if countPartners < 20 }
-                    <button type="button" on:click={addPartner} class="btn btn-outline-primary">Добавить логотип</button>
-                {/if}
-            </div>
             <br /> 
             <div class="buttons-row">
                 <button class="btn btn-primary">Создать</button>

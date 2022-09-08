@@ -3,24 +3,24 @@
     import type { Load } from '@sveltejs/kit'
     
     export const load: Load = async ({ fetch, session }) => {
-        // const resOpportunities = await fetch(apiRoute('admin/opportunity', session.api))
-        // const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor', session.api))
-        // const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
+        const resQuestions = await fetch(apiRoute('admin/question/?page=master'))
+        const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor', session.api))
+        const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
         const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=master', session.api))
-        // const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
+        const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
         const resInfo = await fetch(apiRoute('admin/textinfo/?page=master', session.api))
         const resPrograms = await fetch(apiRoute('admin/programs?degree=master', session.api))
     
-        // const documents = (await resDocuments.json()).documents
-        // const feedbacks = (await resFeedbacks.json()).feedbacks
-        // const opportunities = (await resOpportunities.json()).opportunities
+        const documents = (await resDocuments.json()).documents
+        const feedbacks = (await resFeedbacks.json()).feedbacks
+        const questions = (await resQuestions.json()).questions
         const featuresPromo = (await resFeaturesPromo.json()).features
-        // const featuresInst = (await resFeaturesInst.json()).features
+        const featuresInst = (await resFeaturesInst.json()).features
         const info = (await resInfo.json()).info
         const programs = (await resPrograms.json()).programs
 
-        if (resPrograms.ok && resInfo.ok && resFeaturesPromo.ok) {
-            return { props: { programs, pageInfo: info, featuresPromo } }
+        if (resPrograms.ok && resInfo.ok && resFeaturesPromo.ok && resQuestions.ok && resDocuments.ok && resFeedbacks.ok && resFeaturesInst.ok) {
+            return { props: { programs, documents, feedbacks, questions, featuresInst, pageInfo: info, featuresPromo } }
         }
     }
 </script>
@@ -56,15 +56,16 @@
     import images from '$lib/images3'
     import partners from '$lib/partners'
     import professions from '$lib/professions'
-    import faqText from '$lib/faqs'
+    // import faqText from '$lib/faqs'
     import { master as feedbacks } from '$lib/feedback'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { blur, fly } from 'svelte/transition'
     import type { EducationMode } from '$lib/programs'
-    import type { EducationalProgram, FeatureI } from '../types'
+    import type { EducationalProgram, FeatureI, QuestionI } from '../types'
 
     export let programs: EducationalProgram[] = []
     export let featuresPromo: FeatureI[] = []
+    export let questions: QuestionI[] = []
     export let pageInfo: Record<string, string> = {}
 
     let programsExpanded = false
@@ -680,12 +681,12 @@
         <Grid m={1} l={2} gap={2} ratio="1:2">
             <Heading size={1} className="blue-text" marginTop={0}>Часто задаваемые вопросы</Heading>
             <div>
-                { #each faqText as faq, i }
+                { #each questions as question, i (question.id) }
                     { #if i < 4 || faqsExpanded }
                         <div transition:blur={{ duration: 200 }}>
                             <Expandable bind:active={faqs[i]} on:click={() => toggleExpandable(i)}>
-                                <svelte:fragment slot="header">{ faq.question }</svelte:fragment>
-                                <svelte:fragment slot="text">{ @html faq.answer }</svelte:fragment>
+                                <svelte:fragment slot="header">{ question.text }</svelte:fragment>
+                                <svelte:fragment slot="text">{ @html question.answer }</svelte:fragment>
                             </Expandable>
                         </div>
                     { /if }

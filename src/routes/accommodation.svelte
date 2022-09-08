@@ -38,8 +38,10 @@
         Preloader
     } from '$components'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import documents from '$lib/documents2'
+    import type { DocumentI } from '../types'
+    // import documents from '$lib/documents2'
 
+    export let documents: DocumentI[] = []
     export let pageInfo: Record<string, string> = {}
 
     let showPreloader = true
@@ -279,8 +281,8 @@
         <Grid m={2} s={1} ratio="2:3">
             <Heading size={1} className="blue-text" marginTop={0}>Нормативные <br /> документы</Heading>
             <Grid m={1}>
-                { #each documents as document }
-                    <Document { ...document } />
+                { #each documents as document (document.id) }
+                    <Document link={ document.src } filename={ document.title } extension={ document.extension } />
                 { /each }
             </Grid>
         </Grid>

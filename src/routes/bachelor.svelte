@@ -4,23 +4,23 @@
     
     export const load: Load = async ({ fetch, session }) => {
         const resOpportunities = await fetch(apiRoute('admin/opportunity', session.api))
-        // const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor', session.api))
-        // const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
+        const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor', session.api))
+        const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
         const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor', session.api))
-        // const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
+        const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
         const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor', session.api))
         const resPrograms = await fetch(apiRoute('admin/programs?degree=bachelor', session.api))
     
-        // const documents = (await resDocuments.json()).documents
-        // const feedbacks = (await resFeedbacks.json()).feedbacks
+        const documents = (await resDocuments.json()).documents
+        const feedbacks = (await resFeedbacks.json()).feedbacks
         const opportunities = (await resOpportunities.json()).opportunities
         const featuresPromo = (await resFeaturesPromo.json()).features
-        // const featuresInst = (await resFeaturesInst.json()).features
+        const featuresInst = (await resFeaturesInst.json()).features
         const info = (await resInfo.json()).info
         const programs = (await resPrograms.json()).programs
 
-        if (resOpportunities.ok && resFeaturesPromo.ok && resPrograms.ok && resInfo.ok) {
-            return { props: { opportunities, featuresPromo, programs, pageInfo: info } }
+        if (resOpportunities.ok && resFeaturesPromo.ok && resPrograms.ok && resDocuments.ok && resFeedbacks.ok && resFeaturesInst.ok && resInfo.ok) {
+            return { props: { opportunities, featuresPromo, programs, documents, feedbacks, featuresInst, pageInfo: info } }
         }
     }
 </script>
@@ -58,16 +58,19 @@
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
     import images from '$lib/images3'
     import partners from '$lib/partners'
-    import documents from '$lib/documents'
+    // import documents from '$lib/documents'
     import { formEndpoint, modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { bachelor as feedbacks } from '$lib/feedback'
     import { blur, fly } from 'svelte/transition'
     import type { EducationMode } from '$lib/programs'
-    import type { FeatureI, OpportunityI, EducationalProgram } from 'src/types'
+    import type { FeatureI, DocumentI, OpportunityI, EducationalProgram } from 'src/types'
 
     export let opportunities: OpportunityI[] = []
     export let featuresPromo: FeatureI[] = []
+    // export let featuresInst: FeatureI[] = []
     export let programs: EducationalProgram[] = []
+    export let documents: DocumentI[] = []
+    // export let feedbacks: FeedbackI[] = []
     export let pageInfo: Record<string, string> = {}
 
     let linkColor: 'white' | 'black' = 'white'
@@ -780,8 +783,8 @@
         <Grid m={2} s={1} ratio="2:3">
             <Heading size={1} className="blue-text" marginTop={0}>Полезные <br /> документы</Heading>
             <Grid m={1}>
-                { #each documents as document }
-                    <Document { ...document } />
+                { #each documents as document (document.id) }
+                    <Document link={ document.src } filename={ document.title } extension={ document.extension } />
                 { /each }
             </Grid>
         </Grid>

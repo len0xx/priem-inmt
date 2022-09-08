@@ -105,7 +105,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         }
     }
 
-    const partners = previuosProgramState.partners
+    const partners = previuosProgramState.partners || []
     if (+partner && !isNaN(+partner) && partners.length < 20) {
         const partnerLogoFile = await documentService.getById(+partner)
         const partnerLogoUrl = partnerLogoFile?.src

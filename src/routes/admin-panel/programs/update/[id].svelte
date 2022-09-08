@@ -425,29 +425,29 @@
                 </div>
             {/if}
             <div>
-                <h3>Партнеры</h3>
+                <h3>Партнеры образовательной программы</h3>
                 <!-- TODO: add partner removal functionality -->
-                { #if program.partners.length }
-                <Grid m={5} s={2}>
-                    { #each program.partners as partner}
-                        <!-- svelte-ignore a11y-missing-attribute -->
-                        <img width="150px" height="150px" src={ partner } class="img-fluid mt-3" />
-                    { /each }
-                </Grid>
-                { /if }
-                { #if program.partners.length < totalPartners }
-                    <input type="hidden" name="partner" value={ partnerLogoId } />
+                { #if program.partners && program.partners.length }
+                    <Grid m={5} s={2}>
+                        { #each program.partners as partner}
+                            <!-- svelte-ignore a11y-missing-attribute -->
+                            <img width="150px" height="150px" src={ partner } class="img-fluid mt-3" />
+                        { /each }
+                    </Grid>
                     <br />
+                { /if }
+                { #if !program.partners || (program.partners && program.partners.length < totalPartners) }
+                    <input type="hidden" name="partner" value={ partnerLogoId } />
                     {#if $isMobile}
                         <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
                     {:else }
                         <p>Добавить логотип</p>
+                        { #if partnerLogoPath }
+                            <!-- svelte-ignore a11y-missing-attribute -->
+                            <img width="150px" height="150px" src={ partnerLogoPath } class="img-fluid mt-3" /><br />
+                        { /if }
                         <button type="button" class="btn btn-outline-success" on:click={ partnerLogoModal.open }> { partnerLogoId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     {/if}
-                    { #if partnerLogoPath }
-                        <!-- svelte-ignore a11y-missing-attribute -->
-                        <img width="150px" height="150px" src={ partnerLogoPath } class="img-fluid mt-3" />
-                        { /if }
                 { :else }
                     <br />
                     <p>Достигнуто максимальное количество партнеров (20). Для добавления логотипа удалите хотя бы один из&nbsp;существующих.</p>

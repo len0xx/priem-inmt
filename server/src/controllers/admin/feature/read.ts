@@ -5,7 +5,7 @@ import type { Request, Response } from 'express'
 import type { WhereOptions } from 'sequelize'
 
 
-export const getAll = catchHTTPErrors(async (req: Request, res: Response) => {
+export const readAll = catchHTTPErrors(async (req: Request, res: Response) => {
     const type = req.query.type
     const options: WhereOptions = type ? { where: { type } } : {}
     options.order = [ [ 'id', 'ASC' ] ]
@@ -16,7 +16,7 @@ export const getAll = catchHTTPErrors(async (req: Request, res: Response) => {
 
 })
 
-export const get = catchHTTPErrors(async (req: Request, res: Response) => {
+export const read = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
     const feature = await featureService.getById(id)
 

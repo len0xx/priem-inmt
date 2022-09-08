@@ -8,7 +8,7 @@ export const readAll = catchHTTPErrors(async (_: Request, res: Response) => {
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { opportunities })
 })
 
-export const readOne = catchHTTPErrors(async (req: Request, res: Response) => {
+export const read = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
     const opportunity = await opportunityService.getById(id)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { opportunity })

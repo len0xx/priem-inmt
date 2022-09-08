@@ -5,14 +5,14 @@ import type { Request, Response } from 'express'
 import { Op } from 'sequelize'
 import type { FindOptions } from 'sequelize'
 
-export const get = catchHTTPErrors(async (req: Request, res: Response) => {
+export const read = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
     const program = await educationalProgramService.getById(id)
 
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { program })
 })
 
-export const getAll = catchHTTPErrors(async (req: Request, res: Response) => {
+export const readAll = catchHTTPErrors(async (req: Request, res: Response) => {
     let degree = req.query.degree
 
     if (degree === 'bachelor') {

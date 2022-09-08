@@ -4,7 +4,7 @@ import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 import type { FindOptions } from 'sequelize/types/model.js'
 
-export const readOne = catchHTTPErrors(async (req: Request, res: Response) => {
+export const read = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
     const feedback = await feedbackService.getById(id)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { feedback })

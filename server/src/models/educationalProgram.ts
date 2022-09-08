@@ -101,9 +101,10 @@ EducationalProgram.init(
             type: DataTypes.JSON,
             allowNull: true,
             validate: {
-                len: {
-                    args: [0, 20],
-                    msg: 'Превышено максимальное количество партнеров программы (20)'
+                isUnder20(arr: string[]) {
+                    if (arr.length > 20) {
+                        throw new Error('Превышено допустимое количество партнеров программы (20)')
+                    }
                 }
             }
         }

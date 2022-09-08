@@ -32,6 +32,10 @@
     let teacherImageId: number = null
     let teacherImagePath: string = null
 
+    let partnerLogoModal: ModalComponent = null
+    let partnerLogoId: number = null
+    let partnerLogoPath: string = null
+
     let phoneMask = {
         mask: '+{7}-(000)-000-0000',
     }
@@ -45,6 +49,7 @@
     let mode3 = Boolean(program.educationModes.partTime)
     let degree = program.degree
     let totalExams = 5
+    let totalPartners = 20
 
     let exams = program.exams
     let examsCount = Object.keys(exams).length
@@ -92,6 +97,11 @@
         teacherImageId = event.detail.id
         teacherImagePath = event.detail.path
     }
+
+    const partnerLogoSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        partnerLogoId = event.detail.id
+        partnerLogoPath = event.detail.path
+    }
 </script>
 
 <svelte:head>
@@ -111,6 +121,8 @@
 <FileSelect bind:modal={ imageModals[1] } on:save={ secondImageSelected } />
 
 <FileSelect bind:modal={ teacherImageModal } on:save={ teacherImageSelected } />
+
+<FileSelect bind:modal={ partnerLogoModal } on:save={ partnerLogoSelected } />
 
 <section class="main-content">
     <div class="white-block-wide">
@@ -412,6 +424,35 @@
                     />
                 </div>
             {/if}
+            <div>
+                <h3>Партнеры</h3>
+                <!-- TODO: add partner removal functionality -->
+                { #if program.partners.length }
+                <Grid m={5} s={2}>
+                    { #each program.partners as partner}
+                        <!-- svelte-ignore a11y-missing-attribute -->
+                        <img width="150px" height="150px" src={ partner } class="img-fluid mt-3" />
+                    { /each }
+                </Grid>
+                { /if }
+                { #if program.partners.length < totalPartners }
+                    <input type="hidden" name="partner" value={ partnerLogoId } />
+                    <br />
+                    {#if $isMobile}
+                        <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                    {:else }
+                        <p>Добавить логотип</p>
+                        <button type="button" class="btn btn-outline-success" on:click={ partnerLogoModal.open }> { partnerLogoId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                    {/if}
+                    { #if partnerLogoPath }
+                        <!-- svelte-ignore a11y-missing-attribute -->
+                        <img width="150px" height="150px" src={ partnerLogoPath } class="img-fluid mt-3" />
+                        { /if }
+                { :else }
+                    <br />
+                    <p>Достигнуто максимальное количество партнеров (20). Для добавления логотипа удалите хотя бы один из&nbsp;существующих.</p>
+                { /if }
+            </div>
             <br />
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>

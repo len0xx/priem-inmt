@@ -203,7 +203,7 @@
                             </div>
                             <div>
                                 <label for="contract1">Количество мест - Контракт (очно-заочно)</label><br />
-                                <input class="form-control wide" type="number" name="contract2" placeholder="10" required value={program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : '0'} />
+                                <input class="form-control wide" type="number" name="contract2" placeholder="10" required value={program.educationModes.partFullTime ? program.educationModes.fullTime.vacantSpots.contract : '0'} />
                             </div>
                             <div>
                                 <label for="period1">Срок обучения (очно-заочно)</label><br />
@@ -235,7 +235,7 @@
                             </div>
                             <div>
                                 <label for="contract1">Количество мест - Контракт (заочно)</label><br />
-                                <input class="form-control wide" type="number" name="contract3" placeholder="10" required value={program.educationModes.fullTime ? program.educationModes.fullTime.vacantSpots.contract : '0'} />
+                                <input class="form-control wide" type="number" name="contract3" placeholder="10" required value={program.educationModes.partTime ? program.educationModes.partTime.vacantSpots.contract : '0'} />
                             </div>
                             <div>
                                 <label for="period1">Срок обучения (заочно)</label><br />
@@ -244,7 +244,7 @@
                             <div>
                                 <label for="price1">Стоимость обучения (заочно)</label><br />
                                 <small>Только число (без слова "от" и символа рубля)</small><br />
-                                <input class="form-control wide" type="text" name="price3" placeholder="170 000" value={program.educationModes.partTime.price ? program.educationModes.partTime.price : ''} />
+                                <input class="form-control wide" type="text" name="price3" placeholder="170 000" value={program.educationModes.partTime ? program.educationModes.partTime.price : ''} />
                             </div>
                             <div>
                                 <label for="language1">Язык освоения (заочно)</label><br />

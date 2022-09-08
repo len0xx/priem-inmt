@@ -11,7 +11,6 @@ export const get = catchHTTPErrors(async (req: Request, res: Response) => {
 })
 
 export const getAll = catchHTTPErrors(async (_: Request, res: Response) => {
-    const responsibles = await responsibleService.get()
-
+    const responsibles = await responsibleService.get({ order: [ [ 'id', 'ASC' ] ] })
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { responsibles })
 })

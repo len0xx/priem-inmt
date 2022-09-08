@@ -13,6 +13,7 @@ export const get = catchHTTPErrors(async (req: Request, res: Response) => {
 export const getAll = catchHTTPErrors(async (req: Request, res: Response) => {
     const name = req.query.name
     const options: FindOptions = name ? { where: { name } } : {}
+    options.order = [ [ 'id', 'ASC' ] ]
 
     const images = await carouselService.get(options)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { images })

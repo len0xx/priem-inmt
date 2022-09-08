@@ -24,6 +24,7 @@ export const getAll = catchHTTPErrors(async (req: Request, res: Response) => {
     }
 
     const options: FindOptions = degree ? { where: { degree } } : {}
+    options.order = [ [ 'id', 'ASC' ] ]
 
     if (degree === 'bachspec') {
         const programs = await educationalProgramService.findAll({

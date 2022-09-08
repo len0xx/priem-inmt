@@ -16,7 +16,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         }
     }
 
-    const newData: ContactInfoI = { id: 1, tel, email, directorateAddress, admissionsAddress, links }
+    const newData: ContactInfoI = { tel, email, directorateAddress, admissionsAddress, links }
 
     await contactInfoService.create(newData)
 

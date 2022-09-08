@@ -13,6 +13,7 @@ export const readOne = catchHTTPErrors(async (req: Request, res: Response) => {
 export const readAll = catchHTTPErrors(async (req: Request, res: Response) => {
     const page = req.query.page
     const options: FindOptions = page ? { where: { page } } : {}
+    options.order = [ [ 'id', 'ASC' ] ]
 
     const feedbacks = await feedbackService.get(options)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { feedbacks })

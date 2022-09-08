@@ -1,13 +1,14 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
 import sequelize from '../../db.js'
 
-class Dormitory extends Model<InferAttributes<Dormitory>, InferCreationAttributes<Dormitory>> {
+class Dormitory extends Model<InferAttributes<Dormitory, { omit: 'id' }>, InferCreationAttributes<Dormitory>> {
+    declare id: CreationOptional<number>
     declare img: string
     declare title: string
     declare address: string
 }
 
-export type DormitoryI = InferAttributes<Dormitory>
+export type DormitoryI = InferAttributes<Dormitory, { omit: 'id' }>
 
 Dormitory.init({
     img: {

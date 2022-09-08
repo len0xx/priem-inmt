@@ -8,6 +8,7 @@ import type { WhereOptions } from 'sequelize'
 export const getAll = catchHTTPErrors(async (req: Request, res: Response) => {
     const type = req.query.type
     const options: WhereOptions = type ? { where: { type } } : {}
+    options.order = [ [ 'id', 'ASC' ] ]
 
     const features = await featureService.get(options)
 

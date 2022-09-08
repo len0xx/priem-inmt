@@ -1,8 +1,8 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
 import sequelize from '../../db.js'
 
-class ContactInfo extends Model<InferAttributes<ContactInfo>, InferCreationAttributes<ContactInfo>> {
-    declare id: number
+class ContactInfo extends Model<InferAttributes<ContactInfo, { omit: 'id' }>, InferCreationAttributes<ContactInfo>> {
+    declare id: CreationOptional<number>
     declare tel: string
     declare email: string
     declare directorateAddress: string
@@ -10,15 +10,9 @@ class ContactInfo extends Model<InferAttributes<ContactInfo>, InferCreationAttri
     declare links: { text: string, url: string }[]
 }
 
-export type ContactInfoI = InferAttributes<ContactInfo>
+export type ContactInfoI = InferAttributes<ContactInfo, { omit: 'id' }>
 
 ContactInfo.init({
-    id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        defaultValue: 1
-    },
     tel: {
         type: DataTypes.STRING,
     },

@@ -147,3 +147,21 @@ export const catchHTTPErrors = (action: (req: Request, res: ExpressResponse, nex
 }
 
 export const generateStaticFilePath = (filename: string) => `/static/${filename}`
+
+export const defaultSort = <T>(a: T, b: T) => {
+    if (a < b) return -1
+    else if (a > b) return 1
+    return 0
+}
+
+export const sortByIdAsc = <T extends { id: number }>(a: T, b: T) => {
+    if (a.id < b.id) return -1
+    else if (a.id > b.id) return 1
+    return 0
+}
+
+export const sortByIdDesc = <T extends { id: number }>(a: T, b: T) => {
+    if (a.id > b.id) return -1
+    else if (a.id < b.id) return 1
+    return 0
+}

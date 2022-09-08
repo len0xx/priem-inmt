@@ -6,6 +6,5 @@ import type { Request, Response } from 'express'
 export const get = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
     const responsible = await settlementResponsible.getById(id)
-
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { responsible })
 })

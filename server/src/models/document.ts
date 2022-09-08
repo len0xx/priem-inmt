@@ -1,7 +1,8 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
 import sequelize from '../../db.js'
 
-class Document extends Model<InferAttributes<Document>, InferCreationAttributes<Document>> {
+class Document extends Model<InferAttributes<Document, { omit: 'id' }>, InferCreationAttributes<Document>> {
+    declare id: CreationOptional<number>
     declare title: string
     declare src: string
     declare type: string
@@ -9,7 +10,7 @@ class Document extends Model<InferAttributes<Document>, InferCreationAttributes<
     declare extension: string
 }
 
-export type DocumentI = InferAttributes<Document>
+export type DocumentI = InferAttributes<Document, { omit: 'id' }>
 
 Document.init(
     {

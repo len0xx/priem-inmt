@@ -13,6 +13,7 @@ export const readAll = catchHTTPErrors(async (req: Request, res: Response) => {
         options.offset = LIMIT * (page - 1)
         options.limit = LIMIT
     }
+    options.order = [ [ 'id', 'ASC' ] ]
 
     const documents = await documentService.get(options)
     const amount = await documentService.count()

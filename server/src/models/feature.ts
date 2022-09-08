@@ -1,13 +1,14 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
 import sequelize from '../../db.js'
 
-class Feature extends Model<InferAttributes<Feature>, InferCreationAttributes<Feature>> {
+class Feature extends Model<InferAttributes<Feature, { omit: 'id' }>, InferCreationAttributes<Feature>> {
+    declare id: CreationOptional<number>
     declare title: string
     declare description: string
     declare type: string
 }
 
-export type FeatureI = InferAttributes<Feature>
+export type FeatureI = InferAttributes<Feature, { omit: 'id' }>
 
 Feature.init(
     {

@@ -6,7 +6,7 @@ import type { RentInfoI } from '../../../models/rentInfo.js'
 
 export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const { heading, subheading, text, tel1, tel2, linkText, linkURL } = req.body
-    const newData: RentInfoI = { id: 1, heading, subheading, text, tel1, tel2, linkText, linkURL }
+    const newData: RentInfoI = { heading, subheading, text, tel1, tel2, linkText, linkURL }
 
     if (await rentInfoService.getById(1)) await rentInfoService.update({ where: { id: 1 } }, newData)
     else await rentInfoService.create(newData)

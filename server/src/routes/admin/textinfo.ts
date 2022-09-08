@@ -6,7 +6,6 @@ import { requireAuthorization } from '../../middlewares.js'
 const router = Router() /* eslint-disable-line */
 
 router.get('/', readAll)
-
 router.patch('/', requireAuthorization('json'), update)
 
 export default router

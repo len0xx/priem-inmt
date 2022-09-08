@@ -7,6 +7,7 @@ import type { FindOptions } from 'sequelize/types/model.js'
 export const readAll = catchHTTPErrors(async (req: Request, res: Response) => {
     const page = req.query.page as string
     const options: FindOptions = page ? { where: { page } } : {}
+    options.order = [ [ 'id', 'ASC' ] ]
 
     const results = await textService.get(options)
     const info: Record<string, string> = {}

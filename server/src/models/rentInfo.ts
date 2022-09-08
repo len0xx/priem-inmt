@@ -1,8 +1,8 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
 import sequelize from '../../db.js'
 
-class RentInfo extends Model<InferAttributes<RentInfo>, InferCreationAttributes<RentInfo>> {
-    declare id: number
+class RentInfo extends Model<InferAttributes<RentInfo, { omit: 'id' }>, InferCreationAttributes<RentInfo>> {
+    declare id: CreationOptional<number>
     declare heading: string
     declare subheading: string
     declare text: string
@@ -12,16 +12,10 @@ class RentInfo extends Model<InferAttributes<RentInfo>, InferCreationAttributes<
     declare linkURL: string
 }
 
-export type RentInfoI = InferAttributes<RentInfo>
+export type RentInfoI = InferAttributes<RentInfo, { omit: 'id' }>
 
 RentInfo.init(
     {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            defaultValue: 1
-        },
         heading: {
             type: DataTypes.STRING,
             allowNull: false,

@@ -10,6 +10,6 @@ export const get = catchHTTPErrors(async (req: Request, res: Response) => {
 })
 
 export const getAll = catchHTTPErrors(async (_: Request, res: Response) => {
-    const partners = await partnerService.get()
+    const partners = await partnerService.get({ order: [ [ 'id', 'ASC' ] ] })
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { partners })
 })

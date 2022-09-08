@@ -1,11 +1,12 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
 import sequelize from '../../db.js'
 
-class Video extends Model<InferAttributes<Video>, InferCreationAttributes<Video>> {
+class Video extends Model<InferAttributes<Video, { omit: 'id' }>, InferCreationAttributes<Video>> {
+    declare id: CreationOptional<number>
     declare src: string
 }
 
-export type VideoI = InferAttributes<Video>
+export type VideoI = InferAttributes<Video, { omit: 'id' }>
 
 Video.init({
     src: {

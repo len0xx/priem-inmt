@@ -14,6 +14,7 @@ export const get = catchHTTPErrors(async (req: Request, res: Response) => {
 export const getAll = catchHTTPErrors(async (req: Request, res: Response) => {
     const page = req.query.page
     const options: FindOptions = page ? { where: { page } } : {}
+    options.order = [ [ 'id', 'ASC' ] ]
 
     const questions = await questionSerivce.get(options)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { questions })

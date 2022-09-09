@@ -44,6 +44,10 @@
     let fileId: number = null
     let filePath: string = null
 
+    let responsibleImageModal: ModalComponent = null
+    let responsibleImageId: number = null
+    let responsibleImagePath: string = null
+
     let dormitoriesExpanded = false
 
     const updateDormitoryId = (id: number) => {
@@ -67,6 +71,11 @@
 
     let deleteId = 0
     let modal: ModalComponent = null
+
+    const responsibleImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
+        responsibleImageId = event.detail.id
+        responsibleImagePath = event.detail.path
+    }
 
     const deleteDocument = async () => {
         const res = await fetch(apiRoute(`admin/documents/${deleteId}`), { method: 'DELETE' })
@@ -101,6 +110,8 @@
 </svelte:head>
 
 <FileSelect bind:modal={ fileModal } on:save={ fileSelected } />
+
+<FileSelect bind:modal={ responsibleImageModal } on:save={ responsibleImageSelected } />
 
 <Modal bind:this={ modal } align="center" closable={true}>
     <p class="mb-4">Вы действительно хотите удалить этот документ?</p>
@@ -234,6 +245,22 @@
                     <input required class="form-control" type="email" value={settlement?.email || ''} name="email" />
                 </div>
             </Grid>
+            <br />
+            <label>
+                <span class="caption">Фотография:</span><br />
+                {#if responsibleImagePath}
+                    <img width="150px" height="150px" src={responsibleImagePath} class="img-fluid mt-3" alt="Фотография известного выпускника"> 
+                {:else if settlement?.photo}
+                    <img width="150px" height="150px" src={settlement.photo} class="img-fluid mt-3" alt="Фотография известного выпускника">   
+                {/if}
+                <br />
+                <input type="hidden" name="photo" value={ responsibleImageId }><br />
+                {#if $isMobile}
+                    <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
+                {:else}
+                    <button type="button" class="btn btn-outline-success" on:click={ responsibleImageModal.open }> { responsibleImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
+                {/if}
+            </label>
             <div class="buttons-row">
                 {#if settlement}
                     <button class="btn btn-primary">Сохранить</button>

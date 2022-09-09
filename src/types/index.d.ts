@@ -160,6 +160,7 @@ export interface SettlementI {
     auditory: string
     phone: string
     email: string
+    photo: string
 }
 
 export interface GraduateI {

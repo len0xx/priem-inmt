@@ -120,7 +120,7 @@
         <div class="content">
             <div class="grid grid-2 m-grid-1">
                 <div>
-                    { #if pageInfo.tel || pageInfo.email }
+                    { #if pageInfo?.tel || pageInfo?.email }
                         <p class="grey-text">Горячая линия</p>
                         <h2 class="no-top-margin">
                             { #if pageInfo.tel }
@@ -134,14 +134,14 @@
                     <div class="grid grid-2 m-grid-1 my-7">
                         <div>
                             <p class="grey-text">Дирекция института</p>
-                            <h3 class="no-top-margin" style:max-width="max(50%, 200px)">{ pageInfo.directorateAddress }</h3>
+                            <h3 class="no-top-margin" style:max-width="max(50%, 200px)">{ pageInfo?.directorateAddress || '' }</h3>
                         </div>
                         <div>
                             <p class="grey-text">Приемная комиссия</p>
-                            <h3 class="no-top-margin" style:max-width="max(50%, 200px)">{ pageInfo.admissionsAddress }</h3>
+                            <h3 class="no-top-margin" style:max-width="max(50%, 200px)">{ pageInfo?.admissionsAddress || '' }</h3>
                         </div>
                     </div>
-                    { #if pageInfo.links && pageInfo.links.length }
+                    { #if pageInfo?.links && pageInfo?.links.length }
                         <Nav className="social">
                             { #each pageInfo.links as link, i (i) }
                                 <Link href={ link.url } className="size-3" variant="interactive" lineWidth={ 3 }>{ link.text }</Link>

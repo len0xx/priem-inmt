@@ -76,7 +76,15 @@ SettlementResponsible.init(
         },
         photo: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: 'Поле "Фотография" является обязательным'
+                },
+                notEmpty: {
+                    msg: 'Поле "Фотография" является обязательным'
+                },
+            }
         }
     },
     {

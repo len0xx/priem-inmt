@@ -1,11 +1,18 @@
 import settlementResponsible from '../../../services/settlementResponsible.js'
+import documentService from '../../../services/document.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
 export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
-    const { name, label, address, auditory, phone, email } = req.body
+    const { name, label, address, auditory, phone, email, photo } = req.body
+
+    let photoURL: string
+    if (+photo && !isNaN(+photo)) {
+        const file = await documentService.getById(+photo)
+        photoURL = file ? file.src : undefined
+    }
 
     await settlementResponsible.updateById(id, {
         name,
@@ -13,7 +20,8 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         address,
         auditory,
         phone,
-        email
+        email,
+        photo: photoURL
     })
     return new HTTPResponse(res, HTTPStatus.CREATED, 'Контактные данные ответственного за поселение успешно обновлены')
 })

@@ -2,14 +2,15 @@
     import { apiRoute } from '$lib/utilities'
     import type { Load } from '@sveltejs/kit'
     
-    export const load: Load = async ({ fetch, session }) => {
+    export const load: Load = async ({ fetch }) => {
         const resQuestions = await fetch(apiRoute('admin/question/?page=master'))
-        const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor', session.api))
-        const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
-        const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=master', session.api))
-        const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
-        const resInfo = await fetch(apiRoute('admin/textinfo/?page=master', session.api))
-        const resPrograms = await fetch(apiRoute('admin/programs?degree=master', session.api))
+        const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor'))
+        const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
+        const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=master'))
+        const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo'))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=master'))
+        const resPrograms = await fetch(apiRoute('admin/programs?degree=master'))
+        const resProfessions = await fetch(apiRoute('admin/profession'))
     
         const documents = (await resDocuments.json()).documents
         const feedbacks = (await resFeedbacks.json()).feedbacks
@@ -18,9 +19,10 @@
         const featuresInst = (await resFeaturesInst.json()).features
         const info = (await resInfo.json()).info
         const programs = (await resPrograms.json()).programs
+        const professions = (await resProfessions.json()).professions
 
-        if (resPrograms.ok && resInfo.ok && resFeaturesPromo.ok && resQuestions.ok && resDocuments.ok && resFeedbacks.ok && resFeaturesInst.ok) {
-            return { props: { programs, documents, feedbacks, questions, featuresInst, pageInfo: info, featuresPromo } }
+        if (resPrograms.ok && resInfo.ok && resFeaturesPromo.ok && resQuestions.ok && resDocuments.ok && resFeedbacks.ok && resFeaturesInst.ok && resProfessions.ok) {
+            return { props: { programs, documents, feedbacks, questions, featuresInst, pageInfo: info, featuresPromo, professions } }
         }
     }
 </script>
@@ -55,17 +57,18 @@
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
     import images from '$lib/images3'
     import partners from '$lib/partners'
-    import professions from '$lib/professions'
+    // import professions from '$lib/professions'
     // import faqText from '$lib/faqs'
     import { master as feedbacks } from '$lib/feedback'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { blur, fly } from 'svelte/transition'
     import type { EducationMode } from '$lib/programs'
-    import type { EducationalProgram, FeatureI, QuestionI } from '../types'
+    import type { EducationalProgram, FeatureI, ProfessionI, QuestionI } from '../types'
 
     export let programs: EducationalProgram[] = []
     export let featuresPromo: FeatureI[] = []
     export let questions: QuestionI[] = []
+    export let professions: ProfessionI[] = []
     export let pageInfo: Record<string, string> = {}
 
     let programsExpanded = false
@@ -601,7 +604,7 @@
             <h3 class="no-top-margin">Выпускники нашей магистратуры смогут развиваться и работать в любом направлении, смежномразработкой и проектированием </h3>
         </Grid>
         <div class="pills">
-            { #each professions as profession, i }
+            { #each professions as profession, i (profession.id) }
                 { #if i < 4 || professionsExpanded }
                     <SelectButton variant={ activeSpeciality == i ? 'active' : 'default' } on:click={ () => activeSpeciality = i }>{ profession.title }</SelectButton>
                 { /if }
@@ -614,7 +617,7 @@
         </div>
         <br />
         <br />
-        { #each professions as profession, i }
+        { #each professions as profession, i (profession.id) }
             { #if activeSpeciality == i }
                 <Profession on:linkClicked={ $modal.open } {...profession} />
             { /if }

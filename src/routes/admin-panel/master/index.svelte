@@ -601,7 +601,7 @@
                     <br />
                     <label>
                         <span class="caption">Описание:</span><br />
-                        <textarea class="form-control no-margin" type="text" name="description" id="description" rows="4" required ></textarea>
+                        <textarea class="form-control no-margin" type="text" name="description" id="description" rows="6" required ></textarea>
                     </label>
                     <br />
                     <br />

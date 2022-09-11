@@ -41,24 +41,20 @@
         <h3>Редактировать профессию</h3>
         <Form action="/api/admin/profession/{ profession.id }" method="PATCH" on:success={ handleSuccess } reset={false}>
             <Grid m={2} s={1}>
-                <div>
+                <Grid m={1}>
                     <label>
                         <span class="caption">Название:</span><br />
                         <input class="form-control" type="text" name="title" id="title" value={ profession.title } required />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Описание:</span><br />
-                        <input class="form-control" type="text" name="description" id="description" value={ profession.description } required />
+                        <textarea class="form-control" type="text" name="description" id="description" rows="6" required>{ profession.description }</textarea>
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Минимальная заработная плата:</span><br />
                         <input class="form-control" type="text" name="minsalary" id="minsalary" value={ profession.minsalary } required />
                     </label>
-                </div>
+                </Grid>
                 <div>
                     <span class="caption">Функции специалиста:</span>
                     <br />

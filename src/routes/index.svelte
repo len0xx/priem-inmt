@@ -68,7 +68,7 @@
     import graduates from '$lib/graduates'
     import { getSequentialPartialIndexes } from '$lib/utilities'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import type { PostI } from 'src/types'
+    import type { PostI } from '../types'
 
     export let posts: PostI[] = []
     // export let graduates: GraduateI[] = []

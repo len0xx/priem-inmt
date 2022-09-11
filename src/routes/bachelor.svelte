@@ -63,7 +63,7 @@
     import { bachelor as feedbacks } from '$lib/feedback'
     import { blur, fly } from 'svelte/transition'
     import type { EducationMode } from '$lib/programs'
-    import type { FeatureI, DocumentI, OpportunityI, EducationalProgram } from 'src/types'
+    import type { FeatureI, DocumentI, OpportunityI, EducationalProgram } from '../types'
 
     export let opportunities: OpportunityI[] = []
     export let featuresPromo: FeatureI[] = []

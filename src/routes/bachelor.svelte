@@ -60,17 +60,17 @@
     import partners from '$lib/partners'
     // import documents from '$lib/documents'
     import { formEndpoint, modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import { bachelor as feedbacks } from '$lib/feedback'
+    // import { bachelor as feedbacks } from '$lib/feedback'
     import { blur, fly } from 'svelte/transition'
     import type { EducationMode } from '$lib/programs'
-    import type { FeatureI, DocumentI, OpportunityI, EducationalProgram } from '../types'
+    import type { FeatureI, DocumentI, OpportunityI, EducationalProgram, FeedbackI } from '../types'
 
     export let opportunities: OpportunityI[] = []
     export let featuresPromo: FeatureI[] = []
     // export let featuresInst: FeatureI[] = []
     export let programs: EducationalProgram[] = []
     export let documents: DocumentI[] = []
-    // export let feedbacks: FeedbackI[] = []
+    export let feedbacks: FeedbackI[] = []
     export let pageInfo: Record<string, string> = {}
 
     let linkColor: 'white' | 'black' = 'white'

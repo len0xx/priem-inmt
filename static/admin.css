@@ -188,7 +188,14 @@ nav ul.pagination li {
 }
 
 @media screen and (max-width: 768px) {
+    .white-block {
+        border-radius: 0;
+        width: 100%;
+    }
+
     .white-block-wide {
+        border-radius: 0;
+        width: 100%;
         max-width: 100%;
     }
 

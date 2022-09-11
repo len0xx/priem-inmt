@@ -43,19 +43,15 @@
         <h3>Редактировать отзыв</h3>
         <Form action="/api/admin/feedback/{ feedback.id }" method="PATCH" reset={ false } redirect="/admin-panel/master">
             <Grid m={2} s={1}>
-                <div>
+                <Grid m={1}>
                     <label>
                         <span class="caption">Автор:</span><br />
                         <input class="form-control" type="text" name="name" id="name" value={ feedback.name } required />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Описание:</span><br />
                         <input class="form-control" type="text" name="description" id="description" value={ feedback.description } />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Добавить новое изображение:</span>
                         {#if imagePath}
@@ -74,13 +70,11 @@
                             <button type="button" class="btn btn-outline-success" on:click={ imageModal.open }> { imageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                         {/if}
                     </label>
-                </div>
-                <div>
-                    <label>
-                        <span class="caption">Текст отзыва:</span><br />
-                        <textarea class="form-control" name="text" id="text" rows="4" value={ feedback.text } required></textarea>
-                    </label>
-                </div>
+                </Grid>
+                <label>
+                    <span class="caption">Текст отзыва:</span><br />
+                    <textarea class="form-control" name="text" id="text" rows="4" value={ feedback.text } required></textarea>
+                </label>
             </Grid>
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>

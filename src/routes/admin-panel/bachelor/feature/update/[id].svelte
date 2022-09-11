@@ -29,7 +29,7 @@
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <h3>Редактирование перечисления</h3>
         <Form method="PATCH" action="/api/admin/feature/{ feature.id }" redirect="/admin-panel/bachelor" >
-            <Grid m={2}>
+            <Grid m={2} s={1}>
                 <label>
                     <span class="caption">Название:</span>
                     <input required class="form-control" type="text" name="title" value={feature.title}>

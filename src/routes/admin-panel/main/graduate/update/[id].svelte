@@ -41,7 +41,7 @@
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <h3>Редактирование известного выпускника</h3>
         <Form method="PATCH" action="/api/admin/graduate/{ graduate.id }" redirect="/admin-panel/main" >
-            <Grid m={2}>
+            <Grid m={2} s={1}>
                 <label>
                     <span class="caption">ФИО</span>
                     <input required class="form-control" type="text" name="name" value={graduate.name}>

@@ -14,7 +14,7 @@
 </script>
 
 <script lang="ts">
-    import { Form, FileSelect } from '$components'
+    import { Form, FileSelect, Grid } from '$components'
     import { slide, blur } from 'svelte/transition'
     import { range } from '$lib/utilities'
     import { isMobile } from '$lib/stores'
@@ -49,19 +49,16 @@
         <h2 class="no-top-margin">Публикации на главной странице</h2>
         <h3>Редактирование публикации</h3>
         <Form action="/api/admin/post/{ post.id }" method="PATCH" reset={ false } redirect="/admin-panel/main">
-            <div class="grid grid-2 m-grid-1">
-                <div>
+            <Grid m={2} s={1}>
+                <Grid m={1}>
                     <label>
                         <span class="caption form-label">Заголовок:</span><br />
                         <input class="form-control" type="text" name="title" id="title" value={ post.title } />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption form-label">Текст:</span><br />
                         <textarea class="form-control" name="text" cols="30" rows="4">{ post.text }</textarea>
                     </label>
-                    <br />
                     <label>
                         <span class="caption">Изображение:</span>
                         <input type="hidden" name="img" value={ fileId }><br />
@@ -71,7 +68,7 @@
                             <button type="button" class="btn btn-outline-success" on:click={ fileModal.open }> { fileId ? 'Файл выбран' : 'Выбрать файл' } </button>
                         {/if}
                     </label>
-                </div>
+                </Grid>
                 <div id="vs2f">
                     { #each range(1, links) as i }
                         { @const link = post.links[i - 1] }
@@ -89,7 +86,7 @@
                         <button transition:blur|local={{ duration: 200 }} type="button" class="btn btn-outline-danger" on:click={ removeLink }>Убрать ссылку</button>
                     { /if }
                 </div>
-            </div>
+            </Grid>
             <br />
             {#if filePath}
                 <p>Предпросмотр:</p>

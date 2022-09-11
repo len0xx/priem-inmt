@@ -592,24 +592,20 @@
         <h3 class="no-top-margin">Профессии</h3>
         <Form action="/api/admin/profession" method="POST" reset={ true } on:success={ showNewProfession }>
             <Grid m={2} s={1}>
-                <div>
+                <Grid s={1}>
                     <label>
                         <span class="caption">Название:</span><br />
                         <input class="form-control" type="text" name="title" id="title" required />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Описание:</span><br />
                         <textarea class="form-control no-margin" type="text" name="description" id="description" rows="6" required ></textarea>
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Минимальная заработная плата:</span><br />
                         <input class="form-control" type="number" name="minsalary" id="minsalary" required />
                     </label>
-                </div>
+                </Grid>
                 <div>
                     <span class="caption">Функции специалиста:</span>
                     <br />
@@ -681,7 +677,7 @@
         <br />
         <h4 class="no-top-margin">Преимущества</h4>
         <Form action="/api/admin/feature?type=specialist" method="POST" on:success={ showNewFeatureSpec }>
-            <div class="grid grid-2 m-grid-1">
+            <Grid m={2} s={1}>
                 <label>
                     <span class="caption">Заголовок:</span><br />
                     <input required class="form-control" type="text" name="title">
@@ -690,7 +686,7 @@
                     <span class="caption">Подпись:</span><br />
                     <input required class="form-control" type="text" name="description">
                 </label>
-            </div>
+            </Grid>
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
@@ -723,19 +719,15 @@
         <h3 class="no-top-margin">Отзывы</h3>
         <Form action="/api/admin/feedback/?page=master" method="POST" on:success={ showNewFeedback }>
             <Grid m={2} s={1}>
-                <div>
+                <Grid m={1}>
                     <label>
                         <span class="caption">Автор:</span><br />
                         <input class="form-control" type="text" name="name" id="name" required />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Описание:</span><br />
                         <input class="form-control" type="text" name="description" id="description" />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Добавить новое изображение:</span>
                         {#if feedbackImagePath}
@@ -750,13 +742,11 @@
                             <button type="button" class="btn btn-outline-success" on:click={ feedbackImageModal.open }> { feedbackImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                         {/if}
                     </label>
-                </div>
-                <div>
-                    <label>
-                        <span class="caption">Текст отзыва:</span><br />
-                        <textarea class="form-control" name="text" id="text" rows="4" required></textarea>
-                    </label>
-                </div>
+                </Grid>
+                <label>
+                    <span class="caption">Текст отзыва:</span><br />
+                    <textarea class="form-control" name="text" id="text" rows="4" required></textarea>
+                </label>
             </Grid>
             <br />
             <button class="btn btn-primary">Создать</button>

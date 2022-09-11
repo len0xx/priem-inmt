@@ -69,16 +69,16 @@
     import images1 from '$lib/images1'
     import images2 from '$lib/images2'
     // import partners from '$lib/partners'
-    import graduates from '$lib/graduates'
+    // import graduates from '$lib/graduates'
     import { getSequentialPartialIndexes } from '$lib/utilities'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import type { DocumentI, PartnerI, PostI } from '../types'
+    import type { DocumentI, PartnerI, GraduateI, PostI } from '../types'
 
     export let posts: PostI[] = []
     export let partners: PartnerI[] = []
     export let videos: DocumentI[] = []
     export let pageInfo: Record<string, string> = {}
-    // export let graduates: GraduateI[] = []
+    export let graduates: GraduateI[] = []
 
     let showPreloader = true
     let pageLoaded = false
@@ -242,7 +242,7 @@
         <div class="content">
             <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.5}>Известные выпускники</Heading>
         </div>
-        <Carousel margin={0} className="mobile-hide">
+        <Carousel margin={0} className="mobile-hide" displayButtons={ graduates && graduates.length > 6 }>
             { @const grad = graduates.filter(graduate => graduate.photo.length) }
             { #each getSequentialPartialIndexes(grad, 6) as range }
                 <div class="fill-width">
@@ -277,10 +277,6 @@
                     { #each videos as video (video.id) }
                         <VideoCard src={ video.src } />
                     { /each }
-                    <!-- <VideoCard src="/video/first.mp4" />
-                    <VideoCard src="/video/second.mp4" />
-                    <VideoCard src="/video/third.mp4" />
-                    <VideoCard src="/video/fourth.mp4" /> -->
                 </Grid>
             </Grid>
             <br class="pc-hide" />

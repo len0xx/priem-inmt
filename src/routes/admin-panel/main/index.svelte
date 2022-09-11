@@ -97,6 +97,7 @@
     let links = 1
     let deleteId = 0
     let modal: ModalComponent = null
+    let videoLoading = false
 
     const addLink = () => links++
     const removeLink = () => links--
@@ -664,12 +665,20 @@
                     {/if}
                 </div>
             </Form>
-            <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
+            <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false} on:submit={ () => videoLoading = true } on:done={ () => videoLoading = false }>
                 <label>
                     <span class="caption">Текст под заголовком:</span>
                     <textarea name="videoText" class="form-control wide" rows="6" required>{ info.videoText || '' }</textarea>
                 </label>
                 <button class="btn btn-primary">Сохранить</button>
+                <button class="btn btn-primary" type="button" disabled={ videoLoading }>
+                    { #if videoLoading }
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Загрузка...
+                    { :else }
+                        Сохранить
+                    { /if }
+                </button>
             </Form>
         </Grid>
         <h3>Опубликованные видеозаписи</h3>

@@ -225,7 +225,7 @@ export const getSequentialPartialIndexes = <T>(arr: T[], size: number): number[]
 
 type ApplicationMode = 'development' | 'production'
 
-const NODE_ENV = 'production'
+const NODE_ENV = 'development'
 
 export const getBaseUrl = (mode: ApplicationMode) => ((mode == 'production') ? BASE_DOMAIN : DEV_DOMAIN)
 

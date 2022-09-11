@@ -5,7 +5,6 @@ class Graduate extends Model<InferAttributes<Graduate, { omit: 'id' }>, InferCre
     declare id: CreationOptional<number>
     declare name: string
     declare description: string
-    declare graduateYear?: number
     declare photo: string
 }
 
@@ -34,10 +33,6 @@ Graduate.init(
                     msg: 'Поле "Подпись" является обязательным'
                 },
             },
-        },
-        graduateYear: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
         },
         photo: {
             type: DataTypes.STRING,

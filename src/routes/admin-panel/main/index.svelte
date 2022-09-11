@@ -590,10 +590,6 @@
                     <input required class="form-control" type="text" name="name">
                 </label>
                 <label>
-                    <span class="caption">Год выпуска</span><br />
-                    <input required class="form-control" type="number" name="graduateYear">
-                </label>
-                <label>
                     <span class="caption">Описание</span><br />
                     <input required class="form-control" type="text" name="description">
                 </label>

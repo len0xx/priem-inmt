@@ -167,7 +167,6 @@ export interface GraduateI {
     id?: number
     name: string
     description: string
-    graduateYear?: number
     photo: string
 }
 

@@ -88,20 +88,16 @@
         <h2 class="no-top-margin">Редактирование страницы контактов</h2>
         <h3>Информация в промо-блоке</h3>
         <Form action="/api/admin/textinfo?page=contacts" method="PATCH" reset={ false }>
-            <div class="grid grid-2 m-grid-1">
-                <div>
-                    <label>
-                        <span class="caption">Заголовок:</span><br />
-                        <input required class="form-control" type="text" name="contactsTitle" value={ pageInfo.contactsTitle || '' }>
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <span class="caption">Подзаголовок:</span><br />
-                        <input required class="form-control" type="text" name="contactsSubtitle" value={ pageInfo.contactsSubtitle || '' }>
-                    </label>
-                </div>
-            </div>
+            <Grid m={2} s={1}>
+                <label>
+                    <span class="caption">Заголовок:</span><br />
+                    <input required class="form-control" type="text" name="contactsTitle" value={ pageInfo.contactsTitle || '' }>
+                </label>
+                <label>
+                    <span class="caption">Подзаголовок:</span><br />
+                    <input required class="form-control" type="text" name="contactsSubtitle" value={ pageInfo.contactsSubtitle || '' }>
+                </label>
+            </Grid>
             <br />
             <button class="btn btn-primary">Сохранить</button>
         </Form>
@@ -179,33 +175,27 @@
             reset={false}
         >
             <Grid m={2} s={1}>
-                <div>
+                <Grid m={1}>
                     <label>
                         <span class="caption">Контактный номер телефона:</span><br />
                         <input class="form-control" type="tel" name="tel" id="tel" use:imask={phoneMask} placeholder="+7 (912) 635-52-97" value={ contactInfo?.tel || null } />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Контактный адрес электронной почты:</span><br />
                         <input class="form-control" type="email" name="email" id="email"
                             placeholder="contact@urfu.ru" value={ contactInfo?.email || null } required />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Адрес дирекции института:</span><br />
                         <input class="form-control" type="text" name="directorateAddress" id="directorateAddress"
                             placeholder="г. Екатеринбург, ул. Софьи Ковалевской, 5" value={ contactInfo?.directorateAddress || null } required />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Адрес приемной комиссии:</span><br />
                         <input class="form-control" type="text" name="admissionsAddress" id="admissionsAddress"
                             placeholder="г. Екатеринбург, ул. Мира, 19" value={ contactInfo?.admissionsAddress || null } required />
                     </label>
-                </div>
+                </Grid>
                 <div id="vs2f">
                     { #each range(1, links) as i }
                         { @const link = contactInfo ? contactInfo.links[i - 1] : null}

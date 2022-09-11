@@ -2,26 +2,29 @@
     import type { Load } from '@sveltejs/kit'
     import { apiRoute } from '$lib/utilities.js'
     
-    export const load: Load = async ({ fetch, session }) => {
-        const resGraduates = await fetch(apiRoute('admin/graduate', session.api))
+    export const load: Load = async ({ fetch }) => {
+        const resGraduates = await fetch(apiRoute('admin/graduate'))
         const graduates = (await resGraduates.json()).graduates
 
-        const resPartners = await fetch(apiRoute('admin/partner', session.api))
+        const resPartners = await fetch(apiRoute('admin/partner'))
         const partners = (await resPartners.json()).partners
 
-        const resCarouselAbout = await fetch(apiRoute('admin/carousel/?name=about', session.api))
+        const resCarouselAbout = await fetch(apiRoute('admin/carousel/?name=about'))
         const carouselAboutImages = (await resCarouselAbout.json()).images
 
-        const resCarouselLife = await fetch(apiRoute('admin/carousel/?name=life', session.api))
+        const resCarouselLife = await fetch(apiRoute('admin/carousel/?name=life'))
         const carouselLifeImages = (await resCarouselLife.json()).images
 
-        const resFeatures = await fetch(apiRoute('admin/feature/?type=main', session.api))
+        const resFeatures = await fetch(apiRoute('admin/feature/?type=main'))
         const features = (await resFeatures.json()).features
 
-        const resPosts = await fetch(apiRoute('admin/post', session.api))
+        const resPosts = await fetch(apiRoute('admin/post'))
         const posts = (await resPosts.json()).posts
 
-        const resVideos = await fetch(apiRoute('admin/documents?type=video', session.api))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=main'))
+        const info = (await resInfo.json()).info
+
+        const resVideos = await fetch(apiRoute('admin/documents?type=video'))
         const videos = (await resVideos.json()).documents
 
         if (resGraduates.ok && resPartners.ok && resCarouselAbout.ok && resCarouselLife.ok && resFeatures.ok && resPosts.ok && resVideos.ok) {
@@ -33,7 +36,8 @@
                     carouselLifeImages,
                     features,
                     posts,
-                    videos
+                    videos,
+                    pageInfo: info
                 }
             }
         }
@@ -64,14 +68,17 @@
     } from '$components'
     import images1 from '$lib/images1'
     import images2 from '$lib/images2'
-    import partners from '$lib/partners'
-    import graduates from '$lib/graduates'
+    // import partners from '$lib/partners'
+    // import graduates from '$lib/graduates'
     import { getSequentialPartialIndexes } from '$lib/utilities'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import type { PostI } from '../types'
+    import type { DocumentI, PartnerI, GraduateI, PostI } from '../types'
 
     export let posts: PostI[] = []
-    // export let graduates: GraduateI[] = []
+    export let partners: PartnerI[] = []
+    export let videos: DocumentI[] = []
+    export let pageInfo: Record<string, string> = {}
+    export let graduates: GraduateI[] = []
 
     let showPreloader = true
     let pageLoaded = false
@@ -210,23 +217,23 @@
                 <Heading size={1} className="blue-text" marginTop={0}>Партнеры института</Heading>
             </Grid>
         </div>
-        <Carousel margin={0} className="mobile-hide">
+        <Carousel margin={0} className="mobile-hide" displayButtons={ partners && partners.length > 6 }>
             { #each getSequentialPartialIndexes(partners, 6) as range }
                 <div class="fill-width">
                     <div class="content">
                         <Grid s={3} m={6} className="my-4" alignItems="start">
-                            { #each range as i }
-                                <Partner src={partners[i]} />
+                            { #each range as i (partners[i].id) }
+                                <Partner src={ partners[i].logo } />
                             { /each }
                         </Grid>
                     </div>
                 </div>
             { /each }
         </Carousel>
-        <Carousel margin={15} className="pc-hide">
-            { #each partners as partner }
+        <Carousel margin={15} className="pc-hide" displayButtons={ partners && partners.length > 6 }>
+            { #each partners as partner (partner.id) }
                 <div>
-                    <Partner src={partner} />
+                    <Partner src={ partner.logo } />
                 </div>
             { /each }
         </Carousel>
@@ -235,7 +242,7 @@
         <div class="content">
             <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.5}>Известные выпускники</Heading>
         </div>
-        <Carousel margin={0} className="mobile-hide">
+        <Carousel margin={0} className="mobile-hide" displayButtons={ graduates && graduates.length > 6 }>
             { @const grad = graduates.filter(graduate => graduate.photo.length) }
             { #each getSequentialPartialIndexes(grad, 6) as range }
                 <div class="fill-width">
@@ -263,14 +270,13 @@
             <Grid m={2} s={1} ratio="1:2">
                 <div>
                     <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Институт глазами студентов</Heading>
-                    <Text id="jz91" marginTop={0}>Наши студенты рассказывают об учебе, лабораторных и курсовых работах, студенческой жизни и, как проходит их обучение в Институте новых материалов и технологий</Text>
+                    <Text id="jz91" marginTop={0}>{ pageInfo.videoText }</Text>
                     <Button className="mobile-hide" on:click={ $modal.open }>Получить консультацию</Button>
                 </div>
                 <Grid m={4} className="mobile-horizontal-scroll">
-                    <VideoCard src="/video/first.mp4" />
-                    <VideoCard src="/video/second.mp4" />
-                    <VideoCard src="/video/third.mp4" />
-                    <VideoCard src="/video/fourth.mp4" />
+                    { #each videos as video (video.id) }
+                        <VideoCard src={ video.src } />
+                    { /each }
                 </Grid>
             </Grid>
             <br class="pc-hide" />

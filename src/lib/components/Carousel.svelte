@@ -4,6 +4,7 @@
 
     export let margin = 10 // Margin between the children
     export let className = ''
+    export let displayButtons = true
 
     let childSize = 750 // Size of the children
     let dx = childSize + margin // Distance between the children
@@ -103,10 +104,12 @@
     <div class="kit-carousel" bind:this={carousel}>
         <slot />
     </div>
-    <div class="buttons">
-        <RoundButton variant="left" on:click={swipeLeft} />
-        <RoundButton variant="right" on:click={swipeRight} />
-    </div>
+    { #if displayButtons }
+        <div class="buttons">
+            <RoundButton variant="left" on:click={swipeLeft} />
+            <RoundButton variant="right" on:click={swipeRight} />
+        </div>
+    { /if }
 </div>
 
 <style>

@@ -45,7 +45,7 @@
         <h2 class="no-top-margin">Панель администрирования сайта ИНМТ</h2>
         <Form method="PATCH" action="/api/admin/responsible/{responsible.id}" reset={ false } redirect="/admin-panel/contacts">
             <h3>Редактирование ответственного лица института</h3>
-            <Grid m={2}>
+            <Grid m={2} s={1}>
                 <div>
                     <label for="name">ФИО ответственного лица</label><br />
                     <input class="form-control wide" type="text" name="name" value={responsible.name} required />

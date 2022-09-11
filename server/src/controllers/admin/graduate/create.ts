@@ -7,7 +7,7 @@ import type { Request, Response } from 'express'
 const MAX_GRADS_AMOUNT = 30
 
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
-    const { name, description, graduateYear, photo } = req.body
+    const { name, description, photo } = req.body
     const amount = await graduateService.count()
 
     if (amount >= MAX_GRADS_AMOUNT) {
@@ -23,7 +23,6 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const graduate = await graduateService.create({
         name,
         description,
-        graduateYear,
         photo: photoURL
     })
 

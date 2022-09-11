@@ -65,6 +65,7 @@
     let opportunitiesExpanded = false
     let documentsExpanded = false
     let feedbacksExpanded = false
+    let documentLoading = false
 
     const feedbackImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
         feedbackImageId = event.detail.id
@@ -327,8 +328,8 @@
         <h2 class="no-top-margin">Редактирование страницы бакалавриата</h2>
         <h3>Информация в промо-блоке</h3>
         <Form action="/api/admin/textinfo?page=bachelor" method="PATCH" reset={ false }>
-            <div class="grid grid-2 m-grid-1">
-                <div class="grid grid-1">
+            <Grid m={2} s={1}>
+                <Grid m={1}>
                     <label>
                         <span class="caption">Заголовок:</span><br />
                         <input required class="form-control" type="text" name="bachelorTitle" value={ pageInfo.bachelorTitle || '' }>
@@ -337,14 +338,12 @@
                         <span class="caption">Подзаголовок:</span><br />
                         <input required class="form-control" type="text" name="bachelorSubtitle" value={ pageInfo.bachelorSubtitle || '' }>
                     </label>
-                </div>
-                <div>
-                    <label>
-                        <span class="caption">Сопровождающий текст:</span>
-                        <textarea class="form-control" name="bachelorText" value={ pageInfo.bachelorText || '' }></textarea>
-                    </label>
-                </div>
-            </div>
+                </Grid>
+                <label>
+                    <span class="caption">Сопровождающий текст:</span>
+                    <textarea class="form-control" name="bachelorText" value={ pageInfo.bachelorText || '' }></textarea>
+                </label>
+            </Grid>
             <br />
             <button class="btn btn-primary">Сохранить</button>
         </Form>
@@ -353,7 +352,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
         <Form action="/api/admin/feature?type=bachelor" method="POST" on:success={ showNewFeaturePromo }>
-            <div class="grid grid-2 m-grid-1">
+            <Grid m={2} s={1}>
                 <label>
                     <span class="caption">Заголовок:</span><br />
                     <input required class="form-control" type="text" name="title">
@@ -362,7 +361,7 @@
                     <span class="caption">Подпись:</span><br />
                     <input required class="form-control" type="text" name="description">
                 </label>
-            </div>
+            </Grid>
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
@@ -606,18 +605,6 @@
         </form>
     </div>
     <br />
-    <!-- <div class="white-block-wide">
-        <h3 class="no-top-margin">Алгоритм поступления</h3>
-        <Form action="/api/admin/textinfo?page=bachelor" method="PATCH" reset={ false }>
-            <div class="grid grid-2 m-grid-1">
-                <span class="caption">Второй текстовый блок:</span><br />
-                <TipTap name="algorithmSecond" />
-            </div>
-            <br />
-            <button class="btn btn-primary">Сохранить</button>
-        </Form>
-    </div>
-    <br /> -->
     <div class="white-block-wide">
         <h3 class="no-top-margin">Информация об&nbsp;институте</h3>
         <Form action="/api/admin/textinfo?page=bachelor" method="PATCH" reset={ false }>
@@ -640,7 +627,7 @@
         </Form>
         <h3>Преимущества института</h3>
         <Form action="/api/admin/feature?type=instInfo" method="POST" on:success={ showNewFeatureInst }>
-            <div class="grid grid-2 m-grid-1">
+            <Grid m={2} s={1}>
                 <label>
                     <span class="caption">Заголовок:</span><br />
                     <input required class="form-control" type="text" name="title">
@@ -649,7 +636,7 @@
                     <span class="caption">Подпись:</span><br />
                     <input required class="form-control" type="text" name="description">
                 </label>
-            </div>
+            </Grid>
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
@@ -726,17 +713,15 @@
         <h3 class="no-top-margin">Отзывы</h3>
         <Form action="/api/admin/feedback/?page=bachelor" method="POST" on:success={ showNewFeedback }>
             <Grid m={2} s={1}>
-                <div>
+                <Grid m={1}>
                     <label>
                         <span class="caption">Автор:</span><br />
                         <input class="form-control" type="text" name="name" id="name" required />
                     </label>
-                    <br /><br />
                     <label>
                         <span class="caption">Описание:</span><br />
                         <input class="form-control" type="text" name="description" id="description" />
                     </label>
-                    <br /><br />
                     <label>
                         <span class="caption">Добавить новое изображение:</span>
                         {#if feedbackImagePath}
@@ -751,13 +736,11 @@
                             <button type="button" class="btn btn-outline-success" on:click={ feedbackImageModal.open }> { feedbackImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                         {/if}
                     </label>
-                </div>
-                <div>
-                    <label>
-                        <span class="caption">Текст отзыва:</span><br />
-                        <textarea class="form-control" name="text" id="text" rows="4" required></textarea>
-                    </label>
-                </div>
+                </Grid>
+                <label>
+                    <span class="caption">Текст отзыва:</span><br />
+                    <textarea class="form-control" name="text" id="text" rows="4" required></textarea>
+                </label>
             </Grid>
             <br />
             <button class="btn btn-primary">Создать</button>
@@ -792,21 +775,28 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Загрузка документов</h3>
-        <Form action="/api/admin/documents?type=docBachelor" method="POST" content="multipart/form-data" on:success={ showNewDocument }>
+        <Form action="/api/admin/documents?type=docBachelor" method="POST" content="multipart/form-data" on:success={ showNewDocument } on:submit={ () => documentLoading = true } on:done={ () => documentLoading = false }>
             <label class="wide">
                 <span class="form-label">Название документа</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />
             </label>
             <br />
             <br />
-            <Grid m={3}>
+            <Grid m={3} s={1}>
                 <label>
                     <span class="caption">Документ</span><br />
                     <input required class="form-control" type="file" name="file" id="file" accept=".pdf, .doc, .docx, .xls, .xlsx, .jpg, .jpeg, .png, .svg"/>
                 </label>
             </Grid>
             <div class="buttons-row">
-                <button class="btn btn-primary">Отправить</button>
+                <button class="btn btn-primary" disabled={ documentLoading }>
+                    { #if documentLoading }
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span>Загрузка...</span>
+                    { :else }
+                        <span>Отправить</span>
+                    { /if }
+                </button>
             </div>
         </Form>
         <h3>Загруженные документы</h3>

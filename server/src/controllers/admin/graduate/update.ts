@@ -6,7 +6,7 @@ import type { Request, Response } from 'express'
 
 export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
-    const { name, description, graduateYear, photo } = req.body
+    const { name, description, photo } = req.body
 
     let photoURL = undefined
     if (photo) {
@@ -18,9 +18,8 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     console.log(`Img from FORM: ${Boolean(photo)}, photoURL: ${photoURL}`)
 
     await graduateService.updateById(id, {
-        name: name,
-        description: description,
-        graduateYear: graduateYear,
+        name,
+        description,
         photo: photoURL
     })
     return new HTTPResponse(res, HTTPStatus.CREATED, 'Известный выпускник успешно обновлен')

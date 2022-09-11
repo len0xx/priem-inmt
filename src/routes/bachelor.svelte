@@ -1,16 +1,18 @@
 <script context="module" lang="ts">
-    import { apiRoute } from '$lib/utilities'
+    import { apiRoute, getSequentialPartialIndexes } from '$lib/utilities'
     import type { Load } from '@sveltejs/kit'
     
-    export const load: Load = async ({ fetch, session }) => {
-        const resOpportunities = await fetch(apiRoute('admin/opportunity', session.api))
-        const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor', session.api))
-        const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor', session.api))
-        const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor', session.api))
-        const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo', session.api))
-        const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor', session.api))
-        const resPrograms = await fetch(apiRoute('admin/programs?degree=bachelor', session.api))
-    
+    export const load: Load = async ({ fetch }) => {
+        const resOpportunities = await fetch(apiRoute('admin/opportunity'))
+        const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor'))
+        const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
+        const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor'))
+        const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo'))
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor'))
+        const resPrograms = await fetch(apiRoute('admin/programs?degree=bachelor'))
+        const resPartners = await fetch(apiRoute('admin/partner'))
+        
+        const partners = (await resPartners.json()).partners
         const documents = (await resDocuments.json()).documents
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const opportunities = (await resOpportunities.json()).opportunities
@@ -19,8 +21,8 @@
         const info = (await resInfo.json()).info
         const programs = (await resPrograms.json()).programs
 
-        if (resOpportunities.ok && resFeaturesPromo.ok && resPrograms.ok && resDocuments.ok && resFeedbacks.ok && resFeaturesInst.ok && resInfo.ok) {
-            return { props: { opportunities, featuresPromo, programs, documents, feedbacks, featuresInst, pageInfo: info } }
+        if (resOpportunities.ok && resFeaturesPromo.ok && resPrograms.ok && resDocuments.ok && resFeedbacks.ok && resFeaturesInst.ok && resInfo.ok && resPartners.ok) {
+            return { props: { opportunities, featuresPromo, programs, documents, feedbacks, featuresInst, partners, pageInfo: info } }
         }
     }
 </script>
@@ -57,20 +59,21 @@
     } from '$components'
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
     import images from '$lib/images3'
-    import partners from '$lib/partners'
+    // import partners from '$lib/partners'
     // import documents from '$lib/documents'
     import { formEndpoint, modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import { bachelor as feedbacks } from '$lib/feedback'
+    // import { bachelor as feedbacks } from '$lib/feedback'
     import { blur, fly } from 'svelte/transition'
     import type { EducationMode } from '$lib/programs'
-    import type { FeatureI, DocumentI, OpportunityI, EducationalProgram } from '../types'
+    import type { FeatureI, DocumentI, OpportunityI, EducationalProgram, FeedbackI, PartnerI } from '../types'
 
     export let opportunities: OpportunityI[] = []
     export let featuresPromo: FeatureI[] = []
     // export let featuresInst: FeatureI[] = []
     export let programs: EducationalProgram[] = []
     export let documents: DocumentI[] = []
-    // export let feedbacks: FeedbackI[] = []
+    export let feedbacks: FeedbackI[] = []
+    export let partners: PartnerI[] = []
     export let pageInfo: Record<string, string> = {}
 
     let linkColor: 'white' | 'black' = 'white'
@@ -623,23 +626,23 @@
             <Heading size={1} className="blue-text">Наши студенты проходят практику на предприятиях партнерах института</Heading>
         </Grid>
     </div>
-    <Carousel margin={0} className="mobile-hide">
-        { #each [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12]] as range }
+    <Carousel margin={0} className="mobile-hide" displayButtons={ partners && partners.length > 6 }>
+        { #each getSequentialPartialIndexes(partners, 6) as range, i (i) }
             <div class="fill-width">
                 <div class="content">
                     <Grid s={2} m={6} className="my-4" alignItems="start">
                         { #each range as i }
-                            <Partner src={partners[i]} />
+                            <Partner src={ partners[i].logo } />
                         { /each }
                     </Grid>
                 </div>
             </div>
         { /each }
     </Carousel>
-    <Carousel margin={15} className="pc-hide">
-        { #each partners as partner }
+    <Carousel margin={15} className="pc-hide" displayButtons={ partners && partners.length > 6 }>
+        { #each partners as partner (partner.id) }
             <div>
-                <Partner src={partner} />
+                <Partner src={ partner.logo } />
             </div>
         { /each }
     </Carousel>

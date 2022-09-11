@@ -38,7 +38,7 @@
     const totalMobileObjects = 4
 
     let modalDormitory: ModalComponent = null
-    let dormitoryId:number
+    let dormitoryId: number
 
     let fileModal: ModalComponent = null
     let fileId: number = null
@@ -48,6 +48,7 @@
     let responsibleImageId: number = null
     let responsibleImagePath: string = null
 
+    let documentLoading = false
     let dormitoriesExpanded = false
 
     const updateDormitoryId = (id: number) => {
@@ -134,20 +135,16 @@
         <h2 class="no-top-margin">Редактирование страницы поселения</h2>
         <h3>Информация в промо-блоке</h3>
         <Form action="/api/admin/textinfo?page=accommodation" method="PATCH" reset={ false }>
-            <div class="grid grid-2 m-grid-1">
-                <div>
-                    <label>
-                        <span class="caption">Заголовок:</span><br />
-                        <input required class="form-control" type="text" name="accommodationTitle" value={ pageInfo.accommodationTitle || '' }>
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <span class="caption">Подзаголовок:</span><br />
-                        <input required class="form-control" type="text" name="accommodationSubtitle" value={ pageInfo.accommodationSubtitle || '' }>
-                    </label>
-                </div>
-            </div>
+            <Grid m={2} s={1}>
+                <label>
+                    <span class="caption">Заголовок:</span><br />
+                    <input required class="form-control" type="text" name="accommodationTitle" value={ pageInfo.accommodationTitle || '' }>
+                </label>
+                <label>
+                    <span class="caption">Подзаголовок:</span><br />
+                    <input required class="form-control" type="text" name="accommodationSubtitle" value={ pageInfo.accommodationSubtitle || '' }>
+                </label>
+            </Grid>
             <br />
             <button class="btn btn-primary">Сохранить</button>
         </Form>
@@ -273,45 +270,37 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Альтернативное поселение</h3>
         <Form action="/api/admin/rentInfo" method="POST" reset={ false }>
-            <div class="grid grid-2 m-grid-1">
-                <div>
+            <Grid m={2} s={1}>
+                <Grid m={1}>
                     <label>
                         <span class="caption">Заголовок:</span><br />
                         <input class="form-control" type="text" name="heading" id="heading" value={ rentInfo?.heading || '' } required />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Подзаголовок:</span><br />
                         <input class="form-control" type="text" name="subheading" id="subheading" value={ rentInfo?.subheading || '' } required />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Текст:</span><br />
                         <textarea class="form-control" name="text" id="text" cols="30" rows="4" value={ rentInfo?.text || '' } required ></textarea>
                     </label>
-                </div>
-                <div>
+                </Grid>
+                <Grid m={1}>
                     <label>
                         <span class="caption">Телефон 1:</span><br />
                         <input class="form-control" type="text" name="tel1" id="tel1" use:imask={ phoneMask } value={ rentInfo?.tel1 || '' } required />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Телефон 2:</span><br />
                         <input class="form-control" type="text" name="tel2" id="tel2" use:imask={ phoneMask } value={ rentInfo?.tel2 || '' } />
                     </label>
-                    <br />
-                    <br />
                     <div class="input-group">
                         <span class="input-group-text">Ссылка</span>
                         <input class="form-control" type="text" name="linkText" id="linkText" placeholder="Текст ссылки" aria-label="Текст ссылки" value={ rentInfo?.linkText || '' } />
                         <input class="form-control" type="url" name="linkURL" id="linkURL" placeholder="Адрес ссылки" aria-label="Адрес ссылки" value={ rentInfo?.linkURL || '' } />
                     </div>
-                </div>
-            </div>
+                </Grid>
+            </Grid>
             <div class="buttons-row">
                 <button class="btn btn-primary">Сохранить</button>
             </div>
@@ -320,7 +309,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Загрузка документов</h3>
-        <Form action="/api/admin/documents?type=docAccommodation" method="POST" content="multipart/form-data" on:success={ showNewDocument }>
+        <Form action="/api/admin/documents?type=docAccommodation" method="POST" content="multipart/form-data" on:success={ showNewDocument } on:submit={ () => documentLoading = true } on:done={ () => documentLoading = false }>
             <label class="wide">
                 <span class="form-label">Название документа</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />
@@ -334,7 +323,14 @@
                 </label>
             </Grid>
             <div class="buttons-row">
-                <button class="btn btn-primary">Отправить</button>
+                <button class="btn btn-primary" disabled={ documentLoading }>
+                    { #if documentLoading }
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span>Загрузка...</span>
+                    { :else }
+                        <span>Отправить</span>
+                    { /if }
+                </button>
             </div>
         </Form>
         { #if documents.length }

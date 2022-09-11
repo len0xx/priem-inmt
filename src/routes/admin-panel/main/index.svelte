@@ -97,6 +97,7 @@
     let links = 1
     let deleteId = 0
     let modal: ModalComponent = null
+    let videoLoading = false
 
     const addLink = () => links++
     const removeLink = () => links--
@@ -317,19 +318,16 @@
         <h2 class="no-top-margin">Редактирование главной страницы</h2>
         <h3 class="no-top-margin">Публикации</h3>
         <Form action="/api/admin/post" method="POST" on:success={ showNewPost }>
-            <div class="grid grid-2 m-grid-1">
-                <div>
+            <Grid m={2} s={1}>
+                <Grid m={1}>
                     <label>
                         <span class="caption">Заголовок:</span><br />
                         <input class="form-control" type="text" name="title" id="title" />
                     </label>
-                    <br />
-                    <br />
                     <label>
                         <span class="caption">Текст:</span><br />
                         <textarea class="form-control" name="text" cols="30" rows="4"></textarea>
                     </label>
-                    <br />
                     <label>
                         <span class="caption">Изображение:</span>
                         {#if postImagePath}
@@ -343,7 +341,7 @@
                             <button type="button" class="btn btn-outline-success" on:click={ postImageModal.open }> { postImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                         {/if}
                     </label>
-                </div>
+                </Grid>
                 <div id="vs2f">
                     { #each range(1, links) as i }
                         <div class="input-group" transition:slide|local={{ duration: 200 }}>
@@ -360,7 +358,7 @@
                         <button transition:blur|local={{ duration: 200 }} type="button" class="btn btn-outline-danger" on:click={ removeLink }>Убрать ссылку</button>
                     { /if }
                 </div>
-            </div>
+            </Grid>
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
@@ -409,9 +407,9 @@
                     <button type="button" class="btn btn-outline-success" on:click={ partnerImageModal.open }> { partnerImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                 {/if}
             </label>
-            <br />
-            <br />
-            <button class="btn btn-primary">Создать</button>
+            <div class="buttons-row">
+                <button class="btn btn-primary">Создать</button>
+            </div>
         </Form>
         <h3>Опубликованные партнеры</h3>
         {#if partners.length}
@@ -546,7 +544,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
         <Form action="/api/admin/feature?type=main" method="POST" on:success={ showNewFeature }>
-            <div class="grid grid-2 m-grid-1">
+            <Grid m={2} s={1}>
                 <label>
                     <span class="caption">Заголовок:</span><br />
                     <input required class="form-control" type="text" name="title">
@@ -555,7 +553,7 @@
                     <span class="caption">Подпись:</span><br />
                     <input required class="form-control" type="text" name="description">
                 </label>
-            </div>
+            </Grid>
             <br />
             <button class="btn btn-primary">Создать</button>
         </Form>
@@ -587,14 +585,10 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Известные выпускники</h3>
         <Form action="/api/admin/graduate" method="POST" on:success={ showNewGraduate }>
-            <div class="grid grid-2 m-grid-1">
+            <Grid m={2} s={1}>
                 <label>
                     <span class="caption">ФИО</span><br />
                     <input required class="form-control" type="text" name="name">
-                </label>
-                <label>
-                    <span class="caption">Год выпуска</span><br />
-                    <input required class="form-control" type="number" name="graduateYear">
                 </label>
                 <label>
                     <span class="caption">Описание</span><br />
@@ -609,7 +603,7 @@
                         <button type="button" class="btn btn-outline-success" on:click={ graduateImageModal.open }> { graduateImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     {/if}
                 </label>
-            </div>
+            </Grid>
             <br />
             {#if graduateImagePath}
                 <p>Предпросмотр:</p>
@@ -643,13 +637,13 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Видеозаписи</h3>
         <Grid m={2} s={1} ratio="3:2">
-            <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo }>
+            <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo } on:submit={ () => videoLoading = true } on:done={ () => videoLoading = false }>
                 <Grid m={1}>
                     <label class="wide">
                         <span class="form-label">Название видеозаписи</span>
                         <input type="text" class="form-control wide" placeholder="Название" name="title" required />
                     </label>
-                    <Grid m={2}>
+                    <Grid m={2} s={1}>
                         <label>
                             <span class="caption">Видеозапись</span><br />
                             <input required class="form-control" type="file" name="video" id="video" accept=".mp4, .webm, .ogg, .avi, .mov, .mpeg, .mkv"/>
@@ -663,11 +657,16 @@
                     Допустимые форматы: MP4, WEBM, OGG, AVI, MOV, MPEG, MKV
                 </p>
                 <div class="buttons-row">
+                    <button class="btn btn-primary" disabled={ videoLoading || videos.length > 3 }>
+                        { #if videoLoading }
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span>Загрузка...</span>
+                        { :else }
+                            <span>Сохранить</span>
+                        { /if }
+                    </button>
                     {#if videos.length > 3}
-                        <button class="btn btn-primary" disabled>Отправить</button>
                         <p class="text-muted mt-3">На данный момент загружено максимальное количество видеозаписей – 4. Для того, чтобы загрузить новое видео, необходимо удалить одно из существующих</p>
-                    {:else}
-                        <button class="btn btn-primary">Отправить</button>
                     {/if}
                 </div>
             </Form>

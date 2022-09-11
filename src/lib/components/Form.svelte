@@ -23,6 +23,7 @@
     const dispatch = createEventDispatcher()
 
     const handleSubmit = (event: Event) => {
+        dispatch('submit')
         const form = event.target as HTMLFormElement
         const formData = new FormData(form)
 
@@ -36,6 +37,7 @@
             action,
             requestOptions,
             (res) => {
+                dispatch('done')
                 if (checkOk) {
                     if (res.ok === true) {
                         submitted = true
@@ -61,6 +63,7 @@
                 if (reset) form.reset()
             },
             (res) => {
+                dispatch('done')
                 submitted = true
                 success = false
                 errorFinalText = res || errorText

@@ -4,15 +4,13 @@
     
     export const load: Load = async ({ fetch }) => {
         const resQuestions = await fetch(apiRoute('admin/question/?page=master'))
-        const resDocuments = await fetch(apiRoute('admin/documents?type=docBachelor'))
-        const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=bachelor'))
+        const resFeedbacks = await fetch(apiRoute('admin/feedback/?page=master'))
         const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=master'))
         const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo'))
         const resInfo = await fetch(apiRoute('admin/textinfo/?page=master'))
         const resPrograms = await fetch(apiRoute('admin/programs?degree=master'))
         const resProfessions = await fetch(apiRoute('admin/profession'))
     
-        const documents = (await resDocuments.json()).documents
         const feedbacks = (await resFeedbacks.json()).feedbacks
         const questions = (await resQuestions.json()).questions
         const featuresPromo = (await resFeaturesPromo.json()).features
@@ -21,8 +19,8 @@
         const programs = (await resPrograms.json()).programs
         const professions = (await resProfessions.json()).professions
 
-        if (resPrograms.ok && resInfo.ok && resFeaturesPromo.ok && resQuestions.ok && resDocuments.ok && resFeedbacks.ok && resFeaturesInst.ok && resProfessions.ok) {
-            return { props: { programs, documents, feedbacks, questions, featuresInst, pageInfo: info, featuresPromo, professions } }
+        if (resPrograms.ok && resInfo.ok && resFeaturesPromo.ok && resQuestions.ok && resFeedbacks.ok && resFeaturesInst.ok && resProfessions.ok) {
+            return { props: { programs, feedbacks, questions, featuresInst, pageInfo: info, featuresPromo, professions } }
         }
     }
 </script>
@@ -59,16 +57,17 @@
     import partners from '$lib/partners'
     // import professions from '$lib/professions'
     // import faqText from '$lib/faqs'
-    import { master as feedbacks } from '$lib/feedback'
+    // import { master as feedbacks } from '$lib/feedback'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { blur, fly } from 'svelte/transition'
     import type { EducationMode } from '$lib/programs'
-    import type { EducationalProgram, FeatureI, ProfessionI, QuestionI } from '../types'
+    import type { EducationalProgram, FeatureI, FeedbackI, ProfessionI, QuestionI } from '../types'
 
     export let programs: EducationalProgram[] = []
     export let featuresPromo: FeatureI[] = []
     export let questions: QuestionI[] = []
     export let professions: ProfessionI[] = []
+    export let feedbacks: FeedbackI[] = []
     export let pageInfo: Record<string, string> = {}
 
     let programsExpanded = false

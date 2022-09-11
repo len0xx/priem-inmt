@@ -2,12 +2,12 @@
     import type { Load } from '@sveltejs/kit'
     import { apiRoute } from '$lib/utilities'
     
-    export const load: Load = async ({ fetch, session }) => {
-        const documentsRes = await fetch(apiRoute('admin/documents?type=docAccommodation', session.api))
-        const rentInfoRes = await fetch(apiRoute('admin/rentInfo', session.api))
-        const settlementRes = await fetch(apiRoute('admin/settlement/1', session.api))
-        const dormsRes = await fetch(apiRoute('admin/dormitory', session.api))
-        const infoRes = await fetch(apiRoute('admin/textinfo/?page=accommodation', session.api))
+    export const load: Load = async ({ fetch }) => {
+        const documentsRes = await fetch(apiRoute('admin/documents?type=docAccommodation'))
+        const rentInfoRes = await fetch(apiRoute('admin/rentInfo'))
+        const settlementRes = await fetch(apiRoute('admin/settlement'))
+        const dormsRes = await fetch(apiRoute('admin/dormitory'))
+        const infoRes = await fetch(apiRoute('admin/textinfo/?page=accommodation'))
 
     
         const documents = (await documentsRes.json()).documents

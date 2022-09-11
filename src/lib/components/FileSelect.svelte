@@ -146,7 +146,6 @@
                     </div>
                 </Grid>
             </Form>
-            <br />
         </div>
     { /if }
     <div class="buttons-row">

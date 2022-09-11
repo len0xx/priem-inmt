@@ -21,6 +21,9 @@
         const resPosts = await fetch(apiRoute('admin/post'))
         const posts = (await resPosts.json()).posts
 
+        const resInfo = await fetch(apiRoute('admin/textinfo/?page=main'))
+        const info = (await resInfo.json()).info
+
         const resVideos = await fetch(apiRoute('admin/documents?type=video'))
         const videos = (await resVideos.json()).documents
 
@@ -33,7 +36,8 @@
                     carouselLifeImages,
                     features,
                     posts,
-                    videos
+                    videos,
+                    pageInfo: info
                 }
             }
         }
@@ -68,10 +72,12 @@
     import graduates from '$lib/graduates'
     import { getSequentialPartialIndexes } from '$lib/utilities'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import type { PartnerI, PostI } from '../types'
+    import type { DocumentI, PartnerI, PostI } from '../types'
 
     export let posts: PostI[] = []
     export let partners: PartnerI[] = []
+    export let videos: DocumentI[] = []
+    export let pageInfo: Record<string, string> = {}
     // export let graduates: GraduateI[] = []
 
     let showPreloader = true
@@ -264,14 +270,17 @@
             <Grid m={2} s={1} ratio="1:2">
                 <div>
                     <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Институт глазами студентов</Heading>
-                    <Text id="jz91" marginTop={0}>Наши студенты рассказывают об учебе, лабораторных и курсовых работах, студенческой жизни и, как проходит их обучение в Институте новых материалов и технологий</Text>
+                    <Text id="jz91" marginTop={0}>{ pageInfo.videoText }</Text>
                     <Button className="mobile-hide" on:click={ $modal.open }>Получить консультацию</Button>
                 </div>
                 <Grid m={4} className="mobile-horizontal-scroll">
-                    <VideoCard src="/video/first.mp4" />
+                    { #each videos as video (video.id) }
+                        <VideoCard src={ video.src } />
+                    { /each }
+                    <!-- <VideoCard src="/video/first.mp4" />
                     <VideoCard src="/video/second.mp4" />
                     <VideoCard src="/video/third.mp4" />
-                    <VideoCard src="/video/fourth.mp4" />
+                    <VideoCard src="/video/fourth.mp4" /> -->
                 </Grid>
             </Grid>
             <br class="pc-hide" />

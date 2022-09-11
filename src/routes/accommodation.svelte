@@ -38,10 +38,13 @@
         Preloader
     } from '$components'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import type { DocumentI } from '../types'
+    import type { DocumentI, DormitoryI, RentInfoI, SettlementI } from '../types'
     // import documents from '$lib/documents2'
 
     export let documents: DocumentI[] = []
+    export let dormitories: DormitoryI[] = []
+    export let rentInfo: RentInfoI = null
+    export let settlement: SettlementI = null
     export let pageInfo: Record<string, string> = {}
 
     let showPreloader = true
@@ -111,6 +114,7 @@
         </div>
     </div>
 </Header>
+
 <section class="promo accommodation" id="beginning">
     <div class="content">
         <Grid m={1} l={2} ratio="5:3" alignItems="end">
@@ -128,10 +132,13 @@
 <section id="dorms">
     <div class="content">
         <Grid m={4} s={1}>
-            <Graduate name="№8" src="/img/dorm-1.jpg" caption="ул. Комсомольская 70" />
+            { #each dormitories as dormitory (dormitory.id) }
+                <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address } />
+            { /each }
+            <!-- <Graduate name="№8" src="/img/dorm-1.jpg" caption="ул. Комсомольская 70" />
             <Graduate name="№5" src="/img/dorm-2.jpg" caption="ул. Малышева 144" />
             <Graduate name="№12" src="/img/dorm-3.jpg" caption="ул. Фонвизина 4" />
-            <Graduate name="№11" src="/img/dorm-4.jpg" caption="ул. Фонвизина 2" />
+            <Graduate name="№11" src="/img/dorm-4.jpg" caption="ул. Фонвизина 2" /> -->
         </Grid>
     </div>
 </section>
@@ -139,14 +146,14 @@
     <div class="content">
         <Grid m={2} s={1}>
             <Heading size={1} className="blue-text" marginTop={0}>Ответственный <br /> за поселение</Heading>
-            <Teacher image="/img/elantsev-2.jpg">
-                <svelte:fragment slot="name">Еланцев Алексей Владимирович</svelte:fragment>
-                <svelte:fragment slot="description">Заместитель начальника Отдела обеспечения деятельности</svelte:fragment>
+            <Teacher image={ settlement?.photo }>
+                <svelte:fragment slot="name">{ settlement?.name }</svelte:fragment>
+                <svelte:fragment slot="description">{ settlement?.label }</svelte:fragment>
                 <svelte:fragment slot="footer">
-                    Адрес: ул., Мира, 28 <br />
-                    Аудитория: МТ-221 <br />
-                    Телефон: <a href="tel:+7 (912) 635-52-97">+7 (912) 635-52-97</a> <br />
-                    Электронная почта: <a href="mailto:a.v.elantcev@urfu.ru">a.v.elantcev@urfu.ru</a>
+                    Адрес: { settlement?.address } <br />
+                    Аудитория: { settlement?.auditory } <br />
+                    Телефон: <a href="tel:{ settlement?.phone }">{ settlement?.phone }</a> <br />
+                    Электронная почта: <a href="mailto:{ settlement?.email }">{ settlement?.email }</a>
                 </svelte:fragment>
             </Teacher>
         </Grid>
@@ -260,16 +267,16 @@
 <section id="alternative">
     <div class="content">
         <Grid m={2} s={1}>
-            <Heading size={1} marginTop={0} className="blue-text">Альтернативное <br /> поселение</Heading>
+            <Heading size={1} marginTop={0} className="blue-text">{ rentInfo?.heading || 'Альтернативное поселение' }</Heading>
             <div>
-                <Heading size={3} marginTop={0}>Проект Союза студентов Уральского федерального университета «Платное жилье»</Heading>
+                <Heading size={3} marginTop={0}>{ rentInfo?.subheading || 'Проект Союза студентов Уральского федерального университета «Платное жилье»' }</Heading>
                 <Grid m={2} s={1} ratio="3:2" gap={3}>
-                    <Text>Союз студентов Уральского федерального университета предлагает абитуриентам и студентам помощь в поиске коммерческого жилья в Екатеринбурге. Специалисты проектного офиса «Платное жилье» предлагают заселение в квартиры, комнаты и частные общежития, а при заселении на короткий срок — хостелы и отели.</Text>
+                    <Text>{ rentInfo?.text || 'Союз студентов Уральского федерального университета предлагает абитуриентам и студентам помощь в поиске коммерческого жилья в Екатеринбурге. Специалисты проектного офиса «Платное жилье» предлагают заселение в квартиры, комнаты и частные общежития, а при заселении на короткий срок — хостелы и отели.' }</Text>
                     <div>
                         <Text opacity={0.5}>Контакы:</Text>
-                        <Heading size={3} marginTop={0}><a href="tel:+7 (343) 375-45-18">+7 (343) 375-45-18</a></Heading>
-                        <Heading size={3} marginY={0}><a href="tel:+7 (982) 643-34-95">+7 (982) 643-34-95</a></Heading>
-                        <Link variant="interactive" className="heading-3 semi-bold" href="https://vk.com/rent_flats" color="var(--blue)">ВКонтакте</Link>
+                        <Heading size={3} marginTop={0}><a href="tel:{ rentInfo?.tel1 || '+7 (343) 375-45-18' }">{ rentInfo?.tel1 || '+7 (343) 375-45-18' }</a></Heading>
+                        <Heading size={3} marginY={0}><a href="tel:{ rentInfo?.tel1 || '+7 (982) 643-34-95' }">{ rentInfo?.tel1 || '+7 (982) 643-34-95' }</a></Heading>
+                        <Link variant="interactive" className="heading-3 semi-bold" href={ rentInfo?.linkURL || 'https://vk.com/rent_flats' } color="var(--blue)">{ rentInfo?.linkText || 'ВКонтакте' }</Link>
                     </div>
                 </Grid>
             </div>

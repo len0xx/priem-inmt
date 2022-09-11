@@ -3,8 +3,7 @@ import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 
-export const read = catchHTTPErrors(async (req: Request, res: Response) => {
-    const id = +req.params.id
-    const responsible = await settlementResponsible.getById(id)
+export const read = catchHTTPErrors(async (_: Request, res: Response) => {
+    const responsible = (await settlementResponsible.get({ limit: 1, order: [ [ 'id', 'ASC' ] ] }))[0]
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { responsible })
 })

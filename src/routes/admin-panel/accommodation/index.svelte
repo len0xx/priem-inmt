@@ -5,7 +5,7 @@
     export const load: Load = async ({ fetch }) => {
         const documentsRes = await fetch(apiRoute('admin/documents?type=docAccommodation'))
         const rentInfoRes = await fetch(apiRoute('admin/rentInfo'))
-        const settlementRes = await fetch(apiRoute('admin/settlement/1'))
+        const settlementRes = await fetch(apiRoute('admin/settlement'))
         const dormsRes = await fetch(apiRoute('admin/dormitory'))
         const infoRes = await fetch(apiRoute('admin/textinfo/?page=accommodation'))
 
@@ -249,11 +249,11 @@
             <label>
                 <span class="caption">Фотография:</span><br />
                 {#if responsibleImagePath}
-                    <img width="150px" height="150px" src={responsibleImagePath} class="img-fluid mt-3" alt="Фотография известного выпускника"> 
+                    <img width="150px" height="150px" src={responsibleImagePath} class="img-fluid mt-3 mb-2" alt="Фотография ответственного за поселение"><br />
                 {:else if settlement?.photo}
-                    <img width="150px" height="150px" src={settlement.photo} class="img-fluid mt-3" alt="Фотография известного выпускника">   
+                    <img width="150px" height="150px" src={settlement.photo} class="img-fluid mt-3 mb-2" alt="Фотография ответственного за поселение"><br />
                 {/if}
-                <input type="hidden" name="photo" value={ responsibleImageId }><br />
+                <input type="hidden" name="photo" value={ responsibleImageId }>
                 {#if $isMobile}
                     <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
                 {:else}

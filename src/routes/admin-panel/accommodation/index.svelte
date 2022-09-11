@@ -38,7 +38,7 @@
     const totalMobileObjects = 4
 
     let modalDormitory: ModalComponent = null
-    let dormitoryId:number
+    let dormitoryId: number
 
     let fileModal: ModalComponent = null
     let fileId: number = null
@@ -48,6 +48,7 @@
     let responsibleImageId: number = null
     let responsibleImagePath: string = null
 
+    let documentLoading = false
     let dormitoriesExpanded = false
 
     const updateDormitoryId = (id: number) => {
@@ -308,7 +309,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Загрузка документов</h3>
-        <Form action="/api/admin/documents?type=docAccommodation" method="POST" content="multipart/form-data" on:success={ showNewDocument }>
+        <Form action="/api/admin/documents?type=docAccommodation" method="POST" content="multipart/form-data" on:success={ showNewDocument } on:submit={ () => documentLoading = true } on:done={ () => documentLoading = false }>
             <label class="wide">
                 <span class="form-label">Название документа</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />
@@ -322,7 +323,14 @@
                 </label>
             </Grid>
             <div class="buttons-row">
-                <button class="btn btn-primary">Отправить</button>
+                <button class="btn btn-primary" disabled={ documentLoading }>
+                    { #if documentLoading }
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span>Загрузка...</span>
+                    { :else }
+                        <span>Отправить</span>
+                    { /if }
+                </button>
             </div>
         </Form>
         { #if documents.length }

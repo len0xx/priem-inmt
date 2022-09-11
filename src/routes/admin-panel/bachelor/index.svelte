@@ -65,6 +65,7 @@
     let opportunitiesExpanded = false
     let documentsExpanded = false
     let feedbacksExpanded = false
+    let documentLoading = false
 
     const feedbackImageSelected = (event: CustomEvent<{id: number, path: string}>) => {
         feedbackImageId = event.detail.id
@@ -774,7 +775,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Загрузка документов</h3>
-        <Form action="/api/admin/documents?type=docBachelor" method="POST" content="multipart/form-data" on:success={ showNewDocument }>
+        <Form action="/api/admin/documents?type=docBachelor" method="POST" content="multipart/form-data" on:success={ showNewDocument } on:submit={ () => documentLoading = true } on:done={ () => documentLoading = false }>
             <label class="wide">
                 <span class="form-label">Название документа</span>
                 <input type="text" class="form-control wide" placeholder="Название" name="title" required />
@@ -788,7 +789,14 @@
                 </label>
             </Grid>
             <div class="buttons-row">
-                <button class="btn btn-primary">Отправить</button>
+                <button class="btn btn-primary" disabled={ documentLoading }>
+                    { #if documentLoading }
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span>Загрузка...</span>
+                    { :else }
+                        <span>Отправить</span>
+                    { /if }
+                </button>
             </div>
         </Form>
         <h3>Загруженные документы</h3>

@@ -21,6 +21,7 @@
 
     let deleteId = 0
     let modal: ModalComponent = null
+    let documentLoading = false
 
     const handleSuccess = (event: CustomEvent) => {
         const doc = event.detail.document
@@ -56,7 +57,7 @@
 <section class="main-content">
     <div class="white-block-wide">
         <h2 class="no-top-margin">Загрузка файлов</h2>
-        <Form action="/api/admin/media?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
+        <Form action="/api/admin/media?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess } on:submit={ () => documentLoading = true } on:done={ () => documentLoading = false }>
             <div class="grid grid-2 m-grid-1">
                 <label>
                     <span class="form-label">Название файла (необязательно)</span>
@@ -68,7 +69,14 @@
                 </label>
             </div>
             <div class="buttons-row">
-                <button class="btn btn-primary">Отправить</button>
+                <button class="btn btn-primary" disabled={ documentLoading }>
+                    { #if documentLoading }
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span>Загрузка...</span>
+                    { :else }
+                        <span>Отправить</span>
+                    { /if }
+                </button>
             </div>
         </Form>
     </div>

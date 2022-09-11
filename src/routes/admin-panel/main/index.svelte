@@ -637,7 +637,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Видеозаписи</h3>
         <Grid m={2} s={1} ratio="3:2">
-            <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo }>
+            <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo } on:submit={ () => videoLoading = true } on:done={ () => videoLoading = false }>
                 <Grid m={1}>
                     <label class="wide">
                         <span class="form-label">Название видеозаписи</span>
@@ -657,28 +657,25 @@
                     Допустимые форматы: MP4, WEBM, OGG, AVI, MOV, MPEG, MKV
                 </p>
                 <div class="buttons-row">
+                    <button class="btn btn-primary" disabled={ videoLoading || videos.length > 3 }>
+                        { #if videoLoading }
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span>Загрузка...</span>
+                        { :else }
+                            <span>Сохранить</span>
+                        { /if }
+                    </button>
                     {#if videos.length > 3}
-                        <button class="btn btn-primary" disabled>Отправить</button>
                         <p class="text-muted mt-3">На данный момент загружено максимальное количество видеозаписей – 4. Для того, чтобы загрузить новое видео, необходимо удалить одно из существующих</p>
-                    {:else}
-                        <button class="btn btn-primary">Отправить</button>
                     {/if}
                 </div>
             </Form>
-            <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false} on:submit={ () => videoLoading = true } on:done={ () => videoLoading = false }>
+            <Form action="/api/admin/textinfo?page=main" method="PATCH" reset={false}>
                 <label>
                     <span class="caption">Текст под заголовком:</span>
                     <textarea name="videoText" class="form-control wide" rows="6" required>{ info.videoText || '' }</textarea>
                 </label>
                 <button class="btn btn-primary">Сохранить</button>
-                <button class="btn btn-primary" type="button" disabled={ videoLoading }>
-                    { #if videoLoading }
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Загрузка...
-                    { :else }
-                        Сохранить
-                    { /if }
-                </button>
             </Form>
         </Grid>
         <h3>Опубликованные видеозаписи</h3>

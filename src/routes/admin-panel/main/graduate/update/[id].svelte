@@ -47,10 +47,6 @@
                     <input required class="form-control" type="text" name="name" value={graduate.name}>
                 </label>
                 <label>
-                    <span class="caption">Год выпуска</span>
-                    <input required class="form-control" type="number" name="graduateYear" value={graduate.graduateYear}>
-                </label>
-                <label>
                     <span class="caption">Описание</span>
                     <input required class="form-control" type="text" name="description" value={graduate.description}>
                 </label>

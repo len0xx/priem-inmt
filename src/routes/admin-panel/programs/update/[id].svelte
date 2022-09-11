@@ -23,6 +23,7 @@
     import type { EducationalProgram, ModalComponent } from '../../../../types'
 
     let modal: ModalComponent = null
+    let partnerModal: ModalComponent = null
 
     let imageModals: ModalComponent[] = []
     let imageIds: number[] = []
@@ -54,6 +55,8 @@
     let exams = program.exams
     let examsCount = Object.keys(exams).length
 
+    let partnerPath: string = null
+
     const addExam = () => {
         for (let i = examsCount; i < totalExams; i++) {
             exams[i] = {
@@ -77,6 +80,16 @@
             redirect('/admin-panel/programs')
         }
         modal.close()
+    }
+
+    const updatePartnerPath = (partner: string) => {
+        partnerPath = partner
+        partnerModal.open()
+    }
+
+    const deletePartner = async () => {
+        await fetch(apiRoute(`admin/programs/${program.id}/?partner=${partnerPath}`), { method: 'DELETE' })
+        partnerModal.close()
     }
 
     const handleSuccess = () => {
@@ -113,6 +126,14 @@
     <div class="buttons-row">
         <button type="button" on:click={removeProgram} class="btn btn-danger">Удалить</button>
         <button type="button" on:click={modal.close} class="btn btn-secondary">Отмена</button>
+    </div>
+</Modal>
+
+<Modal bind:this={ partnerModal } align="center" closable={true}>
+    <p class="mb-4">Вы действительно хотите удалить этот логотип партнера?</p>
+    <div class="buttons-row">
+        <button type="button" on:click={ deletePartner } class="btn btn-danger">Удалить</button>
+        <button type="button" on:click={ partnerModal.close } class="btn btn-secondary">Отмена</button>
     </div>
 </Modal>
 
@@ -430,8 +451,11 @@
                 { #if program.partners && program.partners.length }
                     <Grid m={5} s={2}>
                         { #each program.partners as partner}
-                            <!-- svelte-ignore a11y-missing-attribute -->
-                            <img width="150px" height="150px" src={ partner } class="img-fluid mt-3" />
+                            <div>
+                                <!-- svelte-ignore a11y-missing-attribute -->
+                                <img width="150px" height="150px" src={ partner } class="img-fluid mt-3" /><br />
+                                <button class="btn btn-danger btn-sm mt-3" type="button" on:click={ () => updatePartnerPath(partner) }>Удалить</button>
+                            </div>
                         { /each }
                     </Grid>
                     <br />

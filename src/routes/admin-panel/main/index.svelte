@@ -489,6 +489,47 @@
     </div>
     <br />
     <div class="white-block-wide">
+        <h3 class="no-top-margin">Перечисления</h3>
+        <Form action="/api/admin/feature?type=main" method="POST" on:success={ showNewFeature }>
+            <Grid m={2} s={1}>
+                <label>
+                    <span class="caption">Заголовок:</span><br />
+                    <input required class="form-control" type="text" name="title">
+                </label>
+                <label>
+                    <span class="caption">Подпись:</span><br />
+                    <input required class="form-control" type="text" name="description">
+                </label>
+            </Grid>
+            <br />
+            <button class="btn btn-primary">Создать</button>
+        </Form>
+        <h3>Опубликованные перечисления</h3>
+        {#if features.length}
+            <Grid l={3} m={2} s={1}>
+                {#each features.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || featuresExpanded) as feature, i (i)}
+                    <div class="card" transition:blur|local={{ duration: 200 }}>
+                        <div class="card-body">
+                            <Benefit num={feature.title} caption={feature.description} />
+                            <br />
+                            <a href="/admin-panel/main/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                            <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                        </div>
+                    </div>
+                {/each}
+            </Grid>
+            {#if !featuresExpanded && features.length > ($isMobile ? totalMobileObjects : 6)}
+                <br />
+                <div class="align-center">
+                    <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
+                </div>
+            {/if}
+        {:else}
+            <p class="mt-3">Здесь еще нет перечислений</p>
+        {/if}
+    </div>
+    <br />
+    <div class="white-block-wide">
         <h3 class="no-top-margin">Студенческая жизнь</h3>
         <Grid m={2} s={1} ratio="2:3">
             <Form action="/api/admin/carousel/?name=life" method="POST" on:success={ showNewCarouselLifeImage }>
@@ -538,47 +579,6 @@
             {/if}
         {:else}
             <p class="mt-3">Здесь еще нет изображений в&nbsp;карусели</p>
-        {/if}
-    </div>
-    <br />
-    <div class="white-block-wide">
-        <h3 class="no-top-margin">Перечисления</h3>
-        <Form action="/api/admin/feature?type=main" method="POST" on:success={ showNewFeature }>
-            <Grid m={2} s={1}>
-                <label>
-                    <span class="caption">Заголовок:</span><br />
-                    <input required class="form-control" type="text" name="title">
-                </label>
-                <label>
-                    <span class="caption">Подпись:</span><br />
-                    <input required class="form-control" type="text" name="description">
-                </label>
-            </Grid>
-            <br />
-            <button class="btn btn-primary">Создать</button>
-        </Form>
-        <h3>Опубликованные перечисления</h3>
-        {#if features.length}
-            <Grid l={3} m={2} s={1}>
-                {#each features.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || featuresExpanded) as feature, i (i)}
-                    <div class="card" transition:blur|local={{ duration: 200 }}>
-                        <div class="card-body">
-                            <Benefit num={feature.title} caption={feature.description} />
-                            <br />
-                            <a href="/admin-panel/main/feature/update/{ feature.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                            <button type="button" on:click={() => updateFeatureId(feature.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
-                        </div>
-                    </div>
-                {/each}
-            </Grid>
-            {#if !featuresExpanded && features.length > ($isMobile ? totalMobileObjects : 6)}
-                <br />
-                <div class="align-center">
-                    <RoundButton variant="plus" size="M" on:click={() => featuresExpanded = true} />
-                </div>
-            {/if}
-        {:else}
-            <p class="mt-3">Здесь еще нет перечислений</p>
         {/if}
     </div>
     <br />

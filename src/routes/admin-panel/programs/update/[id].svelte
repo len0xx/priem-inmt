@@ -88,7 +88,7 @@
     }
 
     const deletePartner = async () => {
-        await fetch(apiRoute(`admin/programs/${program.id}/?partner=${partnerPath}`), { method: 'DELETE' })
+        await fetch(apiRoute(`admin/programs/${program.id}?partner=${partnerPath}`), { method: 'DELETE' })
         partnerModal.close()
     }
 

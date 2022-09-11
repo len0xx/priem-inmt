@@ -6,8 +6,6 @@ import type { Request, Response } from 'express'
 import type { TeacherI, EducationModesI, EducationalProgramI } from '../../../models/educationalProgram'
 
 export const update = catchHTTPErrors(async (req: Request, res: Response) => {
-    console.log(req.body)
-
     const id = +req.params.id
     const requestData = req.body
     const { title, degree, text, mode1, mode2, mode3, partner } = requestData

@@ -59,6 +59,13 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     if (previuosProgramState.teacher.photo && !requestData.teacher_photo) {
         teacher.photo = previuosProgramState.teacher.photo
     }
+    else if (requestData.teacher_photo) {
+        const photoId = requestData.teacher_photo
+        if (+photoId && !isNaN(+photoId)) {
+            const file = await documentService.getById(+photoId)
+            if (file) teacher.photo = file.src
+        }
+    }
 
     const feedbacks = []
     for (let i = 1; i <= 2; i++) {

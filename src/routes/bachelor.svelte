@@ -11,7 +11,7 @@
         const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor'))
         const resPrograms = await fetch(apiRoute('admin/programs?degree=bachelor'))
         const resPartners = await fetch(apiRoute('admin/partner'))
-        
+    
         const partners = (await resPartners.json()).partners
         const documents = (await resDocuments.json()).documents
         const feedbacks = (await resFeedbacks.json()).feedbacks

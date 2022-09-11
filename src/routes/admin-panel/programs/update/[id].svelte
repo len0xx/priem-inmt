@@ -55,6 +55,7 @@
     let exams = program.exams
     let examsCount = Object.keys(exams).length
 
+    let partners = program.partners
     let partnerPath: string = null
 
     const addExam = () => {
@@ -88,7 +89,10 @@
     }
 
     const deletePartner = async () => {
-        await fetch(apiRoute(`admin/programs/${program.id}?partner=${partnerPath}`), { method: 'DELETE' })
+        const res = await fetch(apiRoute(`admin/programs/${program.id}?partner=${partnerPath}`), { method: 'DELETE' })
+        if (res.ok) {
+            partners = partners.filter(partner => partner !== partnerPath)
+        }
         partnerModal.close()
     }
 
@@ -448,9 +452,9 @@
             <div>
                 <h3>Партнеры образовательной программы</h3>
                 <!-- TODO: add partner removal functionality -->
-                { #if program.partners && program.partners.length }
+                { #if partners?.length }
                     <Grid m={5} s={2}>
-                        { #each program.partners as partner}
+                        { #each partners as partner }
                             <div>
                                 <!-- svelte-ignore a11y-missing-attribute -->
                                 <img width="150px" height="150px" src={ partner } class="img-fluid mt-3" /><br />
@@ -460,7 +464,7 @@
                     </Grid>
                     <br />
                 { /if }
-                { #if !program.partners || (program.partners && program.partners.length < totalPartners) }
+                { #if !partners || (partners?.length < totalPartners) }
                     <input type="hidden" name="partner" value={ partnerLogoId } />
                     {#if $isMobile}
                         <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
@@ -468,7 +472,7 @@
                         <p>Добавить логотип</p>
                         { #if partnerLogoPath }
                             <!-- svelte-ignore a11y-missing-attribute -->
-                            <img width="150px" height="150px" src={ partnerLogoPath } class="img-fluid mt-3" /><br />
+                            <img width="150px" height="150px" src={ partnerLogoPath } class="img-fluid my-3" /><br />
                         { /if }
                         <button type="button" class="btn btn-outline-success" on:click={ partnerLogoModal.open }> { partnerLogoId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     {/if}

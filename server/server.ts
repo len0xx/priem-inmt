@@ -51,9 +51,9 @@ app.use(express.urlencoded({ extended: true }))
 
 // Helmet middleware для заголовков безопасности
 // ! Использование этого middleware до сих пор не проверено до конца и может сломать что-нибудь
-app.use(helmet.crossOriginEmbedderPolicy({ policy: "credentialless" }))
-app.use(helmet.crossOriginOpenerPolicy({ policy: "unsafe-none" }))
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }))
+app.use(helmet.crossOriginEmbedderPolicy({ policy: 'credentialless' }))
+app.use(helmet.crossOriginOpenerPolicy({ policy: 'unsafe-none' }))
+app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }))
 app.use(helmet.dnsPrefetchControl())
 app.use(helmet.expectCt())
 app.use(helmet.frameguard())

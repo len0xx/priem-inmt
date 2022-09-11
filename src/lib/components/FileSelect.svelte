@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { createEventDispatcher, onMount } from 'svelte'
+    import { createEventDispatcher } from 'svelte'
     import { blur, slide } from 'svelte/transition'
     import { Modal, Grid, Form } from '.'
     import { apiRoute } from '$lib/utilities'
@@ -11,11 +11,11 @@
     const dispatch = createEventDispatcher()
     const LIMIT = 9
     let currentPage = 1
-    let pagesAmount = 1
     let filesAmount = 0
     let uploadForm = false
     let selectedFile = selected
     let selectedPath: string = null
+    $: pagesAmount = Math.ceil(filesAmount / LIMIT) || 1
     $: filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
 
     const getFiles = async (page: number): Promise<DocumentI[]> => {
@@ -23,7 +23,6 @@
         const json = await res.json()
         const files = json.documents
         filesAmount = json.amount
-        pagesAmount = Math.ceil(filesAmount / LIMIT)
 
         if (res.ok)
             return files
@@ -66,12 +65,7 @@
 
     const handleSuccess = async () => {
         filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
-        pagesAmount = Math.ceil(filesAmount / LIMIT)
     }
-
-    onMount(async () => {
-        pagesAmount = Math.ceil(filesAmount / LIMIT)
-    })
 </script>
 
 <Modal bind:this={ modal } className="file-select-modal">

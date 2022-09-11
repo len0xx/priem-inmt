@@ -253,7 +253,6 @@
                 {:else if settlement?.photo}
                     <img width="150px" height="150px" src={settlement.photo} class="img-fluid mt-3" alt="Фотография известного выпускника">   
                 {/if}
-                <br />
                 <input type="hidden" name="photo" value={ responsibleImageId }><br />
                 {#if $isMobile}
                     <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>

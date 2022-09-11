@@ -16,7 +16,7 @@ export const readAll = catchHTTPErrors(async (req: Request, res: Response) => {
     options.order = [ [ 'id', 'ASC' ] ]
 
     const documents = await documentService.get(options)
-    const amount = await documentService.count()
+    const amount = await documentService.count(options)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, { documents, amount })
 })
 

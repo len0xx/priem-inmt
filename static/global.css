@@ -64,12 +64,12 @@ body textarea {
     font-weight: 600;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
+h1:not(.s),
+h2:not(.s),
+h3:not(.s),
+h4:not(.s),
+h5:not(.s),
+h6:not(.s),
 .heading-1,
 .heading-2,
 .heading-3,

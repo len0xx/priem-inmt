@@ -35,7 +35,7 @@
         selectedPath = file.src
     }
 
-    const isImage = (extension: string) => ['jpeg', 'jpg', 'png'].includes(extension)
+    const isImage = (extension: string) => ['jpeg', 'jpg', 'png', 'svg'].includes(extension)
 
     const saveChanges = () => {
         dispatch('save', { id: selectedFile, path: selectedPath })

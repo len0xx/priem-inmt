@@ -36,7 +36,7 @@
         modal.close()
     }
 
-    const isImage = (extension: string) => ['jpeg', 'jpg', 'png'].includes(extension)
+    const isImage = (extension: string) => ['jpeg', 'jpg', 'png', 'svg'].includes(extension)
 </script>
 
 <svelte:head>

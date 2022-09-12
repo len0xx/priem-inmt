@@ -451,14 +451,14 @@
             {/if}
             <div>
                 <h3>Партнеры образовательной программы</h3>
-                <!-- TODO: add partner removal functionality -->
                 { #if partners?.length }
-                    <Grid m={5} s={2}>
+                    <Grid m={4} s={2}>
                         { #each partners as partner }
-                            <div>
-                                <!-- svelte-ignore a11y-missing-attribute -->
-                                <img width="150px" height="150px" src={ partner } class="img-fluid mt-3" /><br />
-                                <button class="btn btn-danger btn-sm mt-3" type="button" on:click={ () => updatePartnerPath(partner) }>Удалить</button>
+                            <div class="card">
+                                <div class="card-img medium-card-img contain-img" style:background-image="url({ partner })"></div>
+                                <div class="card-body">
+                                    <button type="button" class="btn btn-outline-danger" on:click={() => updatePartnerPath(partner) }>Удалить</button>
+                                </div>
                             </div>
                         { /each }
                     </Grid>
@@ -469,10 +469,11 @@
                     {#if $isMobile}
                         <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
                     {:else }
-                        <p>Добавить логотип</p>
+                        <span class="caption">Добавить новый логотип партнёра:</span><br />
                         { #if partnerLogoPath }
                             <!-- svelte-ignore a11y-missing-attribute -->
-                            <img width="150px" height="150px" src={ partnerLogoPath } class="img-fluid my-3" /><br />
+                            <img width="150px" height="150px" src={ partnerLogoPath } class="img-fluid my-3" />
+                            <br />
                         { /if }
                         <button type="button" class="btn btn-outline-success" on:click={ partnerLogoModal.open }> { partnerLogoId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     {/if}

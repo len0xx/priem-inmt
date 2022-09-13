@@ -1,37 +1,57 @@
-<script lang="ts" context="module">
-    import type { Load } from '@sveltejs/kit'
-    import { apiRoute } from '$lib/utilities'
-
-    export const load: Load = async ({ fetch }) => {
-        const res = await fetch(apiRoute('admin/media?type=media'))
-        const files = (await res.json()).documents
-
-        if (res.ok) {
-            return { props: { files } }
-        }
-    }
-</script>
-
 <script lang="ts">
     import { Form, Grid, Modal } from '$components'
+    import { range } from '$lib/utilities'
     import { blur } from 'svelte/transition'
+    import { apiRoute } from '$lib/utilities'
     import type { DocumentI, ModalComponent } from '../../../types'
-
-    export let files: DocumentI[]
 
     let deleteId = 0
     let modal: ModalComponent = null
     let documentLoading = false
 
-    const handleSuccess = (event: CustomEvent) => {
-        const doc = event.detail.document
-        files = [ ...files, doc ]
+    const LIMIT = 9
+    let currentPage = 1
+    let filesAmount = 0
+
+    $: pagesAmount = Math.ceil(filesAmount / LIMIT) || 1
+    $: filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
+
+    const getFiles = async (page: number): Promise<DocumentI[]> => {
+        const res = await fetch(apiRoute(`admin/media?type=media&page=${page}`))
+        const json = await res.json()
+        const files = json.documents
+        filesAmount = json.amount
+
+        if (res.ok)
+            return files
+    
+        throw new Error('Не удалось загрузить файлы')
+    }
+
+    const prevPage = () => {
+        if (currentPage > 1) {
+            currentPage--
+        }
+    }
+
+    const selectPage = (num: number) => {
+        if (num >= 1 && num <= pagesAmount) currentPage = num
+    }
+
+    const nextPage = () => {
+        if (currentPage < pagesAmount) {
+            currentPage++
+        }
+    }
+
+    const handleSuccess = async () => {
+        filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
     }
 
     const deleteDocument = async () => {
         const res = await fetch(apiRoute(`admin/media/${deleteId}`), { method: 'DELETE' })
         if (res.ok) {
-            files = files.filter(doc => doc.id !== deleteId)
+            filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
         }
         modal.close()
     }
@@ -79,35 +99,66 @@
                 </button>
             </div>
         </Form>
-    </div>
-    <br />
-    { #if files.length }
-        <div class="white-block-wide">
-            <h3 class="no-top-margin">Загруженные файлы</h3>
-            <Grid l={3} m={2} s={1}>
-                { #each files as file (file.id) }
-                    <span transition:blur|local={{ duration: 200 }}>
-                        <div class="card">
-                            <div class="row g-0">
-                                { #if isImage(file.extension) }
-                                    <div class="col-md-4">
-                                        <div class="card-img" style:background-image="url({ file.src })"></div>
-                                    </div>
-                                { /if }
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h4 class="card-title">{ file.title }</h4>
-                                        <a href={ file.src } target="_BLANK" class="btn btn-outline-primary btn-sm mb-2">Открыть</a><br />
-                                        <button class="btn btn-outline-danger btn-sm" on:click={ () => { deleteId = file.id; modal.open() } }>Удалить</button>
+        <br />
+        { #await filesPromise }
+            <div class="align-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Загрузка...</span>
+                </div>
+            </div>
+        { :then files }
+            { #if files && files.length }
+                <h3 class="no-top-margin">Загруженные файлы</h3>
+                <Grid l={3} m={2} s={1}>
+                    { #each files as file (file.id) }
+                        <span transition:blur|local={{ duration: 200 }}>
+                            <div class="card">
+                                <div class="row g-0">
+                                    { #if isImage(file.extension) }
+                                        <div class="col-md-4">
+                                            <div class="card-img" style:background-image="url({ file.src })"></div>
+                                        </div>
+                                    { /if }
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h4 class="card-title">{ file.title }</h4>
+                                            <a href={ file.src } target="_BLANK" class="btn btn-outline-primary btn-sm mb-2">Открыть</a><br />
+                                            <button class="btn btn-outline-danger btn-sm" on:click={ () => { deleteId = file.id; modal.open() } }>Удалить</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </span>
-                { /each }
-            </Grid>
-        </div>
-    { /if }
+                        </span>
+                    { /each }
+                </Grid>
+            { :else }
+                <p>Файлы не найдены</p>
+            { /if }
+        { /await }
+        <br />
+        { #if pagesAmount > 1 }
+            <nav aria-label="Page navigation" class="align-center">
+                <ul class="pagination">
+                    <li class="page-item" class:disabled={ currentPage === 1 }>
+                        <span class="page-link" aria-label="Предыдущая страница" on:click={ prevPage }>
+                            <span aria-hidden="true">&laquo;</span>
+                        </span>
+                    </li>
+                    { #each range(1, pagesAmount) as i (i) }
+                        { #if pagesAmount >= i }
+                            <li class="page-item {currentPage === i ? 'active' : ''}" on:click={ () => selectPage(i) }><span class="page-link">{ i }</span></li>
+                        { /if }
+                    { /each }
+                    <li class="page-item" class:disabled={ currentPage === pagesAmount }>
+                        <span class="page-link" aria-label="Следующая страница" on:click={ nextPage }>
+                            <span aria-hidden="true">&raquo;</span>
+                        </span>
+                    </li>
+                </ul>
+            </nav>
+        { /if }
+    </div>
+    <br />
 </section>
 
 <style>

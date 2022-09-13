@@ -328,8 +328,8 @@
         <h2 class="no-top-margin">Редактирование страницы бакалавриата</h2>
         <h3>Информация в промо-блоке</h3>
         <Form action="/api/admin/textinfo?page=bachelor" method="PATCH" reset={ false }>
-            <Grid m={2} s={1}>
-                <Grid m={1}>
+            <Grid m={2} s={1} placeContent="start">
+                <Grid m={1} placeContent="start">
                     <label>
                         <span class="caption">Заголовок:</span><br />
                         <input required class="form-control" type="text" name="bachelorTitle" value={ pageInfo.bachelorTitle || '' }>
@@ -352,7 +352,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
         <Form action="/api/admin/feature?type=bachelor" method="POST" on:success={ showNewFeaturePromo }>
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <label>
                     <span class="caption">Заголовок:</span><br />
                     <input required class="form-control" type="text" name="title">
@@ -367,7 +367,7 @@
         </Form>
         <h3>Опубликованные перечисления</h3>
         { #if featuresPromo.length }
-            <Grid l={3} m={2} s={1}>
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each featuresPromo.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || featuresExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
@@ -393,7 +393,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Календарь приёма</h3>
         <Form method="PATCH" action="/api/admin/textinfo?page=bachelor" reset={ false }>
-            <Grid l={2} m={1}>
+            <Grid l={2} m={1} placeContent="start">
                 <div>
                     <span>Основной текстовый блок</span>
                     <TipTap name="bachelorCalendarTextMain" content={pageInfo.bachelorCalendarTextMain || ''} />
@@ -419,7 +419,7 @@
                     </h2>
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
-                            <Grid l={4} m={2} s={1}>
+                            <Grid l={4} m={2} s={1} placeContent="start">
                                 <div>
                                     <h4>Приём документов</h4>
                                     <div>
@@ -512,7 +512,7 @@
                     </h2>
                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                         <div class="accordion-body">
-                            <Grid l={4} m={2} s={1}>
+                            <Grid l={4} m={2} s={1} placeContent="start">
                                 <div>
                                     <h4>Приём документов</h4>
                                     <div>
@@ -627,7 +627,7 @@
         </Form>
         <h3>Преимущества института</h3>
         <Form action="/api/admin/feature?type=instInfo" method="POST" on:success={ showNewFeatureInst }>
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <label>
                     <span class="caption">Заголовок:</span><br />
                     <input required class="form-control" type="text" name="title">
@@ -642,7 +642,7 @@
         </Form>
         <h3>Опубликованные преимущества</h3>
         { #if featuresInst.length }
-            <Grid l={3} m={2} s={1}>
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each featuresInst.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || featuresExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
@@ -682,7 +682,7 @@
         </Form>
         <h3>Опубликованные возможности</h3>
         {#if opportunities.length}
-            <Grid l={3} m={2} s={1}>
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each opportunities.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || opportunitiesExpanded) as opportunity, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
@@ -712,8 +712,8 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Отзывы</h3>
         <Form action="/api/admin/feedback/?page=bachelor" method="POST" on:success={ showNewFeedback }>
-            <Grid m={2} s={1}>
-                <Grid m={1}>
+            <Grid m={2} s={1} placeContent="start">
+                <Grid m={1} placeContent="start">
                     <label>
                         <span class="caption">Автор:</span><br />
                         <input class="form-control" type="text" name="name" id="name" required />
@@ -747,7 +747,7 @@
         </Form>
         <h3>Опубликованные отзывы</h3>
         {#if feedbacks.length}
-            <Grid l={3} m={2} s={1} alignItems="start">
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each feedbacks.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || feedbacksExpanded) as feedback, i (i)}
                     <div transition:blur|local={{ duration: 200 }}>
                         <Profile variant="grey" img={ feedback.img }>
@@ -782,7 +782,7 @@
             </label>
             <br />
             <br />
-            <Grid m={3} s={1}>
+            <Grid m={3} s={1} placeContent="start">
                 <label>
                     <span class="caption">Документ</span><br />
                     <input required class="form-control" type="file" name="file" id="file" accept=".pdf, .doc, .docx, .xls, .xlsx, .jpg, .jpeg, .png, .svg"/>

@@ -1,6 +1,6 @@
 import { ajax } from 'jquery'
 import axios, { type AxiosRequestConfig } from 'axios'
-import type { RESTMethod, DefaultAJAXResponse, ContentType, EducationalProgram, EducationModesI } from '../types'
+import type { RESTMethod, DefaultAJAXResponse, ContentType, EducationalProgram, EducationModesI, Padding, PaddingValue } from '../types'
 
 export const DOMAIN_NAME = 'inmt-priem.urfu.ru'
 export const BASE_DOMAIN = 'https://' + DOMAIN_NAME
@@ -232,3 +232,26 @@ export const getBaseUrl = (mode: ApplicationMode) => ((mode == 'production') ? B
 export const apiRoute = (route: string, url?: string) => `${ url || (getBaseUrl(NODE_ENV) + '/api') }/${route}`
 
 export const isImage = (extension: string) => ['jpeg', 'jpg', 'png', 'svg'].includes(extension.toLowerCase())
+
+// Transform the padding value from PaddingValue type to actual CSS
+export const applyPadding = (value: PaddingValue): string => (typeof value == 'number') ? value + 'em' : value || '0'
+
+// Transform padding values from JS style to CSS (eg. "2em 4em 2em 4em")
+// where the order is from top to left clockwise
+export const computePadding = (padding: Padding): string => {
+    if (
+        padding.top === undefined &&
+        padding.bottom === undefined &&
+        padding.left === undefined &&
+        padding.right === undefined &&
+        padding.x === undefined &&
+        padding.y === undefined
+    ) return undefined
+
+    return [
+        applyPadding(padding.top !== undefined ? padding.top : padding.y),
+        applyPadding(padding.right !== undefined ? padding.right : padding.x),
+        applyPadding(padding.bottom !== undefined ? padding.bottom : padding.y),
+        applyPadding(padding.left !== undefined ? padding.left : padding.x)
+    ].join(' ')
+}

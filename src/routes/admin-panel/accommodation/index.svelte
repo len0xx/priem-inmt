@@ -135,7 +135,7 @@
         <h2 class="no-top-margin">Редактирование страницы поселения</h2>
         <h3>Информация в промо-блоке</h3>
         <Form action="/api/admin/textinfo?page=accommodation" method="PATCH" reset={ false }>
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <label>
                     <span class="caption">Заголовок:</span><br />
                     <input required class="form-control" type="text" name="accommodationTitle" value={ pageInfo.accommodationTitle || '' }>
@@ -153,7 +153,7 @@
     <div class="white-block-wide">
         <h3>Общежития</h3>
         <Form action="/api/admin/dormitory" method="POST" reset={ true } on:success={ showNewDormitory }>
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <label>
                     <span class="caption">Название:</span><br />
                     <input class="form-control" type="text" name="title" id="title" required />
@@ -182,7 +182,7 @@
         </Form>
         <h3>Опубликованные общежития</h3>
         {#if dormitories.length}
-            <Grid xl={4} l={3} m={2} s={1}>
+            <Grid xl={4} l={3} m={2} s={1} placeContent="start">
                 {#each dormitories.filter((_, i) => i < ($isMobile ? totalMobileObjects : 8) || dormitoriesExpanded) as dormitory, i (i)}
                     <div transition:blur|local={{ duration: 200 }}>
                         <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address }>
@@ -210,7 +210,7 @@
             method={settlement ? 'PATCH' : 'POST'} 
             reset={false}
         >
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <div>
                     <label for="name">ФИО</label>
                     <input type="text" class="form-control wide" name="name" value={settlement?.name || ''} required />
@@ -221,7 +221,7 @@
                 </div>
             </Grid>
             <br />
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <div>
                     <label for="address">Адрес</label>
                     <input required class="form-control" type="text" value={settlement?.address || ''} name="address" />
@@ -232,7 +232,7 @@
                 </div>
             </Grid>
             <br />
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <div>
                     <label for="phone">Номер телефона</label>
                     <input required class="form-control" type="text" value={settlement?.phone || ''} use:imask={ phoneMask } name="phone" />
@@ -270,8 +270,8 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Альтернативное поселение</h3>
         <Form action="/api/admin/rentInfo" method="POST" reset={ false }>
-            <Grid m={2} s={1}>
-                <Grid m={1}>
+            <Grid m={2} s={1} placeContent="start">
+                <Grid m={1} placeContent="start">
                     <label>
                         <span class="caption">Заголовок:</span><br />
                         <input class="form-control" type="text" name="heading" id="heading" value={ rentInfo?.heading || '' } required />
@@ -285,7 +285,7 @@
                         <textarea class="form-control" name="text" id="text" cols="30" rows="4" value={ rentInfo?.text || '' } required ></textarea>
                     </label>
                 </Grid>
-                <Grid m={1}>
+                <Grid m={1} placeContent="start">
                     <label>
                         <span class="caption">Телефон 1:</span><br />
                         <input class="form-control" type="text" name="tel1" id="tel1" use:imask={ phoneMask } value={ rentInfo?.tel1 || '' } required />
@@ -316,7 +316,7 @@
             </label>
             <br />
             <br />
-            <Grid m={3} s={1}>
+            <Grid m={3} s={1} placeContent="start">
                 <label>
                     <span class="caption">Документ</span><br />
                     <input required class="form-control" type="file" name="file" id="file" accept=".pdf, .doc, .docx, .xls, .xlsx, .jpg, .jpeg, .png, .svg"/>

@@ -71,7 +71,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Загрузка файлов</h2>
         <Form action="/api/admin/media?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess } on:submit={ () => documentLoading = true } on:done={ () => documentLoading = false }>
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <label>
                     <span class="form-label">Название файла (необязательно)</span>
                     <input type="text" class="form-control wide" placeholder="Название" name="title" />
@@ -102,7 +102,7 @@
         { :then files }
             { #if files && files.length }
                 <h3 class="no-top-margin">Загруженные файлы</h3>
-                <Grid l={3} m={2} s={1}>
+                <Grid l={3} m={2} s={1} placeContent="start">
                     { #each files as file (file.id) }
                         <span transition:blur|local={{ duration: 200 }}>
                             <div class="card">

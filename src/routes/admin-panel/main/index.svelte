@@ -318,8 +318,8 @@
         <h2 class="no-top-margin">Редактирование главной страницы</h2>
         <h3 class="no-top-margin">Публикации</h3>
         <Form action="/api/admin/post" method="POST" on:success={ showNewPost }>
-            <Grid m={2} s={1}>
-                <Grid m={1}>
+            <Grid m={2} s={1} placeContent="start">
+                <Grid m={1} placeContent="start">
                     <label>
                         <span class="caption">Заголовок:</span><br />
                         <input class="form-control" type="text" name="title" id="title" />
@@ -364,7 +364,7 @@
         </Form>
         <h3>Опубликованные публикации</h3>
         {#if posts.length}
-            <Grid l={3} m={2} s={1}>
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each posts.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || postsExpanded) as post, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         {#if post.img}
@@ -413,7 +413,7 @@
         </Form>
         <h3>Опубликованные партнеры</h3>
         {#if partners.length}
-            <Grid xl={4} l={3} m={2} s={1}>
+            <Grid xl={4} l={3} m={2} s={1} placeContent="start">
                 {#each partners.filter((_, i) => i < ($isMobile ? totalMobileObjects : 8) || partnersExpanded) as partner, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-img medium-card-img contain-img" style:background-image="url({ partner.logo })"></div>
@@ -436,7 +436,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Об институте</h3>
-        <Grid m={2} s={1} ratio="2:3">
+        <Grid m={2} s={1} ratio="2:3" placeContent="start">
             <Form action="/api/admin/carousel/?name=about" method="POST" on:success={ showNewCarouselAboutImage }>
                 <label>
                     <span class="caption">Добавить новое изображение:</span>
@@ -467,7 +467,7 @@
         </Grid>
         <h3>Опубликованные изображения:</h3>
         {#if carouselAboutImages.length}
-            <Grid l={3} m={2} s={1}>
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each carouselAboutImages.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || carouselAboutExpanded) as image, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-img wide-card-img" style:background-image="url({ image.img })"></div>
@@ -491,7 +491,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Перечисления</h3>
         <Form action="/api/admin/feature?type=main" method="POST" on:success={ showNewFeature }>
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <label>
                     <span class="caption">Заголовок:</span><br />
                     <input required class="form-control" type="text" name="title">
@@ -506,7 +506,7 @@
         </Form>
         <h3>Опубликованные перечисления</h3>
         {#if features.length}
-            <Grid l={3} m={2} s={1}>
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each features.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || featuresExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
@@ -531,7 +531,7 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Студенческая жизнь</h3>
-        <Grid m={2} s={1} ratio="2:3">
+        <Grid m={2} s={1} ratio="2:3" placeContent="start">
             <Form action="/api/admin/carousel/?name=life" method="POST" on:success={ showNewCarouselLifeImage }>
                 <label>
                     <span class="caption">Добавить новое изображение:</span>
@@ -561,7 +561,7 @@
         </Grid>
         <h3>Опубликованные изображения:</h3>
         {#if carouselLifeImages.length}
-            <Grid l={3} m={2} s={1}>
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each carouselLifeImages.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || carouselLifeExpanded) as image, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-img wide-card-img" style:background-image="url({ image.img })"></div>
@@ -585,7 +585,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Известные выпускники</h3>
         <Form action="/api/admin/graduate" method="POST" on:success={ showNewGraduate }>
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <label>
                     <span class="caption">ФИО</span><br />
                     <input required class="form-control" type="text" name="name">
@@ -613,7 +613,7 @@
         </Form>
         <h3>Опубликованные известные выпускники</h3>
         {#if graduates.length}
-            <Grid l={3} m={2} s={1}>
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each graduates.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || graduatesExpanded) as graduate, i (i)}
                     <div transition:blur|local={{ duration: 200 }}>
                         <Graduate name={ graduate.name } src={ graduate.photo } caption={ graduate.description }>
@@ -636,14 +636,14 @@
     <br />
     <div class="white-block-wide">
         <h3 class="no-top-margin">Видеозаписи</h3>
-        <Grid m={2} s={1} ratio="3:2">
+        <Grid m={2} s={1} ratio="3:2" placeContent="start">
             <Form action="/api/admin/video?type=video" method="POST" content="multipart/form-data" on:success={ showNewVideo } on:submit={ () => videoLoading = true } on:done={ () => videoLoading = false }>
-                <Grid m={1}>
+                <Grid m={1} placeContent="start">
                     <label class="wide">
                         <span class="form-label">Название видеозаписи</span>
                         <input type="text" class="form-control wide" placeholder="Название" name="title" required />
                     </label>
-                    <Grid m={2} s={1}>
+                    <Grid m={2} s={1} placeContent="start">
                         <label>
                             <span class="caption">Видеозапись</span><br />
                             <input required class="form-control" type="file" name="video" id="video" accept=".mp4, .webm, .ogg, .avi, .mov, .mpeg, .mkv"/>
@@ -680,7 +680,7 @@
         </Grid>
         <h3>Опубликованные видеозаписи</h3>
         {#if videos.length}
-            <Grid s={1} m={2} l={3} xl={4}>
+            <Grid s={1} m={2} l={3} xl={4} placeContent="start">
                 {#each videos as video, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">

@@ -1,10 +1,14 @@
 <script lang="ts">
-    type ItemsAlignment = 'end' | 'center' | 'start' | 'stretch' | 'initial' | 'inherit'
-    type ContentAlignment = 'left' | 'center' | 'right' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch' | 'initial' | 'inherit'
+    import { computePadding } from '$lib/utilities'
+    import type { Padding } from '../../types'
+
+    type ItemsAlignment = 'normal' | 'flex-start' | 'flex-end' | 'center' | 'start' | 'end' | 'self-start' | 'self-end' | 'baseline' | 'stretch' | 'safe' | 'unsafe' | 'inherit' | 'initial' | 'unset' | 'revert' | 'revert-layer'
+    type ContentAlignment = ItemsAlignment | 'space-between' | 'space-around' | 'space-evenly'
     type GridSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
-    type TwoColumnsRatio = '2:1' | '1:2' | '3:1' | '1:3' | '3:2' | '2:3' | '4:1' | '1:4' | '4:3' | '3:4' | '5:1' | '5:2' | '5:3' | '5:4' | null
+    type TwoColumnsRatio = '2:1' | '1:2' | '3:1' | '1:3' | '3:2' | '2:3' | '4:1' | '1:4' | '4:3' | '3:4' | '5:1' | '5:2' | '5:3' | '5:4'
 
     export let id: string = undefined
+    export let node: HTMLElement = undefined
     export let className = ''
     export let xs: GridSize = null
     export let s: GridSize = null
@@ -13,22 +17,19 @@
     export let xl: GridSize = null
     export let ratio: TwoColumnsRatio = null
     export let gap = 1
-    export let alignItems: ItemsAlignment = 'initial'
-    export let justifyItems: ItemsAlignment = 'initial'
-    export let alignContent: ContentAlignment = 'initial'
-    export let justifyContent: ContentAlignment = 'initial'
-    export let placeItems: ItemsAlignment = 'initial'
-    export let placeContent: ContentAlignment = 'initial'
+    export let customLayout: string = undefined
+    export let alignItems: ItemsAlignment = 'normal'
+    export let justifyItems: ItemsAlignment = 'normal'
+    export let alignContent: ContentAlignment = 'normal'
+    export let justifyContent: ContentAlignment = 'normal'
+    export let placeItems: ItemsAlignment = 'normal'
+    export let placeContent: ContentAlignment = 'normal'
+    export let margin: Padding = { }
 
     const defaultSize = 6
-    let smallestSize = null
+    let smallestSize: GridSize = null
     let ratioClasses = ''
-    if (xs !== null && smallestSize === null) smallestSize = xs
-    if (s !== null && smallestSize === null) smallestSize = s
-    if (m !== null && smallestSize === null) smallestSize = m
-    if (l !== null && smallestSize === null) smallestSize = l
-    if (xl !== null && smallestSize === null) smallestSize = xl
-    if (smallestSize === null) smallestSize = defaultSize
+    $: customLayoutClass = customLayout ? 'has-custom-layout' : ''
 
     const getClosestSize = (arr: GridSize[], ind: 0 | 1 | 2 | 3 | 4, smallest: GridSize): GridSize => {
         for (let i = ind; i >= 0; i--) {
@@ -37,27 +38,40 @@
         return smallest
     }
 
-    if (xs === null) xs = getClosestSize([xs, s, m, l, xl], 0, smallestSize)
-    if (s === null) s = getClosestSize([xs, s, m, l, xl], 1, smallestSize)
-    if (m === null) m = getClosestSize([xs, s, m, l, xl], 2, smallestSize)
-    if (l === null) l = getClosestSize([xs, s, m, l, xl], 3, smallestSize)
-    if (xl === null) xl = getClosestSize([xs, s, m, l, xl], 4, smallestSize)
+    $: {
+        if (xs !== null && smallestSize === null) smallestSize = xs
+        if (s !== null && smallestSize === null) smallestSize = s
+        if (m !== null && smallestSize === null) smallestSize = m
+        if (l !== null && smallestSize === null) smallestSize = l
+        if (xl !== null && smallestSize === null) smallestSize = xl
+        if (smallestSize === null) smallestSize = defaultSize
 
-    if (ratio !== null) {
-        ratioClasses = ['grid-ratio-selected', 'grid-' + ratio.replace(':', '-')].join(' ')
+        if (xs === null) xs = getClosestSize([xs, s, m, l, xl], 0, smallestSize)
+        if (s === null) s = getClosestSize([xs, s, m, l, xl], 1, smallestSize)
+        if (m === null) m = getClosestSize([xs, s, m, l, xl], 2, smallestSize)
+        if (l === null) l = getClosestSize([xs, s, m, l, xl], 3, smallestSize)
+        if (xl === null) xl = getClosestSize([xs, s, m, l, xl], 4, smallestSize)
+        
+        if (ratio !== null) {
+            ratioClasses = ['grid-ratio-selected', 'grid-' + ratio.replace(':', '-')].join(' ')
+        }
     }
+
 </script>
 
 <div
     { id }
+    bind:this={ node }
     style:gap={ gap + 'em' }
-    style:place-items={ placeItems }
-    style:place-content={ placeContent }
+    style:margin={ computePadding(margin) }
     style:align-content={ alignContent }
     style:justify-content={ justifyContent }
     style:align-items={ alignItems }
     style:justify-items={ justifyItems }
-    class="grid-container grid-gap-{gap} xsmall-viewport-{xs} small-viewport-{s} medium-viewport-{m} large-viewport-{l} xlarge-viewport-{xl} {className} {ratioClasses}"
+    style:place-items={ placeItems }
+    style:place-content={ placeContent }
+    style:--custom-grid-layout={ customLayout }
+    class="grid-container xsmall-viewport-{xs} small-viewport-{s} medium-viewport-{m} large-viewport-{l} xlarge-viewport-{xl} {className} {ratioClasses} {customLayoutClass}"
     on:click
 >
     <slot />
@@ -67,6 +81,62 @@
     .grid-container {
         display: grid;
         position: relative;
+    }
+
+    .grid-1-2:not(.has-custom-layout) {
+        grid-template-columns: 1fr 2fr;
+    }
+
+    .grid-1-3:not(.has-custom-layout) {
+        grid-template-columns: 1fr 3fr;
+    }
+
+    .grid-1-4:not(.has-custom-layout) {
+        grid-template-columns: 1fr 4fr;
+    }
+
+    .grid-2-1:not(.has-custom-layout) {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    .grid-2-3:not(.has-custom-layout) {
+        grid-template-columns: 2fr 3fr;
+    }
+
+    .grid-3-1:not(.has-custom-layout) {
+        grid-template-columns: 3fr 1fr;
+    }
+
+    .grid-3-2:not(.has-custom-layout) {
+        grid-template-columns: 3fr 2fr;
+    }
+
+    .grid-3-4:not(.has-custom-layout) {
+        grid-template-columns: 3fr 4fr;
+    }
+
+    .grid-4-1:not(.has-custom-layout) {
+        grid-template-columns: 4fr 1fr;
+    }
+
+    .grid-4-3:not(.has-custom-layout) {
+        grid-template-columns: 4fr 3fr;
+    }
+
+    .grid-5-1:not(.has-custom-layout) {
+        grid-template-columns: 5fr 1fr;
+    }
+
+    .grid-5-2:not(.has-custom-layout) {
+        grid-template-columns: 5fr 2fr;
+    }
+
+    .grid-5-3:not(.has-custom-layout) {
+        grid-template-columns: 5fr 3fr;
+    }
+
+    .grid-5-4:not(.has-custom-layout) {
+        grid-template-columns: 5fr 4fr;
     }
 
     @media screen and (min-width: 1441px) {
@@ -262,5 +332,9 @@
         .xsmall-viewport-12 {
             grid-template-columns: repeat(12, 1fr);
         }
+    }
+    
+    div.grid-container.has-custom-layout:not(.c) {
+        grid-template-columns: var(--custom-grid-layout);
     }
 </style>

@@ -14,7 +14,8 @@
     let index = 1
     let allowShift = true
     let bias = 0
-    $: innerWidth = 0
+    let innerWidth = 0
+    let shifting = false
 
     function checkIndex() {
         // Minus two because we have added two more elements to the carousel
@@ -29,14 +30,14 @@
 
     function watchForShift() {
         setTimeout(() => {
-            carousel.classList.remove('shifting')
+            shifting = false
             allowShift = true
             checkIndex()
         }, 200)
     }
 
     function swipeLeft() {
-        carousel.classList.add('shifting')
+        shifting = true
 
         if (allowShift) {
             index--
@@ -49,7 +50,7 @@
     }
 
     function swipeRight() {
-        carousel.classList.add('shifting')
+        shifting = true
 
         if (allowShift) {
             index++
@@ -92,22 +93,24 @@
         carousel.appendChild(cloneFirst)
         carousel.insertBefore(cloneLast, firstNode)
 
-        // Wait for the children to load properly
-        setTimeout(resizeHandler, 1000)
-        setTimeout(updateTranslation, 1500)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait for the children to load properly
+            setTimeout(resizeHandler, 1000)
+            setTimeout(updateTranslation, 1500)
+        })
     })
 </script>
 
-<svelte:window on:resize={resizeHandler} />
+<svelte:window on:resize={ resizeHandler } />
 
-<div class="kit-carousel-wrapper {className}">
-    <div class="kit-carousel" bind:this={carousel}>
+<div class="kit-carousel-wrapper { className }" class:shifting>
+    <div class="kit-carousel" bind:this={ carousel }>
         <slot />
     </div>
     { #if displayButtons }
         <div class="buttons">
-            <RoundButton variant="left" on:click={swipeLeft} />
-            <RoundButton variant="right" on:click={swipeRight} />
+            <RoundButton variant="left" on:click={ swipeLeft } />
+            <RoundButton variant="right" on:click={ swipeRight } />
         </div>
     { /if }
 </div>
@@ -135,10 +138,29 @@
         vertical-align: middle;
     }
 
-    :global(.kit-carousel > div > img) {
+    :global(.carousel-svelte > div > img) {
         display: block;
         max-width: min(90vw, 750px);
         height: auto;
+    }
+
+    :global(.carousel-svelte > div > .slide-img) {
+        display: block;
+        min-height: 400px;
+        min-width: min(90vw, 750px);
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 6px;
+    }
+
+    @media screen and (max-width: 768px) {
+        :global(.carousel-svelte > div > .slide-img) {
+            min-height: 0;
+            min-width: 0;
+            height: 51vw;
+            width: 78vw;
+        }
     }
 
     .buttons {

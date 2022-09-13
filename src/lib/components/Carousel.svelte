@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { RoundButton } from '.'
+    import RoundButton from './RoundButton.svelte'
 
     export let margin = 10 // Margin between the children
     export let className = ''
@@ -63,8 +63,6 @@
     }
 
     function resizeHandler() {
-        const parent = carousel.parentElement as HTMLElement
-        innerWidth = parent.clientWidth
         childSize = (carousel.children[0] as HTMLElement).offsetWidth
         dx = childSize + (margin > 4 ? margin : 4)
         const y = -(dx - innerWidth) / 2
@@ -101,10 +99,10 @@
     })
 </script>
 
-<svelte:window on:resize={ resizeHandler } />
+<svelte:window bind:innerWidth on:resize={ resizeHandler } />
 
-<div class="kit-carousel-wrapper { className }" class:shifting>
-    <div class="kit-carousel" bind:this={ carousel }>
+<div class="kit-carousel-wrapper { className }">
+    <div class="kit-carousel-svelte" class:shifting bind:this={ carousel }>
         <slot />
     </div>
     { #if displayButtons }
@@ -116,21 +114,21 @@
 </div>
 
 <style>
-    .kit-carousel {
+    .kit-carousel-svelte {
         white-space: nowrap;
         -ms-overflow-style: none;
         overflow-x: unset;
         position: relative;
     }
     
-    :global(.kit-carousel.shifting) {
+    :global(.kit-carousel-svelte.shifting) {
         transition: 0.2s ease-in-out;
     }
     
-    .kit-carousel::-webkit-scrollbar {
+    .kit-carousel-svelte::-webkit-scrollbar {
         display: none;
     }
-    :global(.kit-carousel > div) {
+    :global(.kit-carousel-svelte > div) {
         display: inline-block;
         position: relative;
         white-space: normal;
@@ -138,13 +136,13 @@
         vertical-align: middle;
     }
 
-    :global(.carousel-svelte > div > img) {
+    :global(.kit-carousel-svelte > div > img) {
         display: block;
         max-width: min(90vw, 750px);
         height: auto;
     }
 
-    :global(.carousel-svelte > div > .slide-img) {
+    :global(.kit-carousel-svelte > div > .slide-img) {
         display: block;
         min-height: 400px;
         min-width: min(90vw, 750px);
@@ -155,7 +153,7 @@
     }
 
     @media screen and (max-width: 768px) {
-        :global(.carousel-svelte > div > .slide-img) {
+        :global(.kit-carousel-svelte > div > .slide-img) {
             min-height: 0;
             min-width: 0;
             height: 51vw;
@@ -165,6 +163,7 @@
 
     .buttons {
         text-align: center;
-        padding: 2em 0 1em 0;
+        padding: 2em 0;
+        position: relative;
     }
 </style>

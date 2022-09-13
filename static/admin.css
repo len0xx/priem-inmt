@@ -236,6 +236,16 @@ nav ul.pagination li {
     .left-menu-nav {
         font-size: 1.5em;
     }
+
+    .kit-modal.file-select-modal {
+        height: 100vh;
+        width: 100% !important;
+    }
+
+    .file-select-grid {
+        height: 70vh;
+        overflow-y: auto;
+    }
 }
 
 ul.pagination li.page-item {

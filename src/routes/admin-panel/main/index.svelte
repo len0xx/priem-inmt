@@ -335,11 +335,12 @@
                             <img width="150px" height="150px" src={postImagePath} class="img-fluid mt-3 mb-3" alt="Изображение">   
                         {/if}                 
                         <input type="hidden" name="img" value={ postImageId }><br />
-                        {#if $isMobile}
+                        <!-- {#if $isMobile}
                             <p class="text-secondary mt-2 mb-0">Выбор изображения на данный момент недоступен, попробуйте на персональном компьютере</p>
                         {:else}
                             <button type="button" class="btn btn-outline-success" on:click={ postImageModal.open }> { postImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
-                        {/if}
+                        {/if} -->
+                        <button type="button" class="btn btn-outline-success" on:click={ postImageModal.open }> { postImageId ? 'Файл выбран' : 'Выбрать файл' } </button>
                     </label>
                 </Grid>
                 <div id="vs2f">

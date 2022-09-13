@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Form, Grid, Modal } from '$components'
-    import { range } from '$lib/utilities'
+    import { Form, Grid, Modal, Pagination } from '$components'
     import { blur } from 'svelte/transition'
-    import { apiRoute } from '$lib/utilities'
+    import { onMount } from 'svelte'
+    import { apiRoute, isImage } from '$lib/utilities'
     import type { DocumentI, ModalComponent } from '../../../types'
 
     let deleteId = 0
@@ -28,35 +28,28 @@
         throw new Error('Не удалось загрузить файлы')
     }
 
-    const prevPage = () => {
-        if (currentPage > 1) {
-            currentPage--
-        }
-    }
+    const handleSuccess = () => filesPromise = getFiles(currentPage)
 
-    const selectPage = (num: number) => {
-        if (num >= 1 && num <= pagesAmount) currentPage = num
-    }
+    const handlePageChange = (e: CustomEvent<number>) => {
+        const params = new URLSearchParams(window.location.search)
+        params.set('page', e.detail.toString())
 
-    const nextPage = () => {
-        if (currentPage < pagesAmount) {
-            currentPage++
-        }
-    }
-
-    const handleSuccess = async () => {
-        filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
+        const url = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + params.toString()
+        window.history.pushState({ path: url }, '', url)
     }
 
     const deleteDocument = async () => {
         const res = await fetch(apiRoute(`admin/media/${deleteId}`), { method: 'DELETE' })
         if (res.ok) {
-            filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
+            filesPromise = getFiles(currentPage)
         }
         modal.close()
     }
 
-    const isImage = (extension: string) => ['jpeg', 'jpg', 'png', 'svg'].includes(extension)
+    onMount(() => {
+        const params = new URLSearchParams(window.location.search)
+        currentPage = (+params.get('page') || 1)
+    })
 </script>
 
 <svelte:head>
@@ -140,29 +133,7 @@
             { /if }
         { /await }
         <br />
-        { #if pagesAmount > 1 }
-            <nav aria-label="Page navigation" class="align-center">
-                <ul class="pagination">
-                    <li class="page-item" class:disabled={ currentPage === 1 }>
-                        <span class="page-link" aria-label="Предыдущая страница" on:click={ prevPage }>
-                            <span aria-hidden="true">&laquo;</span>
-                        </span>
-                    </li>
-                    { #each range(1, pagesAmount) as i (i) }
-                        { #if pagesAmount >= i }
-                            <li class="page-item" class:active={ currentPage === i } on:click={ () => selectPage(i) }>
-                                <span class="page-link">{ i }</span>
-                            </li>
-                        { /if }
-                    { /each }
-                    <li class="page-item" class:disabled={ currentPage === pagesAmount }>
-                        <span class="page-link" aria-label="Следующая страница" on:click={ nextPage }>
-                            <span aria-hidden="true">&raquo;</span>
-                        </span>
-                    </li>
-                </ul>
-            </nav>
-        { /if }
+        <Pagination bind:pagesAmount bind:currentPage on:pageChange={ handlePageChange } />
     </div>
     <br />
 </section>

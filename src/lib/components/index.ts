@@ -23,6 +23,7 @@ import Modal from './Modal.svelte'
 import Nav from './Nav.svelte'
 import NewsCard from './NewsCard.svelte'
 import Opportunity from './Opportunity.svelte'
+import Pagination from './Pagination.svelte'
 import Partner from './Partner.svelte'
 import Preloader from './Preloader.svelte'
 import Profession from './Profession.svelte'
@@ -71,6 +72,7 @@ export {
     Nav,
     NewsCard,
     Opportunity,
+    Pagination,
     Partner,
     Preloader,
     Profession,

@@ -230,3 +230,5 @@ const NODE_ENV = 'development'
 export const getBaseUrl = (mode: ApplicationMode) => ((mode == 'production') ? BASE_DOMAIN : DEV_DOMAIN)
 
 export const apiRoute = (route: string, url?: string) => `${ url || (getBaseUrl(NODE_ENV) + '/api') }/${route}`
+
+export const isImage = (extension: string) => ['jpeg', 'jpg', 'png', 'svg'].includes(extension.toLowerCase())

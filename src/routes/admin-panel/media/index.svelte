@@ -78,7 +78,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Загрузка файлов</h2>
         <Form action="/api/admin/media?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess } on:submit={ () => documentLoading = true } on:done={ () => documentLoading = false }>
-            <div class="grid grid-2 m-grid-1">
+            <Grid m={2} s={1}>
                 <label>
                     <span class="form-label">Название файла (необязательно)</span>
                     <input type="text" class="form-control wide" placeholder="Название" name="title" />
@@ -87,7 +87,7 @@
                     <span class="form-label">Файл</span><br />
                     <input required class="form-control" type="file" name="media" id="media" accept=".pdf, .doc, .docx, .xls, .xlsx, .jpg, .jpeg, .png, .svg, .mp4, .webm, .ogg, .avi, .mov, .mpeg, .mkv"/>
                 </label>
-            </div>
+            </Grid>
             <div class="buttons-row">
                 <button class="btn btn-primary" disabled={ documentLoading }>
                     { #if documentLoading }
@@ -122,8 +122,12 @@
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <h4 class="card-title">{ file.title }</h4>
-                                            <a href={ file.src } target="_BLANK" class="btn btn-outline-primary btn-sm mb-2">Открыть</a><br />
-                                            <button class="btn btn-outline-danger btn-sm" on:click={ () => { deleteId = file.id; modal.open() } }>Удалить</button>
+                                            <a href={ file.src } target="_BLANK" class="btn btn-outline-primary btn-sm mb-2">
+                                                Открыть
+                                            </a><br />
+                                            <button class="btn btn-outline-danger btn-sm" on:click={ () => { deleteId = file.id; modal.open() } }>
+                                                Удалить
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -146,7 +150,9 @@
                     </li>
                     { #each range(1, pagesAmount) as i (i) }
                         { #if pagesAmount >= i }
-                            <li class="page-item {currentPage === i ? 'active' : ''}" on:click={ () => selectPage(i) }><span class="page-link">{ i }</span></li>
+                            <li class="page-item" class:active={ currentPage === i } on:click={ () => selectPage(i) }>
+                                <span class="page-link">{ i }</span>
+                            </li>
                         { /if }
                     { /each }
                     <li class="page-item" class:disabled={ currentPage === pagesAmount }>

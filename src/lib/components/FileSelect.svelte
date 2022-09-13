@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte'
     import { blur, slide } from 'svelte/transition'
     import { Modal, Grid, Form } from '.'
-    import { apiRoute } from '$lib/utilities'
+    import { apiRoute, range } from '$lib/utilities'
     import type { DocumentI, ModalComponent } from '../../types'
 
     export let modal: ModalComponent = null
@@ -115,11 +115,10 @@
                         <span aria-hidden="true">&laquo;</span>
                     </span>
                 </li>
-                <!-- Consider as bad practice, needs refactoring ASAP -->
-                { #each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as i (i) }
-                    { #if pagesAmount >= i }
-                        <li class="page-item" on:click={ () => selectPage(i) }><span class="page-link">{ i }</span></li>
-                    { /if }
+                { #each range(1, pagesAmount) as i (i) }
+                    <li class="page-item" class:active={ currentPage === i } on:click={ () => selectPage(i) }>
+                        <span class="page-link">{ i }</span>
+                    </li>
                 { /each }
                 <li class="page-item" class:disabled={ currentPage === pagesAmount }>
                     <span class="page-link" aria-label="Следующая страница" on:click={ nextPage }>

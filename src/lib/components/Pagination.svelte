@@ -7,9 +7,9 @@
 
     const dispatch = createEventDispatcher()
 
-    const prevPage = () => selectPage(currentPage--)
+    const prevPage = () => selectPage(currentPage - 1)
 
-    const nextPage = () => selectPage(currentPage++)
+    const nextPage = () => selectPage(currentPage + 1)
 
     const selectPage = (num: number) => {
         if (num >= 1 && num <= pagesAmount) {
@@ -20,7 +20,7 @@
 </script>
 
 { #if pagesAmount > 1 }
-    <nav aria-label="Page navigation" class="align-center">
+    <nav aria-label="Навигация по странице" class="align-center">
         <ul class="pagination">
             <li class="page-item" class:disabled={ currentPage === 1 }>
                 <span class="page-link" aria-label="Предыдущая страница" on:click={ prevPage }>

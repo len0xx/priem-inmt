@@ -322,11 +322,11 @@
                 <Grid m={1} placeContent="start">
                     <label>
                         <span class="caption">Заголовок:</span><br />
-                        <input class="form-control" type="text" name="title" id="title" />
+                        <input class="form-control" type="text" name="title" id="title" required />
                     </label>
                     <label>
                         <span class="caption">Текст:</span><br />
-                        <textarea class="form-control" name="text" cols="30" rows="4"></textarea>
+                        <textarea class="form-control" name="text" cols="30" rows="4" required ></textarea>
                     </label>
                     <label>
                         <span class="caption">Изображение:</span>

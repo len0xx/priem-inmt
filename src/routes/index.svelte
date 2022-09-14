@@ -126,22 +126,24 @@
     </div>
 </Header>
 <div class="escape-header">
-    <Slider let:showPrevPage let:showNextPage duration={ 15 }>
-        { #each posts as post (post.id) }
-            <Slide img={ post.img }>
-                <Heading size={2} className="white-text">{ post.title }</Heading>
-                <Text className="heading-3">{ post.text }</Text>
-                { #each post.links as link, i (i) }
-                    <Link href={ link.url } variant="interactive" color="white" lineWidth={ 2 }>{ link.text }</Link><br /><br />
-                { /each }
-                <svelte:fragment slot="buttons">
-                    <RoundButton theme="bright" size="M" variant="left" on:click={ showPrevPage } />
-                    <RoundButton theme="bright" size="M" variant="right" on:click={ showNextPage } />
-                </svelte:fragment>
-            </Slide>
-        { /each }
-    </Slider>
-    <br />
+    { #if posts?.length }
+        <Slider let:showPrevPage let:showNextPage duration={ 15 }>
+            { #each posts as post (post.id) }
+                <Slide img={ post.img }>
+                    <Heading size={2} className="white-text">{ post.title }</Heading>
+                    <Text className="heading-3">{ post.text }</Text>
+                    { #each post.links as link, i (i) }
+                        <Link href={ link.url } variant="interactive" color="white" lineWidth={ 2 }>{ link.text }</Link><br /><br />
+                    { /each }
+                    <svelte:fragment slot="buttons">
+                        <RoundButton theme="bright" size="M" variant="left" on:click={ showPrevPage } />
+                        <RoundButton theme="bright" size="M" variant="right" on:click={ showNextPage } />
+                    </svelte:fragment>
+                </Slide>
+            { /each }
+        </Slider>
+        <br />
+    { /if }
     <section class="info-1" id="about">
         <div class="content">
             <Grid m={2} s={1} alignItems="end">

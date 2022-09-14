@@ -244,52 +244,58 @@
             </Carousel>
         </section>
     { /if }
-    <section id="graduates">
-        <div class="content">
-            <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.5}>Известные выпускники</Heading>
-        </div>
-        <Carousel margin={0} className="mobile-hide" displayButtons={ graduates && graduates.length > 6 }>
-            { @const grad = graduates.filter(graduate => graduate.photo.length) }
-            { #each getSequentialPartialIndexes(grad, 6) as range }
-                <div class="fill-width">
-                    <div class="content">
-                        <Grid s={3} m={6} className="my-4" alignItems="stretch">
-                            { #each range as i }
-                            { @const graduate = grad[i] }
-                                <Graduate headingSize={4} size="S" {...graduate} src={graduate.photo} />
-                            { /each }
-                        </Grid>
-                    </div>
-                </div>
-            { /each }
-        </Carousel>
-        <div class="content pc-hide">
-            <div class="mobile-horizontal-scroll">
-                { #each graduates.filter(graduate => graduate.photo.length) as graduate }
-                    <Graduate headingSize={4} inline size="M" {...graduate} src={graduate.photo} />
-                { /each }
+    { #if graduates?.length }
+        <section id="graduates">
+            <div class="content">
+                <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.5}>Известные выпускники</Heading>
             </div>
-        </div>
-    </section>
-    <section id="students">
-        <div class="content">
-            <Grid m={2} s={1} ratio="1:2">
-                <div>
-                    <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Институт глазами студентов</Heading>
-                    <Text id="jz91" marginTop={0}>{ pageInfo.videoText }</Text>
-                    <Button className="mobile-hide" on:click={ $modal.open }>Получить консультацию</Button>
-                </div>
-                <Grid m={4} className="mobile-horizontal-scroll">
-                    { #each videos as video (video.id) }
-                        <VideoCard src={ video.src } />
+            <Carousel margin={0} className="mobile-hide" displayButtons={ graduates && graduates.length > 6 }>
+                { @const grad = graduates.filter(graduate => graduate.photo.length) }
+                { #each getSequentialPartialIndexes(grad, 6) as range }
+                    <div class="fill-width">
+                        <div class="content">
+                            <Grid s={3} m={6} className="my-4" alignItems="stretch">
+                                { #each range as i }
+                                { @const graduate = grad[i] }
+                                    <Graduate headingSize={4} size="S" {...graduate} src={graduate.photo} />
+                                { /each }
+                            </Grid>
+                        </div>
+                    </div>
+                { /each }
+            </Carousel>
+            <div class="content pc-hide">
+                <div class="mobile-horizontal-scroll">
+                    { #each graduates.filter(graduate => graduate.photo.length) as graduate }
+                        <Graduate headingSize={4} inline size="M" {...graduate} src={graduate.photo} />
                     { /each }
+                </div>
+            </div>
+        </section>
+    { /if }
+    { #if videos?.length }
+        <section id="students">
+            <div class="content">
+                <Grid m={2} s={1} ratio="1:2">
+                    <div>
+                        <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>Институт глазами студентов</Heading>
+                        { #if pageInfo.videoText }
+                            <Text id="jz91" marginTop={0}>{ pageInfo.videoText }</Text>
+                        { /if }
+                        <Button className="mobile-hide" on:click={ $modal.open }>Получить консультацию</Button>
+                    </div>
+                    <Grid m={4} className="mobile-horizontal-scroll">
+                        { #each videos as video (video.id) }
+                            <VideoCard src={ video.src } />
+                        { /each }
+                    </Grid>
                 </Grid>
-            </Grid>
-            <br class="pc-hide" />
-            <br class="pc-hide" />
-            <Button className="pc-hide wide" on:click={ $modal.open }>Поступить</Button>
-        </div>
-    </section>
+                <br class="pc-hide" />
+                <br class="pc-hide" />
+                <Button className="pc-hide wide" on:click={ $modal.open }>Поступить</Button>
+            </div>
+        </section>
+    { /if }
     <section id="schoolarship">
         <div class="content">
             <Grid m={3} s={1} gap={2}>

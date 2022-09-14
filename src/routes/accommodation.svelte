@@ -128,38 +128,41 @@
         </Grid>
     </div>
 </section>
-<br />
-<section id="dorms">
-    <div class="content">
-        <Grid m={4} s={1}>
-            { #each dormitories as dormitory (dormitory.id) }
-                <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address } />
-            { /each }
-            <!-- <Graduate name="№8" src="/img/dorm-1.jpg" caption="ул. Комсомольская 70" />
-            <Graduate name="№5" src="/img/dorm-2.jpg" caption="ул. Малышева 144" />
-            <Graduate name="№12" src="/img/dorm-3.jpg" caption="ул. Фонвизина 4" />
-            <Graduate name="№11" src="/img/dorm-4.jpg" caption="ул. Фонвизина 2" /> -->
-        </Grid>
-    </div>
-</section>
-<section id="responsible">
-    <div class="content">
-        <Grid m={2} s={1}>
-            <Heading size={1} className="blue-text" marginTop={0}>Ответственный <br /> за поселение</Heading>
-            <Teacher image={ settlement?.photo }>
-                <svelte:fragment slot="name">{ settlement?.name }</svelte:fragment>
-                <svelte:fragment slot="description">{ settlement?.label }</svelte:fragment>
-                <svelte:fragment slot="footer">
-                    Адрес: { settlement?.address } <br />
-                    Аудитория: { settlement?.auditory } <br />
-                    Телефон: <a href="tel:{ settlement?.phone }">{ settlement?.phone }</a> <br />
-                    Электронная почта: <a href="mailto:{ settlement?.email }">{ settlement?.email }</a>
-                </svelte:fragment>
-            </Teacher>
-        </Grid>
-    </div>
-</section>
-
+{ #if dormitories?.length }
+    <br />
+    <section id="dorms">
+        <div class="content">
+            <Grid m={4} s={1}>
+                { #each dormitories as dormitory (dormitory.id) }
+                    <Graduate name={ dormitory.title } src={ dormitory.img } caption={ dormitory.address } />
+                { /each }
+                <!-- <Graduate name="№8" src="/img/dorm-1.jpg" caption="ул. Комсомольская 70" />
+                <Graduate name="№5" src="/img/dorm-2.jpg" caption="ул. Малышева 144" />
+                <Graduate name="№12" src="/img/dorm-3.jpg" caption="ул. Фонвизина 4" />
+                <Graduate name="№11" src="/img/dorm-4.jpg" caption="ул. Фонвизина 2" /> -->
+            </Grid>
+        </div>
+    </section>
+{ /if }
+{ #if settlement }
+    <section id="responsible">
+        <div class="content">
+            <Grid m={2} s={1}>
+                <Heading size={1} className="blue-text" marginTop={0}>Ответственный <br /> за поселение</Heading>
+                <Teacher image={ settlement?.photo }>
+                    <svelte:fragment slot="name">{ settlement?.name }</svelte:fragment>
+                    <svelte:fragment slot="description">{ settlement?.label }</svelte:fragment>
+                    <svelte:fragment slot="footer">
+                        Адрес: { settlement?.address } <br />
+                        Аудитория: { settlement?.auditory } <br />
+                        Телефон: <a href="tel:{ settlement?.phone }">{ settlement?.phone }</a> <br />
+                        Электронная почта: <a href="mailto:{ settlement?.email }">{ settlement?.email }</a>
+                    </svelte:fragment>
+                </Teacher>
+            </Grid>
+        </div>
+    </section>
+{ /if }
 <section id="order">
     <div class="content">
         <Heading size={1} className="blue-text" marginTop={0}>Порядок поселения <br /> в общежитие</Heading>
@@ -283,15 +286,17 @@
         </Grid>
     </div>
 </section>
-<section id="documents">
-    <div class="content">
-        <Grid m={2} s={1} ratio="2:3">
-            <Heading size={1} className="blue-text" marginTop={0}>Нормативные <br /> документы</Heading>
-            <Grid m={1}>
-                { #each documents as document (document.id) }
-                    <Document link={ document.src } filename={ document.title } extension={ document.extension } />
-                { /each }
+{ #if documents?.length }
+    <section id="documents">
+        <div class="content">
+            <Grid m={2} s={1} ratio="2:3">
+                <Heading size={1} className="blue-text" marginTop={0}>Нормативные <br /> документы</Heading>
+                <Grid m={1}>
+                    { #each documents as document (document.id) }
+                        <Document link={ document.src } filename={ document.title } extension={ document.extension } />
+                    { /each }
+                </Grid>
             </Grid>
-        </Grid>
-    </div>
-</section>
+        </div>
+    </section>
+{ /if }

@@ -88,7 +88,7 @@
         <h2 class="no-top-margin">Редактирование страницы контактов</h2>
         <h3>Информация в промо-блоке</h3>
         <Form action="/api/admin/textinfo?page=contacts" method="PATCH" reset={ false }>
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <label>
                     <span class="caption">Заголовок:</span><br />
                     <input required class="form-control" type="text" name="contactsTitle" value={ pageInfo.contactsTitle || '' }>
@@ -107,7 +107,7 @@
         <h3 class="no-top-margin">Ответственные лица института</h3>
         { #if responsibles.length < 10 }
             <Form method="POST" action="/api/admin/responsible" reset={ true } on:success={ showNewResponsible }>
-                <Grid m={2} s={1}>
+                <Grid m={2} s={1} placeContent="start">
                     <div>
                         <label for="name">ФИО ответственного лица</label><br />
                         <input class="form-control wide" type="text" name="name" required />
@@ -146,7 +146,7 @@
         { /if }
         <h3>Опубликованные ответственные лица</h3>
         {#if responsibles.length}
-            <Grid s={1} m={2} l={3} xl={4}>
+            <Grid s={1} m={2} l={3} xl={4} placeContent="start">
                 {#each responsibles.filter((_, i) => i < 8 || responsiblesExpanded) as responsible, i (i)}
                     <div transition:blur|local={{ duration: 200 }}>
                         <Graduate name={ responsible.name } src={ responsible.img } caption={ responsible.label }>
@@ -174,8 +174,8 @@
             method={ contactInfo ? 'PATCH' : 'POST' }
             reset={false}
         >
-            <Grid m={2} s={1}>
-                <Grid m={1}>
+            <Grid m={2} s={1} placeContent="start">
+                <Grid m={1} placeContent="start">
                     <label>
                         <span class="caption">Контактный номер телефона:</span><br />
                         <input class="form-control" type="tel" name="tel" id="tel" use:imask={phoneMask} placeholder="+7 (912) 635-52-97" value={ contactInfo?.tel || null } />

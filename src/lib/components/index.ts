@@ -23,6 +23,7 @@ import Modal from './Modal.svelte'
 import Nav from './Nav.svelte'
 import NewsCard from './NewsCard.svelte'
 import Opportunity from './Opportunity.svelte'
+import Pagination from './Pagination.svelte'
 import Partner from './Partner.svelte'
 import Preloader from './Preloader.svelte'
 import Profession from './Profession.svelte'
@@ -32,8 +33,8 @@ import ProgramCardNew from './ProgramCardNew.svelte'
 import Progress from './Progress.svelte'
 import Rainbow from './Rainbow.svelte'
 import RoundButton from './RoundButton.svelte'
-import ScrollingPhoto from './ScrollingPhoto.svelte'
 import ScrollToTop from './ScrollToTop.svelte'
+import ScrollingPhoto from './ScrollingPhoto.svelte'
 import SelectButton from './SelectButton.svelte'
 import SideBar from './SideBar.svelte'
 import Slide from './Slide.svelte'
@@ -71,6 +72,7 @@ export {
     Nav,
     NewsCard,
     Opportunity,
+    Pagination,
     Partner,
     Preloader,
     Profession,
@@ -80,8 +82,8 @@ export {
     Progress,
     Rainbow,
     RoundButton,
-    ScrollingPhoto,
     ScrollToTop,
+    ScrollingPhoto,
     SelectButton,
     SideBar,
     Slide,

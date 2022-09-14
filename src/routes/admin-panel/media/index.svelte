@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Form, Grid, Modal } from '$components'
-    import { range } from '$lib/utilities'
+    import { Form, Grid, Modal, Pagination } from '$components'
     import { blur } from 'svelte/transition'
-    import { apiRoute } from '$lib/utilities'
+    import { onMount } from 'svelte'
+    import { apiRoute, isImage } from '$lib/utilities'
     import type { DocumentI, ModalComponent } from '../../../types'
 
     let deleteId = 0
@@ -28,35 +28,28 @@
         throw new Error('Не удалось загрузить файлы')
     }
 
-    const prevPage = () => {
-        if (currentPage > 1) {
-            currentPage--
-        }
-    }
+    const handleSuccess = () => filesPromise = getFiles(currentPage)
 
-    const selectPage = (num: number) => {
-        if (num >= 1 && num <= pagesAmount) currentPage = num
-    }
+    const handlePageChange = (e: CustomEvent<number>) => {
+        const params = new URLSearchParams(window.location.search)
+        params.set('page', e.detail.toString())
 
-    const nextPage = () => {
-        if (currentPage < pagesAmount) {
-            currentPage++
-        }
-    }
-
-    const handleSuccess = async () => {
-        filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
+        const url = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + params.toString()
+        window.history.pushState({ path: url }, '', url)
     }
 
     const deleteDocument = async () => {
         const res = await fetch(apiRoute(`admin/media/${deleteId}`), { method: 'DELETE' })
         if (res.ok) {
-            filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
+            filesPromise = getFiles(currentPage)
         }
         modal.close()
     }
 
-    const isImage = (extension: string) => ['jpeg', 'jpg', 'png', 'svg'].includes(extension)
+    onMount(() => {
+        const params = new URLSearchParams(window.location.search)
+        currentPage = (+params.get('page') || 1)
+    })
 </script>
 
 <svelte:head>
@@ -78,7 +71,7 @@
     <div class="white-block-wide">
         <h2 class="no-top-margin">Загрузка файлов</h2>
         <Form action="/api/admin/media?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess } on:submit={ () => documentLoading = true } on:done={ () => documentLoading = false }>
-            <div class="grid grid-2 m-grid-1">
+            <Grid m={2} s={1} placeContent="start">
                 <label>
                     <span class="form-label">Название файла (необязательно)</span>
                     <input type="text" class="form-control wide" placeholder="Название" name="title" />
@@ -87,7 +80,7 @@
                     <span class="form-label">Файл</span><br />
                     <input required class="form-control" type="file" name="media" id="media" accept=".pdf, .doc, .docx, .xls, .xlsx, .jpg, .jpeg, .png, .svg, .mp4, .webm, .ogg, .avi, .mov, .mpeg, .mkv"/>
                 </label>
-            </div>
+            </Grid>
             <div class="buttons-row">
                 <button class="btn btn-primary" disabled={ documentLoading }>
                     { #if documentLoading }
@@ -109,7 +102,7 @@
         { :then files }
             { #if files && files.length }
                 <h3 class="no-top-margin">Загруженные файлы</h3>
-                <Grid l={3} m={2} s={1}>
+                <Grid l={3} m={2} s={1} placeContent="start">
                     { #each files as file (file.id) }
                         <span transition:blur|local={{ duration: 200 }}>
                             <div class="card">
@@ -122,8 +115,12 @@
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <h4 class="card-title">{ file.title }</h4>
-                                            <a href={ file.src } target="_BLANK" class="btn btn-outline-primary btn-sm mb-2">Открыть</a><br />
-                                            <button class="btn btn-outline-danger btn-sm" on:click={ () => { deleteId = file.id; modal.open() } }>Удалить</button>
+                                            <a href={ file.src } target="_BLANK" class="btn btn-outline-primary btn-sm mb-2">
+                                                Открыть
+                                            </a><br />
+                                            <button class="btn btn-outline-danger btn-sm" on:click={ () => { deleteId = file.id; modal.open() } }>
+                                                Удалить
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -136,27 +133,7 @@
             { /if }
         { /await }
         <br />
-        { #if pagesAmount > 1 }
-            <nav aria-label="Page navigation" class="align-center">
-                <ul class="pagination">
-                    <li class="page-item" class:disabled={ currentPage === 1 }>
-                        <span class="page-link" aria-label="Предыдущая страница" on:click={ prevPage }>
-                            <span aria-hidden="true">&laquo;</span>
-                        </span>
-                    </li>
-                    { #each range(1, pagesAmount) as i (i) }
-                        { #if pagesAmount >= i }
-                            <li class="page-item {currentPage === i ? 'active' : ''}" on:click={ () => selectPage(i) }><span class="page-link">{ i }</span></li>
-                        { /if }
-                    { /each }
-                    <li class="page-item" class:disabled={ currentPage === pagesAmount }>
-                        <span class="page-link" aria-label="Следующая страница" on:click={ nextPage }>
-                            <span aria-hidden="true">&raquo;</span>
-                        </span>
-                    </li>
-                </ul>
-            </nav>
-        { /if }
+        <Pagination bind:pagesAmount bind:currentPage on:pageChange={ handlePageChange } />
     </div>
     <br />
 </section>

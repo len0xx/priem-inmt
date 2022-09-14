@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { RoundButton } from '.'
+    import RoundButton from './RoundButton.svelte'
 
     export let margin = 10 // Margin between the children
     export let className = ''
@@ -14,7 +14,8 @@
     let index = 1
     let allowShift = true
     let bias = 0
-    $: innerWidth = 0
+    let innerWidth = 0
+    let shifting = false
 
     function checkIndex() {
         // Minus two because we have added two more elements to the carousel
@@ -29,14 +30,14 @@
 
     function watchForShift() {
         setTimeout(() => {
-            carousel.classList.remove('shifting')
+            shifting = false
             allowShift = true
             checkIndex()
         }, 200)
     }
 
     function swipeLeft() {
-        carousel.classList.add('shifting')
+        shifting = true
 
         if (allowShift) {
             index--
@@ -49,7 +50,7 @@
     }
 
     function swipeRight() {
-        carousel.classList.add('shifting')
+        shifting = true
 
         if (allowShift) {
             index++
@@ -62,8 +63,6 @@
     }
 
     function resizeHandler() {
-        const parent = carousel.parentElement as HTMLElement
-        innerWidth = parent.clientWidth
         childSize = (carousel.children[0] as HTMLElement).offsetWidth
         dx = childSize + (margin > 4 ? margin : 4)
         const y = -(dx - innerWidth) / 2
@@ -92,42 +91,44 @@
         carousel.appendChild(cloneFirst)
         carousel.insertBefore(cloneLast, firstNode)
 
-        // Wait for the children to load properly
-        setTimeout(resizeHandler, 1000)
-        setTimeout(updateTranslation, 1500)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait for the children to load properly
+            setTimeout(resizeHandler, 1000)
+            setTimeout(updateTranslation, 1500)
+        })
     })
 </script>
 
-<svelte:window on:resize={resizeHandler} />
+<svelte:window bind:innerWidth on:resize={ resizeHandler } />
 
-<div class="kit-carousel-wrapper {className}">
-    <div class="kit-carousel" bind:this={carousel}>
+<div class="kit-carousel-wrapper { className }">
+    <div class="kit-carousel-svelte" class:shifting bind:this={ carousel }>
         <slot />
     </div>
     { #if displayButtons }
         <div class="buttons">
-            <RoundButton variant="left" on:click={swipeLeft} />
-            <RoundButton variant="right" on:click={swipeRight} />
+            <RoundButton variant="left" on:click={ swipeLeft } />
+            <RoundButton variant="right" on:click={ swipeRight } />
         </div>
     { /if }
 </div>
 
 <style>
-    .kit-carousel {
+    .kit-carousel-svelte {
         white-space: nowrap;
         -ms-overflow-style: none;
         overflow-x: unset;
         position: relative;
     }
     
-    :global(.kit-carousel.shifting) {
+    :global(.kit-carousel-svelte.shifting) {
         transition: 0.2s ease-in-out;
     }
     
-    .kit-carousel::-webkit-scrollbar {
+    .kit-carousel-svelte::-webkit-scrollbar {
         display: none;
     }
-    :global(.kit-carousel > div) {
+    :global(.kit-carousel-svelte > div) {
         display: inline-block;
         position: relative;
         white-space: normal;
@@ -135,14 +136,34 @@
         vertical-align: middle;
     }
 
-    :global(.kit-carousel > div > img) {
+    :global(.kit-carousel-svelte > div > img) {
         display: block;
         max-width: min(90vw, 750px);
         height: auto;
     }
 
+    :global(.kit-carousel-svelte > div > .slide-img) {
+        display: block;
+        min-height: 400px;
+        min-width: min(90vw, 750px);
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 6px;
+    }
+
+    @media screen and (max-width: 768px) {
+        :global(.kit-carousel-svelte > div > .slide-img) {
+            min-height: 0;
+            min-width: 0;
+            height: 51vw;
+            width: 78vw;
+        }
+    }
+
     .buttons {
         text-align: center;
-        padding: 2em 0 1em 0;
+        padding: 2em 0;
+        position: relative;
     }
 </style>

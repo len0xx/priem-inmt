@@ -192,3 +192,15 @@ export interface FeatureI {
     title: string
     description: string
 }
+
+export interface Padding {
+    x?: PaddingValue,
+    y?: PaddingValue,
+    top?: PaddingValue,
+    bottom?: PaddingValue,
+    left?: PaddingValue,
+    right?: PaddingValue
+}
+
+
+export type PaddingValue = string | number

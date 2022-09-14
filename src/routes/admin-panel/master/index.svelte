@@ -368,7 +368,7 @@
         </Form>
         <h3>Опубликованные перечисления</h3>
         {#if featuresPromo.length}
-            <Grid l={3} m={2} s={1}>
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each featuresPromo.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || featuresPromoExpanded) as feature, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
@@ -394,7 +394,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Календарь приёма</h3>
         <Form method="PATCH" action="/api/admin/textinfo?page=master" reset={ false }>
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <div>
                     <span>Основной текстовый блок</span>
                     <TipTap name="masterCalendarTextMain" content={pageInfo.masterCalendarTextMain || ''} />
@@ -420,7 +420,7 @@
                     </h2>
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
-                            <Grid m={4} s={1}>
+                            <Grid m={4} s={1} placeContent="start">
                                 <div>
                                     <h4>Приём документов</h4>
                                     <div>
@@ -495,7 +495,7 @@
                     </h2>
                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                         <div class="accordion-body">
-                            <Grid m={4} s={1}>
+                            <Grid m={4} s={1} placeContent="start">
                                 <div>
                                     <h4>Приём документов</h4>
                                     <div>
@@ -591,8 +591,8 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Профессии</h3>
         <Form action="/api/admin/profession" method="POST" reset={ true } on:success={ showNewProfession }>
-            <Grid m={2} s={1}>
-                <Grid s={1}>
+            <Grid m={2} s={1} placeContent="start">
+                <Grid s={1} placeContent="start">
                     <label>
                         <span class="caption">Название:</span><br />
                         <input class="form-control" type="text" name="title" id="title" required />
@@ -629,7 +629,7 @@
         </Form>
         <h3>Опубликованные профессии</h3>
         {#if professions.length}
-            <Grid l={3} m={2} s={1}>
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each professions.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || professionsExpanded) as profession, i (i)}
                         <div class="card" transition:blur|local={{ duration: 200 }}>
                             <div class="card-body">
@@ -661,7 +661,7 @@
             </label>
             <br />
             <br />
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <div>
                     <span>Навыки выпускников</span>
                     <TipTap name="specialistSkills" content={ pageInfo.specialistSkills || '' } />
@@ -677,7 +677,7 @@
         <br />
         <h4 class="no-top-margin">Преимущества</h4>
         <Form action="/api/admin/feature?type=specialist" method="POST" on:success={ showNewFeatureSpec }>
-            <Grid m={2} s={1}>
+            <Grid m={2} s={1} placeContent="start">
                 <label>
                     <span class="caption">Заголовок:</span><br />
                     <input required class="form-control" type="text" name="title">
@@ -692,7 +692,7 @@
         </Form>
         <h4>Опубликованные преимущества</h4>
         {#if specialistFeatures.length}
-            <Grid l={3} m={2} s={1}>
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each specialistFeatures.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || specialistFeaturesExpanded) as feature, i (i)}
                         <div class="card" transition:blur|local={{ duration: 200 }}>
                             <div class="card-body">
@@ -718,8 +718,8 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Отзывы</h3>
         <Form action="/api/admin/feedback/?page=master" method="POST" on:success={ showNewFeedback }>
-            <Grid m={2} s={1}>
-                <Grid m={1}>
+            <Grid m={2} s={1} placeContent="start">
+                <Grid m={1} placeContent="start">
                     <label>
                         <span class="caption">Автор:</span><br />
                         <input class="form-control" type="text" name="name" id="name" required />
@@ -753,7 +753,7 @@
         </Form>
         <h3>Опубликованные отзывы</h3>
         {#if feedbacks.length}
-            <Grid xl={3} l={2} m={1} s={1}>
+            <Grid xl={3} l={2} m={1} s={1} placeContent="start">
                 {#each feedbacks.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || feedbacksExpanded) as feedback, i (i)}
                     <div transition:blur|local={{ duration: 200 }}>
                         <Profile variant="grey" img={ feedback.img }>
@@ -782,7 +782,7 @@
     <div class="white-block-wide">
         <h3 class="no-top-margin">Ответы на&nbsp;вопросы</h3>
         <Form method="POST" action="/api/admin/question/?page=master" on:success={ showNewQuestion }>
-            <Grid m={1}>
+            <Grid m={1} placeContent="start">
                 <label>
                     <span class="question">Вопрос:</span><br />
                     <input required class="form-control wide" type="text" name="question" />
@@ -797,7 +797,7 @@
         </Form>
         <h3>Опубликованные ответы на вопросы</h3>
         {#if questions.length}
-            <Grid l={3} m={2} s={1}>
+            <Grid l={3} m={2} s={1} placeContent="start">
                 {#each questions.filter((_, i) => i < ($isMobile ? totalMobileObjects : 6) || questionsExpanded) as question, i (i)}
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">

@@ -6,6 +6,7 @@
     import { isMobile } from '$lib/stores'
     import type { DocumentI, ModalComponent } from '../../types'
 
+
     export let modal: ModalComponent = null
     export let selected: number = null
     
@@ -72,7 +73,7 @@
 <Modal bind:this={ modal } className="file-select-modal">
     <Grid m={2} alignItems="center">
         <h3 class="no-top-margin mb-0">Выбор файла</h3>
-        {#if isMobile}
+        {#if $isMobile}
             <div>
                 <button type="button" class="btn btn-outline-success" class:btn-outline-success={ !uploadForm } class:btn-outline-secondary={ uploadForm } on:click={ () => uploadForm = !uploadForm }>
                     { uploadForm ? 'Скрыть форму' : 'Новый файл' }
@@ -81,7 +82,7 @@
         {/if}
     </Grid>
     <br />
-    { #if isMobile}
+    { #if $isMobile}
         {#if uploadForm}
             <div transition:slide={{ duration: 200 }}>
                 <Form action="/api/admin/documents?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
@@ -115,7 +116,7 @@
                 { #each files as file (file.id) }
                     <span transition:blur|local={{ duration: 200 }}>
                         <div class="file-select-card card {selectedFile === file.id ? 'select' : ''}" on:click={ () => selectFile(file) }>
-                            {#if isMobile}
+                            {#if $isMobile}
                                 <div class="file-select-check form-check form-check-inline me-0">
                                   <input class="form-check-input" bind:group={selectedFile} type="radio" id="inlineRadio" value={file.id} on:click={ () => selectFile(file)}>
                                 </div>
@@ -125,7 +126,7 @@
                                     <div class="col-md-4">
                                         <div class="card-img" style:background-image="url({ file.src })"></div>
                                     </div>
-                                {:else if isMobile}
+                                {:else if $isMobile}
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <h4 class="card-title">{ file.title }</h4>
@@ -133,7 +134,7 @@
                                         </div>
                                     </div>
                                 { /if }
-                                {#if !isMobile}
+                                {#if !$isMobile}
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <h4 class="card-title">{ file.title }</h4>
@@ -176,7 +177,7 @@
             </ul>
         </nav>
     { /if }
-    { #if !isMobile }
+    { #if !$isMobile }
         {#if uploadForm}
             <div transition:slide={{ duration: 200 }}>
                 <Form action="/api/admin/documents?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
@@ -199,7 +200,7 @@
     { /if }
     <div class="buttons-row">
         <button type="button" class="btn btn-primary" on:click={ saveChanges }>Сохранить</button>
-        {#if !isMobile}
+        {#if !$isMobile}
             <button type="button" class="btn btn-outline-success" class:btn-outline-success={ !uploadForm } class:btn-outline-secondary={ uploadForm } on:click={ () => uploadForm = !uploadForm }>
                 { uploadForm ? 'Скрыть форму загрузки' : 'Загрузить новый файл' }
             </button>

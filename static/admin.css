@@ -239,6 +239,7 @@ nav ul.pagination li {
 
     .kit-modal.file-select-modal {
         height: 100vh;
+        overflow-y: auto;
         width: 100% !important;
     }
 

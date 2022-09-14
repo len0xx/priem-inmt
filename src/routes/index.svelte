@@ -72,8 +72,9 @@
     // import graduates from '$lib/graduates'
     import { getSequentialPartialIndexes } from '$lib/utilities'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import type { DocumentI, PartnerI, GraduateI, PostI } from '../types'
+    import type { DocumentI, FeatureI, PartnerI, GraduateI, PostI } from '../types'
 
+    export let features: FeatureI[] = []
     export let posts: PostI[] = []
     export let partners: PartnerI[] = []
     export let videos: DocumentI[] = []
@@ -144,28 +145,32 @@
         </Slider>
         <br />
     { /if }
+    { #if pageInfo?.aboutInstituteText || features?.length }
     <section class="info-1" id="about">
         <div class="content">
             <Grid m={2} s={1} alignItems="end">
                 <div class="about-left">
                     <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.5}>Об институте</Heading>
-                    <Text id="NqY1">Институт новых материалов и технологий Уральского федерального университета – крупнейший центр высшего инженерного образования региона с 1920 года, сочетающий лучшие традиции, фундаментальную подготовку и практический междисциплинарный подход</Text>
+                    { #if pageInfo?.aboutInstituteText }
+                        <Text id="NqY1"> { pageInfo.aboutInstituteText }</Text>
+                    { /if }
                 </div>
-                <div>
-                    <Grid m={2}>
-                        <Benefit
-                            num="1 642"
-                            caption="Бюджетных мест в 2022 году"
-                        />
-                        <Benefit
-                            num="158"
-                            caption="Контрактных мест в 2022 году"
-                        />
-                    </Grid>
-                </div>
+                { #if features?.length }
+                    <div>
+                        <Grid m={2}>
+                            { #each features as feature }
+                                <Benefit
+                                    num={ feature.title }
+                                    caption={ feature.description }
+                                />
+                            { /each }
+                        </Grid>
+                    </div>
+                { /if }
             </Grid>
         </div>
     </section>
+    { /if }
     { #if images1?.length }
         <section class="images-1">
             <Carousel margin={10}>

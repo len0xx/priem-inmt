@@ -320,7 +320,9 @@
             <div class="content">
                 <Grid m={2} s={1} gap={2} ratio="2:3">
                     <Heading size={1} className="blue-text" marginTop={0}>Студенческая жизнь</Heading>
-                    <Text className="heading-3" marginTop={0}>Каждый студент института сможет найти дело по душе! <br /> Студенческие отряды, театры, музыкальные и танцевальные коллективы, турклуб, спортивные и киберспортивные лиги, клуб иностранных языков – это лишь малая часть студенческих возможностей в УрФУ. </Text>
+                    { #if pageInfo?.studentLifeCaption }
+                        <Text className="heading-3" marginTop={0}>{ pageInfo.studentLifeCaption }</Text>
+                    { /if }
                 </Grid>
             </div>
             <Carousel margin={10}>

@@ -215,33 +215,35 @@
             <Text marginBottom={0} marginTop={1.5} className="pc-hide">Выпускники способны создавать новые материалы с уникальными свойствами, проектировать конструкции, схемы, алгоритмы, технологии производства материалов, машин и оборудования, разрабатывать бизнес-планы создания технических новинок, управлять созданными машинами и обслуживать их, руководить промышленными предприятиями.</Text>
         </div>
     </section>
-    <section id="partners">
-        <div class="content">
-            <Grid m={2} s={1}>
-                <Heading size={1} className="blue-text" marginTop={0}>Партнеры института</Heading>
-            </Grid>
-        </div>
-        <Carousel margin={0} className="mobile-hide" displayButtons={ partners && partners.length > 6 }>
-            { #each getSequentialPartialIndexes(partners, 6) as range }
-                <div class="fill-width">
-                    <div class="content">
-                        <Grid s={3} m={6} className="my-4" alignItems="start">
-                            { #each range as i (partners[i].id) }
-                                <Partner src={ partners[i].logo } />
-                            { /each }
-                        </Grid>
+    { #if partners?.length }
+        <section id="partners">
+            <div class="content">
+                <Grid m={2} s={1}>
+                    <Heading size={1} className="blue-text" marginTop={0}>Партнеры института</Heading>
+                </Grid>
+            </div>
+            <Carousel margin={0} className="mobile-hide" displayButtons={ partners && partners.length > 6 }>
+                { #each getSequentialPartialIndexes(partners, 6) as range }
+                    <div class="fill-width">
+                        <div class="content">
+                            <Grid s={3} m={6} className="my-4" alignItems="start">
+                                { #each range as i (partners[i].id) }
+                                    <Partner src={ partners[i].logo } />
+                                { /each }
+                            </Grid>
+                        </div>
                     </div>
-                </div>
-            { /each }
-        </Carousel>
-        <Carousel margin={15} className="pc-hide" displayButtons={ partners && partners.length > 6 }>
-            { #each partners as partner (partner.id) }
-                <div>
-                    <Partner src={ partner.logo } />
-                </div>
-            { /each }
-        </Carousel>
-    </section>
+                { /each }
+            </Carousel>
+            <Carousel margin={15} className="pc-hide" displayButtons={ partners && partners.length > 6 }>
+                { #each partners as partner (partner.id) }
+                    <div>
+                        <Partner src={ partner.logo } />
+                    </div>
+                { /each }
+            </Carousel>
+        </section>
+    { /if }
     <section id="graduates">
         <div class="content">
             <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.5}>Известные выпускники</Heading>

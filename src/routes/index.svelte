@@ -166,13 +166,15 @@
             </Grid>
         </div>
     </section>
-    <section class="images-1">
-        <Carousel margin={10}>
-            { #each images1 as src }
-                <img {src} alt={ src }>
-            { /each }
-        </Carousel>
-    </section>
+    { #if images1?.length }
+        <section class="images-1">
+            <Carousel margin={10}>
+                { #each images1 as src }
+                    <img {src} alt={ src }>
+                { /each }
+            </Carousel>
+        </section>
+    { /if }
     <section id="levels">
         <div class="content">
             <Grid m={3} s={1}>

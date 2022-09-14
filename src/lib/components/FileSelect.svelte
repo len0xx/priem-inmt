@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte'
     import { blur, slide } from 'svelte/transition'
     import { Modal, Grid, Form } from '.'
-    import { apiRoute } from '$lib/utilities'
+    import { apiRoute, range } from '$lib/utilities'
     import { isMobile } from '$lib/stores'
     import type { DocumentI, ModalComponent } from '../../types'
 

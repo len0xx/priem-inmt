@@ -51,7 +51,7 @@
         if (m === null) m = getClosestSize([xs, s, m, l, xl], 2, smallestSize)
         if (l === null) l = getClosestSize([xs, s, m, l, xl], 3, smallestSize)
         if (xl === null) xl = getClosestSize([xs, s, m, l, xl], 4, smallestSize)
-        
+    
         if (ratio !== null) {
             ratioClasses = ['grid-ratio-selected', 'grid-' + ratio.replace(':', '-')].join(' ')
         }

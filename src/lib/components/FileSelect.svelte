@@ -3,7 +3,7 @@
     import { blur, slide } from 'svelte/transition'
     import { Modal, Grid, Form } from '.'
     import { apiRoute, range } from '$lib/utilities'
-    import { isMobile } from '$lib/stores'
+    import { isMobile, modalOpened } from '$lib/stores'
     import type { DocumentI, ModalComponent } from '../../types'
 
 
@@ -68,9 +68,17 @@
     const handleSuccess = async () => {
         filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
     }
+
+    function handleOpen() {
+        $modalOpened = true
+    }
+
+    function handleClose() {
+        $modalOpened = false
+    }
 </script>
 
-<Modal bind:this={ modal } className="file-select-modal">
+<Modal bind:this={ modal } on:open={handleOpen} on:close={handleClose} className="file-select-modal">
     <Grid m={2} alignItems="center">
         <h3 class="no-top-margin mb-0">Выбор файла</h3>
         {#if $isMobile}

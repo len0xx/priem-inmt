@@ -9,3 +9,5 @@ export const mobileMenu = writable<{ open: () => void, close: () => void }>(unde
 export const commonHeaderState = writable(false)
 
 export const isMobile = writable(false)
+
+export const modalOpened = writable(false)

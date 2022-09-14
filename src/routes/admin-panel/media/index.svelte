@@ -34,7 +34,7 @@
         const params = new URLSearchParams(window.location.search)
         params.set('page', e.detail.toString())
 
-        const url = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + params.toString()
+        const url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?' + params.toString()
         window.history.pushState({ path: url }, '', url)
     }
 

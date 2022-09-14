@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon, ScrollToTop, Header, Link } from '$components'
     import { page } from '$app/stores'
-    import { isMobile } from '$lib/stores'
+    import { isMobile, modalOpened } from '$lib/stores'
 
     let innerWidth = 0
     $: {
@@ -42,7 +42,6 @@
     }
 
     let openAside = false
-
 </script>
 
 <svelte:head>
@@ -51,7 +50,7 @@
 
 <svelte:window bind:innerWidth on:scroll={scrollHandler} />
 
-<main>
+<main class={$modalOpened ? 'no-scroll' : ''}>
     <Header hideOnScrollDown={true} showOnScrollUp={true} hideAfter={90}>
         <div class="content">
             <div class="admin-header-layout mobile-hide">
@@ -173,6 +172,11 @@
         margin-left: 300px;
         box-sizing: border-box;
         padding-top: 75px;
+    }
+
+    main.no-scroll {
+        height: 100vh;
+        overflow-y: hidden;
     }
 
     .panel-content {

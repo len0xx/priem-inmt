@@ -115,19 +115,24 @@
     </div>
 </Header>
 
-<section class="promo accommodation" id="beginning">
-    <div class="content">
-        <Grid m={1} l={2} ratio="5:3" alignItems="end">
-            <Heading size={1} marginY={0}>
-                { pageInfo.accommodationTitle }<br />
-                <span class="smaller-text">{ pageInfo.accommodationSubtitle }</span>
-            </Heading>
-            <div class="align-right">
-                <Link on:click={ $modal.open } href="" preventDefault={true} variant="interactive" color="white" lineWidth={ 2 }>Получить консультацию</Link>
-            </div>
-        </Grid>
-    </div>
-</section>
+{ #if pageInfo?.accommodationTitle }
+    <section class="promo accommodation" id="beginning">
+        <div class="content">
+            <Grid m={1} l={2} ratio="5:3" alignItems="end">
+                <Heading size={1} marginY={0}>
+                    { pageInfo.accommodationTitle }
+                    { #if pageInfo.accommodationSubtitle }
+                        <br />
+                        <span class="smaller-text">{ pageInfo.accommodationSubtitle }</span>
+                    { /if }
+                </Heading>
+                <div class="align-right">
+                    <Link on:click={ $modal.open } href="" preventDefault={true} variant="interactive" color="white" lineWidth={ 2 }>Получить консультацию</Link>
+                </div>
+            </Grid>
+        </div>
+    </section>
+{ /if }
 { #if dormitories?.length }
     <br />
     <section id="dorms">
@@ -149,14 +154,14 @@
         <div class="content">
             <Grid m={2} s={1}>
                 <Heading size={1} className="blue-text" marginTop={0}>Ответственный <br /> за поселение</Heading>
-                <Teacher image={ settlement?.photo }>
-                    <svelte:fragment slot="name">{ settlement?.name }</svelte:fragment>
-                    <svelte:fragment slot="description">{ settlement?.label }</svelte:fragment>
+                <Teacher image={ settlement.photo }>
+                    <svelte:fragment slot="name">{ settlement.name }</svelte:fragment>
+                    <svelte:fragment slot="description">{ settlement.label }</svelte:fragment>
                     <svelte:fragment slot="footer">
-                        Адрес: { settlement?.address } <br />
-                        Аудитория: { settlement?.auditory } <br />
-                        Телефон: <a href="tel:{ settlement?.phone }">{ settlement?.phone }</a> <br />
-                        Электронная почта: <a href="mailto:{ settlement?.email }">{ settlement?.email }</a>
+                        Адрес: { settlement.address } <br />
+                        Аудитория: { settlement.auditory } <br />
+                        Телефон: <a href="tel:{ settlement.phone }">{ settlement.phone }</a> <br />
+                        Электронная почта: <a href="mailto:{ settlement.email }">{ settlement.email }</a>
                     </svelte:fragment>
                 </Teacher>
             </Grid>
@@ -267,25 +272,29 @@
         </Grid>
     </div>
 </section>
-<section id="alternative">
-    <div class="content">
-        <Grid m={2} s={1}>
-            <Heading size={1} marginTop={0} className="blue-text">{ rentInfo?.heading || 'Альтернативное поселение' }</Heading>
-            <div>
-                <Heading size={3} marginTop={0}>{ rentInfo?.subheading || 'Проект Союза студентов Уральского федерального университета «Платное жилье»' }</Heading>
-                <Grid m={2} s={1} ratio="3:2" gap={3}>
-                    <Text>{ rentInfo?.text || 'Союз студентов Уральского федерального университета предлагает абитуриентам и студентам помощь в поиске коммерческого жилья в Екатеринбурге. Специалисты проектного офиса «Платное жилье» предлагают заселение в квартиры, комнаты и частные общежития, а при заселении на короткий срок — хостелы и отели.' }</Text>
-                    <div>
-                        <Text opacity={0.5}>Контакы:</Text>
-                        <Heading size={3} marginTop={0}><a href="tel:{ rentInfo?.tel1 || '+7 (343) 375-45-18' }">{ rentInfo?.tel1 || '+7 (343) 375-45-18' }</a></Heading>
-                        <Heading size={3} marginY={0}><a href="tel:{ rentInfo?.tel1 || '+7 (982) 643-34-95' }">{ rentInfo?.tel1 || '+7 (982) 643-34-95' }</a></Heading>
-                        <Link variant="interactive" className="heading-3 semi-bold" href={ rentInfo?.linkURL || 'https://vk.com/rent_flats' } color="var(--blue)">{ rentInfo?.linkText || 'ВКонтакте' }</Link>
-                    </div>
-                </Grid>
-            </div>
-        </Grid>
-    </div>
-</section>
+{ #if rentInfo?.heading && rentInfo.text }
+    <section id="alternative">
+        <div class="content">
+            <Grid m={2} s={1}>
+                <Heading size={1} marginTop={0} className="blue-text">{ rentInfo.heading }</Heading>
+                <div>
+                    { #if rentInfo.subheading }
+                        <Heading size={3} marginTop={0}>{ rentInfo.subheading }</Heading>
+                        <Grid m={2} s={1} ratio="3:2" gap={3}>
+                            <Text>{ rentInfo.text }</Text>
+                            <div>
+                                <Text opacity={0.5}>Контакы:</Text>
+                                <Heading size={3} marginTop={0}><a href="tel:{ rentInfo.tel1 }">{ rentInfo.tel1 }</a></Heading>
+                                <Heading size={3} marginY={0}><a href="tel:{ rentInfo.tel1 }">{ rentInfo.tel1 }</a></Heading>
+                                <Link variant="interactive" className="heading-3 semi-bold" href={ rentInfo.linkURL } color="var(--blue)">{ rentInfo.linkText }</Link>
+                            </div>
+                        </Grid>
+                    { /if }
+                </div>
+            </Grid>
+        </div>
+    </section>
+{ /if }
 { #if documents?.length }
     <section id="documents">
         <div class="content">

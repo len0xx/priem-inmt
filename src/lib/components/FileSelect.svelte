@@ -230,9 +230,7 @@
     }
 
     .file-select-card.select {
-        /* border: 2px solid #0d6efd; */
-        border: 0px;
-        opacity: 0.4;
+        border: 2px solid #0d6efd;
     }
 
     .file-select-content {

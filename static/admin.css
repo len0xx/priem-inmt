@@ -239,6 +239,7 @@ nav ul.pagination li {
 
     .kit-modal.file-select-modal {
         height: 100vh;
+        height: -webkit-fill-available;
         overflow-y: auto;
         width: 100% !important;
     }
@@ -246,6 +247,10 @@ nav ul.pagination li {
     .file-select-grid {
         height: 70vh;
         overflow-y: auto;
+    }
+    
+    .file-select-img {
+        height: 100% !important;
     }
 }
 

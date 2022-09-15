@@ -129,10 +129,10 @@
                                   <input class="form-check-input" bind:group={selectedFile} type="radio" id="inlineRadio" value={file.id} on:click={ () => selectFile(file)}>
                                 </div>
                             {/if}
-                            <div class="row g-0">
+                            <div class="file-select-content row g-0">
                                 { #if isImage(file.extension) }
                                     <div class="col-md-4">
-                                        <div class="card-img" style:background-image="url({ file.src })"></div>
+                                        <div class="file-select-img card-img" style:background-image="url({ file.src })"></div>
                                     </div>
                                 {:else if $isMobile}
                                     <div class="col-md-8">
@@ -230,6 +230,12 @@
     }
 
     .file-select-card.select {
-        border: 2px solid #0d6efd;
+        /* border: 2px solid #0d6efd; */
+        border: 0px;
+        opacity: 0.4;
+    }
+
+    .file-select-content {
+        height: 100%;
     }
 </style>

@@ -133,7 +133,7 @@
             { /if }
         { /await }
         <br />
-        <Pagination bind:pagesAmount bind:currentPage on:pageChange={ handlePageChange } />
+        <Pagination { pagesAmount } bind:currentPage on:pageChange={ handlePageChange } />
     </div>
     <br />
 </section>

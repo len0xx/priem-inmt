@@ -1,8 +1,8 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
     import { blur, slide } from 'svelte/transition'
-    import { Modal, Grid, Form } from '.'
-    import { apiRoute, range, isImage } from '$lib/utilities'
+    import { Modal, Grid, Form, Pagination } from '.'
+    import { apiRoute, isImage } from '$lib/utilities'
     import { isMobile, modalOpened } from '$lib/stores'
     import type { DocumentI, ModalComponent } from '../../types'
 
@@ -138,27 +138,7 @@
         { /if }
     {/await }
     <br />
-    { #if pagesAmount > 1 }
-        <nav aria-label="Page navigation" class="align-center">
-            <ul class="pagination">
-                <li class="page-item" class:disabled={ currentPage === 1 }>
-                    <span class="page-link" aria-label="Предыдущая страница" on:click={ prevPage }>
-                        <span aria-hidden="true">&laquo;</span>
-                    </span>
-                </li>
-                { #each range(1, pagesAmount) as i (i) }
-                    <li class="page-item" class:active={ currentPage === i } on:click={ () => selectPage(i) }>
-                        <span class="page-link">{ i }</span>
-                    </li>
-                { /each }
-                <li class="page-item" class:disabled={ currentPage === pagesAmount }>
-                    <span class="page-link" aria-label="Следующая страница" on:click={ nextPage }>
-                        <span aria-hidden="true">&raquo;</span>
-                    </span>
-                </li>
-            </ul>
-        </nav>
-    { /if }
+    <Pagination { pagesAmount } bind:currentPage />
     { #if !$isMobile && uploadForm }
         <div transition:slide={{ duration: 200 }}>
             <Form action="/api/admin/documents?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess }>

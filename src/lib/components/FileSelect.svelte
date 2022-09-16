@@ -1,11 +1,10 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
     import { blur, slide } from 'svelte/transition'
-    import { Modal, Grid, Form } from '.'
-    import { apiRoute, range } from '$lib/utilities'
+    import { Modal, Grid, Form, Pagination } from '.'
+    import { apiRoute } from '$lib/utilities'
     import { isMobile, modalOpened } from '$lib/stores'
     import type { DocumentI, ModalComponent } from '../../types'
-
 
     export let modal: ModalComponent = null
     export let selected: number = null
@@ -47,22 +46,6 @@
     const discard = () => {
         dispatch('discard')
         modal.close()
-    }
-
-    const prevPage = () => {
-        if (currentPage > 1) {
-            currentPage--
-        }
-    }
-
-    const selectPage = (num: number) => {
-        if (num >= 1 && num <= pagesAmount) currentPage = num
-    }
-
-    const nextPage = () => {
-        if (currentPage < pagesAmount) {
-            currentPage++
-        }
     }
 
     const handleSuccess = async () => {
@@ -163,27 +146,7 @@
         { /if }
     {/await }
     <br />
-    { #if pagesAmount > 1 }
-        <nav aria-label="Page navigation" class="align-center">
-            <ul class="pagination">
-                <li class="page-item" class:disabled={ currentPage === 1 }>
-                    <span class="page-link" aria-label="Предыдущая страница" on:click={ prevPage }>
-                        <span aria-hidden="true">&laquo;</span>
-                    </span>
-                </li>
-                { #each range(1, pagesAmount) as i (i) }
-                    <li class="page-item" class:active={ currentPage === i } on:click={ () => selectPage(i) }>
-                        <span class="page-link">{ i }</span>
-                    </li>
-                { /each }
-                <li class="page-item" class:disabled={ currentPage === pagesAmount }>
-                    <span class="page-link" aria-label="Следующая страница" on:click={ nextPage }>
-                        <span aria-hidden="true">&raquo;</span>
-                    </span>
-                </li>
-            </ul>
-        </nav>
-    { /if }
+    <Pagination { pagesAmount } bind:currentPage />
     { #if !$isMobile }
         {#if uploadForm}
             <div transition:slide={{ duration: 200 }}>

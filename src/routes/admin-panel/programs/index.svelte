@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-    // import { sendNodeAJAX } from '../../../shared/utilities'
     import { apiRoute } from '$lib/utilities'
     import type { Load } from '@sveltejs/kit'
     

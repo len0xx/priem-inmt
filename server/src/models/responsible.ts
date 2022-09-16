@@ -10,7 +10,7 @@ class Responsible extends Model<InferAttributes<Responsible, { omit: 'id' }>, In
     declare img: string
 }
 
-export type ResponsibleI = InferAttributes<Responsible, { omit: 'id' }>
+export interface IResponsible extends InferAttributes<Responsible, { omit: 'id' }> { }
 
 Responsible.init(
     {

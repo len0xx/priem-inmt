@@ -10,7 +10,7 @@ class Feedback extends Model<InferAttributes<Feedback, { omit: 'id' }>, InferCre
     declare text: string
 }
 
-export type FeedbackI = InferAttributes<Feedback, { omit: 'id' }>
+export type IFeedback = InferAttributes<Feedback, { omit: 'id' }>
 
 Feedback.init(
     {

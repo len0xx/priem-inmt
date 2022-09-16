@@ -27,15 +27,15 @@
     import { range } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
     import { isMobile } from '$lib/stores.js'
-    import type { FeatureI, FeedbackI, ProfessionI, QuestionI, ModalComponent } from '../../../types'
+    import type { IFeature, IFeedback, IProfession, IQuestion, ModalComponent } from '../../../types'
 
     export let pageInfo: Record<string, string> = {}
     const calendar = pageInfo['masterCalendar'] ? JSON.parse(pageInfo['masterCalendar']) : null
-    export let feedbacks: FeedbackI[] = []
-    export let professions: ProfessionI[] = []
-    export let questions: QuestionI[] = []
-    export let featuresPromo: FeatureI[] = []
-    export let specialistFeatures: FeatureI[] = []
+    export let feedbacks: IFeedback[] = []
+    export let professions: IProfession[] = []
+    export let questions: IQuestion[] = []
+    export let featuresPromo: IFeature[] = []
+    export let specialistFeatures: IFeature[] = []
 
     const totalMobileObjects = 4
 
@@ -71,7 +71,7 @@
     let questionId: number
     let professonId: number
 
-    const updateQuestionId = (id: number) => {
+    const updateIQuestiond = (id: number) => {
         questionId = id
         questionModal.open()
     }
@@ -145,28 +145,28 @@
         modalFeedback.close()
     }
 
-    const showNewFeaturePromo = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
+    const showNewFeaturePromo = (event: CustomEvent<{ message: string, feature: IFeature }>) => {
         const newFeature = event.detail.feature
         featuresPromo = [ ...featuresPromo, newFeature ]
     }
 
-    const showNewFeatureSpec = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
+    const showNewFeatureSpec = (event: CustomEvent<{ message: string, feature: IFeature }>) => {
         const newFeature = event.detail.feature
         specialistFeatures = [ ...specialistFeatures, newFeature ]
     }
 
-    const showNewProfession = (event: CustomEvent<{ message: string, profession: ProfessionI }>) => {
+    const showNewProfession = (event: CustomEvent<{ message: string, profession: IProfession }>) => {
         const newProfession = event.detail.profession
         professions = [ ...professions, newProfession ]
     }
 
-    const showNewFeedback = (event: CustomEvent<{ message: string, feedback: FeedbackI }>) => {
+    const showNewFeedback = (event: CustomEvent<{ message: string, feedback: IFeedback }>) => {
         const newFeedback = event.detail.feedback
         feedbacks = [ ...feedbacks, newFeedback ]
         resetFiles()
     }
 
-    const showNewQuestion = (event: CustomEvent<{ message: string, question: QuestionI }>) => {
+    const showNewQuestion = (event: CustomEvent<{ message: string, question: IQuestion }>) => {
         const newQuestion = event.detail.question
         questions = [ ...questions, newQuestion ]
     }
@@ -803,7 +803,7 @@
                         <div class="card-body">
                             <h4 class="card-title">{ question.text }</h4><br />
                             <a href="/admin-panel/master/question/update/{ question.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                            <button type="button" on:click={() => updateQuestionId(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                            <button type="button" on:click={() => updateIQuestiond(question.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>
                     </div>
                 {/each}

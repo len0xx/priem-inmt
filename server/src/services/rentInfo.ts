@@ -1,7 +1,7 @@
 import BaseService from './base.js'
-import RentInfo, { RentInfoI } from '../models/RentInfo.js'
+import RentInfo, { IRentInfo } from '../models/RentInfo.js'
 
-class RentInfoService extends BaseService<RentInfo, RentInfoI> {
+class RentInfoService extends BaseService<RentInfo, IRentInfo> {
     constructor() {
         super()
         this.model = RentInfo

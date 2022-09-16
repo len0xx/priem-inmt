@@ -68,18 +68,16 @@
     } from '$components'
     import images1 from '$lib/images1'
     import images2 from '$lib/images2'
-    // import partners from '$lib/partners'
-    // import graduates from '$lib/graduates'
     import { getSequentialPartialIndexes } from '$lib/utilities'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import type { DocumentI, FeatureI, PartnerI, GraduateI, PostI } from '../types'
+    import type { IDocument, IFeature, IPartner, IGraduate, IPost } from '../types'
 
-    export let features: FeatureI[] = []
-    export let posts: PostI[] = []
-    export let partners: PartnerI[] = []
-    export let videos: DocumentI[] = []
+    export let features: IFeature[] = []
+    export let posts: IPost[] = []
+    export let partners: IPartner[] = []
+    export let videos: IDocument[] = []
     export let pageInfo: Record<string, string> = {}
-    export let graduates: GraduateI[] = []
+    export let graduates: IGraduate[] = []
 
     let showPreloader = true
     let pageLoaded = false

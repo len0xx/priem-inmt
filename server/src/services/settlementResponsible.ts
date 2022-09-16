@@ -1,7 +1,7 @@
 import BaseService from './base.js'
-import SettlementResponsible, { SettlementResponsibleI } from '../models/settlementResponsible.js'
+import SettlementResponsible, { ISettlementResponsible } from '../models/settlementResponsible.js'
 
-class SettlementResponsibleService extends BaseService<SettlementResponsible, SettlementResponsibleI> {
+class SettlementResponsibleService extends BaseService<SettlementResponsible, ISettlementResponsible> {
     constructor() {
         super()
         this.model = SettlementResponsible

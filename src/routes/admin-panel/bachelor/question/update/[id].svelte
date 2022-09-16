@@ -15,10 +15,10 @@
 
 <script lang="ts">
     import { Grid, Form } from '$components'
-    import type { QuestionI } from '../../../../../types'
+    import type { IQuestion } from '../../../../../types'
     import { redirect } from '$lib/utilities'
 
-    export let question: QuestionI
+    export let question: IQuestion
 
     const handleSuccess = () => {
         redirect('/admin-panel/bachelor')

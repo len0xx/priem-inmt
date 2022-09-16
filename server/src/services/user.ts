@@ -1,5 +1,5 @@
 import BaseService from './base.js'
-import User, { UserI } from '../models/user.js'
+import User, { IUser } from '../models/user.js'
 import { HTTPError, comparePasswords } from '../utilities.js'
 import dotenv from 'dotenv'
 import { HTTPStatus } from '../types/enums.js'
@@ -7,7 +7,7 @@ import type { FindOptions } from 'sequelize'
 
 dotenv.config()
 
-class UserService extends BaseService<User, UserI> {
+class UserService extends BaseService<User, IUser> {
     constructor() {
         super()
         this.model = User
@@ -53,7 +53,7 @@ class UserService extends BaseService<User, UserI> {
         return user.id
     }
 
-    async signup(user: UserI) {
+    async signup(user: IUser) {
         if (!user.email)
             throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Email является обязательным для заполнения')
 
@@ -64,8 +64,8 @@ class UserService extends BaseService<User, UserI> {
         if (sameEmailExists)
             throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Пользователь с таким Email уже зарегистрирован')
 
-        const newUserId = (await this.create(user)).id
-        return newUserId
+        const newIUserd = (await this.create(user)).id
+        return newIUserd
     }
 }
 

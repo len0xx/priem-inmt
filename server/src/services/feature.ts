@@ -1,8 +1,8 @@
 import BaseService from './base.js'
-import Feature, { FeatureI } from '../models/feature.js'
+import Feature, { IFeature } from '../models/feature.js'
 import type { IndexesOptions } from 'sequelize'
 
-class FeatureService extends BaseService<Feature, FeatureI> {
+class FeatureService extends BaseService<Feature, IFeature> {
     constructor() {
         super()
         this.model = Feature

@@ -59,21 +59,18 @@
     } from '$components'
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
     import images from '$lib/images3'
-    // import partners from '$lib/partners'
-    // import documents from '$lib/documents'
     import { formEndpoint, modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    // import { bachelor as feedbacks } from '$lib/feedback'
     import { blur, fly } from 'svelte/transition'
     import type { EducationMode } from '$lib/programs'
-    import type { FeatureI, DocumentI, OpportunityI, EducationalProgram, FeedbackI, PartnerI } from '../types'
+    import type { IFeature, IDocument, IOpportunity, EducationalProgram, IFeedback, IPartner } from '../types'
 
-    export let opportunities: OpportunityI[] = []
-    export let featuresPromo: FeatureI[] = []
-    // export let featuresInst: FeatureI[] = []
+    export let opportunities: IOpportunity[] = []
+    export let featuresPromo: IFeature[] = []
+    // export let featuresInst: IFeature[] = []
     export let programs: EducationalProgram[] = []
-    export let documents: DocumentI[] = []
-    export let feedbacks: FeedbackI[] = []
-    export let partners: PartnerI[] = []
+    export let documents: IDocument[] = []
+    export let feedbacks: IFeedback[] = []
+    export let partners: IPartner[] = []
     export let pageInfo: Record<string, string> = {}
 
     let linkColor: 'white' | 'black' = 'white'

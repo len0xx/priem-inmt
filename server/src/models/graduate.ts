@@ -8,7 +8,7 @@ class Graduate extends Model<InferAttributes<Graduate, { omit: 'id' }>, InferCre
     declare photo: string
 }
 
-export type GraduateI = InferAttributes<Graduate, { omit: 'id' }>
+export type IGraduate = InferAttributes<Graduate, { omit: 'id' }>
 
 Graduate.init(
     {

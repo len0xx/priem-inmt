@@ -55,19 +55,16 @@
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
     import images from '$lib/images3'
     import partners from '$lib/partners'
-    // import professions from '$lib/professions'
-    // import faqText from '$lib/faqs'
-    // import { master as feedbacks } from '$lib/feedback'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
     import { blur, fly } from 'svelte/transition'
     import type { EducationMode } from '$lib/programs'
-    import type { EducationalProgram, FeatureI, FeedbackI, ProfessionI, QuestionI } from '../types'
+    import type { EducationalProgram, IFeature, IFeedback, IProfession, IQuestion } from '../types'
 
     export let programs: EducationalProgram[] = []
-    export let featuresPromo: FeatureI[] = []
-    export let questions: QuestionI[] = []
-    export let professions: ProfessionI[] = []
-    export let feedbacks: FeedbackI[] = []
+    export let featuresPromo: IFeature[] = []
+    export let questions: IQuestion[] = []
+    export let professions: IProfession[] = []
+    export let feedbacks: IFeedback[] = []
     export let pageInfo: Record<string, string> = {}
 
     let programsExpanded = false

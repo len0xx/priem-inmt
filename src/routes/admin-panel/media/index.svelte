@@ -3,7 +3,7 @@
     import { blur } from 'svelte/transition'
     import { onMount } from 'svelte'
     import { apiRoute, isImage } from '$lib/utilities'
-    import type { DocumentI, ModalComponent } from '../../../types'
+    import type { IDocument, ModalComponent } from '../../../types'
 
     let deleteId = 0
     let modal: ModalComponent = null
@@ -14,9 +14,9 @@
     let filesAmount = 0
 
     $: pagesAmount = Math.ceil(filesAmount / LIMIT) || 1
-    $: filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
+    $: filesPromise = (getFiles(currentPage) as Promise<IDocument[]>)
 
-    const getFiles = async (page: number): Promise<DocumentI[]> => {
+    const getFiles = async (page: number): Promise<IDocument[]> => {
         const res = await fetch(apiRoute(`admin/media?type=media&page=${page}`))
         const json = await res.json()
         const files = json.documents

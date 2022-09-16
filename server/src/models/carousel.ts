@@ -7,7 +7,7 @@ class Carousel extends Model<InferAttributes<Carousel, { omit: 'id' }>, InferCre
     declare name: string
 }
 
-export type CarouselI = InferAttributes<Carousel, { omit: 'id' }>
+export type ICarousel = InferAttributes<Carousel, { omit: 'id' }>
 
 Carousel.init(
     {

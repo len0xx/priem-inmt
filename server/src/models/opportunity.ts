@@ -7,7 +7,7 @@ class Opportunity extends Model<InferAttributes<Opportunity, { omit: 'id' }>, In
     declare description: string
 }
 
-export type OpportunityI = InferAttributes<Opportunity, { omit: 'id' }>
+export type IOpportunity = InferAttributes<Opportunity, { omit: 'id' }>
 
 Opportunity.init(
     {

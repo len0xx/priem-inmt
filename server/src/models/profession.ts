@@ -9,7 +9,7 @@ class Profession extends Model<InferAttributes<Profession, { omit: 'id' }>, Infe
     declare duties: string[]
 }
 
-export type ProfessionI = InferAttributes<Profession, { omit: 'id' }>
+export type IProfession = InferAttributes<Profession, { omit: 'id' }>
 
 Profession.init(
     {

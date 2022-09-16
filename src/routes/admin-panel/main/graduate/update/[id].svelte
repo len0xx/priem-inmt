@@ -16,9 +16,9 @@
 <script lang="ts">
     import { Grid, Form, FileSelect } from '$components'
     import { isMobile } from '$lib/stores'
-    import type { GraduateI, ModalComponent } from '../../../../../types'
+    import type { IGraduate, ModalComponent } from '../../../../../types'
 
-    export let graduate: GraduateI
+    export let graduate: IGraduate
 
     let fileModal: ModalComponent = null
     let fileId: number = null

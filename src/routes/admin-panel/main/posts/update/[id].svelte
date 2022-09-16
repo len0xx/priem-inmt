@@ -18,9 +18,9 @@
     import { slide, blur } from 'svelte/transition'
     import { range } from '$lib/utilities'
     import { isMobile } from '$lib/stores'
-    import type { PostI, ModalComponent } from '../../../../../types'
+    import type { IPost, ModalComponent } from '../../../../../types'
 
-    export let post: PostI
+    export let post: IPost
 
     let fileModal: ModalComponent = null
     let fileId: number = null

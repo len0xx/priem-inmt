@@ -15,9 +15,9 @@
 <script lang="ts">
     import { Form, Grid } from '$components'
     import { redirect } from '$lib/utilities'
-    import type { QuestionI } from '../../../../../types'
+    import type { IQuestion } from '../../../../../types'
 
-    export let question: QuestionI
+    export let question: IQuestion
 
     const handleSuccess = () => {
         redirect('/admin-panel/master')

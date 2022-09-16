@@ -10,7 +10,7 @@ class ContactInfo extends Model<InferAttributes<ContactInfo, { omit: 'id' }>, In
     declare links: { text: string, url: string }[]
 }
 
-export type ContactInfoI = InferAttributes<ContactInfo, { omit: 'id' }>
+export type IContactInfo = InferAttributes<ContactInfo, { omit: 'id' }>
 
 ContactInfo.init({
     tel: {

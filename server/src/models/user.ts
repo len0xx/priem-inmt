@@ -14,7 +14,7 @@ class User extends Model<InferAttributes<User, { omit: 'id' }>, InferCreationAtt
     declare lastLoginDate?: CreationOptional<Date>
 }
 
-export type UserI = InferAttributes<User, { omit: 'id' }>
+export interface IUser extends InferAttributes<User, { omit: 'id' }> { }
 
 User.init(
     {

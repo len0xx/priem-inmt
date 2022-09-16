@@ -38,13 +38,12 @@
         Preloader
     } from '$components'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import type { DocumentI, DormitoryI, RentInfoI, SettlementI } from '../types'
-    // import documents from '$lib/documents2'
+    import type { IDocument, IDormitory, IRentInfo, ISettlement } from '../types'
 
-    export let documents: DocumentI[] = []
-    export let dormitories: DormitoryI[] = []
-    export let rentInfo: RentInfoI = null
-    export let settlement: SettlementI = null
+    export let documents: IDocument[] = []
+    export let dormitories: IDormitory[] = []
+    export let rentInfo: IRentInfo = null
+    export let settlement: ISettlement = null
     export let pageInfo: Record<string, string> = {}
 
     let showPreloader = true

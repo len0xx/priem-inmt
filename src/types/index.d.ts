@@ -12,7 +12,7 @@ export interface ModalComponent {
     toggle: () => void
 }
 
-export interface TeacherI {
+export interface Teacher {
     name: string
     caption: string
     phone: string
@@ -22,7 +22,7 @@ export interface TeacherI {
 
 export type ContentType = 'multipart/form-data' | 'application/x-www-form-urlencoded' | 'text/plain'
 
-export interface EducationModeI {
+export interface EducationMode {
     price: string
     duration: string
     languages: string
@@ -32,13 +32,13 @@ export interface EducationModeI {
     }
 }
 
-export interface EducationModesI {
-    partTime?: EducationModeI
-    partFullTime?: EducationModeI
-    fullTime?: EducationModeI
+export interface EducationModes {
+    partTime?: EducationMode
+    partFullTime?: EducationMode
+    fullTime?: EducationMode
 }
 
-export interface ProgramFeedbackI {
+export interface ProgramFeedback {
     name: string
     caption: string
     text: string
@@ -49,10 +49,10 @@ export interface EducationalProgram {
     id: number
     title: string
     degree: DegreeLevel
-    educationModes: EducationModesI
+    educationModes: EducationModes
     directions: string[]
-    teacher: TeacherI
-    feedbacks: ProgramFeedbackI[]
+    teacher: Teacher
+    feedbacks: ProgramFeedback[]
     exams: {
         title: string
         result: string
@@ -61,7 +61,7 @@ export interface EducationalProgram {
     partners: string[]
 }
 
-export interface PostI {
+export interface IPost {
     id?: number
     title: string
     text: string
@@ -70,7 +70,7 @@ export interface PostI {
     colourfulBackground?: boolean
 }
 
-export interface ResponsibleI {
+export interface IResponsible {
     id?: number
     name: string
     label: string
@@ -79,13 +79,13 @@ export interface ResponsibleI {
     img: string
 }
 
-export interface QuestionI {
+export interface IQuestion {
     id?: number
     text: string
     answer: string
 }
 
-export interface ContactInfoI {
+export interface IContactInfo {
     id: number
     tel: string
     email: string
@@ -94,7 +94,7 @@ export interface ContactInfoI {
     links: { text: string, url: string }[]
 }
 
-export interface FeedbackI {
+export interface IFeedback {
     id: number
     page: string
     name: string
@@ -104,20 +104,20 @@ export interface FeedbackI {
     level: string
 }
 
-export interface DormitoryI {
+export interface IDormitory {
     id?: number
     img: string
     title: string
     address: string
 }
 
-export interface OpportunityI {
+export interface IOpportunity {
     id: number
     title: string
     description: string
 }
 
-export interface ProfessionI {
+export interface IProfession {
     id: number
     title: string
     description: string
@@ -134,14 +134,14 @@ export interface DefaultAJAXResponse {
     error?: string
 }
 
-export interface DocumentI {
+export interface IDocument {
     id?: number
     title: string
     src: string
     extension: string
 }
 
-export interface RentInfoI {
+export interface IRentInfo {
     id: number
     heading: string
     subheading: string
@@ -152,7 +152,7 @@ export interface RentInfoI {
     linkURL: string
 }
 
-export interface SettlementI {
+export interface ISettlement {
     id?: number
     name: string
     label: string
@@ -163,31 +163,31 @@ export interface SettlementI {
     photo: string
 }
 
-export interface GraduateI {
+export interface IGraduate {
     id?: number
     name: string
     description: string
     photo: string
 }
 
-export interface TextI {
+export interface IText {
     id: number
     name: string
     content: string
 }
 
-export interface PartnerI {
+export interface IPartner {
     id: number
     name?: string
     logo: string
 }
 
-export interface CarouselI {
+export interface ICarousel {
     id: number
     img: string
 }
 
-export interface FeatureI {
+export interface IFeature {
     id: number
     title: string
     description: string

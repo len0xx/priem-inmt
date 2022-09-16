@@ -15,9 +15,9 @@
 
 <script lang="ts">
     import { Grid, Form } from '$components'
-    import type { FeatureI } from '../../../../../types'
+    import type { IFeature } from '../../../../../types'
 
-    export let feature: FeatureI
+    export let feature: IFeature
 </script>
 
 <svelte:head>

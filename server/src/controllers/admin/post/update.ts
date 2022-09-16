@@ -3,7 +3,7 @@ import documentService from '../../../services/document.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
-import type { PostI } from '../../../models/post.js'
+import type { IPost } from '../../../models/post.js'
 
 export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
@@ -24,7 +24,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         imgURL = file ? file.src : undefined
     }
 
-    const newData: PostI = { title, text, links, img: imgURL }
+    const newData: IPost = { title, text, links, img: imgURL }
     await postService.updateById(id, newData)
     return new HTTPResponse(res, HTTPStatus.SUCCESS, 'Публикация успешно обновлена')
 })

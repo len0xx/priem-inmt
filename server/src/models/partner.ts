@@ -7,7 +7,7 @@ class Partner extends Model<InferAttributes<Partner, { omit: 'id' }>, InferCreat
     declare logo: string
 }
 
-export type PartnerI = InferAttributes<Partner, { omit: 'id' }>
+export type IPartner = InferAttributes<Partner, { omit: 'id' }>
 
 Partner.init(
     {

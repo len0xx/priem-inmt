@@ -38,16 +38,16 @@
     import { slide, blur } from 'svelte/transition'
     import { range } from '$lib/utilities.js'
     import { isMobile } from '$lib/stores.js'
-    import type { GraduateI, PartnerI, PostI, CarouselI, ModalComponent, FeatureI, DocumentI } from '../../../types'
+    import type { IGraduate, IPartner, IPost, ICarousel, ModalComponent, IFeature, IDocument } from '../../../types'
 
-    export let posts: PostI[]
+    export let posts: IPost[]
 
-    export let graduates: GraduateI[] = []
-    export let partners: PartnerI[] = []
-    export let carouselAboutImages: CarouselI[] = []
-    export let carouselLifeImages: CarouselI[] = []
-    export let features: FeatureI[] = []
-    export let videos: DocumentI[] = []
+    export let graduates: IGraduate[] = []
+    export let partners: IPartner[] = []
+    export let carouselAboutImages: ICarousel[] = []
+    export let carouselLifeImages: ICarousel[] = []
+    export let features: IFeature[] = []
+    export let videos: IDocument[] = []
     export let info: Record<string, string> = {}
 
     const totalMobileObjects = 4
@@ -145,7 +145,7 @@
         modalGraduate.open()
     }
 
-    const updateVideoId = (id: number) => {
+    const updateIVideod = (id: number) => {
         videoId = id
         modalVideo.open()
     }
@@ -191,12 +191,12 @@
         modalVideo.close()
     }
 
-    const resetPostImages = () => {
+    const resetIPostmages = () => {
         postImageId = null
         postImagePath = null
     }
 
-    const resetPartnerImages = () => {
+    const resetIPartnermages = () => {
         partnerImageId = null
         partnerImagePath = null
     }
@@ -211,41 +211,41 @@
         carouselLifeImagePath = null
     }
 
-    const showNewPost = (event: CustomEvent<{ message: string, post: PostI }>) => {
+    const showNewPost = (event: CustomEvent<{ message: string, post: IPost }>) => {
         const newPost = event.detail.post
         posts = [ ...posts, newPost ]
-        resetPostImages()
+        resetIPostmages()
     }
 
-    const showNewPartner = (event: CustomEvent<{ message: string, partner: PartnerI }>) => {
+    const showNewPartner = (event: CustomEvent<{ message: string, partner: IPartner }>) => {
         const newPartner = event.detail.partner
         partners = [ ...partners, newPartner ]
-        resetPartnerImages()
+        resetIPartnermages()
     }
 
-    const showNewCarouselAboutImage = (event: CustomEvent<{ message: string, image: CarouselI }>) => {
+    const showNewCarouselAboutImage = (event: CustomEvent<{ message: string, image: ICarousel }>) => {
         const newImage = event.detail.image
         carouselAboutImages = [ ...carouselAboutImages, newImage ]
         resetCarouselAboutImages()
     }
 
-    const showNewCarouselLifeImage = (event: CustomEvent<{ message: string, image: CarouselI }>) => {
+    const showNewCarouselLifeImage = (event: CustomEvent<{ message: string, image: ICarousel }>) => {
         const newImage = event.detail.image
         carouselLifeImages = [ ...carouselLifeImages, newImage ]
         resetCarouselLifeImages()
     }
 
-    const showNewFeature = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
+    const showNewFeature = (event: CustomEvent<{ message: string, feature: IFeature }>) => {
         const newFeature = event.detail.feature
         features = [ ...features, newFeature ]
     }
 
-    const showNewGraduate = (event: CustomEvent<{ message: string, graduate: GraduateI }>) => {
+    const showNewGraduate = (event: CustomEvent<{ message: string, graduate: IGraduate }>) => {
         const newGraduate = event.detail.graduate
         graduates = [ ...graduates, newGraduate ]
     }
 
-    const showNewVideo = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
+    const showNewVideo = (event: CustomEvent<{ message: string, document: IDocument }>) => {
         const newVideo = event.detail.document
         videos = [ ...videos, newVideo ]
     }
@@ -686,7 +686,7 @@
                     <div class="card" transition:blur|local={{ duration: 200 }}>
                         <div class="card-body">
                             <VideoCard name={video.title} src={video.src} />
-                            <button type="button" on:click={() => updateVideoId(video.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                            <button type="button" on:click={() => updateIVideod(video.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>
                     </div>
                 {/each}

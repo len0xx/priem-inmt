@@ -4,7 +4,7 @@ import type { RESTMethod, DefaultAJAXResponse, ContentType, EducationalProgram, 
 
 export const DOMAIN_NAME = 'inmt-priem.urfu.ru'
 export const BASE_DOMAIN = 'https://' + DOMAIN_NAME
-export const DEV_DOMAIN = 'http://192.168.0.182:8080'
+export const DEV_DOMAIN = 'http://localhost:8080'
 
 // Create slug from the title
 export const formatSlug = (input: string): string => {

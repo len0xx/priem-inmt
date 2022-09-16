@@ -2,7 +2,7 @@ import contactInfoService from '../../../services/contactInfo.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
-import type { ContactInfoI } from '../../../models/contactInfo.js'
+import type { IContactInfo } from '../../../models/contactInfo.js'
 
 export const create = catchHTTPErrors(async (req: Request, res: Response) => {
     const { tel, email, directorateAddress, admissionsAddress } = req.body
@@ -16,7 +16,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         }
     }
 
-    const newData: ContactInfoI = { tel, email, directorateAddress, admissionsAddress, links }
+    const newData: IContactInfo = { tel, email, directorateAddress, admissionsAddress, links }
 
     await contactInfoService.create(newData)
 

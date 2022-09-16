@@ -4,7 +4,7 @@
     import { Modal, Grid, Form, Pagination } from '.'
     import { apiRoute, isImage } from '$lib/utilities'
     import { isMobile, modalOpened } from '$lib/stores'
-    import type { DocumentI, ModalComponent } from '../../types'
+    import type { IDocument, ModalComponent } from '../../types'
 
     export let modal: ModalComponent = null
     export let selected: number = null
@@ -17,9 +17,9 @@
     let selectedFile = selected
     let selectedPath: string = null
     $: pagesAmount = Math.ceil(filesAmount / LIMIT) || 1
-    $: filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
+    $: filesPromise = (getFiles(currentPage) as Promise<IDocument[]>)
 
-    const getFiles = async (page: number): Promise<DocumentI[]> => {
+    const getFiles = async (page: number): Promise<IDocument[]> => {
         const res = await fetch(apiRoute(`admin/media?type=media&page=${page}`))
         const json = await res.json()
         const files = json.documents
@@ -31,7 +31,7 @@
         throw new Error('Не удалось загрузить файлы')
     }
 
-    const selectFile = (file: DocumentI) => {
+    const selectFile = (file: IDocument) => {
         selectedFile = file.id
         selectedPath = file.src
     }
@@ -47,7 +47,7 @@
     }
 
     const handleSuccess = async () => {
-        filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
+        filesPromise = (getFiles(currentPage) as Promise<IDocument[]>)
     }
 
     const handleOpen = () => $modalOpened = true

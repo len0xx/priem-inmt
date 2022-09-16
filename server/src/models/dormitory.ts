@@ -8,7 +8,7 @@ class Dormitory extends Model<InferAttributes<Dormitory, { omit: 'id' }>, InferC
     declare address: string
 }
 
-export type DormitoryI = InferAttributes<Dormitory, { omit: 'id' }>
+export type IDormitory = InferAttributes<Dormitory, { omit: 'id' }>
 
 Dormitory.init({
     img: {

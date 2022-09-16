@@ -17,9 +17,9 @@
     import { Form, FileSelect } from '$components'
     import { Grid } from '$components'
     import { isMobile } from '$lib/stores'
-    import type { FeedbackI, ModalComponent } from '../../../../../types'
+    import type { IFeedback, ModalComponent } from '../../../../../types'
 
-    export let feedback: FeedbackI
+    export let feedback: IFeedback
 
     let imageModal: ModalComponent = null
     let imageId: number = null

@@ -1,7 +1,7 @@
 import BaseService from './base.js'
-import ContactInfo, { ContactInfoI } from '../models/contactInfo.js'
+import ContactInfo, { IContactInfo } from '../models/contactInfo.js'
 
-class ContactInfoService extends BaseService<ContactInfo, ContactInfoI> {
+class ContactInfoService extends BaseService<ContactInfo, IContactInfo> {
     constructor() {
         super()
         this.model = ContactInfo

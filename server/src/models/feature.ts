@@ -8,7 +8,7 @@ class Feature extends Model<InferAttributes<Feature, { omit: 'id' }>, InferCreat
     declare type: string
 }
 
-export type FeatureI = InferAttributes<Feature, { omit: 'id' }>
+export type IFeature = InferAttributes<Feature, { omit: 'id' }>
 
 Feature.init(
     {

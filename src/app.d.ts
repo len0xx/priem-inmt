@@ -1,6 +1,6 @@
 /// <reference types="@sveltejs/kit" />
 
-import { UserI } from '../server/src/models/user'
+import { IUser } from '../server/src/models/user'
 
 // See https://kit.svelte.dev/docs/types#the-app-namespace
 // for information about these interfaces
@@ -9,7 +9,7 @@ declare global {
 		interface Locals {
 			token: string,
 			csrf: string,
-			user: UserI,
+			user: IUser,
 			api?: string
 		}
 

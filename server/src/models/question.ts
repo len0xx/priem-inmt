@@ -8,7 +8,7 @@ class Question extends Model<InferAttributes<Question, { omit: 'id' }>, InferCre
     declare page: 'bachelor' | 'master'
 }
 
-export type QuestionI = InferAttributes<Question, { omit: 'id' }>
+export interface IQuestion extends InferAttributes<Question, { omit: 'id' }> { }
 
 Question.init(
     {

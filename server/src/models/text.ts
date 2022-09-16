@@ -8,7 +8,7 @@ class Text extends Model<InferAttributes<Text, { omit: 'id' }>, InferCreationAtt
     declare page?: string
 }
 
-export type TextI = InferAttributes<Text, { omit: 'id' }>
+export interface IText extends InferAttributes<Text, { omit: 'id' }> { }
 
 Text.init(
     {

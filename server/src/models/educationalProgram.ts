@@ -42,7 +42,7 @@ class EducationalProgram extends Model<
     declare partners?: string[]
 }
 
-export type EducationalProgramI = InferAttributes<EducationalProgram, { omit: 'id' }>
+export type IEducationalProgram = InferAttributes<EducationalProgram, { omit: 'id' }>
 
 const degrees = [...Object.values(DegreeLevel).filter(k => typeof k === 'string')]
 

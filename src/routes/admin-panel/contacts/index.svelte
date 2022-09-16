@@ -19,7 +19,7 @@
 
 <script lang="ts">
     import { Form, Grid, Graduate, FileSelect, RoundButton, Modal } from '$components'
-    import type { ContactInfoI, ResponsibleI, ModalComponent } from '../../../types'
+    import type { IContactInfo, IResponsible, ModalComponent } from '../../../types'
     import { imask } from 'svelte-imask'
     import { slide, blur } from 'svelte/transition'
     import { range } from '$lib/utilities'
@@ -28,9 +28,9 @@
         mask: '+{7} (000) 000-00-00'
     }
 
-    export let contactInfo: ContactInfoI = null
+    export let contactInfo: IContactInfo = null
     export let pageInfo: Record<string, string> = {}
-    export let responsibles: ResponsibleI[]
+    export let responsibles: IResponsible[]
 
     let modalResponsible: ModalComponent = null
     let responsibleId:number
@@ -50,7 +50,7 @@
         responsibleImagePath = event.detail.path
     }
 
-    const updateResponsibleId = (id: number) => {
+    const updateIResponsibled = (id: number) => {
         responsibleId = id
         modalResponsible.open()
     }
@@ -63,7 +63,7 @@
         modalResponsible.close()
     }
 
-    const showNewResponsible = (event: CustomEvent<{ message: string, responsible: ResponsibleI }>) => {
+    const showNewResponsible = (event: CustomEvent<{ message: string, responsible: IResponsible }>) => {
         const newResponsible = event.detail.responsible
         responsibles = [ ...responsibles, newResponsible ]
     }
@@ -151,7 +151,7 @@
                     <div transition:blur|local={{ duration: 200 }}>
                         <Graduate name={ responsible.name } src={ responsible.img } caption={ responsible.label }>
                             <a href="/admin-panel/contacts/responsible/update/{ responsible.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                            <button type="button" on:click={() => updateResponsibleId(responsible.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                            <button type="button" on:click={() => updateIResponsibled(responsible.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </Graduate>
                     </div>
                 {/each}

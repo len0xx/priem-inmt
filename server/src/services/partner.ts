@@ -1,7 +1,7 @@
 import BaseService from './base.js'
-import Partner, { PartnerI } from '../models/partner.js'
+import Partner, { IPartner } from '../models/partner.js'
 
-class PartnerService extends BaseService<Partner, PartnerI> {
+class PartnerService extends BaseService<Partner, IPartner> {
     constructor() {
         super()
         this.model = Partner

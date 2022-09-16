@@ -1,5 +1,5 @@
 import BaseService from './base.js'
-import EducationalProgram, { EducationalProgramI } from '../models/educationalProgram.js'
+import EducationalProgram, { IEducationalProgram } from '../models/educationalProgram.js'
 import { HTTPError } from '../utilities.js'
 import { HTTPStatus, DegreeLevel } from '../types/enums.js'
 import type { IndexesOptions } from 'sequelize'
@@ -24,13 +24,13 @@ const validateModes = (mode) => {
 
 }
 
-class EducationalProgramService extends BaseService<EducationalProgram, EducationalProgramI> {
+class EducationalProgramService extends BaseService<EducationalProgram, IEducationalProgram> {
     constructor() {
         super()
         this.model = EducationalProgram
     }
 
-    override async create(educationalProgram: EducationalProgramI) {
+    override async create(educationalProgram: IEducationalProgram) {
         const educationModes = educationalProgram.educationModes
         Object.entries(educationModes).map(mode => validateModes(mode))
 
@@ -61,7 +61,7 @@ class EducationalProgramService extends BaseService<EducationalProgram, Educatio
         return await this.model.create(educationalProgram)
     }
 
-    override async updateById(id: number, educationalProgram: EducationalProgramI) {
+    override async updateById(id: number, educationalProgram: IEducationalProgram) {
         const educationModes = educationalProgram.educationModes
         Object.entries(educationModes).map(mode => validateModes(mode))
 

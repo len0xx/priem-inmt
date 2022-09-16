@@ -15,9 +15,9 @@
 
 <script lang="ts">
     import { Form } from '$components'
-    import type { OpportunityI } from '../../../../../types'
+    import type { IOpportunity } from '../../../../../types'
 
-    export let opportunity: OpportunityI
+    export let opportunity: IOpportunity
 </script>
 
 <svelte:head>

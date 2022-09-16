@@ -3,7 +3,7 @@ import documentService from '../../../services/document.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
-import type { TeacherI, EducationModesI, EducationalProgramI } from '../../../models/educationalProgram'
+import type { TeacherI, EducationModesI, IEducationalProgram } from '../../../models/educationalProgram'
 
 export const update = catchHTTPErrors(async (req: Request, res: Response) => {
     const id = +req.params.id
@@ -119,7 +119,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         if (partnerLogoUrl) partners.push(partnerLogoUrl)
     }
 
-    const newProgramState: EducationalProgramI = {
+    const newProgramState: IEducationalProgram = {
         title, degree,
         educationModes, directions,
         teacher, exams,

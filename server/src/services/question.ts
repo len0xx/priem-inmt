@@ -1,8 +1,8 @@
 import BaseService from './base.js'
-import Question, { QuestionI } from '../models/question.js'
+import Question, { IQuestion } from '../models/question.js'
 import type { IndexesOptions } from 'sequelize'
 
-class QuestionService extends BaseService<Question, QuestionI> {
+class QuestionService extends BaseService<Question, IQuestion> {
     constructor() {
         super()
         this.model = Question

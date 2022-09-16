@@ -12,7 +12,7 @@ class RentInfo extends Model<InferAttributes<RentInfo, { omit: 'id' }>, InferCre
     declare linkURL: string
 }
 
-export type RentInfoI = InferAttributes<RentInfo, { omit: 'id' }>
+export interface IRentInfo extends InferAttributes<RentInfo, { omit: 'id' }> { }
 
 RentInfo.init(
     {

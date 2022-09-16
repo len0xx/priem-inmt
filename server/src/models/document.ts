@@ -10,7 +10,7 @@ class Document extends Model<InferAttributes<Document, { omit: 'id' }>, InferCre
     declare extension: string
 }
 
-export type DocumentI = InferAttributes<Document, { omit: 'id' }>
+export type IDocument = InferAttributes<Document, { omit: 'id' }>
 
 Document.init(
     {

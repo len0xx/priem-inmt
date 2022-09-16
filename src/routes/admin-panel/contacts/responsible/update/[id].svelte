@@ -16,13 +16,13 @@
 <script lang="ts">
     import { imask } from 'svelte-imask'
     import { Form, Grid, FileSelect} from '$components'
-    import type { ResponsibleI, ModalComponent } from '../../../../../types'
+    import type { IResponsible, ModalComponent } from '../../../../../types'
 
     let phoneMask = {
         mask: '+{7}-(000)-000-0000'
     }
 
-    export let responsible: ResponsibleI
+    export let responsible: IResponsible
 
     let responsibleImageModal: ModalComponent = null
     let responsibleImageId: number = null

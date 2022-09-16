@@ -1,7 +1,7 @@
-import Text, { type TextI } from '../models/Text.js'
+import Text, { type IText } from '../models/Text.js'
 import BaseService from './base.js'
 
-class TextService extends BaseService<Text, TextI> {
+class TextService extends BaseService<Text, IText> {
     constructor() {
         super()
         this.model = Text

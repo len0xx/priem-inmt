@@ -17,9 +17,9 @@
     import { Form, Grid } from '$components'
     import { range, redirect } from '$lib/utilities'
     import { slide, blur } from 'svelte/transition'
-    import type { ProfessionI } from '../../../../../types'
+    import type { IProfession } from '../../../../../types'
 
-    export let profession: ProfessionI
+    export let profession: IProfession
 
     let duties = profession.duties.length
 

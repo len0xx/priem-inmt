@@ -1,7 +1,7 @@
 import BaseService from './base.js'
-import Document, { DocumentI } from '../models/document.js'
+import Document, { IDocument } from '../models/document.js'
 
-class DocumentService extends BaseService<Document, DocumentI> {
+class DocumentService extends BaseService<Document, IDocument> {
     constructor() {
         super()
         this.model = Document

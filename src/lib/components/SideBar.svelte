@@ -2,7 +2,7 @@
     import { Text, Heading, Grid, Button, Partner, Profile, Rainbow } from '.'
     import { createEventDispatcher, onMount } from 'svelte'
     import type { Degree, Exam } from '$lib/programs'
-    import type { TeacherI, ProgramFeedbackI, EducationModesI } from '../../types'
+    import type { Teacher, ProgramFeedback, EducationModes } from '../../types'
 
     const modeToText = {
         partTime: 'Заочно',
@@ -18,10 +18,10 @@
     export let partners: string[] = [] // 1
     export let directions: string[] = [] // 1
     export let degree: Degree // 1
-    export let feedbacks: ProgramFeedbackI[] = [] // 1
-    export let educationModes: EducationModesI
+    export let feedbacks: ProgramFeedback[] = [] // 1
+    export let educationModes: EducationModes
     export let exams: Exam[] = [] // 1
-    export let teacher: TeacherI // 1
+    export let teacher: Teacher // 1
 
     let activeMode = Object.keys(educationModes).includes('fullTime') ? 'fullTime' : Object.keys(educationModes)[0]
 

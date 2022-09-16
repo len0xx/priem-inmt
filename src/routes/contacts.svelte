@@ -27,9 +27,9 @@
         Preloader
     } from '$components'
     import { modal, mobileMenu, commonHeaderState } from '$lib/stores'
-    import type { ResponsibleI } from '../types'
+    import type { IResponsible } from '../types'
 
-    export let responsibles: ResponsibleI[] = []
+    export let responsibles: IResponsible[] = []
     export let pageInfo: Record<string, string> = {}
 
     let showPreloader = true

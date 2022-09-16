@@ -33,8 +33,8 @@ import ProgramCardNew from './ProgramCardNew.svelte'
 import Progress from './Progress.svelte'
 import Rainbow from './Rainbow.svelte'
 import RoundButton from './RoundButton.svelte'
-import ScrollingPhoto from './ScrollingPhoto.svelte'
 import ScrollToTop from './ScrollToTop.svelte'
+import ScrollingPhoto from './ScrollingPhoto.svelte'
 import SelectButton from './SelectButton.svelte'
 import SideBar from './SideBar.svelte'
 import Slide from './Slide.svelte'
@@ -82,8 +82,8 @@ export {
     Progress,
     Rainbow,
     RoundButton,
-    ScrollingPhoto,
     ScrollToTop,
+    ScrollingPhoto,
     SelectButton,
     SideBar,
     Slide,

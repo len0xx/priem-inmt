@@ -1,7 +1,7 @@
 import BaseService from './base.js'
-import Carousel, { CarouselI } from '../models/carousel.js'
+import Carousel, { ICarousel } from '../models/carousel.js'
 
-class CarouselService extends BaseService<Carousel, CarouselI> {
+class CarouselService extends BaseService<Carousel, ICarousel> {
     constructor() {
         super()
         this.model = Carousel

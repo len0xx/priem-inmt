@@ -27,12 +27,12 @@
     import { imask } from 'svelte-imask'
     import { slide, blur } from 'svelte/transition'
     import { isMobile } from '$lib/stores.js'
-    import type { DocumentI, DormitoryI, RentInfoI, SettlementI, ModalComponent } from '../../../types'
+    import type { IDocument, IDormitory, IRentInfo, ISettlement, ModalComponent } from '../../../types'
 
-    export let dormitories: DormitoryI[] = []
-    export let documents: DocumentI[] = []
-    export let rentInfo: RentInfoI = null
-    export let settlement: SettlementI = null
+    export let dormitories: IDormitory[] = []
+    export let documents: IDocument[] = []
+    export let rentInfo: IRentInfo = null
+    export let settlement: ISettlement = null
     export let pageInfo: Record<string, string> = {}
 
     const totalMobileObjects = 4
@@ -94,12 +94,12 @@
         modalDormitory.close()
     }
 
-    const showNewDocument = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
+    const showNewDocument = (event: CustomEvent<{ message: string, document: IDocument }>) => {
         const doc = event.detail.document
         documents = [ ...documents, doc ]
     }
 
-    const showNewDormitory = (event: CustomEvent<{ message: string, dormitory: DormitoryI }>) => {
+    const showNewDormitory = (event: CustomEvent<{ message: string, dormitory: IDormitory }>) => {
         const dorm = event.detail.dormitory
         dormitories = [ ...dormitories, dorm ]
         resetFiles()

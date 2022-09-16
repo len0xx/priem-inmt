@@ -27,16 +27,16 @@
     import { Document, Grid, Form, Icon, Modal, Profile, Text, Benefit, RoundButton, FileSelect, TipTap, Switch } from '$components'
     import { blur, slide } from 'svelte/transition'
     import { isMobile } from '$lib/stores.js'
-    import type { DocumentI, FeatureI, OpportunityI, FeedbackI, ModalComponent } from '../../../types'
+    import type { IDocument, IFeature, IOpportunity, IFeedback, ModalComponent } from '../../../types'
 
     export let pageInfo: Record<string, string> = {}
     
     const calendar = pageInfo['bachelorCalendar'] ? JSON.parse(pageInfo['bachelorCalendar']) : null
-    export let documents: DocumentI[] = []
-    export let feedbacks: FeedbackI[] = []
-    export let featuresPromo: FeatureI[] = []
-    export let featuresInst: FeatureI[] = []
-    export let opportunities: OpportunityI[] = []
+    export let documents: IDocument[] = []
+    export let feedbacks: IFeedback[] = []
+    export let featuresPromo: IFeature[] = []
+    export let featuresInst: IFeature[] = []
+    export let opportunities: IOpportunity[] = []
 
     const totalMobileObjects = 4
 
@@ -87,7 +87,7 @@
         modalFeatureInst.open()
     }
 
-    const updateOpportunityId = (id: number) => {
+    const updateIOpportunityd = (id: number) => {
         opportunityId = id
         modalOpportunity.open()
     }
@@ -137,27 +137,27 @@
         modalFeedback.close()
     }
 
-    const showNewDocument = (event: CustomEvent<{ message: string, document: DocumentI }>) => {
+    const showNewDocument = (event: CustomEvent<{ message: string, document: IDocument }>) => {
         const newDoc = event.detail.document
         documents = [ ...documents, newDoc ]
     }
 
-    const showNewFeaturePromo = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
+    const showNewFeaturePromo = (event: CustomEvent<{ message: string, feature: IFeature }>) => {
         const newFeature = event.detail.feature
         featuresPromo = [ ...featuresPromo, newFeature ]
     }
     
-    const showNewFeatureInst = (event: CustomEvent<{ message: string, feature: FeatureI }>) => {
+    const showNewFeatureInst = (event: CustomEvent<{ message: string, feature: IFeature }>) => {
         const newFeature = event.detail.feature
         featuresInst = [ ...featuresInst, newFeature ]
     }
 
-    const showNewOpportunity = (event: CustomEvent<{ message: string, opportunity: OpportunityI }>) => {
+    const showNewOpportunity = (event: CustomEvent<{ message: string, opportunity: IOpportunity }>) => {
         const newOpportunity = event.detail.opportunity
         opportunities = [ ...opportunities, newOpportunity ]
     }
 
-    const showNewFeedback = (event: CustomEvent<{ message: string, feedback: FeedbackI }>) => {
+    const showNewFeedback = (event: CustomEvent<{ message: string, feedback: IFeedback }>) => {
         const newFeedback = event.detail.feedback
         feedbacks = [ ...feedbacks, newFeedback ]
         resetFiles()
@@ -693,7 +693,7 @@
                             </div>
                             <br />
                             <a href="/admin-panel/bachelor/opportunity/update/{ opportunity.id }" class="btn btn-outline-primary btn-sm">Редактировать</a>
-                            <button type="button" on:click={() => updateOpportunityId(opportunity.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
+                            <button type="button" on:click={() => updateIOpportunityd(opportunity.id)} class="btn btn-outline-danger btn-sm">Удалить</button>
                         </div>
                     </div>
                 {/each}

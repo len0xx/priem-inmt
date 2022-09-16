@@ -1,7 +1,7 @@
-import Opportunity, { type OpportunityI } from '../models/opportunity.js'
+import Opportunity, { type IOpportunity } from '../models/opportunity.js'
 import BaseService from './base.js'
 
-class OpportunityService extends BaseService<Opportunity, OpportunityI> {
+class OpportunityService extends BaseService<Opportunity, IOpportunity> {
     constructor() {
         super()
         this.model = Opportunity

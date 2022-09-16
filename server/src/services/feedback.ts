@@ -1,7 +1,7 @@
-import Feedback, { type FeedbackI } from '../models/feedback.js'
+import Feedback, { type IFeedback } from '../models/feedback.js'
 import BaseService from './base.js'
 
-class FeedbackService extends BaseService<Feedback, FeedbackI> {
+class FeedbackService extends BaseService<Feedback, IFeedback> {
     constructor() {
         super()
         this.model = Feedback

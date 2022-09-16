@@ -10,7 +10,7 @@ class Post extends Model<InferAttributes<Post, { omit: 'id' }>, InferCreationAtt
     declare colourfulBackground?: boolean
 }
 
-export type PostI = InferAttributes<Post, { omit: 'id' }>
+export type IPost = InferAttributes<Post, { omit: 'id' }>
 
 Post.init({
     title: {

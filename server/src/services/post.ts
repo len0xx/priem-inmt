@@ -1,7 +1,7 @@
-import Post, { type PostI } from '../models/post.js'
+import Post, { type IPost } from '../models/post.js'
 import BaseService from './base.js'
 
-class PostService extends BaseService<Post, PostI> {
+class PostService extends BaseService<Post, IPost> {
     constructor() {
         super()
         this.model = Post

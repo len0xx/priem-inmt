@@ -1,6 +1,6 @@
 import { ajax } from 'jquery'
 import axios, { type AxiosRequestConfig } from 'axios'
-import type { RESTMethod, DefaultAJAXResponse, ContentType, EducationalProgram, EducationModesI, Padding, PaddingValue } from '../types'
+import type { RESTMethod, DefaultAJAXResponse, ContentType, EducationalProgram, EducationModes, Padding, PaddingValue } from '../types'
 
 export const DOMAIN_NAME = 'inmt-priem.urfu.ru'
 export const BASE_DOMAIN = 'https://' + DOMAIN_NAME
@@ -178,7 +178,7 @@ export const sortByName = (a: EducationalProgram, b: EducationalProgram): number
     return 0
 }
 
-export const countPlaces = (modes: EducationModesI): number => {
+export const countPlaces = (modes: EducationModes): number => {
     let total = 0
     Object.values(modes).forEach(mode => total += mode.vacantSpots.budget + mode.vacantSpots.contract)
     return total

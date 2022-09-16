@@ -256,120 +256,129 @@
         </div>
     </div>
 </Header>
-<section class="promo bachelor" id="beginning">
-    <div class="content">
-        <Grid m={1} l={2} ratio="5:3" alignItems="end">
-            <Heading size={1} marginY={0}>
-                { pageInfo.bachelorTitle }<br />
-                <span class="smaller-text">{ pageInfo.bachelorSubtitle }</span>
-            </Heading>
-            <div>
-                <Text className="medium" id="mnz2">
-                    { pageInfo.bachelorText }<br /><br />
-                    <Link href="#programs" color="white" variant="interactive" lineWidth={ 2 }>Смотреть программы</Link>
-                </Text>
-            </div>
-            <div class="pc-hide">
-                <Button variant="blue" className="wide" on:click={ $modal.open }>Хочу поступить</Button>
-            </div>
-        </Grid>
-    </div>
-</section>
-<br />
-<br />
-<section id="benefits">
-    <div class="content">
-        <Grid l={4} m={2}>
-            { #each featuresPromo as feature (feature.id) }
-                <Benefit num={feature.title} caption={feature.description} />
-            { /each }
-        </Grid>
-    </div>
-</section>
-<section id="programs">
-    <div class="content">
-        <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>
-            { #if search }
-                Поиск по запросу {search}
-            { :else }
-                Образовательные программы
-            { /if }
-        </Heading>
-        <div class="filters mobile-hide">
-            <div class="left">
-                <Filter label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
-                <Filter label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
-                <Filter label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
-                <Filter label="Экзамены" name="exams" bind:group={ exams } type="checkbox" options={[ 'Русский язык', 'Математика', 'Физика', 'Информатика и ИКТ', 'Химия', 'Творческое испытание' ]} />
-            </div>
-            <div class="right">
-                <Filter width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
-                <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } />
-            </div>
-        </div>
-        <div class="filters filters-mobile pc-hide">
-            <div class="filters-mobile__actions">
-                <Link href="" className="filters-mobile__title" preventDefault={true} on:click={() => openFilters(false)}>
-                    Фильтры
-                    <Icon name="filter-blue-plus-icon" slot="after" width={14} height={14}/>
-                </Link>
-                <Link href="" className="filters-mobile__search" preventDefault={true} on:click={() => openFilters(true)}>
-                    Поиск
-                </Link>
-            </div>
-            {#if mobileFiltersVisible}
-                <div class="filters-mobile__content" transition:fly={{ x: 300, duration: 200 }}>
-                    <div class="filters-mobile__head">
-                        <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>Фильтры</Heading>
-                        <div class="close-btn">
-                            <Icon name="small-close-icon" width={36} height={36} alt="Кнопка закрытия окна" on:click={() => mobileFiltersVisible = false} />    
-                        </div>
-                    </div>
-                    <div class="filters-mobile__form">
-                        <Input className="content-search__input" bind:node={ mobileSearchInput } bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide={true} />
-                        <Link href="" className="filters-mobile__title" preventDefault={true} on:click={ getSearchResults }>
-                            Поиск
-                        </Link>
-                    </div>
-                    <Filter hideOnBlur={false} width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
-                    <Filter hideOnBlur={false} label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
-                    <Filter hideOnBlur={false} label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
-                    <Filter hideOnBlur={false} label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
-                    <Filter hideOnBlur={false} label="Экзамены" name="exams" bind:group={ exams } type="checkbox" options={[ 'Русский язык', 'Математика', 'Физика', 'Информатика и ИКТ', 'Химия', 'Творческое испытание' ]} />
-                    <div class="filters-mobile__buttons">
-                        <Button size="S" on:click={ resetFilters }>Сбросить</Button>
-                        <Button size="S" variant="blue" on:click={ getSearchResults }>Показать</Button>
-                    </div>
-                </div>
-            {/if}
-        </div>
-        <br />
-        <br />
-        { #if programsFiltered.length }
-            <Grid l={3} m={2} s={1}>
-                { #each programsFiltered as program, i (program.id) }
-                    { #if i < 6 || programsExpanded }
-                        <div transition:blur={{ duration: 200 }} class="grid">
-                            <ProgramCardNew on:click={ () => openProgram(i) } { program } />
-                        </div>
-                        { #if programActive[i] }
-                            <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); $modal.open()}} bind:hidden={programOpened[i]} {...program} />
-                        { /if }
+{ #if pageInfo?.bachelorTitle }
+    <section class="promo bachelor" id="beginning">
+        <div class="content">
+            <Grid m={1} l={2} ratio="5:3" alignItems="end">
+                <Heading size={1} marginY={0}>
+                    { pageInfo.bachelorTitle }
+                    { #if pageInfo.bachelorSubtitle }
+                        <br />
+                        <span class="smaller-text">{ pageInfo.bachelorSubtitle }</span>
                     { /if }
+                </Heading>
+                <div>
+                    <Text className="medium" id="mnz2">
+                        { pageInfo.bachelorText }<br /><br />
+                        <Link href="#programs" color="white" variant="interactive" lineWidth={ 2 }>Смотреть программы</Link>
+                    </Text>
+                </div>
+                <div class="pc-hide">
+                    <Button variant="blue" className="wide" on:click={ $modal.open }>Хочу поступить</Button>
+                </div>
+            </Grid>
+        </div>
+    </section>
+{ /if }
+<br />
+<br />
+{ #if featuresPromo?.length }
+    <section id="benefits">
+        <div class="content">
+            <Grid l={4} m={2}>
+                { #each featuresPromo as feature (feature.id) }
+                    <Benefit num={feature.title} caption={feature.description} />
                 { /each }
             </Grid>
-            { #if !programsExpanded && programsFiltered.length > 6 }
-                <br />
-                <br />
-                <div class="align-center">
-                    <RoundButton variant="plus" size="XL" on:click={() => programsExpanded = true} />
+        </div>
+    </section>
+{ /if }
+{ #if programs?.length }
+    <section id="programs">
+        <div class="content">
+            <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.75}>
+                { #if search }
+                    Поиск по запросу {search}
+                { :else }
+                    Образовательные программы
+                { /if }
+            </Heading>
+            <div class="filters mobile-hide">
+                <div class="left">
+                    <Filter label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
+                    <Filter label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
+                    <Filter label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
+                    <Filter label="Экзамены" name="exams" bind:group={ exams } type="checkbox" options={[ 'Русский язык', 'Математика', 'Физика', 'Информатика и ИКТ', 'Химия', 'Творческое испытание' ]} />
                 </div>
+                <div class="right">
+                    <Filter width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
+                    <Input className="blue-placeholder" bind:value={ search } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } />
+                </div>
+            </div>
+            <div class="filters filters-mobile pc-hide">
+                <div class="filters-mobile__actions">
+                    <Link href="" className="filters-mobile__title" preventDefault={true} on:click={() => openFilters(false)}>
+                        Фильтры
+                        <Icon name="filter-blue-plus-icon" slot="after" width={14} height={14}/>
+                    </Link>
+                    <Link href="" className="filters-mobile__search" preventDefault={true} on:click={() => openFilters(true)}>
+                        Поиск
+                    </Link>
+                </div>
+                {#if mobileFiltersVisible}
+                    <div class="filters-mobile__content" transition:fly={{ x: 300, duration: 200 }}>
+                        <div class="filters-mobile__head">
+                            <Heading size={2} className="blue-text" marginTop={0} marginBottom={0}>Фильтры</Heading>
+                            <div class="close-btn">
+                                <Icon name="small-close-icon" width={36} height={36} alt="Кнопка закрытия окна" on:click={() => mobileFiltersVisible = false} />    
+                            </div>
+                        </div>
+                        <div class="filters-mobile__form">
+                            <Input className="content-search__input" bind:node={ mobileSearchInput } bind:value={ mobileSearchValue } type="text" placeholder="Поиск по названию" lineWidth={ 0 } marginY={ 0 } wide={true} />
+                            <Link href="" className="filters-mobile__title" preventDefault={true} on:click={ getSearchResults }>
+                                Поиск
+                            </Link>
+                        </div>
+                        <Filter hideOnBlur={false} width={275} label="Сортировка" name="sort" bind:group={ selectedSort } type="radio" options={[ { title: 'По алфавиту А-Я', value: 'name' }, { title: 'По количеству мест', value: 'places' }, { title: 'По возрастанию цены', value: 'price' } ]} />
+                        <Filter hideOnBlur={false} label="Форма образования" name="educationMode" bind:group={ educationModes } type="checkbox" options={[ 'Очно', 'Очно-заочно', 'Заочно' ]} />
+                        <Filter hideOnBlur={false} label="Основа обучения" name="payMode" bind:group={ payModes } type="checkbox" options={[ 'Бюджет', 'Контракт' ]} />
+                        <Filter hideOnBlur={false} label="Язык освоения" name="language" bind:group={ languages } type="checkbox" options={[ 'Русский', 'Английский' ]} />
+                        <Filter hideOnBlur={false} label="Экзамены" name="exams" bind:group={ exams } type="checkbox" options={[ 'Русский язык', 'Математика', 'Физика', 'Информатика и ИКТ', 'Химия', 'Творческое испытание' ]} />
+                        <div class="filters-mobile__buttons">
+                            <Button size="S" on:click={ resetFilters }>Сбросить</Button>
+                            <Button size="S" variant="blue" on:click={ getSearchResults }>Показать</Button>
+                        </div>
+                    </div>
+                {/if}
+            </div>
+            <br />
+            <br />
+            { #if programsFiltered.length }
+                <Grid l={3} m={2} s={1}>
+                    { #each programsFiltered as program, i (program.id) }
+                        { #if i < 6 || programsExpanded }
+                            <div transition:blur={{ duration: 200 }} class="grid">
+                                <ProgramCardNew on:click={ () => openProgram(i) } { program } />
+                            </div>
+                            { #if programActive[i] }
+                                <SideBar on:close={() => closeProgram(i)} on:apply={() => {closeProgram(i); $modal.open()}} bind:hidden={programOpened[i]} {...program} />
+                            { /if }
+                        { /if }
+                    { /each }
+                </Grid>
+                { #if !programsExpanded && programsFiltered.length > 6 }
+                    <br />
+                    <br />
+                    <div class="align-center">
+                        <RoundButton variant="plus" size="XL" on:click={() => programsExpanded = true} />
+                    </div>
+                { /if }
+            { :else }
+                <Text>Не удалось найти образовательные программы по Вашему запросу. Попробуйте изменить запрос</Text>
             { /if }
-        { :else }
-            <Text>Не удалось найти образовательные программы по Вашему запросу. Попробуйте изменить запрос</Text>
-        { /if }
-    </div>
-</section>
+        </div>
+    </section>
+{ /if }
 <section id="algorithm">
     <div class="content">
         <Grid m={3} s={1} gap={3}>

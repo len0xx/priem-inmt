@@ -34,7 +34,7 @@ export const getSession: GetSession = async (event: RequestEvent & { locals: App
     if (event.locals.token) {
         try {
             const HOST = event.request.headers.get('host')
-            const PROTOCOL = HOST.startsWith('localhost') ? 'http' : 'https'
+            const PROTOCOL = (HOST.startsWith('localhost') || HOST.startsWith('192.168')) ? 'http' : 'https'
             const BASE_API_URL = `${PROTOCOL}://${HOST}/api`
             event.locals.api = BASE_API_URL
 

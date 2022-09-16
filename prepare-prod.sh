@@ -16,6 +16,7 @@ mkdir $dir/server/static
 mv ./temp-files/* $dir/server/static/
 rm -rf ./temp-files
 cp -r server/build/* $dir/server
+cp -r static/* $dir/build/client
 cp package*.json $dir
 cp .env $dir
 echo "✅ Production version is ready in $dir directory"

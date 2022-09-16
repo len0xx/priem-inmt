@@ -22,13 +22,19 @@
     export let justifyItems: ItemsAlignment = 'normal'
     export let alignContent: ContentAlignment = 'normal'
     export let justifyContent: ContentAlignment = 'normal'
-    export let placeItems: ItemsAlignment = 'normal'
-    export let placeContent: ContentAlignment = 'normal'
+    export let placeItems: ItemsAlignment = null
+    export let placeContent: ContentAlignment = null
     export let margin: Padding = { }
 
     const defaultSize = 6
     let smallestSize: GridSize = null
     let ratioClasses = ''
+    $: finalPlaceItems = placeItems || (alignItems === justifyItems ? alignItems : null)
+    $: finalPlaceContent = placeContent || (alignContent === justifyContent ? alignContent : null)
+    $: finalAlignItems = finalPlaceItems || alignItems
+    $: finalAlignContent = finalPlaceContent || alignContent
+    $: finalJustifyItems = finalPlaceItems || justifyItems
+    $: finalJustifyContent = finalPlaceContent || justifyContent
     $: customLayoutClass = customLayout ? 'has-custom-layout' : ''
 
     const getClosestSize = (arr: GridSize[], ind: 0 | 1 | 2 | 3 | 4, smallest: GridSize): GridSize => {
@@ -64,12 +70,12 @@
     bind:this={ node }
     style:gap={ gap + 'em' }
     style:margin={ computePadding(margin) }
-    style:align-content={ alignContent }
-    style:justify-content={ justifyContent }
-    style:align-items={ alignItems }
-    style:justify-items={ justifyItems }
-    style:place-items={ placeItems }
-    style:place-content={ placeContent }
+    style:place-items={ finalPlaceItems }
+    style:place-content={ finalPlaceContent }
+    style:align-content={ finalAlignContent }
+    style:justify-content={ finalJustifyContent }
+    style:align-items={ finalAlignItems }
+    style:justify-items={ finalJustifyItems }
     style:--custom-grid-layout={ customLayout }
     class="grid-container xsmall-viewport-{xs} small-viewport-{s} medium-viewport-{m} large-viewport-{l} xlarge-viewport-{xl} {className} {ratioClasses} {customLayoutClass}"
     on:click

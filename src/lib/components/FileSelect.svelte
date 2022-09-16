@@ -1,8 +1,8 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
     import { blur, slide } from 'svelte/transition'
-    import { Modal, Grid, Form, Pagination } from '.'
-    import { apiRoute } from '$lib/utilities'
+    import { Modal, Grid, Form } from '.'
+    import { apiRoute, range, isImage } from '$lib/utilities'
     import { isMobile, modalOpened } from '$lib/stores'
     import type { DocumentI, ModalComponent } from '../../types'
 
@@ -36,8 +36,6 @@
         selectedPath = file.src
     }
 
-    const isImage = (extension: string) => ['jpeg', 'jpg', 'png', 'svg'].includes(extension)
-
     const saveChanges = () => {
         dispatch('save', { id: selectedFile, path: selectedPath })
         modal.close()
@@ -52,16 +50,12 @@
         filesPromise = (getFiles(currentPage) as Promise<DocumentI[]>)
     }
 
-    function handleOpen() {
-        $modalOpened = true
-    }
+    const handleOpen = () => $modalOpened = true
 
-    function handleClose() {
-        $modalOpened = false
-    }
+    const handleClose = () => $modalOpened = false
 </script>
 
-<Modal bind:this={ modal } on:open={handleOpen} on:close={handleClose} className="file-select-modal">
+<Modal bind:this={ modal } on:open={ handleOpen } on:close={ handleClose } className="file-select-modal">
     <Grid m={2} alignItems="center">
         <h3 class="no-top-margin mb-0">Выбор файла</h3>
         {#if $isMobile}
@@ -73,27 +67,25 @@
         {/if}
     </Grid>
     <br />
-    { #if $isMobile}
-        {#if uploadForm}
-            <div transition:slide={{ duration: 200 }}>
-                <Form action="/api/admin/documents?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
-                    <Grid m={3} s={1} alignItems="end">
-                        <label class="wide">
-                            <span class="form-label">Название нового файла</span>
-                            <input type="text" class="form-control wide" placeholder="Название" name="title" required />
-                        </label>
-                        <label>
-                            <span class="caption">Файл</span><br />
-                            <input required class="form-control" type="file" name="file" id="file" />
-                        </label>
-                        <div>
-                            <button class="btn btn-primary">Загрузить</button>
-                        </div>
-                    </Grid>
-                </Form>
-            </div>
-            <br />
-        {/if}
+    { #if $isMobile && uploadForm }
+        <div transition:slide={{ duration: 200 }}>
+            <Form action="/api/admin/documents?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
+                <Grid m={3} s={1} alignItems="end">
+                    <label class="wide">
+                        <span class="form-label">Название нового файла</span>
+                        <input type="text" class="form-control wide" placeholder="Название" name="title" required />
+                    </label>
+                    <label>
+                        <span class="caption">Файл</span><br />
+                        <input required class="form-control" type="file" name="file" id="file" />
+                    </label>
+                    <div>
+                        <button class="btn btn-primary">Загрузить</button>
+                    </div>
+                </Grid>
+            </Form>
+        </div>
+        <br />
     { /if }
     { #await filesPromise }
         <div class="align-center">
@@ -146,35 +138,53 @@
         { /if }
     {/await }
     <br />
-    <Pagination { pagesAmount } bind:currentPage />
-    { #if !$isMobile }
-        {#if uploadForm}
-            <div transition:slide={{ duration: 200 }}>
-                <Form action="/api/admin/documents?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
-                    <Grid m={3} s={1} alignItems="end">
-                        <label class="wide">
-                            <span class="form-label">Название нового файла</span>
-                            <input type="text" class="form-control wide" placeholder="Название" name="title" required />
-                        </label>
-                        <label>
-                            <span class="caption">Файл</span><br />
-                            <input required class="form-control" type="file" name="file" id="file" />
-                        </label>
-                        <div>
-                            <button class="btn btn-primary">Загрузить</button>
-                        </div>
-                    </Grid>
-                </Form>
-            </div>
-        {/if}
+    { #if pagesAmount > 1 }
+        <nav aria-label="Page navigation" class="align-center">
+            <ul class="pagination">
+                <li class="page-item" class:disabled={ currentPage === 1 }>
+                    <span class="page-link" aria-label="Предыдущая страница" on:click={ prevPage }>
+                        <span aria-hidden="true">&laquo;</span>
+                    </span>
+                </li>
+                { #each range(1, pagesAmount) as i (i) }
+                    <li class="page-item" class:active={ currentPage === i } on:click={ () => selectPage(i) }>
+                        <span class="page-link">{ i }</span>
+                    </li>
+                { /each }
+                <li class="page-item" class:disabled={ currentPage === pagesAmount }>
+                    <span class="page-link" aria-label="Следующая страница" on:click={ nextPage }>
+                        <span aria-hidden="true">&raquo;</span>
+                    </span>
+                </li>
+            </ul>
+        </nav>
+    { /if }
+    { #if !$isMobile && uploadForm }
+        <div transition:slide={{ duration: 200 }}>
+            <Form action="/api/admin/documents?type=media" method="POST" content="multipart/form-data" on:success={ handleSuccess }>
+                <Grid m={3} s={1} alignItems="end">
+                    <label class="wide">
+                        <span class="form-label">Название нового файла</span>
+                        <input type="text" class="form-control wide" placeholder="Название" name="title" required />
+                    </label>
+                    <label>
+                        <span class="caption">Файл</span><br />
+                        <input required class="form-control" type="file" name="file" id="file" />
+                    </label>
+                    <div>
+                        <button class="btn btn-primary">Загрузить</button>
+                    </div>
+                </Grid>
+            </Form>
+        </div>
     { /if }
     <div class="buttons-row">
         <button type="button" class="btn btn-primary" on:click={ saveChanges }>Сохранить</button>
-        {#if !$isMobile}
+        { #if !$isMobile }
             <button type="button" class="btn btn-outline-success" class:btn-outline-success={ !uploadForm } class:btn-outline-secondary={ uploadForm } on:click={ () => uploadForm = !uploadForm }>
                 { uploadForm ? 'Скрыть форму загрузки' : 'Загрузить новый файл' }
             </button>
-        {/if}
+        { /if }
         <button type="button" class="btn btn-outline-secondary" on:click={ discard }>Отмена</button>
     </div>
 </Modal>

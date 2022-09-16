@@ -152,7 +152,7 @@
                 <div class="about-left">
                     <Heading size={1} className="blue-text" marginTop={0} marginBottom={0.5}>Об институте</Heading>
                     { #if pageInfo?.aboutInstituteText }
-                        <Text id="NqY1"> { pageInfo.aboutInstituteText }</Text>
+                        <Text id="NqY1">{ pageInfo.aboutInstituteText }</Text>
                     { /if }
                 </div>
                 { #if features?.length }

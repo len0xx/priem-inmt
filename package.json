@@ -12,7 +12,7 @@
     "scripts": {
         "dev": "vite dev --port 3000",
         "dev:host": "npm run dev -- --host",
-        "dev:backend": "npm run build && npm run bundle && echo '🖥  Starting the development server' && npm run build:backend:watch && nodemon build-prod/server/server.js",
+        "dev:backend": "npm run build && npm run bundle && echo '🖥  Starting the development server' && npm run build:backend:watch && nodemon bundle/server/server.js",
         "preview": "vite preview --port 3000",
         "reexport": "bash export-components.sh",
         "build:frontend": "npm run reexport && vite build && echo '✅ Frontend application is built'",

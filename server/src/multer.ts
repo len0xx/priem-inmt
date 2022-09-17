@@ -11,7 +11,7 @@ const { NODE_ENV } = process.env
 const dev = NODE_ENV === 'development'
 
 const storage = multer.diskStorage({
-    destination: dev ? './build-prod/server/static' : './server/static',
+    destination: dev ? './bundle/server/static' : './server/static',
     filename: (_req: Request, file: Express.Multer.File & { extension: string }, cb) => {
         const mimeParts = file.mimetype.split('/')
         const mimeExtension = mimeParts[mimeParts.length - 1]

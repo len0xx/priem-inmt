@@ -4,7 +4,7 @@
 /.vscode/
 /build/
 /server/build/
-/build-prod/
+/bundle/
 /.env
 *.mp4
 package-*.json

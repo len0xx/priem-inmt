@@ -56,7 +56,7 @@ app.use(helmet.crossOriginOpenerPolicy({ policy: 'unsafe-none' }))
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }))
 app.use(helmet.dnsPrefetchControl())
 app.use(helmet.expectCt())
-app.use(helmet.frameguard())
+// app.use(helmet.frameguard()) // Включение этого заголовка приводит к поломке работы некоторых счётчиков Яндекс
 app.use(helmet.hsts())
 app.use(helmet.ieNoOpen())
 app.use(helmet.noSniff())

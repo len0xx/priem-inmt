@@ -202,5 +202,4 @@ export interface Padding {
     right?: PaddingValue
 }
 
-
 export type PaddingValue = string | number

@@ -278,14 +278,14 @@
                         <TipTap name="orderMedicalText" content={pageInfo.orderMedicalText || ''} />
                     </div>
                     <div>
-                        <label for="orderMedicalDate">Дата начала</label>
+                        <label for="orderMedicalDate" class="label-margin-bottom">Дата начала</label>
                         <input type="text" class="form-control wide" name="orderMedicalDate" value={pageInfo.orderMedicalDate || ''} />
                     </div>
                 </div>
                 <div>
                     <h4 class="no-top-margin">2. Получение документов</h4>
                     <div>
-                        <label for="orderDocInfo">Важная информация</label>
+                        <label for="orderDocInfo" class="label-margin-bottom">Важная информация</label>
                         <textarea type="text" class="form-control wide" name="orderDocInfo" value={pageInfo.orderDocInfo || ''} />
                     </div>
                     <div>
@@ -308,7 +308,7 @@
                 <div>
                     <h4 class="no-top-margin">4. Оформление временной регистрации</h4>
                     <div>
-                        <label for="orderRegInfo">Важная информация</label>
+                        <label for="orderRegInfo" class="label-margin-bottom">Важная информация</label>
                         <textarea type="text" class="form-control wide" name="orderRegInfo" value={pageInfo.orderRegInfo || ''} />
                     </div>
                     <div>
@@ -352,7 +352,7 @@
                         <TipTap name="distributionThirdText" content={pageInfo.distributionThirdText || ''} />
                     </div>
                     <div>
-                        <label for="distributionThirdInfo">Важная информация</label>
+                        <label for="distributionThirdInfo" class="label-margin-bottom">Важная информация</label>
                         <textarea type="text" class="form-control wide" name="distributionThirdInfo" value={pageInfo.distributionThirdInfo || ''} />
                     </div>
                 </div>

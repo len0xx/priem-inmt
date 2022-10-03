@@ -294,8 +294,8 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-text">Ссылка</span>
-                        <input class="form-control" type="text" name="linkText" id="linkText" placeholder="Текст ссылки" aria-label="Текст ссылки" value={ rentInfo?.linkText || '' } />
-                        <input class="form-control" type="url" name="linkURL" id="linkURL" placeholder="Адрес ссылки" aria-label="Адрес ссылки" value={ rentInfo?.linkURL || '' } />
+                        <input class="form-control" type="text" name="orderDocLinkText" placeholder="Текст ссылки" aria-label="Текст ссылки" value={ pageInfo.orderDocLinkText || '' } />
+                        <input class="form-control" type="url" name="orderDocLinkURL" placeholder="Адрес ссылки" aria-label="Адрес ссылки" value={ pageInfo.orderDocLinkURL || '' } />
                     </div>
                 </div>
                 <div>
@@ -317,8 +317,8 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-text">Ссылка</span>
-                        <input class="form-control" type="text" name="linkText" id="linkText" placeholder="Текст ссылки" aria-label="Текст ссылки" value={ rentInfo?.linkText || '' } />
-                        <input class="form-control" type="url" name="linkURL" id="linkURL" placeholder="Адрес ссылки" aria-label="Адрес ссылки" value={ rentInfo?.linkURL || '' } />
+                        <input class="form-control" type="text" name="orderRegLinkText" placeholder="Текст ссылки" aria-label="Текст ссылки" value={ pageInfo.orderRegLinkText || '' } />
+                        <input class="form-control" type="url" name="orderRegLinkURL" placeholder="Адрес ссылки" aria-label="Адрес ссылки" value={ pageInfo.orderRegLinkURL || '' } />
                     </div>
                 </div>
             </Grid>

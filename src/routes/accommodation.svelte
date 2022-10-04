@@ -279,16 +279,24 @@
                 <div>
                     { #if rentInfo.subheading }
                         <Heading size={3} marginTop={0}>{ rentInfo.subheading }</Heading>
+                    { /if }
                         <Grid m={2} s={1} ratio="3:2" gap={3}>
-                            <Text>{ rentInfo.text }</Text>
+                            { #if rentInfo.text }
+                                <Text>{ rentInfo.text }</Text>
+                            { /if }
                             <div>
                                 <Text opacity={0.5}>Контакы:</Text>
-                                <Heading size={3} marginTop={0}><a href="tel:{ rentInfo.tel1 }">{ rentInfo.tel1 }</a></Heading>
-                                <Heading size={3} marginY={0}><a href="tel:{ rentInfo.tel1 }">{ rentInfo.tel1 }</a></Heading>
-                                <Link variant="interactive" className="heading-3 semi-bold" href={ rentInfo.linkURL } color="var(--blue)">{ rentInfo.linkText }</Link>
+                                { #if rentInfo.tel1 }
+                                    <Heading size={3} marginTop={0}><a href="tel:{ rentInfo.tel1 }">{ rentInfo.tel1 }</a></Heading>
+                                { /if }
+                                { #if rentInfo.tel2 }
+                                    <Heading size={3} marginY={0}><a href="tel:{ rentInfo.tel2 }">{ rentInfo.tel2 }</a></Heading>
+                                { /if }
+                                { #if rentInfo.linkURL && rentInfo.linkText }
+                                    <Link variant="interactive" className="heading-3 semi-bold" href={ rentInfo.linkURL } color="var(--blue)">{ rentInfo.linkText }</Link>
+                                { /if }
                             </div>
                         </Grid>
-                    { /if }
                 </div>
             </Grid>
         </div>

@@ -2,7 +2,7 @@ import textService from '../../../services/text.js'
 import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
-import { generateHTML } from '@tiptap/core'
+import { generateHTML } from '@tiptap/html'
 import { Document } from '@tiptap/extension-document'
 import { Text } from '@tiptap/extension-text'
 import { Paragraph } from '@tiptap/extension-paragraph'
@@ -29,8 +29,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
 
         if (name === 'distributionFirstText') {
             const json = JSON.parse(req.body[name])
-            console.log(json)
-            const testHTML = generateHTML(json, [
+            const html = generateHTML(json, [
                 Text,
                 Heading,
                 Document,
@@ -45,7 +44,9 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
                 Link
             ])
 
-            console.log(testHTML)
+            console.log(html)
+
+            object.content = html;
         }
 
         await textService.createOrUpdate({ where: { name } }, object)

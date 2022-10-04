@@ -1,6 +1,6 @@
 import educationalProgramService from '../../../services/educationalProgram.js'
 import documentService from '../../../services/document.js'
-import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
+import { catchHTTPErrors, HTTPResponse, generateTipTapHTML } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 import type { TeacherI, EducationModesI, IEducationalProgram } from '../../../models/educationalProgram'
@@ -123,7 +123,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
         title, degree,
         educationModes, directions,
         teacher, exams,
-        text, feedbacks,
+        text: generateTipTapHTML(text), feedbacks,
         partners
     }
     await educationalProgramService.updateById(id, newProgramState)

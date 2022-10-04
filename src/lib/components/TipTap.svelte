@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount, onDestroy } from 'svelte'
-    import { Editor } from '@tiptap/core'
+    import { Editor, type JSONContent } from '@tiptap/core'
     import Document from '@tiptap/extension-document'
     import Text from '@tiptap/extension-text'
     import Paragraph from '@tiptap/extension-paragraph'
@@ -15,11 +15,10 @@
     import BulletList from '@tiptap/extension-bullet-list'
     import CharacterCount from '@tiptap/extension-character-count'
     import Link from '@tiptap/extension-link'
-    import type { HTMLContent } from '@tiptap/core'
 
     export let name = ''
     export let content = ''
-    let value: HTMLContent
+    let value: JSONContent = {}
 
     let element: HTMLElement
     let editor: Editor
@@ -52,7 +51,7 @@
             onTransaction: () => {
                 // force re-render so `editor.isActive` works as expected
                 editor = editor
-                value = editor.getHTML()
+                value = editor.getJSON()
                 chars = editor.storage.characterCount.characters()
                 words = editor.storage.characterCount.words()
             },
@@ -226,5 +225,5 @@
         <br>
         { words } слов
     </div>
-    <textarea style="display: none" {name}>{ value }</textarea>  
+    <textarea style="display: none" {name}>{ JSON.stringify(value) }</textarea>  
 </div>

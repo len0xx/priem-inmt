@@ -266,7 +266,9 @@
                 </Heading>
                 <div>
                     <Text className="medium" id="mnz2">
-                        { pageInfo.bachelorText }<br /><br />
+                        { #if pageInfo.bachelorText }
+                            { pageInfo.bachelorText }<br /><br />
+                        { /if }
                         <Link href="#programs" color="white" variant="interactive" lineWidth={ 2 }>Смотреть программы</Link>
                     </Text>
                 </div>

@@ -89,28 +89,34 @@
         </div>
     </div>
 </Header>
-<section class="promo contacts" id="beginning">
-    <div class="content">
-        <Grid m={1} l={2} ratio="5:3" alignItems="end">
-            <Heading size={1} marginY={0}>
-                { pageInfo.contactsTitle }<br />
-                <span class="smaller-text">{ pageInfo.contactsSubtitle }</span>
-            </Heading>
-            <div class="align-right">
-                <Link on:click={ $modal.open } href="" preventDefault={ true } variant="interactive" color="white" lineWidth={ 2 }>Получить консультацию</Link>
-            </div>
-        </Grid>
-    </div>
-</section>
-<br />
-<section id="contacts">
-    <div class="content">
-        <Heading size={1} className="blue-text">Ответственные <br /> лица института</Heading>
-        <Grid m={4} s={1}>
-            { #each responsibles as responsible, i (i) }
-                <Graduate name={ responsible.name } caption={ responsible.label } description={ [responsible.email, responsible.phone].join('<br>') } src={ responsible.img } />
-            { /each }
-        </Grid>
-    </div>
-</section>
+{ #if pageInfo?.contactsTitle }
+    <section class="promo contacts" id="beginning">
+        <div class="content">
+            <Grid m={1} l={2} ratio="5:3" alignItems="end">
+                <Heading size={1} marginY={0}>
+                    { pageInfo.contactsTitle }<br />
+                    { #if pageInfo.contactsSubtitle }
+                        <span class="smaller-text">{ pageInfo.contactsSubtitle }</span>
+                    { /if }
+                </Heading>
+                <div class="align-right">
+                    <Link on:click={ $modal.open } href="" preventDefault={ true } variant="interactive" color="white" lineWidth={ 2 }>Получить консультацию</Link>
+                </div>
+            </Grid>
+        </div>
+    </section>
+{ /if }
+{ #if responsibles?.length }
+    <br />
+    <section id="contacts">
+        <div class="content">
+            <Heading size={1} className="blue-text">Ответственные <br /> лица института</Heading>
+            <Grid m={4} s={1}>
+                { #each responsibles as responsible, i (i) }
+                    <Graduate name={ responsible.name } caption={ responsible.label } description={ [responsible.email, responsible.phone].join('<br>') } src={ responsible.img } />
+                { /each }
+            </Grid>
+        </div>
+    </section>
+{ /if }
 <br />

@@ -36,5 +36,4 @@ export const create = catchHTTPErrors(async (req: Request & { file: { extension:
         document: result
     }
     return new HTTPResponse(res, HTTPStatus.CREATED, response)
-
 })

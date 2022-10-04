@@ -23,7 +23,7 @@
 </script>
 
 <script lang="ts">
-    import { Grid, Graduate, Form, Modal, Document, FileSelect, RoundButton } from '$components'
+    import { Grid, Graduate, Form, Modal, Document, FileSelect, RoundButton, TipTap } from '$components'
     import { imask } from 'svelte-imask'
     import { slide, blur } from 'svelte/transition'
     import { isMobile } from '$lib/stores.js'
@@ -264,6 +264,101 @@
                     <button class="btn btn-primary">Создать</button>
                 {/if}
             </div>
+        </Form>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Порядок поселения</h3>
+        <Form method="PATCH" action="/api/admin/textinfo?page=accommodation" reset={ false }>
+            <Grid l={2} m={1} placeContent="start">
+                <div>
+                    <h4 class="no-top-margin">1. Медицинское обследование</h4>
+                    <div>
+                        <span>Основной текстовый блок</span>
+                        <TipTap name="orderMedicalText" content={pageInfo.orderMedicalText || ''} />
+                    </div>
+                    <div>
+                        <label for="orderMedicalDate" class="label-margin-bottom">Дата начала</label>
+                        <input type="text" class="form-control wide" name="orderMedicalDate" value={pageInfo.orderMedicalDate || ''} />
+                    </div>
+                </div>
+                <div>
+                    <h4 class="no-top-margin">2. Получение документов</h4>
+                    <div>
+                        <label for="orderDocInfo" class="label-margin-bottom">Важная информация</label>
+                        <textarea type="text" class="form-control wide" name="orderDocInfo" value={pageInfo.orderDocInfo || ''} />
+                    </div>
+                    <div>
+                        <span>Основной текстовый блок</span>
+                        <TipTap name="orderDocText" content={pageInfo.orderDocText || ''} />
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text">Ссылка</span>
+                        <input class="form-control" type="text" name="orderDocLinkText" placeholder="Текст ссылки" aria-label="Текст ссылки" value={ pageInfo.orderDocLinkText || '' } />
+                        <input class="form-control" type="url" name="orderDocLinkURL" placeholder="Адрес ссылки" aria-label="Адрес ссылки" value={ pageInfo.orderDocLinkURL || '' } />
+                    </div>
+                </div>
+                <div>
+                    <h4 class="no-top-margin">3. Оплата проживания в общежитии</h4>
+                    <div>
+                        <span>Основной текстовый блок</span>
+                        <TipTap name="orderPaymentText" content={pageInfo.orderPaymentText || ''} />
+                    </div>
+                </div>
+                <div>
+                    <h4 class="no-top-margin">4. Оформление временной регистрации</h4>
+                    <div>
+                        <label for="orderRegInfo" class="label-margin-bottom">Важная информация</label>
+                        <textarea type="text" class="form-control wide" name="orderRegInfo" value={pageInfo.orderRegInfo || ''} />
+                    </div>
+                    <div>
+                        <span>Основной текстовый блок</span>
+                        <TipTap name="orderRegText" content={pageInfo.orderRegText || ''} />
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text">Ссылка</span>
+                        <input class="form-control" type="text" name="orderRegLinkText" placeholder="Текст ссылки" aria-label="Текст ссылки" value={ pageInfo.orderRegLinkText || '' } />
+                        <input class="form-control" type="url" name="orderRegLinkURL" placeholder="Адрес ссылки" aria-label="Адрес ссылки" value={ pageInfo.orderRegLinkURL || '' } />
+                    </div>
+                </div>
+            </Grid>
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
+        </Form>
+    </div>
+    <br />
+    <div class="white-block-wide">
+        <h3 class="no-top-margin">Порядок распределения мест в общежитии</h3>
+        <Form method="PATCH" action="/api/admin/textinfo?page=accommodation" reset={ false }>
+            <Grid l={2} m={1} placeContent="start">
+                <div>
+                    <h4 class="no-top-margin">Первый блок</h4>
+                    <div>
+                        <span>Основной текст</span>
+                        <TipTap name="distributionFirstText" content={pageInfo.distributionFirstText || ''} />
+                    </div>
+                </div>
+                <div>
+                    <h4 class="no-top-margin">Второй блок</h4>
+                    <div>
+                        <span>Основной текст</span>
+                        <TipTap name="distributionSecondText" content={pageInfo.distributionSecondText || ''} />
+                    </div>
+                </div>
+                <div>
+                    <h4 class="no-top-margin">Третий блок</h4>
+                    <div>
+                        <span>Основной текст</span>
+                        <TipTap name="distributionThirdText" content={pageInfo.distributionThirdText || ''} />
+                    </div>
+                    <div>
+                        <label for="distributionThirdInfo" class="label-margin-bottom">Важная информация</label>
+                        <textarea type="text" class="form-control wide" name="distributionThirdInfo" value={pageInfo.distributionThirdInfo || ''} />
+                    </div>
+                </div>
+            </Grid>
+            <br />
+            <button class="btn btn-primary">Сохранить</button>
         </Form>
     </div>
     <br />

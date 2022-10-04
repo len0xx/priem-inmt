@@ -266,7 +266,9 @@
                 </Heading>
                 <div>
                     <Text className="medium" id="mnz2">
-                        { pageInfo.bachelorText }<br /><br />
+                        { #if pageInfo.bachelorText }
+                            { pageInfo.bachelorText }<br /><br />
+                        { /if }
                         <Link href="#programs" color="white" variant="interactive" lineWidth={ 2 }>Смотреть программы</Link>
                     </Text>
                 </div>
@@ -626,59 +628,63 @@
         { /each }
     </Carousel>
 </section>
-<section class="partners">
-    <div class="content">
-        <Grid m={2} s={1}>
-            <Heading size={1} className="blue-text">Наши студенты проходят практику на предприятиях партнерах института</Heading>
-        </Grid>
-    </div>
-    <Carousel margin={0} className="mobile-hide" displayButtons={ partners && partners.length > 6 }>
-        { #each getSequentialPartialIndexes(partners, 6) as range, i (i) }
-            <div class="fill-width">
-                <div class="content">
-                    <Grid s={2} m={6} className="my-4" alignItems="start">
-                        { #each range as i }
-                            <Partner src={ partners[i].logo } />
+{ #if partners?.length }
+    <section class="partners">
+        <div class="content">
+            <Grid m={2} s={1}>
+                <Heading size={1} className="blue-text">Наши студенты проходят практику на предприятиях партнерах института</Heading>
+            </Grid>
+        </div>
+        <Carousel margin={0} className="mobile-hide" displayButtons={ partners && partners.length > 6 }>
+            { #each getSequentialPartialIndexes(partners, 6) as range, i (i) }
+                <div class="fill-width">
+                    <div class="content">
+                        <Grid s={2} m={6} className="my-4" alignItems="start">
+                            { #each range as i }
+                                <Partner src={ partners[i].logo } />
+                            { /each }
+                        </Grid>
+                    </div>
+                </div>
+            { /each }
+        </Carousel>
+        <Carousel margin={15} className="pc-hide" displayButtons={ partners && partners.length > 6 }>
+            { #each partners as partner (partner.id) }
+                <div>
+                    <Partner src={ partner.logo } />
+                </div>
+            { /each }
+        </Carousel>
+    </section>
+{ /if }
+<section id="student-life">
+    { #if opportunities?.length }
+        <div class="content">
+            <Heading size={1} className="blue-text" marginTop={0}>Студенческие <br /> возможности</Heading>
+            <div class="mobile-hide">
+                { #if opportunities.length > 6 }
+                    <div class="horizontal-scroll">
+                        { #each opportunities as opportunity (opportunity.id) }
+                            <Opportunity {...opportunity} />
+                        { /each }
+                    </div>
+                { :else }
+                    <Grid l={6}>
+                        { #each opportunities as opportunity (opportunity.id) }
+                            <Opportunity {...opportunity} />
                         { /each }
                     </Grid>
-                </div>
+                { /if }
             </div>
-        { /each }
-    </Carousel>
-    <Carousel margin={15} className="pc-hide" displayButtons={ partners && partners.length > 6 }>
-        { #each partners as partner (partner.id) }
-            <div>
-                <Partner src={ partner.logo } />
-            </div>
-        { /each }
-    </Carousel>
-</section>
-<section id="student-life">
-    <div class="content">
-        <Heading size={1} className="blue-text" marginTop={0}>Студенческие <br /> возможности</Heading>
-        <div class="mobile-hide">
-            { #if opportunities.length > 6 }
+            <div class="pc-hide">
                 <div class="horizontal-scroll">
                     { #each opportunities as opportunity (opportunity.id) }
                         <Opportunity {...opportunity} />
                     { /each }
                 </div>
-            { :else }
-                <Grid l={6}>
-                    { #each opportunities as opportunity (opportunity.id) }
-                        <Opportunity {...opportunity} />
-                    { /each }
-                </Grid>
-            { /if }
-        </div>
-        <div class="pc-hide">
-            <div class="horizontal-scroll">
-                { #each opportunities as opportunity (opportunity.id) }
-                    <Opportunity {...opportunity} />
-                { /each }
             </div>
         </div>
-    </div>
+    { /if }
     <br />
     <br />
     <ScrollingPhoto src="/img/pano.jpg" />
@@ -732,70 +738,74 @@
         <br />
     </div>
 </section>
-<section id="feedbacks">
-    <div class="content">
-        <Heading size={1} className="blue-text">Отзывы выпускников</Heading>
-        <Grid m={3} s={1} alignItems="start" className="mobile-hide">
-            <Grid m={1} alignItems="start">
-                { #each feedbacks.filter((_, i) => i % 3 == 0) as feedback }
-                    <Profile img={ feedback.img }>
-                        <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                        <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                        <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                    </Profile>
-                { /each }
+{ #if feedbacks?.length }
+    <section id="feedbacks">
+        <div class="content">
+            <Heading size={1} className="blue-text">Отзывы выпускников</Heading>
+            <Grid m={3} s={1} alignItems="start" className="mobile-hide">
+                <Grid m={1} alignItems="start">
+                    { #each feedbacks.filter((_, i) => i % 3 == 0) as feedback }
+                        <Profile img={ feedback.img }>
+                            <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                            <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                            <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                        </Profile>
+                    { /each }
+                </Grid>
+                <Grid m={1} alignItems="start">
+                    { #each feedbacks.filter((_, i) => i % 3 == 1) as feedback }
+                        <Profile img={ feedback.img }>
+                            <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                            <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                            <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                        </Profile>
+                    { /each }
+                </Grid>
+                <Grid m={1} alignItems="start">
+                    { #each feedbacks.filter((_, i) => i % 3 == 2) as feedback }
+                        <Profile img={ feedback.img }>
+                            <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                            <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                            <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                        </Profile>
+                    { /each }
+                </Grid>
             </Grid>
-            <Grid m={1} alignItems="start">
-                { #each feedbacks.filter((_, i) => i % 3 == 1) as feedback }
-                    <Profile img={ feedback.img }>
-                        <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                        <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                        <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                    </Profile>
-                { /each }
-            </Grid>
-            <Grid m={1} alignItems="start">
-                { #each feedbacks.filter((_, i) => i % 3 == 2) as feedback }
-                    <Profile img={ feedback.img }>
-                        <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                        <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                        <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                    </Profile>
-                { /each }
-            </Grid>
-        </Grid>
-        <div class="pc-hide">
-            <Grid m={3} s={1} alignItems="start">
-                { #each feedbacks as feedback, i }
-                    { #if i < 3 || feedbacksExpanded }
-                        <div transition:blur={{ duration: 200 }}>
-                            <Profile img={ feedback.img }>
-                                <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
-                                <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
-                                <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
-                            </Profile>
-                        </div>
-                    { /if }
-                { /each }
-            </Grid>
-            { #if !feedbacksExpanded }
-                <br />
-                <div class="align-center">
-                    <RoundButton size="L" on:click={ () => feedbacksExpanded = true } />
-                </div>
-            { /if }
+            <div class="pc-hide">
+                <Grid m={3} s={1} alignItems="start">
+                    { #each feedbacks as feedback, i }
+                        { #if i < 3 || feedbacksExpanded }
+                            <div transition:blur={{ duration: 200 }}>
+                                <Profile img={ feedback.img }>
+                                    <svelte:fragment slot="name">{ feedback.name }</svelte:fragment>
+                                    <svelte:fragment slot="description">{ feedback.description }</svelte:fragment>
+                                    <svelte:fragment slot="text">{ feedback.text }</svelte:fragment>
+                                </Profile>
+                            </div>
+                        { /if }
+                    { /each }
+                </Grid>
+                { #if !feedbacksExpanded }
+                    <br />
+                    <div class="align-center">
+                        <RoundButton size="L" on:click={ () => feedbacksExpanded = true } />
+                    </div>
+                { /if }
+            </div>
         </div>
-    </div>
-</section>
-<section id="documents">
-    <div class="content">
-        <Grid m={2} s={1} ratio="2:3">
-            <Heading size={1} className="blue-text" marginTop={0}>Полезные <br /> документы</Heading>
-            <Grid m={1}>
-                { #each documents as document (document.id) }
-                    <Document link={ document.src } filename={ document.title } extension={ document.extension } />
-                { /each }
+    </section>
+{ /if }
+{ #if documents?.length }
+    <section id="documents">
+        <div class="content">
+            <Grid m={2} s={1} ratio="2:3">
+                <Heading size={1} className="blue-text" marginTop={0}>Полезные <br /> документы</Heading>
+                <Grid m={1}>
+                    { #each documents as document (document.id) }
+                        <Document link={ document.src } filename={ document.title } extension={ document.extension } />
+                    { /each }
+                </Grid>
             </Grid>
-        </Grid>
-    </div>
-</section>
+        </div>
+    </section>
+{ /if }

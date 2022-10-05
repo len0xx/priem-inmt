@@ -4,6 +4,20 @@ import bcrypt from 'bcrypt'
 import { HTTPStatus } from './types/enums.js'
 import type { CookieOptions, Response as ExpressResponse, Request, NextFunction } from 'express'
 import type { HTTPErrorI } from './types'
+import type { JSONContent, Extensions } from '@tiptap/core';
+import { generateHTML } from '@tiptap/html'
+import { Document } from '@tiptap/extension-document'
+import { Text } from '@tiptap/extension-text'
+import { Paragraph } from '@tiptap/extension-paragraph'
+import { Heading } from '@tiptap/extension-heading'
+import { HardBreak } from '@tiptap/extension-hard-break'
+import { Bold } from '@tiptap/extension-bold'
+import { Italic } from '@tiptap/extension-italic'
+import { Image } from '@tiptap/extension-image'
+import { Underline } from '@tiptap/extension-underline'
+import { ListItem } from '@tiptap/extension-list-item'
+import { BulletList } from '@tiptap/extension-bullet-list'
+import { Link } from '@tiptap/extension-link'
 
 export class HTTPError extends Error implements HTTPErrorI {
     public readonly code: number
@@ -164,4 +178,24 @@ export const sortByIdDesc = <T extends { id: number }>(a: T, b: T) => {
     if (a.id > b.id) return -1
     else if (a.id < b.id) return 1
     return 0
+}
+
+export const generateTipTapHTML = (value: string) => {
+    const extensions = [
+        Text,
+        Heading,
+        Document,
+        Paragraph,
+        Underline,
+        HardBreak,
+        ListItem,
+        BulletList,
+        Italic,
+        Image,
+        Bold,
+        Link
+    ]
+
+    const json = JSON.parse(value)
+    return generateHTML(json, extensions)
 }

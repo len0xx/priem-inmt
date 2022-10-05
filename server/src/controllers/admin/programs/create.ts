@@ -1,6 +1,6 @@
 import educationalProgramService from '../../../services/educationalProgram.js'
 import documentService from '../../../services/document.js'
-import { catchHTTPErrors, HTTPResponse } from '../../../utilities.js'
+import { catchHTTPErrors, HTTPResponse, generateTipTapHTML } from '../../../utilities.js'
 import { HTTPStatus } from '../../../types/enums.js'
 import type { Request, Response } from 'express'
 import type { EducationModesI, TeacherI } from '../../../models/educationalProgram.js'
@@ -100,7 +100,6 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         }
     }
 
-
     await educationalProgramService.create({
         title: title,
         degree: degree,
@@ -108,7 +107,7 @@ export const create = catchHTTPErrors(async (req: Request, res: Response) => {
         directions: directions,
         teacher: teacher,
         exams: exams,
-        text: text,
+        text: generateTipTapHTML(text),
         feedbacks: feedbacks,
     })
     return new HTTPResponse(res, HTTPStatus.CREATED, 'Образовательная программа успешно создана')

@@ -46,7 +46,7 @@ export const update = catchHTTPErrors(async (req: Request, res: Response) => {
 
             console.log(html)
 
-            object.content = html;
+            object.content = html
         }
 
         await textService.createOrUpdate({ where: { name } }, object)

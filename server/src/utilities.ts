@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt'
 import { HTTPStatus } from './types/enums.js'
 import type { CookieOptions, Response as ExpressResponse, Request, NextFunction } from 'express'
 import type { HTTPErrorI } from './types'
-import type { JSONContent, Extensions } from '@tiptap/core';
 import { generateHTML } from '@tiptap/html'
 import { Document } from '@tiptap/extension-document'
 import { Text } from '@tiptap/extension-text'

@@ -1,27 +1,55 @@
+// {
+// 	"compilerOptions": {
+// 		"baseUrl": "./",
+// 		"paths": {
+// 			"$components": [
+// 				"src/lib/components"
+// 			],
+// 			"$components/*": [
+// 				"src/lib/components/*"
+// 			],
+// 			"$lib": [
+// 				"src/lib"
+// 			],
+// 			"$lib/*": [
+// 				"src/lib/*"
+// 			]
+// 		},
+// 		"lib": [
+// 			"ES2020",
+// 			"DOM",
+// 			"DOM.Iterable"
+// 		],
+// 		"allowSyntheticDefaultImports": true,
+// 		"typeRoots": [ "./src/types", "./node_modules/@types" ]
+// 	},
+// 	"extends": "./.svelte-kit/tsconfig.json"
+// }
 {
+	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
-		"baseUrl": "./",
-		"paths": {
-			"$components": [
-				"src/lib/components"
-			],
-			"$components/*": [
-				"src/lib/components/*"
-			],
-			"$lib": [
-				"src/lib"
-			],
-			"$lib/*": [
-				"src/lib/*"
-			]
-		},
+		"typeRoots": [ "./src/types", "./node_modules/@types" ],
+		"allowJs": false,
+		"checkJs": false,
+		"esModuleInterop": true,
+		"allowUnreachableCode": false,
+		"noImplicitAny": false,
+		"strictFunctionTypes": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"allowSyntheticDefaultImports": true,
 		"lib": [
 			"ES2020",
 			"DOM",
 			"DOM.Iterable"
 		],
-		"allowSyntheticDefaultImports": true,
-		"typeRoots": [ "./src/types", "./node_modules/@types" ]
+
 	},
-	"extends": "./.svelte-kit/tsconfig.json"
+	"exclude": [ "./types" ]
+	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
+	//
+	// If you want to overwrite includes/excludes, make sure to copy over the relevant includes/excludes
+	// from the referenced tsconfig.json - TypeScript does not merge them in
 }

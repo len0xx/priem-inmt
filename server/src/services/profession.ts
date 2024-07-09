@@ -1,5 +1,5 @@
 import BaseService from './base.js'
-import Profession, { IProfession } from '../models/Profession.js'
+import Profession, { IProfession } from '../models/profession.js'
 
 class ProfessionService extends BaseService<Profession, IProfession> {
     constructor() {

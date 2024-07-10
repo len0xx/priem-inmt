@@ -198,7 +198,7 @@
     <div class="content">
         <div class="header-layout { headerClass == 'header-scrolled' ? 'black' : 'white' }">
             <div>
-                <a sveltekit:reload href="/">
+                <a data-sveltekit-reload href="/">
                     { #if headerClass == 'header-scrolled' }
                         <Icon name="urfu-logo-colourful" width={140} height={48} alt="Логотип Уральского федерального университета"/>
                     { :else }
@@ -277,15 +277,15 @@
                         { #if budgetMode }
                             <span class="blue-text">20.06 - 08.08</span>
                         { :else }
-                            <span class="blue-text">20.06 - 23.09</span>
+                            <span class="blue-text">20.06 - 19.09</span>
                         { /if }
                     </p>
                     <p class="small">
                         Очно-заочная и заочная формы обучения:<br />
                         { #if budgetMode }
-                            <span class="blue-text">20.06 - 08.08</span>
+                            <span class="blue-text">20.06 - 29.08</span>
                         { :else }
-                            <span class="blue-text">20.06 - 28.10</span>
+                            <span class="blue-text">20.06 - 24.10</span>
                         { /if }
                     </p>
                 </svelte:fragment>
@@ -308,17 +308,17 @@
                     <p class="small">
                         Очная форма обучения:<br />
                         { #if budgetMode }
-                            <span class="blue-text">04.07 - 13.08</span>
+                            <span class="blue-text">01.07 - 10.08</span>
                         { :else }
-                            <span class="blue-text">04.07 - 13.08 и 22.08 - 24.09</span>
+                            <span class="blue-text">01.07 - 10.08 и 19.08 - 25.09</span>
                         { /if }
                     </p>
                     <p class="small">
                         Очно-заочная и заочная формы обучения:<br />
                         { #if budgetMode }
-                            <span class="blue-text">04.07 - 13.09 и 22.08 - 12.09</span>
+                            <span class="blue-text">01.07 - 10.08 и 19.08 - 31.08</span>
                         { :else }
-                            <span class="blue-text">04.07 - 13.08 и 22.08 - 29.10</span>
+                            <span class="blue-text">01.07 - 10.08 и 19.08 - 29.10</span>
                         { /if }
                     </p>
                 </svelte:fragment>
@@ -344,7 +344,7 @@
                     <div class="kit-table-cell-head"><Text className="blue-text subtitle">Форма обучения</Text></div> 
                     <div class="kit-table-cell-head"><Text className="blue-text subtitle">Прием документов</Text></div> 
                     <div class="kit-table-cell-head"><Text className="blue-text subtitle">Вступительные испытания</Text></div> 
-                    <div class="kit-table-cell-head"><Text className="blue-text subtitle">Завершение приема</Text></div> 
+                    <div class="kit-table-cell-head"><Text className="blue-text subtitle">{ calendarMode ? 'Завершение приема оригиналов документов об образовании' : 'Завершение приема заявлений о согласии на зачисление' }</Text></div> 
                     <div class="kit-table-cell-head"><Text className="blue-text subtitle">Приказы о зачислении</Text></div> 
                 </Grid>
                 <Grid m={5}>
@@ -354,17 +354,17 @@
                             { #if calendarMode }
                                 20.06 — 08.08
                             { :else }
-                                20.06 — 23.09
+                                20.06 — 19.09
                             { /if }
                         </Text>
                     </div> 
                     <div class="kit-table-cell">
                         <Text>
                             { #if calendarMode }
-                                04.07 — 13.08
+                                01.07 — 10.08
                             { :else }
-                                04.07 — 13.08 <br />
-                                22.08 — 24.09
+                                01.07 — 10.08 <br />
+                                19.08 — 25.09
                             { /if }
                         </Text>
                     </div> 
@@ -372,9 +372,9 @@
                         <Text>
                             { #if calendarMode }
                                 <Text className="small" opacity={0.6} marginY={0.25}>На целевые места:</Text>
-                                16.08 в 17:00 <br />
+                                13.08 в 17:00 (время местное)<br />
                                 <Text className="small" opacity={0.6} marginY={0.25}>Общий конкурс:</Text>
-                                18.08 в 18:00
+                                15.08 в 17:00 (время местное)
                             { :else }
                                 26.09
                             { /if }
@@ -384,11 +384,11 @@
                         <Text>
                             { #if calendarMode }
                                 <Text className="small" opacity={0.6} marginY={0.25}>На целевые места:</Text>
-                                17.08 <br />
+                                14.08 <br />
                                 <Text className="small" opacity={0.6} marginY={0.25}>Общий конкурс:</Text>
-                                19.08
+                                16.08
                             { :else }
-                                30.06 — 26.09
+                                01.07 — 27.09
                             { /if }
                         </Text>
                     </div>  
@@ -399,32 +399,20 @@
                     <div class="kit-table-cell">
                         <Text>
                             { #if calendarMode }
-                                20.06 — 09.09
+                                20.06 — 29.08
                             { :else }
-                                20.06 — 28.10
+                                20.06 — 24.10
                             { /if }
                         </Text>
                     </div> 
                     <div class="kit-table-cell">
                         <Text>
                             { #if calendarMode }
-                                04.07 — 13.09 <br />
-                                22.08 — 12.09
+                                01.07 — 10.08 <br />
+                                19.08 — 31.08
                             { :else }
-                                04.07 — 13.08 <br />
-                                22.08 — 29.10
-                            { /if }
-                        </Text>
-                    </div> 
-                    <div class="kit-table-cell">
-                        <Text>
-                            { #if calendarMode }
-                                <Text className="small" opacity={0.6} marginY={0.25}>На целевые места:</Text>
-                                13.09 в 17:00 <br />
-                                <Text className="small" opacity={0.6} marginY={0.25}>Общий конкурс:</Text>
-                                15.09 в 17:00
-                            { :else }
-                                01.11
+                                01.07 — 10.08 <br />
+                                19.08 — 29.10
                             { /if }
                         </Text>
                     </div> 
@@ -432,11 +420,23 @@
                         <Text>
                             { #if calendarMode }
                                 <Text className="small" opacity={0.6} marginY={0.25}>На целевые места:</Text>
-                                14.09<br />
+                                03.09 в 17:00 (время местное) <br />
                                 <Text className="small" opacity={0.6} marginY={0.25}>Общий конкурс:</Text>
-                                16.09
+                                05.09 в 17:00 (время местное)
                             { :else }
-                                30.06 — 01.11
+                                30.10
+                            { /if }
+                        </Text>
+                    </div> 
+                    <div class="kit-table-cell">
+                        <Text>
+                            { #if calendarMode }
+                                <Text className="small" opacity={0.6} marginY={0.25}>На целевые места:</Text>
+                                04.09<br />
+                                <Text className="small" opacity={0.6} marginY={0.25}>Общий конкурс:</Text>
+                                06.09
+                            { :else }
+                                01.07 — 31.10
                             { /if }
                         </Text>
                     </div> 

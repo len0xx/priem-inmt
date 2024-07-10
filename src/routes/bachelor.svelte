@@ -30,32 +30,33 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import {
-        Nav,
-        Grid,
-        Step,
-        Link,
-        Text,
-        Input,
-        Icon,
-        Button,
-        Filter,
-        Header,
-        SideBar,
-        Benefit,
-        Heading,
-        Partner,
-        Profile,
-        Divider,
         AjaxForm,
-        Carousel,
         Announce,
+        Benefit,
+        Button,
+        Carousel,
+        Divider,
         Document,
-        Preloader,
+        Filter,
+        Grid,
+        Header,
+        Heading,
+        Icon,
+        Input,
+        Link,
+        Nav,
         Opportunity,
+        Partner,
+        Preloader,
+        Profile,
+        ProgramCardNew,
         RoundButton,
-        SelectButton,
         ScrollingPhoto,
-        ProgramCardNew
+        SelectButton,
+        SideBar,
+        Step,
+        Text,
+        TextNew
     } from '$components'
     import { sortByName, sortByPlaces, sortByPrice } from '$lib/utilities'
     import images from '$lib/images3'
@@ -224,7 +225,7 @@
     <div class="content">
         <div class="header-layout { headerClass == 'header-scrolled' ? 'black' : 'white' }">
             <div>
-                <a sveltekit:reload href="/">
+                <a data-sveltekit-reload href="/">
                     { #if headerClass == 'header-scrolled' }
                         <Icon name="urfu-logo-colourful" width={140} height={48} alt="Логотип Уральского федерального университета"/>
                     { :else }
@@ -461,118 +462,85 @@
         <div class="tablet-horizontal-scroll">
             <div class="kit-table">
                 <Grid m={5}>
-                    <div class="kit-table-cell-head"><Text className="blue-text subtitle">Форма обучения</Text></div> 
-                    <div class="kit-table-cell-head"><Text className="blue-text subtitle">Прием документов</Text></div> 
-                    <div class="kit-table-cell-head"><Text className="blue-text subtitle">Вступительные испытания</Text></div> 
-                    <div class="kit-table-cell-head"><Text className="blue-text subtitle">Завершение приема</Text></div> 
-                    <div class="kit-table-cell-head"><Text className="blue-text subtitle">Приказы о зачислении</Text></div> 
+                    <div class="kit-table-cell-head"><Text color="var(--blue)" className="subtitle semi-bold no-margin">Форма обучения</Text></div>
+                    <div class="kit-table-cell-head"><Text color="var(--blue)" className="subtitle semi-bold no-margin">Прием документов</Text></div>
+                    <div class="kit-table-cell-head"><Text color="var(--blue)" className="subtitle semi-bold no-margin">Вступительные испытания</Text></div>
+                    { #if calendarMode }
+                        <div class="kit-table-cell-head"><Text color="var(--blue)" className="subtitle semi-bold no-margin">Завершение приема оригиналов документов об&nbsp;образовании</Text></div>
+                    { :else }
+                        <div class="kit-table-cell-head"><Text color="var(--blue)" className="subtitle semi-bold no-margin">Завершение заключения договоров</Text></div>
+                    { /if }
+                    <div class="kit-table-cell-head"><Text color="var(--blue)" className="subtitle semi-bold no-margin">Приказы о&nbsp;зачислении</Text></div>
                 </Grid>
                 <Grid m={5}>
-                    <div class="kit-table-cell"><Text className="subtitle">Очная форма <br /> обучения</Text></div> 
+                    <div class="kit-table-cell">
+                        { #if calendarMode }
+                            <TextNew className="semi-bold" margin={{ top: 1.5, bottom: 0 }}>Очная, очно-заочная и&nbsp;заочная форма обучения</TextNew>
+                        { :else }
+                            <TextNew className="semi-bold" margin={{ top: 1.5, bottom: 0 }}>Очная, очно-заочная и&nbsp;заочная форма обучения</TextNew>
+                        { /if }
+                    </div> 
                     <div class="kit-table-cell">
                         <Text>
                             { #if calendarMode }
-                                <Text className="small" opacity={0.6} marginY={0.6}>По результатам ЕГЭ:</Text>
+                                <TextNew className="small semi-bold" opacity={0.4} margin={{ top: 1.5, bottom: 0.5 }} lineHeight={1.4}>По&nbsp;баллам ЕГЭ:</TextNew>
                                 20.06 — 25.07 <br />
-                                <Text className="small" opacity={0.6} marginY={0.6}>По вступительным испытаниям:</Text>
-                                20.06 — 16.07
+                                <TextNew className="smallsemi-bold" opacity={0.4} margin={{ top: 1, bottom: 0.5 }} lineHeight={1.4}>По&nbsp;вступительным испытаниям:</TextNew>
+                                20.06 — 18.07
+                                <!-- <Text><Link href="https://urfu.ru/ru/alpha/full/" target="_blank" lineWidth={2} variant="interactive">Списки поступающих</Link></Text> -->
                             { :else }
-                                <Text className="small" opacity={0.6} marginY={0.6}>По результатам ЕГЭ:</Text>
-                                20.06 — 23.09 <br />
-                                <Text className="small" opacity={0.6} marginY={0.6}>По вступительным испытаниям:</Text>
-                                20.06 — 23.09
+                                <TextNew className="small semi-bold" opacity={0.4} margin={{ top: 1.5, bottom: 0.5 }} lineHeight={1.4}>По&nbsp;баллам ЕГЭ:</TextNew>
+                                20.06 — 20.08 <br />
+                                <TextNew className="small semi-bold" opacity={0.4} margin={{ top: 1, bottom: 0.5 }} lineHeight={1.4}>По&nbsp;вступительным испытаниям:</TextNew>
+                                20.06 — 20.08
+                                <!-- <Text><Link href="https://urfu.ru/ru/alpha/full/" target="_blank" lineWidth={2} variant="interactive">Списки поступающих</Link></Text> -->
                             { /if }
                         </Text>
                     </div> 
                     <div class="kit-table-cell">
                         <Text>
                             { #if calendarMode }
-                                <Text className="small" opacity={0.6} marginY={0.6}>В форме компьютерного тестирования:</Text>
-                                04.07 — 26.07 <br />
-                                <Text className="small" opacity={0.6} marginY={0.6}>Экзамены творческой и профессиональной направленности:</Text>
-                                18.07 — 26.07
+                                <TextNew className="small semi-bold" opacity={0.4} margin={{ top: 1.5, bottom: 0.5 }} lineHeight={1.4}>В&nbsp;форме компьютерного тестирования:</TextNew>
+                                01.07 — 25.07 <br />
+                                <TextNew className="small semi-bold" opacity={0.4} margin={{ top: 1, bottom: 0.5 }} lineHeight={1.4}>Экзамены творческой и&nbsp;профессиональной направленности:</TextNew>
+                                01.07 — 25.07
+                                <!-- <Text><Link href="https://urfu.ru/ru/ratings/" target="_blank" lineWidth={2} variant="interactive">Конкурсные списки</Link></Text> -->
                             { :else }
-                                04.07 — 26.07 <br />
-                                09.08 — 20.08 <br />
-                                29.08 — 24.09
-                            { /if }
-                        </Text>
-                    </div> 
-                    <div class="kit-table-cell">
-                        <Text>
-                            { #if calendarMode }
-                                <Text className="small" opacity={0.6} marginY={0.6}>Этап приоритетного зачисления:</Text>
-                                28.07 в 18:00 <br />
-                                <Text className="small" opacity={0.6} marginY={0.6}>Этап зачисления на основные конкурсные места:</Text>
-                                03.08 в 18:00
-                            { :else }
-                                26.09
-                            { /if }
-                        </Text>
-                    </div> 
-                    <div class="kit-table-cell">
-                        <Text>
-                            { #if calendarMode }
-                                <Text className="small" opacity={0.6} marginY={0.6}>Особые права; без экзаменов; <br /> на целевые места:</Text>
-                                30.07 <br />
-                                <Text className="small" opacity={0.6} marginY={0.6}>На основные конкурсные места:</Text>
-                                09.08
-                            { :else }
-                                21.06 — 26.09
+                                <TextNew className="small semi-bold" opacity={0.4} margin={{ top: 1.5, bottom: 0.5 }} lineHeight={1.4}>Испытания, проводимые УрФУ самостоятельно:</TextNew>
+                                01.07 — 25.07 <br />
+                                09.08 — 23.08
+                                <!-- <Text><Link href="https://urfu.ru/ru/ratings-contract/" target="_blank" lineWidth={2} variant="interactive">Конкурсные списки</Link></Text> -->
+                                { /if }
+                            </Text>
+                        </div> 
+                        <div class="kit-table-cell">
+                            <Text>
+                                { #if calendarMode }
+                                <TextNew className="small semi-bold" opacity={0.4} margin={{ top: 1.5, bottom: 0.5 }} lineHeight={1.4}>Этап приоритетного зачисления:</TextNew>
+                                28.07 в 14:00 (время местное) <br />
+                                <TextNew className="small semi-bold" opacity={0.4} margin={{ top: 1, bottom: 0.5 }} lineHeight={1.4}>Этап зачисления на&nbsp;основные конкурсные места:</TextNew>
+                                03.08 в 14:00 (время местное)
+                                { :else }
+                                <!-- <Text className="subtitle semi-bold" opacity={0.4} margin={{ top: 1.5, bottom: 0.5 }} lineHeight={1.4}>Срок завершения заключения договоров:</Text> -->
+                                <TextNew margin={{ top: 1.5, bottom: 0 }}>24.08</TextNew>
+                                { /if }
+                            </Text>
+                        </div> 
+                        <div class="kit-table-cell">
+                            <Text>
+                                { #if calendarMode }
+                                <TextNew className="small semi-bold" opacity={0.4} margin={{ top: 1.5, bottom: 0.5 }} lineHeight={1.4}>Особая квота, специальная квота, целевая квота, без вступительных испытаний:</TextNew>
+                                29.07 <br />
+                                <TextNew className="small semi-bold" opacity={0.4} margin={{ top: 1, bottom: 0.5 }} lineHeight={1.4}>На основные конкурсные места:</TextNew>
+                                04.08 — 09.08
+                                <!-- <Text><Link href="https://urfu.ru/ru/enrolled/" target="_blank" lineWidth={2} variant="interactive">Списки зачисленных</Link></Text> -->
+                                { :else }
+                                <TextNew margin={{ top: 1.5, bottom: 0 }}>21.06 — 25.08</TextNew>
+                                <!-- <Text><Link href="https://urfu.ru/ru/enrolled/" target="_blank" lineWidth={2} variant="interactive">Списки зачисленных</Link></Text> -->
                             { /if }
                         </Text>
                     </div>  
                 </Grid>
-                <hr>
-                <Grid m={5}>
-                    <div class="kit-table-cell"><Text className="subtitle">Очно-заочная и заочная формы обучения</Text></div> 
-                    <div class="kit-table-cell">
-                        <Text>
-                            { #if calendarMode }
-                                20.06 — 16.08
-                            { :else }
-                                20.06 — 28.10
-                            { /if }
-                        </Text>
-                    </div> 
-                    <div class="kit-table-cell">
-                        <Text>
-                            { #if calendarMode }
-                                04.07 — 26.07 <br />
-                                09.08 — 20.08
-                            { :else }
-                                04.07 — 26.07 <br />
-                                09.08 — 20.08 <br />
-                                29.08 — 29.10
-                            { /if }
-                        </Text>
-                    </div> 
-                    <div class="kit-table-cell">
-                        <Text>
-                            { #if calendarMode }
-                                <Text className="small" opacity={0.6} marginY={0.6}>Этап приоритетного зачисления:</Text>
-                                22.08 в 17:00 <br />
-                                <Text className="small" opacity={0.6} marginY={0.6}>Этап зачисления на основные конкурсные места:</Text>
-                                25.08 в 18:00
-                            { :else }
-                                01.11
-                            { /if }
-                        </Text>
-                    </div> 
-                    <div class="kit-table-cell">
-                        <Text>
-                            { #if calendarMode }
-                                <Text className="small" opacity={0.6} marginY={0.6}>Особые права; без экзаменов; <br /> на целевые места:</Text>
-                                23.08<br />
-                                <Text className="small" opacity={0.6} marginY={0.6}>На основные конкурсные места:</Text>
-                                26.08
-                            { :else }
-                                21.06 — 01.11
-                            { /if }
-                        </Text>
-                    </div> 
-                </Grid>
-                <hr>
             </div>
         </div>
         <br />

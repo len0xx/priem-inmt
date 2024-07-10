@@ -9,7 +9,7 @@
         const resFeaturesPromo = await fetch(apiRoute('admin/feature/?type=bachelor'))
         const resFeaturesInst = await fetch(apiRoute('admin/feature/?type=instInfo'))
         const resInfo = await fetch(apiRoute('admin/textinfo/?page=bachelor'))
-        const resPrograms = await fetch(apiRoute('admin/programs?degree=bachelor'))
+        const resPrograms = await fetch(apiRoute('admin/programs?degree=bachspec'))
         const resPartners = await fetch(apiRoute('admin/partner'))
     
         const partners = (await resPartners.json()).partners

@@ -13,8 +13,8 @@ const validateModes = (mode) => {
     if (isNaN(budgetSpots) || isNaN(contractSpots))
         throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Количество мест" должно являться числовым')
 
-    if (!mode[1].price)
-        throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Стоимость обучения" является обязательным')
+    // if (!mode[1].price)
+    //     throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Стоимость обучения" является обязательным')
 
     if (!mode[1].duration)
         throw new HTTPError(HTTPStatus.BAD_REQUEST, 'Поле "Срок обучения" является обязательным')

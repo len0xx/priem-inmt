@@ -31,5 +31,10 @@
         <span class="red-text">{ program.educationModes[Object.keys(program.educationModes)[activeMode]].vacantSpots.budget }</span>&nbsp;<span class="fourty-text-black" style:margin-right="1em">бюджет</span>
         <span class="blue-text">{ program.educationModes[Object.keys(program.educationModes)[activeMode]].vacantSpots.contract }</span>&nbsp;<span class="fourty-text-black">контракт</span>
     </span>
-    <svelte:fragment slot="right">от { program.educationModes[Object.keys(program.educationModes)[activeMode]].price }₽</svelte:fragment>
+    
+        <svelte:fragment slot="right">
+            { #if program.educationModes[Object.keys(program.educationModes)[activeMode]].price && program.educationModes[Object.keys(program.educationModes)[activeMode]].vacantSpots.contract }
+                от { program.educationModes[Object.keys(program.educationModes)[activeMode]].price }₽
+            { /if }
+        </svelte:fragment>
 </Card>

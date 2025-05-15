@@ -68,7 +68,7 @@
     <div class="content">
         <div class="header-layout { headerClass == 'header-scrolled' ? 'black' : 'white' }">
             <div>
-                <a sveltekit:reload href="/">
+                <a data-sveltekit-reload href="/">
                     { #if headerClass == 'header-scrolled' }
                         <Icon name="urfu-logo-colourful" width={140} height={48} alt="Логотип Уральского федерального университета"/>
                     { :else }

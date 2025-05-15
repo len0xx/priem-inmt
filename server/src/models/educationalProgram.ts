@@ -101,7 +101,7 @@ EducationalProgram.init(
             allowNull: true,
             validate: {
                 isUnder20(arr: string[]) {
-                    if (arr.length > 20) {
+                    if (arr?.length > 20) {
                         throw new Error('Превышено допустимое количество партнеров программы (20)')
                     }
                 }

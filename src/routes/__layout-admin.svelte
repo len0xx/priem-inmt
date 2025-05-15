@@ -91,56 +91,56 @@
             <!-- <a
                 href={BASE_URL}
                 class:active={URL === BASE_URL}
-                sveltekit:prefetch
+                data-sveltekit-preload-data="hover"
                 class="menu-item"
                 on:click={() => openAside = false}>Общая информация</a
             > -->
             <a
                 href={MAIN_URL}
                 class:active={URL.startsWith(MAIN_URL)}
-                sveltekit:prefetch
+                data-sveltekit-preload-data="hover"
                 class="menu-item"
                 on:click={() => openAside = false}>Главная страница</a
             >
             <a
                 href={PROGRAMS_URL}
                 class:active={URL.startsWith(PROGRAMS_URL)}
-                sveltekit:prefetch
+                data-sveltekit-preload-data="hover"
                 class="menu-item"
                 on:click={() => openAside = false}>Образовательные программы</a
             >
             <a
                 href={BACHELOR_URL}
                 class:active={URL.startsWith(BACHELOR_URL)}
-                sveltekit:prefetch
+                data-sveltekit-preload-data="hover"
                 class="menu-item"
                 on:click={() => openAside = false}>Бакалавриат и&nbsp;специалитет</a
             >
             <a
                 href={MASTER_URL}
                 class:active={URL.startsWith(MASTER_URL)}
-                sveltekit:prefetch
+                data-sveltekit-preload-data="hover"
                 class="menu-item"
                 on:click={() => openAside = false}>Магистратура</a
             >
             <a
                 href={ACCOMMODATION_URL}
                 class:active={URL.startsWith(ACCOMMODATION_URL)}
-                sveltekit:prefetch
+                data-sveltekit-preload-data="hover"
                 class="menu-item"
                 on:click={() => openAside = false}>Поселение</a
             >
             <a
                 href={CONTACTS_URL}
                 class:active={URL.startsWith(CONTACTS_URL)}
-                sveltekit:prefetch
+                data-sveltekit-preload-data="hover"
                 class="menu-item"
                 on:click={() => openAside = false}>Контакты</a
             >
             <a
                 href={FILES_URL}
                 class:active={URL.startsWith(FILES_URL)}
-                sveltekit:prefetch
+                data-sveltekit-preload-data="hover"
                 class="menu-item"
                 on:click={() => openAside = false}>Файлы</a
             >

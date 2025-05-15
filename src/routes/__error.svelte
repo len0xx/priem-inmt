@@ -29,7 +29,7 @@
         <div class="white-block">
             <h1>Ошибка { status }</h1>
             <p><b>{ message }</b></p>
-            <p><a class="default-link" sveltekit:reload href="/">Перейти на главную</a></p>
+            <p><a class="default-link" data-sveltekit-reload href="/">Перейти на главную</a></p>
         </div>
         <div class="rainbow"></div>
     </div>

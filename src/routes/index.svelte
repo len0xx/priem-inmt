@@ -102,7 +102,7 @@
     <div class="content">
         <div class="header-layout">
             <div>
-                <a sveltekit:reload href="/">
+                <a data-sveltekit-reload href="/">
                     <Icon name="urfu-logo-colourful" width={140} height={48} alt="Логотип Уральского федерального университета"/>
                 </a>
             </div>
